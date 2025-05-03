@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heat Engines Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f7fa;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .quiz-container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .question p {
+      font-weight: bold;
+      color: #444;
+    }
+    .options button {
+      display: block;
+      margin: 6px 0;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+    .options button:hover {
+      background-color: #e0e0e0;
+    }
+    .options button.correct {
+      background-color: #c8f7c5;
+    }
+    .options button.wrong {
+      background-color: #f7c5c5;
+    }
+    .score {
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Heat Engines Quiz</h1>
+  <div class="quiz-container" id="quiz"></div>
+  <div class="score" id="score"></div>
+
+  <script>
+    const questions = [
+      { q: "Which cycle is used in petrol engines?", options: ["Diesel cycle", "Otto cycle"], answer: 1 },
+      { q: "Compression ratio of diesel engine is?", options: ["10:1", "20:1"], answer: 1 },
+      { q: "Fuel is ignited in CI engine by?", options: ["Spark plug", "Compression"], answer: 1 },
+      { q: "The unit of brake power is:", options: ["kW", "N.m"], answer: 0 },
+      { q: "Which component controls the air-fuel ratio in a carburetor?", options: ["Float chamber", "Venturi"], answer: 1 },
+      { q: "In which stroke is the spark plug fired in a petrol engine?", options: ["Compression stroke", "Exhaust stroke"], answer: 0 },
+      { q: "Which part of the engine connects piston and crankshaft?", options: ["Connecting rod", "Camshaft"], answer: 0 },
+      { q: "Thermal efficiency of an ideal diesel cycle is?", options: ["Less than Otto cycle", "More than Otto cycle"], answer: 1 },
+      { q: "What does BHP stand for?", options: ["Brake Horse Power", "Basic Heat Pressure"], answer: 0 },
+      { q: "Which of the following is a four-stroke engine?", options: ["Petrol engine", "Steam engine"], answer: 0 },
+      { q: "Which cycle is used in diesel engines?", options: ["Otto cycle", "Diesel cycle"], answer: 1 },
+      { q: "Air standard efficiency of Otto cycle depends on?", options: ["Compression ratio", "Stroke length"], answer: 0 },
+      { q: "In SI engines, ignition is caused by?", options: ["Compression", "Spark"], answer: 1 },
+      { q: "Which part opens and closes the valves?", options: ["Camshaft", "Crankshaft"], answer: 0 },
+      { q: "Diesel cycle consists of how many processes?", options: ["Four", "Three"], answer: 0 },
+      { q: "Scavenging is used in?", options: ["Two stroke engines", "Four stroke engines"], answer: 0 },
+      { q: "The main function of a carburetor is to?", options: ["Mix air and fuel", "Cool the engine"], answer: 0 },
+      { q: "Which device is used to cool the engine?", options: ["Radiator", "Flywheel"], answer: 0 },
+      { q: "Which of the following is a CI engine?", options: ["Diesel engine", "Petrol engine"], answer: 0 },
+      { q: "Which stroke removes burnt gases?", options: ["Exhaust stroke", "Intake stroke"], answer: 0 },
+      { q: "All steam engines are:", options: ["External combustion engine", "Internal combustion engine"], answer: 0 },
+      { q: "What is the difference between steam engine and automotive engine?", options: ["Automotive engines work on the Otto cycle, whereas steam engines work on the Rankine cycle", "Automotive engines are I.C. Engine, whereas steam engines are external combustion engine"], answer: 1 },
+      { q: "All steam engines work on:", options: ["Zeroth law of thermodynamics", "First law of thermodynamics"], answer: 1 },
+      { q: "A 4-stroke petrol engine is:", options: ["Diesel engine", "An internal combustion engine"], answer: 1 },
+      { q: "A cycle that restores initial conditions at the end is called:", options: ["Reversible cycle", "Irreversible cycle"], answer: 0 },
+      { q: "Cylinder, piston rings, valves, crankshaft, connecting rod, governors, indicators etc. were first developed in:", options: ["Petrol Engine", "Gas Engine"], answer: 1 },
+      { q: "Two-stroke petrol engines are used in:", options: ["Four-stroke petrol engine", "Motorcycle"], answer: 1 },
+      { q: "What is the correct sequence of components in a petrol engine?", options: ["Inlet valve, exhaust valve, piston, spark plug etc.", "Piston and carburetor only"], answer: 0 },
+      { q: "Unit of velocity is:", options: ["ft/sec", "m/sec"], answer: 1 },
+      { q: "The fuel injection system injects fuel into the combustion chamber in a diesel engine when the piston reaches:", options: ["None of the above", "Between top dead center and bottom dead center"], answer: 1 },
+      { q: "Maximum energy loss in boiler occurs due to:", options: ["Radiation losses", "Unburnt carbon in ash"], answer: 1 },
+      { q: "The thermal efficiency of a well-maintained boiler will be of the order:", options: ["40%", "90%"], answer: 1 },
+      { q: "Which type of boiler can meet rapid changes of load?", options: ["Vertical fire tube type", "Forced circulation type"], answer: 1 },
+      { q: "Ratio of Indicated H.P. and Brake H.P. is known as:", options: ["Mechanical efficiency", "Isothermal efficiency"], answer: 0 },
+      { q: "For the same temperature limits and heat input, the most efficient cycle is:", options: ["Carnot", "Brayton"], answer: 0 },
+      { q: "Water tube boilers are more effective in heat transfer since the hot gases flow:", options: ["Inside the tubes", "Over the tubes"], answer: 1 },
+      { q: "All heat engines utilize:", options: ["Low heat value of oil", "Internal energy of oil"], answer: 0 },
+      { q: "The crown of the fire box is made hemispherical in order to:", options: ["Give maximum space", "Give maximum strength"], answer: 1 },
+      { q: "The system with fixed mass and no heat/work transfer across boundary is called:", options: ["Isolated system", "Closed system"], answer: 0 },
+      { q: "For same compression ratio and same heat added:", options: ["Otto cycle is more efficient than Diesel cycle", "Diesel cycle is more efficient than Otto cycle"], answer: 1 },
+      { q: "Water at pressure of 4kg/cm² and 160°C temperature when exposed to atmosphere will:", options: ["Remain as it was", "Flash i.e., get converted into steam"], answer: 1 },
+      { q: "The device, which converts heat energy into useful work in a cyclic process, is known as:", options: ["Compressor", "Heat engine"], answer: 1 },
+      { q: "Work done in a free expansion process is:", options: ["Minimum", "Zero"], answer: 1 },
+      { q: "Which of the following is not an external combustion heat engine?", options: ["Steam engine", "Pelton turbine"], answer: 1 }
+    ];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    const quizContainer = document.getElementById('quiz');
+    const scoreContainer = document.getElementById('score');
+    let score = 0;
+
+    questions.forEach((q, i) => {
+      const div = document.createElement('div');
+      div.classList.add('question');
+      div.innerHTML = `<p>${i + 1}. ${q.q}</p>`;
+
+      const optsDiv = document.createElement('div');
+      optsDiv.classList.add('options');
+
+      const shuffled = shuffle(q.options.map((opt, index) => ({ text: opt, isCorrect: index === q.answer })));
+
+      shuffled.forEach(({ text, isCorrect }) => {
+        const btn = document.createElement('button');
+        btn.textContent = text;
+        btn.onclick = () => {
+          if (btn.classList.contains('correct') || btn.classList.contains('wrong')) return;
+          if (isCorrect) {
+            btn.classList.add('correct');
+            score++;
+          } else {
+            btn.classList.add('wrong');
+            optsDiv.querySelectorAll('button').forEach(b => {
+              if (b.textContent === shuffled.find(o => o.isCorrect).text) {
+                b.classList.add('correct');
+              }
+            });
+          }
+          if (i === questions.length - 1) {
+            scoreContainer.textContent = `✅ Your Score: ${score} out of ${questions.length}`;
+          }
+        };
+        optsDiv.appendChild(btn);
+      });
+
+      div.appendChild(optsDiv);
+      quizContainer.appendChild(div);
+    });
+  </script>
+</body>
+</html>

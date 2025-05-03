@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boiler MCQ Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7f9;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .question p {
+      font-weight: bold;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #eee;
+      cursor: pointer;
+    }
+    .options button.correct {
+      background-color: #c8f7c5;
+    }
+    .options button.wrong {
+      background-color: #f7c5c5;
+    }
+  </style>
+</head>
+<body>
+  <h1>Boiler MCQ Quiz (30 Questions)</h1>
+  <div class="quiz-container" id="quiz"></div>
+
+  <script>
+    const boilerQuestions = [
+      { q: "Safety valve generally used on high pressure boiler is:", options: ["Dead weight type", "Both of the above"], answer: 1 },
+      { q: "For the successful operation of a boiler:", options: ["Accessories are necessary", "Water level indicator is necessary"], answer: 1 },
+      { q: "Fire tube boilers are those in which:", options: ["Water passes through the tubes and fine gases around it", "Gases pass through tubes and water around it"], answer: 1 },
+      { q: "Which of the following is a fire tube boiler?", options: ["Locomotive boiler", "Babcock and Wilcox boiler"], answer: 0 },
+      { q: "Which of the following is a water tube boiler?", options: ["Cochran boiler", "Babcock and Wilcox boiler"], answer: 1 },
+      { q: "Water tube boilers are preferred for:", options: ["Low pressure and high output", "High pressure and high output"], answer: 1 },
+      { q: "Boiler HP is defined as:", options: ["Steam evaporation rate per kg of fuel fired", "Work done in evaporating 1 kg of steam"], answer: 1 },
+      { q: "Objective of providing baffles in water tubes:", options: ["To regulate water flow", "To have better contact of fuel gases with water tubes"], answer: 1 },
+      { q: "Fire tube boilers are:", options: ["Internally fired", "Externally fired"], answer: 0 },
+      { q: "Heat used to heat liberated ratio:", options: ["Boiler efficiency", "Capacity of power"], answer: 0 },
+      { q: "Efficiency improving component:", options: ["Safety valve", "Economizer"], answer: 1 },
+      { q: "Water can't come out due to:", options: ["Steam stop valve", "Blow off valve"], answer: 0 },
+      { q: "Efficiency of well-maintained boiler:", options: ["70 percent", "90 percent"], answer: 1 },
+      { q: "Which is not a boiler mounting:", options: ["Blow off cock", "Economizer"], answer: 1 },
+      { q: "Baffles regulate:", options: ["Water flow", "Steam"], answer: 0 },
+      { q: "Fire tube boilers are:", options: ["Internally fired", "Externally fired"], answer: 0 },
+      { q: "Heat used to heat liberated ratio:", options: ["Boiler efficiency", "Power of boiler"], answer: 0 },
+      { q: "Efficiency improving component:", options: ["Safety valve", "Economizer"], answer: 1 },
+      { q: "Biggest loss in boiler:", options: ["Moisture in fuel", "Dry in flue gases"], answer: 1 },
+      { q: "Boiler best for fluctuating steam:", options: ["Lancashire boiler", "Locomotive boiler"], answer: 1 },
+      { q: "Steam pressure in engine:", options: ["Equal to boiler pressure", "Less than boiler pressure"], answer: 1 },
+      { q: "Feed water in economizer is heated by:", options: ["Waste flue gas", "Fresh steam of the turbine"], answer: 1 },
+      { q: "Cochran boiler is:", options: ["Horizontal fire tube type", "Horizontal water tube type"], answer: 1 },
+      { q: "Safe boiler operation fittings:", options: ["Water level indicator", "All of the above"], answer: 1 },
+      { q: "Heat ratio used vs liberated:", options: ["Boiler efficiency", "Power of boiler"], answer: 0 },
+      { q: "Baffles purpose:", options: ["To regulate water flow", "To improve gas contact"], answer: 0 },
+      { q: "Fire tube boilers are:", options: ["Internally fired", "Externally fired"], answer: 0 },
+      { q: "Component for efficiency:", options: ["Safety Valve", "Economizer"], answer: 1 },
+      { q: "Variable cost:", options: ["Depreciation of plant", "Cost of raw material"], answer: 1 },
+      { q: "Amortization means:", options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis"], answer: 1 },
+      { q: "Fire tube boilers are those in which:", options: ["Fire gases pass through tubes and water around it", "Water passes through the tubes and fire gases around it"], answer: 0 },
+      { q: "Which of the following is a fire tube boiler?", options: ["Locomotive boiler", "Babcock and Wilcox boiler"], answer: 0 },
+      { q: "Which of the following is a water tube boiler?", options: ["Cochran boiler", "Babcock and Wilcox boiler"], answer: 1 },
+      { q: "Which coal has the highest calorific value?", options: ["Anthracite coal", "Bituminous coal"], answer: 0 },
+      { q: "Water tube boilers are preferred for:", options: ["High pressure and high output", "Low pressure and high output"], answer: 0 },
+      { q: "Boiler HP is defined as the:", options: ["Steam evaporation rate per kg of fuel fired", "Work done in evaporating 1kg of steam at saturated steam"], answer: 0 },
+      { q: "Safety valves used on high-pressure boilers are:", options: ["Both of the above", "None of the above"], answer: 0 },
+      { q: "The operation of an electric generator and motor is based on interaction between:", options: ["Magnetic field and electric current", "Law of induction and dynamo-electric principle"], answer: 1 },
+      { q: "For the successful operation of a boiler:", options: ["Electric field is necessary", "Water level indicator is necessary"], answer: 0 },
+      { q: "The nature of current flowing in the armature of a DC machine is:", options: ["DC", "DC superimposed on AC"], answer: 0 },
+      { q: "Safety valves used on high-pressure boilers are:", options: ["Both of the above", "None of the above"], answer: 0 },
+      { q: "The operation of an electric generator and motor is based on interaction between:", options: ["Magnetic field and electric current", "Law of induction and dynamo-electric principle"], answer: 1 },
+      { q: "For the successful operation of a boiler:", options: ["Electric field is necessary", "Water level indicator is necessary"], answer: 0 },
+      { q: "The nature of current flowing in the armature of a DC machine is:", options: ["DC", "DC superimposed on AC"], answer: 0 },
+      { q: "The heat loss in a boiler takes place in the form of:", options: ["Heat carried away by flue gases", "All of the above"], answer: 1 },
+      { q: "Moisture present in fuel and steam formed by combustion of hydrogen in fuel causes:", options: ["Labour and management relation", "Labour and government relation"], answer: 0 },
+      { q: "The capacity of a boiler is defined as:", options: ["Amount of steam produced in one hour", "Volume of feed water inside the shell"], answer: 0 },
+      { q: "Maximum pressure at which steam can be raised in a boiler:", options: ["150 psi", "250 psi"], answer: 0 },
+      { q: "Which of the following is a water tube boiler?", options: ["Lancashire boiler", "Babcock and Wilcox boiler"], answer: 1 },
+      { q: "The device attached to the steam chest for preventing explosions due to excessive internal pressure of steam is called:", options: ["Water level indicator", "Safety valve"], answer: 1 },
+      { q: "A valve installed between the boiler and the feed pump is:", options: ["Blow off cock", "Water level indicator"], answer: 0 },
+    ];
+
+
+    const quizContainer = document.getElementById("quiz");
+
+    boilerQuestions.forEach((q, index) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "question";
+
+      const question = document.createElement("p");
+      question.innerText = `${index + 1}. ${q.q}`;
+      wrapper.appendChild(question);
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.className = "options";
+
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.onclick = () => {
+          const allButtons = optionsDiv.querySelectorAll("button");
+          allButtons.forEach(b => b.disabled = true);
+          if (i === q.answer) {
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("wrong");
+            allButtons[q.answer].classList.add("correct");
+          }
+        };
+        optionsDiv.appendChild(btn);
+      });
+
+      wrapper.appendChild(optionsDiv);
+      quizContainer.appendChild(wrapper);
+    });
+  </script>
+</body>
+</html>

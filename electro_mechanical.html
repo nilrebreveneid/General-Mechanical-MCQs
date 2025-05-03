@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electro-Mechanical Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .quiz-container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .question p {
+      font-weight: bold;
+      color: #444;
+    }
+    .options button {
+      display: block;
+      margin: 6px 0;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+    .options button:hover {
+      background-color: #e0e0e0;
+    }
+    .options button.correct {
+      background-color: #c8f7c5;
+    }
+    .options button.wrong {
+      background-color: #f7c5c5;
+    }
+  </style>
+</head>
+<body>
+  <h1>Electro-Mechanical Quiz</h1>
+  <div class="quiz-container" id="quiz"></div>
+
+  <script>
+    const questions = [
+      { q: "An equipment or device used to convert electrical energy into mechanical energy is called:", options: ["Motor", "Generator"], answer: 0 },
+      { q: "The power factor of an alternator depends on:", options: ["Load", "Alternate loss"], answer: 0 },
+      { q: "Which D.C. motor is used in machine tool?", options: ["Series motor", "Shunt motor"], answer: 0 },
+      { q: "Difference in speed between stator field and rotor is:", options: ["No load speed", "Slip"], answer: 0 },
+      { q: "The operation of the electric generator and motor is based on the interaction between:", options: ["Magnetic field and electric field", "Electric field and law of induction"], answer: 0 },
+      { q: "The nature of the current flowing in the armature of the DC machine is:", options: ["DC", "AC"], answer: 0 },
+      { q: "In a hydropower plant, what converts mechanical energy into electrical energy?", options: ["Generator", "Pump"], answer: 0 },
+      { q: "In generators, what principle is used to convert mechanical motion to electrical energy?", options: ["Magnetic induction", "Magnetic repulsion"], answer: 0 },
+      { q: "When you use left-hand rule for generators, what is indicated by the middle finger?", options: ["Direction of the magnetic field", "Direction of current flow"], answer: 0 },
+      { q: "A machine that converts mechanical energy into electrical energy is known as:", options: ["A.C. generator", "D.C. motor"], answer: 0 },
+      { q: "Which one of the following is a part of D.C. motor?", options: ["Armature", "Draft Tube"], answer: 0 },
+      { q: "The current in electric resistance welding can be regulated by:", options: ["All of the above", "Varying the input supply"], answer: 0 },
+      { q: "Electrolyte को Specific Gravity मापन गर्न प्रयोग हुने उपकरण के हो?", options: ["हाइड्रोमीटर", "स्पीडोमीटर"], answer: 0 },
+      { q: "Lead Acid Battery मा कुल सेल्ल संख्या कति हुन्छ?", options: ["6", "4"], answer: 0 },
+      { q: "A machine that converts mechanical energy into electrical energy is known as:", options: ["D.C. Generator", "D.C. Motor"], answer: 0 },
+      { q: "Which one of the following is a part of D.C. motor?", options: ["Armature", "Mother Board"], answer: 0 },
+      { q: "कम्युटेटर कुन मेसिनमा प्रयोग हुन्छ?", options: ["डीसी मोटर", "एसी मोटर"], answer: 0 },
+      { q: "What type of current flows in a DC machine’s armature?", options: ["DC", "AC"], answer: 0 },
+      { q: "In generators, which principle is responsible for electricity generation?", options: ["Magnetic induction", "Magnetic repulsion"], answer: 0 },
+      { q: "What part of a generator/motor ensures current direction control?", options: ["Commutator", "Brushless ring"], answer: 0 },
+      { q: "Which one of the following is used to measure the specific gravity of electrolyte?", options: ["Hydrometer", "Speedometer"], answer: 0 },
+      { q: "The power factor of an alternator depends on:", options: ["Load", "Speed of motor"], answer: 0 },
+      { q: "Which D.C. motor is used in machine tools?", options: ["Series motor", "Shunt motor"], answer: 0 }
+    ];
+
+    function shuffleOptions(questions) {
+      return questions.map(q => {
+        const correct = q.options[q.answer];
+        const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+        return {
+          q: q.q,
+          options: shuffled,
+          answer: shuffled.indexOf(correct)
+        };
+      });
+    }
+
+    const quizContainer = document.getElementById("quiz");
+    const randomizedQuestions = shuffleOptions(questions);
+
+    randomizedQuestions.forEach((question, index) => {
+      const qDiv = document.createElement("div");
+      qDiv.classList.add("question");
+
+      const qText = document.createElement("p");
+      qText.innerText = `${index + 1}. ${question.q}`;
+      qDiv.appendChild(qText);
+
+      const optionsDiv = document.createElement("div");
+      optionsDiv.classList.add("options");
+
+      question.options.forEach((option, i) => {
+        const btn = document.createElement("button");
+        btn.innerText = option;
+        btn.addEventListener("click", function () {
+          const buttons = optionsDiv.querySelectorAll("button");
+          buttons.forEach(b => b.disabled = true);
+
+          if (i === question.answer) {
+            btn.classList.add("correct");
+          } else {
+            btn.classList.add("wrong");
+            buttons[question.answer].classList.add("correct");
+          }
+        });
+        optionsDiv.appendChild(btn);
+      });
+
+      qDiv.appendChild(optionsDiv);
+      quizContainer.appendChild(qDiv);
+    });
+  </script>
+</body>
+</html>

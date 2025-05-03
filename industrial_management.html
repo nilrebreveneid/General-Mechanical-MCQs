@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>General Awareness Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f7fa;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .quiz-container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .question p {
+            font-weight: bold;
+            color: #444;
+        }
+
+        .options button {
+            display: block;
+            margin: 6px 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .options button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .options button.correct {
+            background-color: #c8f7c5;
+        }
+
+        .options button.wrong {
+            background-color: #f7c5c5;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>General Awareness and Public Management Quiz</h1>
+    <div class="quiz-container" id="quiz"></div>
+
+    <script>
+        const questions = [
+            { q: "According to the Civil Service Act, 2049, the required age to apply for non-gazetted 2nd class:", options: ["16 years", "18 years"], answer: 0 },
+            { q: "According to Labour Act, no enterprise is allowed to employ the worker below the age of:", options: ["16 years", "14 years"], answer: 0 },
+            { q: "Which one is the full form of ICAO?", options: ["International civil action organization", "International civil aviation organization"], answer: 0 },
+            { q: "Which of the following actions cannot be taken by the management?", options: ["To give warning", "To stop salary increment"], answer: 0 },
+            { q: "Assets of a company include:", options: ["Building", "All of the above"], answer: 1 },
+            { q: "Amortization means:", options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis"], answer: 1 },
+            { q: "Industrial relation can be defined as:", options: ["Labour management relation", "The interactions between employers, employees and government"], answer: 1 },
+            { q: "Industrial hygiene and safety is concerned with:", options: ["Analyzing the hazards of workplace", "All of the above"], answer: 1 },
+            { q: "Wages of any employee is:", options: ["Bonus", "All of the above"], answer: 1 },
+            { q: "Judder factors which affect workers:", options: ["Frustration", "Fatigue"], answer: 1 },
+            { q: "Which of the following is not a chief organ of the UN?", options: ["Security Council", "General Assembly"], answer: 1 },
+            { q: "The wages of supervisors & material handlers are charged as:", options: ["Overhead", "Direct labor cost"], answer: 0 },
+            { q: "ILO ensures right of worker by:", options: ["Government, employer and employee", "Employer and employees"], answer: 1 },
+            { q: "Highest percentage of child labor is found in Nepal in which sector?", options: ["Industrial sector", "Agricultural sector"], answer: 1 },
+            { q: "Which of the following is independent of sales forecast?", options: ["Productivity", "Inventory control"], answer: 0 },
+            { q: "Which of the following layouts is suited for mass production?", options: ["Process Layout", "Product Layout"], answer: 1 },
+            { q: "In thermodynamics, a function is called a path function when the quantities depend on:", options: ["By a path", "Area of the graph"], answer: 1 },
+            { q: "Occupational safety, health, and welfare of workers are governed by:", options: ["Labour Act", "Industrial Act"], answer: 1 },
+            { q: "ICAO is:", options: ["A government organization", "A specialized agency of UN"], answer: 1 },
+            { q: "ILO stands for:", options: ["International Labor Organization", "Industrial Labor Operation"], answer: 0 },
+            { q: "What is the purpose of ventilation in industries?", options: ["For air circulation only", "All of the above"], answer: 1 },
+            { q: "Industrial relation can be defined as:", options: ["Relationship between employees and employers only", "All of the above"], answer: 1 },
+            { q: "Industrial hygiene and safety is concerned with:", options: ["Identifying the hazards of workplace", "All of the above"], answer: 1 },
+            { q: "Which of the following is the prime cost?", options: ["Cost of raw materials", "Cost of packing materials"], answer: 0 },
+            { q: "A company spends on advertisement to promote sales. This is:", options: ["Sales revenue line", "Total cost line"], answer: 1 },
+            { q: "What stands for ILO in the field of industrial management?", options: ["International Labor Organization", "Internal Labor Order"], answer: 0 },
+            { q: "What is purpose of ventilation in industries?", options: ["To cater for adequate supply of oxygen/air for respiration", "To provide thermal comfort"], answer: 0 },
+            { q: "ICAO is:", options: ["A unit of government of Nepal", "A specialized agency of UN"], answer: 1 },
+            { q: "Industrial relation can be defined as:", options: ["Labour management relation", "All of the above"], answer: 1 },
+            { q: "In which of the following condition, human sweats more?", options: ["Relative humidity 0%", "Relative humidity 50%"], answer: 1 },
+            { q: "सिँचाइ योजनाको प्राथमिकता अनुसार कार्यान्वयन क्रम के हो?", options: ["1-2-4-3", "1-3-4-2"], answer: 1 },
+            { q: "Which of the following is not a function of ILO?", options: ["Creation of international labor standards", "Fostering cooperation through meetings"], answer: 1 },
+            { q: "The basic function of ILO is", options: ["Setting internationally acceptable norms", "All of the above"], answer: 1 },
+            { q: "The basic function of ILO is:", options: ["Setting internationally acceptable norms", "All of the above"], answer: 1 },
+            { q: "What is the function of ICAO?", options: ["Codify principles of international air navigation", "Foster the planning and development of international air transport"], answer: 1 },
+            { q: "What is the full form of ICAO?", options: ["International Civil Action Organization", "International Civil Aviation Organization"], answer: 1 },
+            { q: "According to Labour Act, no enterprise is allowed to employ the worker below the age of:", options: ["12 years", "16 years"], answer: 1 },
+            { q: "What is the minimum wage set by the government of Nepal effective from 17 July 2019?", options: ["10,500 Rupees a month", "13,450 Rupees a month"], answer: 1 },
+            { q: "Which of the following strategies is considered the first line of defence for controlling occupational health and hazards?", options: ["Administrative control", "Personal protective equipment"], answer: 1 },
+            { q: "Labour law is the:", options: ["Precedents", "All of the above"], answer: 1 },
+            { q: "International Labor Organization was founded in:", options: ["1919 AD", "1946 AD"], answer: 0 },
+            { q: "कुनै कर्मचारीले १० वर्षभन्दा बढी तर १५ वर्षभन्दा कम सेवा गरेमा कति ग्र्याचुटी पाउँछ?", options: ["प्रत्येक वर्षको आधा महिनाको तलब", "प्रत्येक वर्षको एक महिनाको तलब"], answer: 1 },
+            { q: "According to Labour Act, 2074, no employer shall employ laborer to work more than:", options: ["8 hours a day and 44 hours a week", "8 hours a day and 48 hours a week"], answer: 1 },
+            { q: "Labour Act stated that employees are eligible for overtime at a rate of … if they work more than 48 hours per week:", options: ["1.8", "2"], answer: 1 },
+            { q: "Civil employee serving more than 10 years and less than 15 years receives gratuity at the rate of:", options: ["Two month’s salary", "Half month’s salary for each year of service"], answer: 1 },
+            { q: "Industrial relation means", options: ["Labour and management relation", "Labour and government relation"], answer: 0 },
+            { q: "कामदार नियुक्त गर्न सकिने न्यूनतम उमेर कति हो?", options: ["२० वर्ष", "१८ वर्ष"], answer: 1 },
+            { q: "दोस्रो श्रेणी (दोस्रो संगठित क्षेत्र) मा अनुशासन भङ्गमा सधाईको आधारमा श्रमिक छुट्टाउने दर:", options: ["२२", "३३"], answer: 1 },
+            { q: "This is not the basic information that needs to be incorporated in the operation log sheet of a machine:", options: ["Quantity of fuel consumed", "Total run hour/km of machine"], answer: 1 },
+            { q: "If depreciation is calculated as fixed percentage of book value of each year, the method is:", options: ["Straight line depreciation", "SOYD"], answer: 1 },
+            { q: "Which safety device is most important during operation of lathe machine?", options: ["Safety goggle", "Helmet"], answer: 0 },
+            { q: "Safety management deals with:", options: ["Loss of life", "Prevention of the accident"], answer: 1 },
+            { q: "Before maintenance, why job card is filled?", options: ["To list the parts of machine which needs repair", "To keep attendance of mechanic"], answer: 0 },
+            { q: "राम्रो प्रकाश सामान/पेटी आदि चै कसले सजाउँछ ?", options: ["राम्रो प्रकाश", "खराब प्रकाश"], answer: 0 },
+            { q: "Industrial hygiene and safety is concerned with:", options: ["Identifying the hazards of workplace", "All of the above"], answer: 1 },
+            { q: "Amortization means", options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis"], answer: 1 },
+            { q: "Depreciation of fixed assets is:", options: ["A decrease in the asset’s value because of poor maintenance", "The amount by which its value is assumed to decrease"], answer: 0 },
+            { q: "At break even point (BEP):", options: ["There is neither profit nor loss", "The profit is very low"], answer: 0 },
+            { q: "At break-even point (BEP):", options: ["There is neither profit nor loss", "The profit is very low"], answer: 0 },
+            { q: "What is the total percent of reservation of posts that are to be fulfilled by open competition?", options: ["Forty five percent", "Forty percent"], answer: 0 },
+            { q: "Which is not a type of leave in Civil Service Act?", options: ["Entertainment leave", "Home leave"], answer: 0 }
+        ];
+
+
+        const quizContainer = document.getElementById("quiz");
+
+        questions.forEach((question, index) => {
+            const qDiv = document.createElement("div");
+            qDiv.classList.add("question");
+
+            const qText = document.createElement("p");
+            qText.innerText = `${index + 1}. ${question.q}`;
+            qDiv.appendChild(qText);
+
+            const optionsDiv = document.createElement("div");
+            optionsDiv.classList.add("options");
+
+            question.options.forEach((option, i) => {
+                const btn = document.createElement("button");
+                btn.innerText = option;
+                btn.addEventListener("click", function () {
+                    const buttons = optionsDiv.querySelectorAll("button");
+                    buttons.forEach(b => b.disabled = true); // Disable all
+
+                    if (i === question.answer) {
+                        btn.classList.add("correct");
+                    } else {
+                        btn.classList.add("wrong");
+                        buttons[question.answer].classList.add("correct");
+                    }
+                });
+                optionsDiv.appendChild(btn);
+            });
+
+            qDiv.appendChild(optionsDiv);
+            quizContainer.appendChild(qDiv);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Industrial Management Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f8f8; padding: 20px; }
+    .quiz-container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .question { margin-bottom: 20px; }
+    .question h3 { margin-bottom: 10px; }
+    button { margin-top: 10px; }
+    .result { font-weight: bold; margin-top: 10px; }
+    .score { font-size: 20px; margin-top: 20px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container" id="quiz"></div>
+  <div class="score" id="score"></div>
+
+  <script>
+    const quizData = [
+      { q: "Depreciation is a process of:", a: "(C) Maintenance", b: "(A) Valuation" },
+      { q: "Depreciation arises because of:", a: "(B) Physical wear and tear", b: "(A) Fall in the market value of an asset" },
+      { q: "Following cost is variable cost:", a: "(C) Cost of raw material", b: "(A) Depreciation of plant" },
+      { q: "The price of goods which depends on price of goods:", a: "(B) Obtained on bad debt loss", b: "(A) Solid order" },
+      { q: "Return on Investment (ROI) =", a: "(D) Net profit / Total assets × 100", b: "(A) Gross profit / Net sales × 100" },
+      { q: "The main objective of depreciation?", a: "(B) To calculate net profit", b: "(A) To show previous profit" },
+      { q: "Break-even analysis can be used for:", a: "(A) Short run analysis", b: "(B) Long run analysis" },
+      { q: "Depreciation of machines, according to income tax regulation is calculated on the basis of:", a: "(C) Declining balance", b: "(A) Rate of returns" },
+      { q: "What is depreciation?", a: "(D) Position of fixed asset’s cost consumed during the current accounting period", b: "(A) Cost of a fixed asset" },
+      { q: "Pricing of a product is based on:", a: "(D) All of the above", b: "(A) Total cost incurred for production" },
+      { q: "A book published by manufacturers containing parts, numbers and diagrams is called:", a: "(D) Owner’s manual", b: "(A) Service manual" },
+      { q: "Civil Service Act pension formula:", a: "(B) No. of years of service × latest salary ÷ 50", b: "(A) Fixed interest × No. of years" },
+      { q: "Depreciation of fixed assets is:", a: "(C) The amount by which its value is assumed to decrease because of the asset being used", b: "(A) Full value retained" },
+      { q: "Depreciation of machines is categorized under the head:", a: "(A) Direct expenses", b: "(B) Indirect expenses" },
+      { q: "A variable cost is a cost that:", a: "(A) Varies directly with the level of activity", b: "(C) Does not change with level of activity" },
+      { q: "Pick the element of the cost from the following:", a: "(D) All of these", b: "(C) Overhead" },
+      { q: "The total cost is the sum of fixed cost and:", a: "(D) Variable cost", b: "(B) Accounting cost" },
+      { q: "A cost that has already been made and cannot be recovered is called:", a: "(D) Sunk cost", b: "(B) Fixed cost" },
+      { q: "A variable cost is a cost that:", a: "(A) Varies out at every level of activity", b: "(B) Occurs at various times during the year" },
+      { q: "Depreciation of machines is categorized under the head:", a: "(A) Direct expenses", b: "(B) Indirect expenses" },
+      { q: "The main objective of depreciation?", a: "(B) To calculate net profit", b: "(A) To show previous profit" },
+      { q: "Return on Investment (ROI) =", a: "(D) Net profit / Total assets × 100", b: "(A) Gross profit / Net sales × 100" }
+    ];
+
+    const quiz = document.getElementById("quiz");
+    const scoreDisplay = document.getElementById("score");
+    let score = 0;
+
+    quizData.forEach((item, index) => {
+      const div = document.createElement("div");
+      div.classList.add("question");
+      div.innerHTML = `
+        <h3>Q${index + 1}. ${item.q}</h3>
+        <button onclick="checkAnswer(this, true)">${item.a}</button><br/>
+        <button onclick="checkAnswer(this, false)">${item.b}</button>
+        <div class="result"></div>
+      `;
+      quiz.appendChild(div);
+    });
+
+    function checkAnswer(button, isCorrect) {
+      const resultDiv = button.parentElement.querySelector(".result");
+      if (resultDiv.innerText !== "") return;
+      if (isCorrect) {
+        resultDiv.innerText = "Correct ✅";
+        resultDiv.style.color = "green";
+        score++;
+      } else {
+        resultDiv.innerText = "Incorrect ❌";
+        resultDiv.style.color = "red";
+      }
+      const allAnswered = [...document.querySelectorAll('.result')].every(div => div.innerText !== "");
+      if (allAnswered) {
+        scoreDisplay.innerText = `Your final score: ${score} / ${quizData.length}`;
+      }
+    }
+  </script>
+</body>
+</html>
+
