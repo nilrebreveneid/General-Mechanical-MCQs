@@ -6,58 +6,96 @@
   <title>General Mechanical KTM Quiz</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f9f9f9;
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #00c9ff, #92fe9d);
+      color: #2c3e50;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: 2rem;
     }
-    h1 {
+
+    header {
       text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #1b1b1b;
+    }
+
+    header p {
+      font-size: 1.1rem;
       color: #333;
     }
+
     .container {
-      max-width: 700px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
     }
-    ul {
-      list-style: none;
-      padding: 0;
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 1.2rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
     }
-    li {
-      margin: 1rem 0;
-    }
-    a.quiz-link {
-      display: block;
-      padding: 1rem;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+    .card a {
       text-decoration: none;
+      font-weight: 600;
+      color: #1b1b1b;
       font-size: 1.1rem;
-      color: #2c3e50;
-      transition: all 0.2s ease-in-out;
+      display: block;
     }
-    a.quiz-link:hover {
-      background-color: #e3f2fd;
-      transform: translateY(-2px);
+
+    .card:hover {
+      transform: scale(1.05);
+      background-color: #dff9fb;
+    }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #444;
     }
   </style>
 </head>
 <body>
-  <h1>🛠 General Mechanical MCQ Quiz - Topic Wise</h1>
-  <h2><center>All the MCQ related to General Mechanical are listed below</center></h2>
+  <header>
+    <h1>🛠 General Mechanical KTM Quiz</h1>
+    <p>All MCQs categorized topic-wise for General Mechanical exam prep</p>
+  </header>
+
   <div class="container">
-    <ul>
-      <li><a class="quiz-link" href="machine_drawing.html">1. Machine Drawing — 71 MCQs</a></li>
-      <li><a class="quiz-link" href="heat_engines.html">2. Heat Engines — 44 MCQs</a></li>
-      <li><a class="quiz-link" href="thermodynamics.html">3. Thermodynamics — 127 MCQs</a></li>
-      <li><a class="quiz-link" href="industrial_management.html">4. Basic Industrial Management — 61 MCQs</a></li>
-      <li><a class="quiz-link" href="electro_mechanical.html">5. Electro-Mechanical Principles — 23 MCQs</a></li>
-      <li><a class="quiz-link" href="industrial_boiler.html">6. Industrial Boiler — 51 MCQs</a></li>
-      <li><a class="quiz-link" href="estimating_costing.html">7. Estimating and Costing — 22 MCQs</a></li>
-      <li><a class="quiz-link" href="applied_mechanics.html">8. Applied Mechanics — 141 MCQs</a></li>
-    </ul>
+    <div class="card"><a href="machine_drawing.html">1. Machine Drawing — 71 MCQs</a></div>
+    <div class="card"><a href="heat_engines.html">2. Heat Engines — 44 MCQs</a></div>
+    <div class="card"><a href="thermodynamics.html">3. Thermodynamics — 127 MCQs</a></div>
+    <div class="card"><a href="industrial_management.html">4. Basic Industrial Management — 61 MCQs</a></div>
+    <div class="card"><a href="electro_mechanical.html">5. Electro-Mechanical Principles — 23 MCQs</a></div>
+    <div class="card"><a href="industrial_boiler.html">6. Industrial Boiler — 51 MCQs</a></div>
+    <div class="card"><a href="estimating_costing.html">7. Estimating and Costing — 22 MCQs</a></div>
+    <div class="card"><a href="applied_mechanics.html">8. Applied Mechanics — 141 MCQs</a></div>
   </div>
+
+  <footer>
+    &copy; 2025 BerlinNeverDie | General Mechanical KTM Quiz Portal 🌐
+  </footer>
 </body>
 </html>
