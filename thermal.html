@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thermal MCQ Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .question {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    button {
+      margin: 5px 0;
+      padding: 10px;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .feedback {
+      font-weight: bold;
+    }
+    .correct { color: green; }
+    .incorrect { color: red; }
+    #score-box {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Thermal MCQ Quiz (55 Questions)</h1>
+    
+    <div class="question">
+      <p><strong>Q1:</strong> The Otto cycle is related to:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Diesel engine</button><br><button onclick="checkAnswer(this, true)">Petrol engine</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q2:</strong> Air is compressed to high pressure and fuel is injected at nearly constant pressure. This cycle is called:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Otto cycle</button><br><button onclick="checkAnswer(this, true)">Diesel cycle</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q3:</strong> Energy can neither be created nor destroyed. This is:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">3rd law of thermodynamics</button><br><button onclick="checkAnswer(this, true)">1st law of thermodynamics</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q4:</strong> Heat transferred to a closed system during an isobaric process is equal to:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Change in internal energy</button><br><button onclick="checkAnswer(this, true)">Change in enthalpy</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q5:</strong> PV = constant process is known as:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Polytropic process</button><br><button onclick="checkAnswer(this, false)">Isobaric process</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q6:</strong> Which law states entropy of the universe always increases?</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Second law</button><br><button onclick="checkAnswer(this, false)">First law</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q7:</strong> The most efficient cycle for a given temperature range is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Carnot cycle</button><br><button onclick="checkAnswer(this, false)">Otto cycle</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q8:</strong> Specific heat at constant volume for air is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">0.17</button><br><button onclick="checkAnswer(this, false)">0.24</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q9:</strong> The general gas equation is:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">PV = nRT</button><br><button onclick="checkAnswer(this, true)">PV = mRT</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q10:</strong> Internal energy of an ideal gas is a function of:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Temperature</button><br><button onclick="checkAnswer(this, false)">Pressure</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q11:</strong> Superheated vapour behaves:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">As liquid</button><br><button onclick="checkAnswer(this, true)">As gas</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q12:</strong> Entropy is a measure of:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Energy</button><br><button onclick="checkAnswer(this, true)">Disorder</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q13:</strong> In a Carnot cycle, expansion is:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Isothermal</button><br><button onclick="checkAnswer(this, true)">Isentropic</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q14:</strong> The absolute zero temperature is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">-273°C</button><br><button onclick="checkAnswer(this, false)">0°C</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q15:</strong> Boiler efficiency is the ratio of:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Steam pressure / Fuel input</button><br><button onclick="checkAnswer(this, true)">Heat used / Heat input</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q16:</strong> The calorific value of a fuel is:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Mass per heat release</button><br><button onclick="checkAnswer(this, true)">The heat released per unit mass</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q17:</strong> Compression ratio of diesel engine is:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">8:1 to 12:1</button><br><button onclick="checkAnswer(this, true)">16:1 to 20:1</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q18:</strong> In adiabatic process, heat exchange is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Zero</button><br><button onclick="checkAnswer(this, false)">Infinite</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q19:</strong> A reversible process has:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">No loss of energy</button><br><button onclick="checkAnswer(this, false)">High friction</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q20:</strong> Rankine cycle is used in:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Gas turbines</button><br><button onclick="checkAnswer(this, true)">Steam power plants</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q21:</strong> Diesel cycle assumes:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Constant pressure heat addition</button><br><button onclick="checkAnswer(this, false)">Constant volume heat addition</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q22:</strong> Critical point is where:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Liquid and vapor lines meet</button><br><button onclick="checkAnswer(this, false)">Boiling point is lowest</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q23:</strong> Entropy change in a cyclic process is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Zero</button><br><button onclick="checkAnswer(this, false)">Maximum</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q24:</strong> Isothermal process has constant:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Pressure</button><br><button onclick="checkAnswer(this, true)">Temperature</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q25:</strong> Steam pressure is measured in:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Bar</button><br><button onclick="checkAnswer(this, false)">Calorie</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q26:</strong> Gas constant R is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Different for different gases</button><br><button onclick="checkAnswer(this, false)">Universal constant</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q27:</strong> Steam tables are used to find:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Properties of steam</button><br><button onclick="checkAnswer(this, false)">Boiler design</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q28:</strong> Enthalpy is defined as:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">U + PV</button><br><button onclick="checkAnswer(this, false)">P + UV</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q29:</strong> Maximum efficiency of Carnot cycle depends on:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Temperature limits</button><br><button onclick="checkAnswer(this, false)">Fuel used</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q30:</strong> No heat exchange process is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Adiabatic</button><br><button onclick="checkAnswer(this, false)">Isothermal</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q31:</strong> Work done in an isochoric process is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Zero</button><br><button onclick="checkAnswer(this, false)">Maximum</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q32:</strong> The unit of heat is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Joule</button><br><button onclick="checkAnswer(this, false)">Watt</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q33:</strong> For an ideal gas, PV/T is:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Variable</button><br><button onclick="checkAnswer(this, true)">Constant</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q34:</strong> The second law introduces concept of:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Entropy</button><br><button onclick="checkAnswer(this, false)">Internal energy</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q35:</strong> Isobaric process means:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Constant temperature</button><br><button onclick="checkAnswer(this, true)">Constant pressure</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q36:</strong> Efficiency of Carnot engine depends on:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Pressure</button><br><button onclick="checkAnswer(this, true)">Temperature</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q37:</strong> Latent heat is:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Heat to change temperature</button><br><button onclick="checkAnswer(this, true)">Heat to change phase</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q38:</strong> A perfect gas satisfies:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Ideal gas equation</button><br><button onclick="checkAnswer(this, false)">Real gas law</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q39:</strong> The unit of entropy is:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">J</button><br><button onclick="checkAnswer(this, true)">J/K</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q40:</strong> The lowest possible temperature is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">0 K</button><br><button onclick="checkAnswer(this, false)">-100°C</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q41:</strong> Dry saturated steam is steam:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Without moisture</button><br><button onclick="checkAnswer(this, false)">With high pressure</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q42:</strong> Specific volume is volume per:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Unit area</button><br><button onclick="checkAnswer(this, true)">Unit mass</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q43:</strong> Triple point is where:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">All three phases exist</button><br><button onclick="checkAnswer(this, false)">Critical temperature exists</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q44:</strong> One kilocalorie equals:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">1000 J</button><br><button onclick="checkAnswer(this, true)">4186 J</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q45:</strong> No engine can be 100% efficient because of:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Second law of thermodynamics</button><br><button onclick="checkAnswer(this, false)">First law of thermodynamics</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q46:</strong> S.I. unit of pressure is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Pascal</button><br><button onclick="checkAnswer(this, false)">Bar</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q47:</strong> Real gases differ most from ideal gases at:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">High pressure and low temperature</button><br><button onclick="checkAnswer(this, false)">Low pressure and high temperature</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q48:</strong> Boiling point increases with:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Volume</button><br><button onclick="checkAnswer(this, true)">Pressure</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q49:</strong> One tonne of refrigeration is:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">1.5 kW</button><br><button onclick="checkAnswer(this, true)">3.5 kW</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q50:</strong> Absolute pressure = Gauge pressure +</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">Atmospheric pressure</button><br><button onclick="checkAnswer(this, false)">Steam pressure</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q51:</strong> The SI unit of specific heat is:</p>
+      <div class="options"><button onclick="checkAnswer(this, true)">J/kg·K</button><br><button onclick="checkAnswer(this, false)">J/kg</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q52:</strong> Which of the following is intensive property?</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Mass</button><br><button onclick="checkAnswer(this, true)">Temperature</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q53:</strong> At constant temperature, pressure and volume relation is:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Direct</button><br><button onclick="checkAnswer(this, true)">Inverse</button><br></div>
+      <p class="feedback"></p>
+    </div>
+
+    <div class="question">
+      <p><strong>Q54:</strong> Sensible heat is the heat that:</p>
+      <div class="options"><button onclick="checkAnswer(this, false)">Changes phase</button><br><button onclick="checkAnswer(this, true)">Raises temperature</button><br></div>
+      <p class="feedback"></p>
+    </div>
+    <div id="score-box"></div>
+  </div>
+<script>
+  let total = 0, correct = 0;
+  function checkAnswer(btn, isCorrect) {
+    const feedback = btn.parentNode.nextElementSibling;
+    if (feedback.textContent !== "") return;
+    if (isCorrect) {
+      feedback.textContent = "Correct!";
+      feedback.className = "feedback correct";
+      correct++;
+    } else {
+      feedback.textContent = "Wrong!";
+      feedback.className = "feedback incorrect";
+    }
+    total++;
+    if (total === 55) {
+      document.getElementById("score-box").textContent = "Your score: " + correct + "/55";
+    }
+  }
+</script>
+</body>
+</html>
