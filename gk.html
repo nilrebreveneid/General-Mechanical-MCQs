@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mock Test - General Knowledge (66 MCQs)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .quiz-container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .question p {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .options button:hover {
+      background: #bbdefb;
+    }
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    #navigation {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    #next-btn {
+      padding: 0.75rem 1.5rem;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #next-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    #next-btn:hover:not(:disabled) {
+      background: #45a049;
+    }
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 2rem;
+    }
+    #skipped-list {
+      margin-top: 2rem;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>लोक सेवा आयोग – General Knowledge (66 MCQs)- Part 1</h1>
+    <div id="quiz"></div>
+    <div id="navigation">
+      <button id="next-btn" disabled>Next</button>
+    </div>
+    <div id="score" class="hidden"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      // 1.1: नेपालको भौगोलिक अवस्था, प्राकृतिक स्रोत र साधनहरू - 7 MCQs
+      { q: "नेपालको क्षेत्रफल कति छ?", options: ['१,४७,१८१ वर्ग किमी', '१,४७,५१६ वर्ग किमी', '१,४५,१८१ वर्ग किमी', '१,४८,५१६ वर्ग किमी'], answer: 1 },
+      { q: "नेपालको सबैभन्दा अग्लो चुचुरो कुन हो?", options: ['कञ्चनजङ्घा', 'सगरमाथा', 'धौलागिरी', 'मकालु'], answer: 1 },
+      { q: "नेपालको तराई क्षेत्रले कति प्रतिशत ओगट्छ?", options: ['१७%', '६८%', '१५%', '२०%'], answer: 0 },
+      { q: "नेपालको जलविद्युत सम्भावना कति छ?", options: ['४३,००० मेगावाट', '६३,००० मेगावाट', '८३,००० मेगावाट', '१,०३,००० मेगावाट'], answer: 2 },
+      { q: "नेपालको सबैभन्दा ठूलो प्राकृतिक ताल कुन हो?", options: ['फेवा ताल', 'रारा ताल', 'शे-फोक्सुन्डो ताल', 'तिलिचो ताल'], answer: 1 },
+      { q: "नेपालको वन क्षेत्रले कति प्रतिशत ओगट्छ?", options: ['२९.०९%', '३९.०९%', '४९.०९%', '५९.०९%'], answer: 1 },
+      { q: "नेपालको सबैभन्दा होचो स्थान कुन हो?", options: ['केचना कलान, झापा', 'रारा, मुगु', 'लुम्बिनी, रूपन्देही', 'जनकपुर, धनुषा'], answer: 0 },
+
+      // 1.2: नेपालको ऐतिहासिक, सांस्कृतिक र सामाजिक अवस्था सम्बन्धी जानकारी - 7 MCQs
+      { q: "नेपालको एकीकरण कहिले भएको हो?", options: ['१७५८', '१७६८', '१७७८', '१७८८'], answer: 1 },
+      { q: "नेपाल गणतन्त्रमा परिणत भएको कहिले हो?", options: ['२००६', '२००७', '२००८', '२००९'], answer: 2 },
+      { q: "लुम्बिनी किन प्रसिद्ध छ?", options: ['सगरमाथा', 'बुद्धको जन्मस्थल', 'जलविद्युत', 'वनजंगल'], answer: 1 },
+      { q: "नेपालमा सबैभन्दा ठूलो जातीय समूह कुन हो?", options: ['मगर', 'थारू', 'क्षेत्री', 'नेवार'], answer: 2 },
+      { q: "नेपालमा हिन्दु धर्मावलम्बीको प्रतिशत कति छ?", options: ['७१.३%', '८१.३%', '९१.३%', '६१.३%'], answer: 1 },
+      { q: "कुन चाड नेपालको सबैभन्दा ठूलो चाड मानिन्छ?", options: ['तिहार', 'दशैं', 'छठ', 'ल्होसार'], answer: 1 },
+      { q: "नेपालमा कति विश्व सम्पदा स्थल छन्?", options: ['४', '७', '१०', '१२'], answer: 2 },
+
+      // 1.3: नेपालको आर्थिक अवस्था र चालु आवधिक योजना सम्बन्धी जानकारी - 7 MCQs
+      { q: "नेपालको अर्थतन्त्रमा रेमिट्यान्सको योगदान कति छ?", options: ['१९%', '२९%', '३९%', '४९%'], answer: 1 },
+      { q: "नेपालमा गरिबी दर हाल कति छ?", options: ['१७.४%', '२७.४%', '३७.४%', '४७.४%'], answer: 0 },
+      { q: "१६औँ योजनाको GDP वृद्धि लक्ष्य कति छ?", options: ['५.२%', '७.२%', '९.२%', '११.२%'], answer: 1 },
+      { q: "नेपालको अर्थतन्त्रमा कुन क्षेत्रको योगदान सबैभन्दा बढी छ?", options: ['कृषि', 'उद्योग', 'सेवा', 'पर्यटन'], answer: 0 },
+      { q: "१६औँ योजनाले गरिबी दर कति झार्ने लक्ष्य राखेको छ?", options: ['११%', '२१%', '३१%', '४१%'], answer: 0 },
+      { q: "नेपालको पहिलो आवधिक योजना कहिले सुरु भएको थियो?", options: ['२०१३', '२०१५', '२०१७', '२०१९'], answer: 1 },
+      { q: "नेपालको व्यापार घाटा २०२४ मा कति थियो?", options: ['१० खर्ब', '१३ खर्ब', '१५ खर्ब', '१७ खर्ब'], answer: 1 },
+
+      // 1.4: जैविक विविधत्ता, दिगो विकास, वातावरण प्रदूषण, जलवायु परिवर्तन र जनसंख्या व्यवस्थापन - 7 MCQs
+      { q: "नेपालमा कति राष्ट्रिय निकुञ्ज छन्?", options: ['५', '७', '९', '१२'], answer: 2 },
+      { q: "नेपालले नेट-शून्य उत्सर्जनको लक्ष्य कहिले राखेको छ?", options: ['२०३०', '२०५०', '२०७०', '२०९०'], answer: 1 },
+      { q: "नेपालमा कति प्रतिशत जनसंख्या तराईमा बस्छ?", options: ['३०.२%', '४०.२%', '५०.२%', '६०.२%'], answer: 2 },
+      { q: "काठमाडौँको वायु प्रदूषणको मुख्य कारण कुन हो?", options: ['सवारी साधन', 'जंगल', 'कृषि', 'जलवायु'], answer: 0 },
+      { q: "नेपालमा कति प्रजातिका वनस्पति पाइन्छ?", options: ['५,८३९', '११,८३९', '१५,८३९', '२०,८३९'], answer: 1 },
+      { q: "नेपालको जनसंख्या वृद्धि दर कति छ?", options: ['०.९३%', '१.९३%', '२.९३%', '३.९३%'], answer: 0 },
+      { q: "नेपालमा दिगो विकास लक्ष्य (SDG) मा कति लक्ष्य छन्?", options: ['१२', '१५', '१७', '२०'], answer: 2 },
+
+      // 1.5: मानव जीवनमा प्रत्यक्ष प्रभाव पार्ने विज्ञान र प्रविधिका महत्वपूर्ण उपलब्धिहरू - 6 MCQs
+      { q: "नेपालमा टेलिमेडिसिनले कुन क्षेत्रमा सहयोग गरेको छ?", options: ['शिक्षा', 'स्वास्थ्य', 'कृषि', 'पर्यटन'], answer: 1 },
+      { q: "इन्टरनेटको आविष्कारले कुन क्षेत्रमा ठूलो प्रभाव पारेको छ?", options: ['सञ्चार', 'स्वास्थ्य', 'ऊर्जा', 'कृषि'], answer: 0 },
+      { q: "नेपालमा डिजिटल नेपाल कार्यक्रमले कुन क्षेत्रमा जोड दिएको छ?", options: ['जलविद्युत', 'सञ्चार', 'ई-गभर्नेन्स', 'शिक्षा'], answer: 2 },
+      { q: "विश्वव्यापी रूपमा कुन प्रविधिले स्वास्थ्यमा ठूलो परिवर्तन ल्यायो?", options: ['खोप', 'इन्टरनेट', 'AI', 'सौर्य ऊर्जा'], answer: 0 },
+      { q: "नेपालमा सौर्य ऊर्जाले कुन क्षेत्रमा सहयोग गरेको छ?", options: ['शहरी बिजुली', 'ग्रामीण बिजुली', 'उद्योग', 'पर्यटन'], answer: 1 },
+      { q: "नेपालमा 4G प्रविधिको सुरुवात कहिले भएको थियो?", options: ['२०१५', '२०१७', '२०१९', '२०२१'], answer: 1 },
+
+      // 1.6: जनस्वास्थ्य, रोग, खाद्य र पोषण सम्बन्धी सामान्य जानकारी - 6 MCQs
+      { q: "नेपालमा मातृ मृत्युदर कति छ?", options: ['१२९ प्रति १,००,०००', '२२९ प्रति १,००,०००', '३२९ प्रति १,००,०००', '४२९ प्रति १,००,०००'], answer: 0 },
+      { q: "नेपालमा कुपोषण दर कति छ?", options: ['१२%', '३२%', '५२%', '७२%'], answer: 1 },
+      { q: "नेपालमा कुन रोगको प्रकोप बढी देखिन्छ?", options: ['मलेरिया', 'डेंगु', 'क्षयरोग', 'सबै'], answer: 2 },
+      { q: "नेपालको मुख्य खाद्यान्न बाली कुन हो?", options: ['मकै', 'धान', 'गहुँ', 'जौ'], answer: 1 },
+      { q: "नेपालमा शिशु मृत्युदर कति छ?", options: ['११ प्रति १,०००', '२१ प्रति १,०००', '३१ प्रति १,०००', '४१ प्रति १,०००'], answer: 1 },
+      { q: "नेपालमा कुन कार्यक्रमले पोषण सुधारमा काम गर्छ?", options: ['एकीकृत पोषण', 'स्वास्थ्य शिक्षा', 'खाद्य सुरक्षा', 'जलवायु कार्य'], answer: 0 },
+
+      // 1.7: नेपालको संविधान (भाग १ देखि ५ सम्म र अनुसूचीहरू) - 7 MCQs
+      { q: "नेपालको संविधान कहिले लागू भएको हो?", options: ['२०७१ असोज ३', '२०७२ असोज ३', '२०७३ असोज ३', '२०७४ असोज ३'], answer: 1 },
+      { q: "नेपालको संविधानमा कति मौलिक हक छन्?", options: ['२१', '३१', '४१', '५१'], answer: 1 },
+      { q: "नेपालको संविधानअनुसार कुन तहको संरचना छ?", options: ['दुई तह', 'तीन तह', 'चार तह', 'पाँच तह'], answer: 1 },
+      { q: "नेपालको संविधानको भाग ३ मा के समावेश छ?", options: ['नागरिकता', 'मौलिक हक', 'राज्य संरचना', 'निर्देशक सिद्धान्त'], answer: 1 },
+      { q: "नेपालको संविधानमा कति अनुसूची छन्?", options: ['५', '७', '९', '११'], answer: 2 },
+      { q: "नेपालको संविधानले कस्तो शासन प्रणाली अपनाएको छ?", options: ['एकात्मक', 'सङ्घीय', 'राजतन्त्र', 'केन्द्रीकृत'], answer: 1 },
+      { q: "नेपालको संविधानमा दोहोरो नागरिकताको प्रावधान के छ?", options: ['अनुमति छ', 'निषेध छ', 'सीमित छ', 'सबैलाई छ'], answer: 1 },
+
+      // 1.8: संयुक्त राष्ट्रसंघ र यसका विशिष्टीकृत संस्था सम्बन्धी जानकारी - 6 MCQs
+      { q: "संयुक्त राष्ट्रसंघको स्थापना कहिले भएको हो?", options: ['१९४५', '१९५५', '१९६५', '१९७५'], answer: 0 },
+      { q: "नेपाल कहिले संयुक्त राष्ट्रसंघको सदस्य बनेको हो?", options: ['१९४५', '१९५५', '१९६५', '१९७५'], answer: 1 },
+      { q: "संयुक्त राष्ट्रसंघको मुख्यालय कहाँ छ?", options: ['जेनेभा', 'न्युयोर्क', 'पेरिस', 'लन्डन'], answer: 1 },
+      { q: "UNESCO ले कुन क्षेत्रमा काम गर्छ?", options: ['स्वास्थ्य', 'शिक्षा र संस्कृति', 'श्रम', 'खाद्य'], answer: 1 },
+      { q: "नेपालमा UNICEF ले कुन क्षेत्रमा सहयोग गर्छ?", options: ['बालबालिका र शिक्षा', 'जलवायु', 'ऊर्जा', 'पर्यटन'], answer: 0 },
+      { q: "संयुक्त राष्ट्रसंघको कुन संस्थाले नेपालमा शान्ति प्रक्रियामा सहयोग गरेको थियो?", options: ['WHO', 'UNICEF', 'UNMIN', 'FAO'], answer: 2 },
+
+      // 1.9: क्षेत्रीय संगठन (सार्क, बिमस्टेक, बासियान र युरोपियन संघ सम्बन्धी जानकारी) - 6 MCQs
+      { q: "सार्कको स्थापना कहिले भएको हो?", options: ['१९८०', '१९८५', '१९९०', '१९९५'], answer: 1 },
+      { q: "सार्कको मुख्यालय कहाँ छ?", options: ['नयाँ दिल्ली', 'काठमाडौँ', 'इस्लामाबाद', 'ढाका'], answer: 1 },
+      { q: "बिमस्टेकमा कति सदस्य राष्ट्र छन्?", options: ['५', '७', '९', '११'], answer: 1 },
+      { q: "ASEAN को स्थापना कहिले भएको हो?", options: ['१९५७', '१९६७', '१९७७', '१९८७'], answer: 1 },
+      { q: "युरोपियन संघमा कति सदस्य राष्ट्र छन्?", options: ['१७', '२७', '३७', '४७'], answer: 1 },
+      { q: "नेपालमा बिमस्टेकको कुन शिखर सम्मेलन भएको थियो?", options: ['दोस्रो', 'तेस्रो', 'चौथो', 'पाँचौँ'], answer: 2 },
+
+      // 1.10: राष्ट्रिय र अन्तर्राष्ट्रिय महत्वका समसामयिक गतिविधिहरू - 7 MCQs
+      { q: "नेपालले जलवायु अनुकूलनमा जोड दिएको कुन सम्मेलन हो?", options: ['COP26', 'COP27', 'COP28', 'COP29'], answer: 2 },
+      { q: "G20 सम्मेलन २०२४ कहाँ सम्पन्न भएको थियो?", options: ['भारत', 'अमेरिका', 'जापान', 'ब्राजिल'], answer: 0 },
+      { q: "नेपालको सङ्घीयतामा कुन मुख्य चुनौती छ?", options: ['बजेट र कर्मचारी अभाव', 'जलवायु परिवर्तन', 'शिक्षा', 'स्वास्थ्य'], answer: 0 },
+      { q: "युक्रेन-रुस युद्ध कहिलेदेखि चलिरहेको छ?", options: ['२०२०', '२०२१', '२०२२', '२०२३'], answer: 2 },
+      { q: "विश्वव्यापी तापमान २०२४ मा कति डिग्री सेल्सियस नजिक पुगेको छ?", options: ['१.५', '२.५', '३.५', '४.५'], answer: 0 },
+      { q: "नेपालको व्यापार घाटा २०२४ मा कति पुगेको थियो?", options: ['१० खर्ब', '१३ खर्ब', '१५ खर्ब', '१७ खर्ब'], answer: 1 },
+      { q: "नेपालमा पर्यटन क्षेत्रमा कुन क्षेत्रले योगदान दिएको छ?", options: ['जलवायु कार्य', 'सगरमाथा र लुम्बिनी', 'कृषि', 'शिक्षा'], answer: 1 }
+
+ 
+
+    ];
+
+    let currentPage = 0;
+    let score = 0;
+    let skipped = [];
+    const questionsPerPage = 5;
+    const totalPages = Math.ceil(questions.length / questionsPerPage);
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+    const nextBtn = document.getElementById("next-btn");
+
+    // Track answered and skipped questions per page
+    let answeredQuestions = new Array(questions.length).fill(false);
+    let skippedQuestions = new Array(questions.length).fill(false);
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function showQuestions(page) {
+      const start = page * questionsPerPage;
+      const end = Math.min(start + questionsPerPage, questions.length);
+      let questionsHTML = '';
+
+      for (let i = start; i < end; i++) {
+        const q = questions[i];
+        const optionsHTML = shuffle(q.options.map((opt, j) =>
+          `<button onclick="checkAnswer(${i}, this, ${j})">${opt}</button>`
+        )).join('');
+
+        questionsHTML += `
+          <div class="question" id="question-${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${optionsHTML}</div>
+            <button onclick="skipQuestion(${i})" id="skip-btn-${i}">Skip</button>
+            <div class="feedback" id="feedback-${i}"></div>
+          </div>
+        `;
+      }
+
+      quizEl.innerHTML = questionsHTML;
+      updateNextButtonState(page);
+    }
+
+    function checkAnswer(index, button, selected) {
+      const correct = questions[index].answer;
+      const questionEl = document.getElementById(`question-${index}`);
+      const buttons = questionEl.querySelectorAll(".options button");
+      const feedbackEl = document.getElementById(`feedback-${index}`);
+      const skipBtn = document.getElementById(`skip-btn-${index}`);
+
+      // Disable all option buttons and the skip button for this question
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (btn.innerText === questions[index].options[correct]) {
+          btn.classList.add("correct");
+        } else if (btn === button && selected !== correct) {
+          btn.classList.add("wrong");
+        }
+      });
+      skipBtn.disabled = true;
+
+      // Provide instant feedback
+      if (selected === correct) {
+        feedbackEl.innerHTML = "✅ Correct!";
+        feedbackEl.style.color = "#388e3c";
+        score++;
+      } else {
+        feedbackEl.innerHTML = "❌ Wrong! Correct answer: " + questions[index].options[correct];
+        feedbackEl.style.color = "#d32f2f";
+      }
+
+      // Mark this question as answered
+      answeredQuestions[index] = true;
+      updateNextButtonState(currentPage);
+    }
+
+    function skipQuestion(index) {
+      const questionEl = document.getElementById(`question-${index}`);
+      const buttons = questionEl.querySelectorAll(".options button");
+      const skipBtn = document.getElementById(`skip-btn-${index}`);
+
+      // Disable all option buttons and the skip button for this question
+      buttons.forEach(btn => btn.disabled = true);
+      skipBtn.disabled = true;
+
+      // Mark as skipped if not already answered
+      if (!answeredQuestions[index]) {
+        skippedQuestions[index] = true;
+        skipped.push(questions[index]);
+      }
+
+      updateNextButtonState(currentPage);
+    }
+
+    function updateNextButtonState(page) {
+      const start = page * questionsPerPage;
+      const end = Math.min(start + questionsPerPage, questions.length);
+      let allAnsweredOrSkipped = true;
+
+      for (let i = start; i < end; i++) {
+        if (!answeredQuestions[i] && !skippedQuestions[i]) {
+          allAnsweredOrSkipped = false;
+          break;
+        }
+      }
+
+      nextBtn.disabled = !allAnsweredOrSkipped;
+    }
+
+    function nextPage() {
+      currentPage++;
+      if (currentPage < totalPages) {
+        showQuestions(currentPage);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      nextBtn.classList.add("hidden");
+      scoreEl.classList.remove("hidden");
+      scoreEl.innerHTML = `✅ Your score: <strong>${score} / ${questions.length}</strong>`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    nextBtn.addEventListener("click", nextPage);
+
+    // Show the first page of questions
+    showQuestions(currentPage);
+  </script>
+</body>
+</html>
