@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test 8 – 50 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+    }
+
+    .question p {
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    #skipped-list {
+      margin-top: 2rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test 8 – 50 Questions</h1>
+    <div id="quiz"></div>
+    <div id="score"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+  <script>
+    const questions = [
+  // Applied Mechanics (13 MCQs)
+  { q: "If the value of moment of arm is zero, what is torque produced?", 
+    options: ["1", "0", "Infinite", "Negative"], 
+    answer: 1 },
+  { q: "Centre of gravity of solid cone lies at:", 
+    options: ["One fourth of its height", "One third of its height", "Half of its height", "Base of the cone"], 
+    answer: 1 },
+  { q: "Velocity is defined as:", 
+    options: ["Distance covered per unit time", "Displacement covered per unit time", "Speed in a direction", "Acceleration per unit time"], 
+    answer: 1 },
+  { q: "Which of the following is a vector quantity?", 
+    options: ["Energy", "Momentum", "Power", "Work"], 
+    answer: 1 },
+  { q: "The center of gravity of a uniform lamina lies at:", 
+    options: ["Anywhere depending on material", "The midpoint of its axis", "The edge of the lamina", "The corner of the lamina"], 
+    answer: 1 },
+  { q: "Which of the following does not have identical dimensions?", 
+    options: ["Momentum & impulse", "Moment of force & angular momentum", "Force & weight", "Work & energy"], 
+    answer: 1 },
+  { q: "The term ‘Centroid’ is:", 
+    options: ["Same as center of gravity", "Point of suspension", "Point of rotation", "Geometric center only"], 
+    answer: 0 },
+  { q: "Where will the center of gravity of a uniform rod lie?", 
+    options: ["At its middle", "At its end", "At one-third length", "At one-quarter length"], 
+    answer: 0 },
+  { q: "Two non-collinear parallel equal forces in opposite direction:", 
+    options: ["Constitute a couple", "Balance each other", "Cancel each other", "Produce linear motion"], 
+    answer: 0 },
+  { q: "Coefficient of friction depends upon:", 
+    options: ["Both A and B", "Nature of surfaces only", "Area of contact", "Weight of the object"], 
+    answer: 0 },
+  { q: "In actual machines mechanical advantage is:", 
+    options: ["Less than velocity ratio", "Equal to velocity ratio", "Greater than velocity ratio", "Independent of velocity ratio"], 
+    answer: 0 },
+  { q: "Due to the creep of belts, in a belt-driven system there will be:", 
+    options: ["Loss of power to be transmitted", "Loss of motion", "Increased efficiency", "No effect"], 
+    answer: 0 },
+  { q: "Which is not a scalar quantity:", 
+    options: ["Acceleration", "Time", "Mass", "Energy"], 
+    answer: 0 },
+
+  // Thermodynamics (8 MCQs)
+  { q: "Work done in a free expansion process is:", 
+    options: ["Positive", "Zero", "Negative", "Infinite"], 
+    answer: 1 },
+  { q: "Second law of thermodynamics defines:", 
+    options: ["Work", "Entropy", "Enthalpy", "Internal energy"], 
+    answer: 1 },
+  { q: "Internal energy and enthalpy of ideal gas are the function of:", 
+    options: ["Pressure only", "Temperature only", "Volume only", "Pressure and volume"], 
+    answer: 1 },
+  { q: "When a process undergoes a complete cycle, the change of entropy is:", 
+    options: ["Positive", "Zero value", "Negative", "Infinite"], 
+    answer: 1 },
+  { q: "The specific heat of air at constant volume is equal to:", 
+    options: ["0.17", "0.21", "0.25", "0.30"], 
+    answer: 1 },
+  { q: "The change in enthalpy of an ideal gas during an adiabatic process is:", 
+    options: ["mCᵥ(T₂ − T₁)", "mCₚ(T₂ − T₁)", "Zero", "mR(T₂ − T₁)"], 
+    answer: 1 },
+  { q: "Heat transferred to a closed system during an isochoric process is equal to:", 
+    options: ["Change in enthalpy", "Change in internal energy", "Change in entropy", "Change in pressure"], 
+    answer: 1 },
+  { q: "Gas heated such that PV = const. Heat supplied is equal to:", 
+    options: ["Change in internal energy", "Product of pressure and volume", "Change in enthalpy", "Work done"], 
+    answer: 1 },
+
+  // Machine Drawing (7 MCQs)
+  { q: "Which of the following is not a type of section?", 
+    options: ["Offset section", "Rough section", "Full section", "Half section"], 
+    answer: 1 },
+  { q: "Which of the following is not included in a machine drawing set?", 
+    options: ["Production schedule", "Detail drawing", "Assembly drawing", "Exploded view"], 
+    answer: 0 },
+  { q: "What is the typical symbol for a counterbore?", 
+    options: ["⌀", "⏃", "⌴", "⏄"], 
+    answer: 1 },
+  { q: "Which line is used to show symmetry?", 
+    options: ["Centerline", "Object line", "Hidden line", "Break line"], 
+    answer: 0 },
+  { q: "Which tool is used to draw large circles?", 
+    options: ["Beam compass", "Divider", "Protractor", "French curve"], 
+    answer: 0 },
+  { q: "Why is a sectional view used?", 
+    options: ["To show internal features", "To reduce drawing size", "To show external features", "To simplify dimensions"], 
+    answer: 0 },
+  { q: "In drawing, the term 'R' is used for:", 
+    options: ["Radius", "Revolution", "Ratio", "Reference"], 
+    answer: 0 },
+
+  // Electro-Mechanical (3 MCQs)
+  { q: "Which one of the following is a part of D.C. motor?", 
+    options: ["Armature", "Draft Tube", "Stator", "Rotor"], 
+    answer: 0 },
+  { q: "The current in electric resistance welding can be regulated by:", 
+    options: ["Varying the input supply", "Changing the electrode material", "Adjusting the weld time", "All of the above"], 
+    answer: 3 },
+  { q: "Which one of the following is used to measure the specific gravity of electrolyte?", 
+    options: ["Hydrometer", "Speedometer", "Ammeter", "Voltmeter"], 
+    answer: 0 },
+
+  // Industrial Boiler (5 MCQs)
+  { q: "Objective of providing baffles in water tubes:", 
+    options: ["To regulate water flow", "To have better contact of fuel gases with water tubes", "To reduce pressure", "To increase steam output"], 
+    answer: 1 },
+  { q: "Efficiency of well-maintained boiler:", 
+    options: ["70 percent", "90 percent", "50 percent", "80 percent"], 
+    answer: 1 },
+  { q: "Which is not a boiler mounting:", 
+    options: ["Blow off cock", "Economizer", "Pressure gauge", "Safety valve"], 
+    answer: 1 },
+  { q: "Biggest loss in boiler:", 
+    options: ["Moisture in fuel", "Dry in flue gases", "Radiation losses", "Incomplete combustion"], 
+    answer: 1 },
+  { q: "Boiler best for fluctuating steam:", 
+    options: ["Lancashire boiler", "Locomotive boiler", "Cochran boiler", "Babcock and Wilcox boiler"], 
+    answer: 1 },
+
+  // Heat Engines (5 MCQs)
+  { q: "In which stroke is the spark plug fired in a petrol engine?", 
+    options: ["Compression stroke", "Exhaust stroke", "Intake stroke", "Power stroke"], 
+    answer: 0 },
+  { q: "What does BHP stand for?", 
+    options: ["Brake Horse Power", "Basic Heat Pressure", "Boosted Hydraulic Power", "Brake Hydraulic Pressure"], 
+    answer: 0 },
+  { q: "Which cycle is used in diesel engines?", 
+    options: ["Otto cycle", "Diesel cycle", "Brayton cycle", "Rankine cycle"], 
+    answer: 1 },
+  { q: "In SI engines, ignition is caused by?", 
+    options: ["Compression", "Spark", "Fuel injection", "Glow plug"], 
+    answer: 1 },
+  { q: "Which device is used to cool the engine?", 
+    options: ["Radiator", "Flywheel", "Crankshaft", "Camshaft"], 
+    answer: 0 },
+
+  // Industrial Management (6 MCQs)
+  { q: "Wages of any employee is:", 
+    options: ["Bonus", "All of the above", "Basic salary", "Overtime pay"], 
+    answer: 1 },
+  { q: "Judder factors which affect workers:", 
+    options: ["Frustration", "Fatigue", "Stress", "All of the above"], 
+    answer: 3 },
+  { q: "The wages of supervisors & material handlers are charged as:", 
+    options: ["Overhead", "Direct labor cost", "Material cost", "Fixed cost"], 
+    answer: 0 },
+  { q: "ILO ensures right of worker by:", 
+    options: ["Employer and employees", "Government, employer and employee", "Trade unions only", "Government only"], 
+    answer: 1 },
+  { q: "Which of the following is independent of sales forecast?", 
+    options: ["Productivity", "Inventory control", "Production planning", "Market demand"], 
+    answer: 0 },
+  { q: "In thermodynamics, a function is called a path function when the quantities depend on:", 
+    options: ["Area of the graph", "By a path", "State of the system", "Equilibrium conditions"], 
+    answer: 1 },
+
+  // Estimating and Costing (3 MCQs)
+  { q: "Depreciation of machines, according to income tax regulation is calculated on the basis of:", 
+    options: ["Rate of returns", "Declining balance", "Straight-line method", "Sum-of-years-digits"], 
+    answer: 1 },
+  { q: "What is depreciation?", 
+    options: ["Cost of a fixed asset", "Position of fixed asset’s cost consumed during the current accounting period", "Market value of asset", "Salvage value of asset"], 
+    answer: 1 },
+  { q: "Pricing of a product is based on:", 
+    options: ["Total cost incurred for production", "All of the above", "Market demand", "Competitor pricing"], 
+    answer: 1 }
+];
+    questions.sort(() => Math.random() - 0.5);
+
+    let current = 0;
+    let score = 0;
+    let skipped = [];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+
+    function showQuestion(index) {
+      const q = questions[index];
+      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
+      quizEl.innerHTML = `
+        <div class="question">
+          <p>Q${index + 1}. ${q.q}</p>
+          <div class="options">${options}</div>
+          <button onclick="skipQuestion()">Skip</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === correct) btn.classList.add("correct");
+        if (i === selected && i !== correct) btn.classList.add("wrong");
+      });
+      if (selected === correct) score++;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion(current);
+        } else {
+          endQuiz();
+        }
+      }, 3000);
+    }
+
+    function skipQuestion() {
+      skipped.push(questions[current]);
+      current++;
+      if (current < questions.length) {
+        showQuestion(current);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    showQuestion(current);
+  </script>
+</body>
+
+</html>
