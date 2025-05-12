@@ -75,7 +75,7 @@
   </div>
 
   <script>
-   const questions = [
+    const questions = [
   { q: "Efficiency of Carnot cycle depends on:", options: ['Temperature', 'Pressure', 'Volume', 'Mass'], answer: 0 },
   { q: "Break-even point is where:", options: ['Profit=0', 'Revenue=0', 'Cost=0', 'Loss=0'], answer: 0 },
   { q: "SI Unit of force is:", options: ['Dyne', 'Newton', 'Joule', 'Pascal'], answer: 1 },
@@ -128,7 +128,7 @@
   { q: "Orthographic projection uses:", options: ['Parallel lines', 'Converging lines', 'Curved lines', 'None'], answer: 0 },
 ];
 
-  
+
     let current = 0;
     let score = 0;
     let skipped = [];
@@ -144,14 +144,9 @@
 
     function showQuestion(index) {
       const q = questions[index];
-      const shuffled = shuffle(q.options.map(opt => ({
-        text: opt,
-        isCorrect: opt === q.answer
-      })));
-
-      const optionsHTML = shuffled.map(opt =>
-        `<button onclick="checkAnswer(this, ${opt.isCorrect})">${opt.text}</button>`
-      ).join('');
+      const optionsHTML = shuffle(q.options.map((opt, i) =>
+        `<button onclick="checkAnswer(this, ${i})">${opt}</button>`
+      )).join('');
 
       quizEl.innerHTML = `
         <div class="question">
@@ -161,52 +156,31 @@
         </div>
       `;
     }
-function checkAnswer(button, isCorrect) {
-  const buttons = button.parentElement.querySelectorAll("button");
-  const correctAnswer = questions[current].answer;
 
-  buttons.forEach(btn => {
-    btn.disabled = true;
-    if (btn.textContent === correctAnswer) {
-      btn.classList.add("correct"); // Highlight correct
-    } else if (btn === button && !isCorrect) {
-      btn.classList.add("wrong");   // Highlight wrong if clicked
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (btn.innerText === questions[current].options[correct]) {
+          btn.classList.add("correct");
+        } else if (btn === button && selected !== correct) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      if (selected === correct) score++;
+
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion(current);
+        } else {
+          endQuiz();
+        }
+      }, 1000);
     }
-  });
-
-  if (isCorrect) score++;
-
-  setTimeout(() => {
-    current++;
-    if (current < questions.length) {
-      showQuestion(current);
-    } else {
-      endQuiz();
-    }
-  }, 800);
-}
-    // function checkAnswer(button, isCorrect) {
-    //   const buttons = button.parentElement.querySelectorAll("button");
-    //   buttons.forEach(btn => {
-    //     btn.disabled = true;
-    //     if (btn.textContent === questions[current].answer) {
-    //       btn.classList.add("correct");
-    //     } else if (btn === button && !isCorrect) {
-    //       btn.classList.add("wrong");
-    //     }
-    //   });
-
-    //   if (isCorrect) score++;
-
-    //   setTimeout(() => {
-    //     current++;
-    //     if (current < questions.length) {
-    //       showQuestion(current);
-    //     } else {
-    //       endQuiz();
-    //     }
-    //   }, 700);
-    // }
 
     function skipQuestion() {
       skipped.push(questions[current]);
@@ -227,7 +201,6 @@ function checkAnswer(button, isCorrect) {
       }
     }
 
-    // Start quiz
     showQuestion(current);
   </script>
 </body>
