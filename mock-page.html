@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanical Engineering Mock Tests</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 1.5rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .container {
+            margin: 120px auto 50px;
+            padding: 0 20px;
+            max-width: 1200px;
+        }
+
+        .mock-test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .mock-test-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mock-test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .mock-test-card a {
+            text-decoration: none;
+            color: #2a5298;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .mock-test-card a:hover {
+            color: #1e3c72;
+        }
+
+        .mock-test-card::before {
+            content: '📝';
+            font-size: 2rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            opacity: 0.2;
+        }
+
+        .mock-test-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            header p {
+                font-size: 0.8rem;
+            }
+
+            .mock-test-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .mock-test-card {
+                padding: 15px;
+            }
+
+            .mock-test-card a {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 100px auto 40px;
+                padding: 0 10px;
+            }
+
+            .mock-test-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mock-test-card {
+                padding: 10px;
+            }
+
+            .mock-test-card a {
+                font-size: 1rem;
+            }
+
+            footer p {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Animation for Page Load */
+        .mock-test-card {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mechanical Engineering Mock Tests</h1>
+        <p>Prepare for Nepal Public Service Commission Exam (May 15, 2025)</p>
+    </header>
+
+    <div class="container">
+        <h2>Mock Test List</h2>
+        <div class="mock-test-grid">
+            <div class="mock-test-card">
+                <a href="mock-test1.html">Mock Test 1</a>
+                <p>Practice key concepts for Paper I & II</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test2.html">Mock Test 2</a>
+                <p>Focus on Applied Mechanics & Thermodynamics</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test3.html">Mock Test 3</a>
+                <p>Test Heat Engines & Electro-Mechanical</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test4.html">Mock Test 4</a>
+                <p>Industrial Boiler & Estimating</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test5.html">Mock Test 5</a>
+                <p>Machine Drawing & Management</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test6.html">Mock Test 6</a>
+                <p>Comprehensive syllabus review</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test7.html">Mock Test 7</a>
+                <p>Formula-based questions</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test8.html">Mock Test 8</a>
+                <p>Numerical problem practice</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test9.html">Mock Test 9</a>
+                <p>Paper I simulation</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test91.html">Mock Test 91</a>
+                <p>Paper II simulation</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test92.html">Mock Test 92</a>
+                <p>Advanced formula applications</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test93.html">Mock Test 93</a>
+                <p>Conceptual question focus</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test94.html">Mock Test 94</a>
+                <p>Mixed topic practice</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test95.html">Mock Test 95</a>
+                <p>Time-bound mock test</p>
+            </div>
+            <div class="mock-test-card">
+                <a href="mock-test96.html">Mock Test 96</a>
+                <p>Final exam simulation</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Tip: Review formulas daily and practice timed mock tests to ace your exam! Best of luck!</p>
+    </footer>
+</body>
+</html>
