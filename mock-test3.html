@@ -161,29 +161,52 @@
         </div>
       `;
     }
+function checkAnswer(button, isCorrect) {
+  const buttons = button.parentElement.querySelectorAll("button");
+  const correctAnswer = questions[current].answer;
 
-    function checkAnswer(button, isCorrect) {
-      const buttons = button.parentElement.querySelectorAll("button");
-      buttons.forEach(btn => {
-        btn.disabled = true;
-        if (btn.textContent === questions[current].answer) {
-          btn.classList.add("correct");
-        } else if (btn === button && !isCorrect) {
-          btn.classList.add("wrong");
-        }
-      });
-
-      if (isCorrect) score++;
-
-      setTimeout(() => {
-        current++;
-        if (current < questions.length) {
-          showQuestion(current);
-        } else {
-          endQuiz();
-        }
-      }, 700);
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === correctAnswer) {
+      btn.classList.add("correct"); // Highlight correct
+    } else if (btn === button && !isCorrect) {
+      btn.classList.add("wrong");   // Highlight wrong if clicked
     }
+  });
+
+  if (isCorrect) score++;
+
+  setTimeout(() => {
+    current++;
+    if (current < questions.length) {
+      showQuestion(current);
+    } else {
+      endQuiz();
+    }
+  }, 800);
+}
+    // function checkAnswer(button, isCorrect) {
+    //   const buttons = button.parentElement.querySelectorAll("button");
+    //   buttons.forEach(btn => {
+    //     btn.disabled = true;
+    //     if (btn.textContent === questions[current].answer) {
+    //       btn.classList.add("correct");
+    //     } else if (btn === button && !isCorrect) {
+    //       btn.classList.add("wrong");
+    //     }
+    //   });
+
+    //   if (isCorrect) score++;
+
+    //   setTimeout(() => {
+    //     current++;
+    //     if (current < questions.length) {
+    //       showQuestion(current);
+    //     } else {
+    //       endQuiz();
+    //     }
+    //   }, 700);
+    // }
 
     function skipQuestion() {
       skipped.push(questions[current]);
