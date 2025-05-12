@@ -4,198 +4,600 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consolidated Formula List for Mechanical Engineering Exam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.6;
-        }
-        h1 {
-            text-align: center;
+            background: linear-gradient(to right, #e0f7fa, #b2f5ea);
             color: #2c3e50;
+            min-height: 100vh;
+            padding: 2rem;
         }
-        h2 {
-            color: #34495e;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 5px;
+
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        h3 {
-            color: #7f8c8d;
-            margin-top: 20px;
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
-        ul {
-            margin: 10px 0;
-            padding-left: 20px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-        .formula {
-            font-weight: bold;
-        }
+
         .note {
             font-style: italic;
-            color: #7f8c8d;
-            margin-top: 20px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .search-bar {
+            margin: 1.5rem auto;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input::placeholder {
+            color: #888;
+        }
+
+        .quick-reference {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem auto;
+            max-width: 900px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .quick-reference h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .quick-reference table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .quick-reference th, .quick-reference td {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .quick-reference th {
+            background: #3498db;
+            color: white;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section h2::after {
+            content: '▼';
+            font-size: 1rem;
+        }
+
+        .section.collapsed h2::after {
+            content: '▶';
+        }
+
+        .section.collapsed .content {
+            display: none;
+        }
+
+        h3 {
+            color: #34495e;
+            margin-top: 1rem;
+        }
+
+        ul {
+            margin: 1rem 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .formula {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        li:hover .tooltip {
+            visibility: visible;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            background: #2c3e50;
+            color: white;
+            font-size: 0.9rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            z-index: 10;
+        }
+
+        .highlight {
+            background: #e6fffa;
+            padding: 0.2rem;
+            border-radius: 4px;
+        }
+
+        .links {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .links a {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .links a:hover {
+            background: #2a5298;
+        }
+
+        .exam-tips {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem auto;
+            max-width: 900px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .exam-tips h2 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .exam-tips ul {
+            list-style: none;
+        }
+
+        .exam-tips li {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #2c3e50;
+            color: white;
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .quick-reference table {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .note {
+                font-size: 1rem;
+            }
+
+            .search-bar input {
+                font-size: 0.9rem;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+
+            .quick-reference {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .quick-reference table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .links a {
+                display: block;
+                margin: 0.5rem auto;
+                width: 80%;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
     </style>
+    <script>
+        // Collapsible Sections
+        document.querySelectorAll('.section h2').forEach(header => {
+            header.addEventListener('click', () => {
+                const section = header.parentElement;
+                section.classList.toggle('collapsed');
+            });
+        });
+
+        // Search Functionality
+        function filterFormulas() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const formulas = section.querySelectorAll('li');
+                let hasMatch = false;
+                formulas.forEach(formula => {
+                    const text = formula.textContent.toLowerCase();
+                    formula.style.display = text.includes(input) ? '' : 'none';
+                    if (text.includes(input)) hasMatch = true;
+                });
+                section.style.display = hasMatch ? '' : 'none';
+            });
+        }
+
+        // Highlight Formula
+        document.querySelectorAll('li').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('highlight');
+                localStorage.setItem(`highlight-${item.textContent}`, item.classList.contains('highlight'));
+            });
+            if (localStorage.getItem(`highlight-${item.textContent}`) === 'true') {
+                item.classList.add('highlight');
+            }
+        });
+    </script>
 </head>
 <body>
-    <h1>Consolidated Formula List for Mechanical Engineering Exam</h1>
-    <p class="note">Prepared for the Nepal Public Service Commission’s Mechanical Engineering Service, General Mechanical Subgroup, Non-Gazetted First Class exam. Covers all formula-based topics from the syllabus.</p>
+    <header>
+        <h1>🛠 Consolidated Formula List</h1>
+        <p class="note">Prepared for Nepal PSC Mechanical Engineering Exam (May 15, 2025)</p>
+    </header>
 
-    <h2>Applied Mechanics</h2>
-    <h3>Statics</h3>
-    <ul>
-        <li><span class="formula">ΣF = 0</span> (equilibrium: net force is zero)</li>
-        <li><span class="formula">F = ma</span> (force = mass × acceleration)</li>
-        <li><span class="formula">F_action = -F_reaction</span> (Newton’s third law)</li>
-        <li><span class="formula">M = F × d</span> (moment of a force: force × perpendicular distance)</li>
-        <li><span class="formula">F_friction = μN</span> (friction force: μ = coefficient of friction, N = normal force)</li>
-        <li><span class="formula">μ = tanθ</span> (coefficient of friction: θ = angle of friction or repose)</li>
-        <li><span class="formula">x_cg = (Σm_i x_i) / Σm_i</span> (center of gravity for composite body: weighted average of centroids)</li>
-        <li><span class="formula">J = (πr^4)/2</span> (polar moment of inertia, circular shaft)</li>
-        <li><span class="formula">τ = (T × r) / J</span> (shear stress in shaft: T = torque, r = radius, J = polar moment)</li>
-    </ul>
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Search formulas (e.g., Carnot, torque)..." oninput="filterFormulas()">
+    </div>
 
-    <h3>Kinematics</h3>
-    <ul>
-        <li><span class="formula">s = ut + (1/2)at²</span> (distance traversed, uniform acceleration: u = initial velocity, a = acceleration, t = time)</li>
-        <li><span class="formula">v = u + at</span> (velocity)</li>
-        <li><span class="formula">s = vt</span> (distance, constant velocity)</li>
-        <li><span class="formula">R_max = (u²/g)</span> at θ = 45° (projectile motion, max range: u = initial velocity, g = 9.8 m/s²)</li>
-    </ul>
+    <div class="quick-reference">
+        <h2>Quick Reference: Top 10 Formulas</h2>
+        <table>
+            <tr>
+                <th>Formula</th>
+                <th>Description</th>
+                <th>Topic</th>
+            </tr>
+            <tr>
+                <td>F = ma</td>
+                <td>Net force</td>
+                <td>Applied Mechanics</td>
+            </tr>
+            <tr>
+                <td>W = Fd cosθ</td>
+                <td>Work at an angle</td>
+                <td>Applied Mechanics</td>
+            </tr>
+            <tr>
+                <td>PV = nRT</td>
+                <td>Ideal gas law</td>
+                <td>Thermodynamics</td>
+            </tr>
+            <tr>
+                <td>η = 1 - (T_cold/T_hot)</td>
+                <td>Carnot efficiency</td>
+                <td>Thermodynamics</td>
+            </tr>
+            <tr>
+                <td>η = 1 - (1/r^(γ-1))</td>
+                <td>Otto cycle efficiency</td>
+                <td>Heat Engines</td>
+            </tr>
+            <tr>
+                <td>BP = (2πNT)/60</td>
+                <td>Brake power</td>
+                <td>Heat Engines</td>
+            </tr>
+            <tr>
+                <td>P = VI cosφ</td>
+                <td>Electrical power</td>
+                <td>Electro-Mechanical</td>
+            </tr>
+            <tr>
+                <td>η_b = (m_s (h_s - h_f)) / (m_f × CV)</td>
+                <td>Boiler efficiency</td>
+                <td>Industrial Boiler</td>
+            </tr>
+            <tr>
+                <td>Q_be = FC / (P - VC)</td>
+                <td>Break-even point</td>
+                <td>Estimating and Costing</td>
+            </tr>
+            <tr>
+                <td>T = Upper Limit - Lower Limit</td>
+                <td>Tolerance range</td>
+                <td>Machine Drawing</td>
+            </tr>
+        </table>
+    </div>
 
-    <h3>Dynamics</h3>
-    <ul>
-        <li><span class="formula">W = Fd cosθ</span> (work: θ = angle between force and displacement)</li>
-        <li><span class="formula">KE = (1/2)mv²</span> (kinetic energy)</li>
-        <li><span class="formula">PE = mgh</span> (potential energy: h = height)</li>
-        <li><span class="formula">P = W/t</span> or <span class="formula">P = Fv</span> (power: v = velocity)</li>
-        <li><span class="formula">T = F × r</span> or <span class="formula">T = Iα</span> (torque: I = moment of inertia, α = angular acceleration)</li>
-        <li><span class="formula">I = (1/4)MR²</span> (moment of inertia, circular disc, about diameter)</li>
-        <li><span class="formula">P = Tω</span> (power from torque: ω = angular velocity, rad/s)</li>
-        <li><span class="formula">m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂</span> (conservation of momentum, isolated system)</li>
-        <li><span class="formula">Total energy (KE + PE) = constant</span> (conservation of energy)</li>
-        <li><span class="formula">δ_max = (WL^3)/(48EI)</span> (maximum deflection, simply supported beam, central load: W = load, L = length, E = Young’s modulus, I = moment of inertia)</li>
-    </ul>
+    <div class="container">
+        <div class="section">
+            <h2>🛠 Applied Mechanics</h2>
+            <div class="content">
+                <h3>Statics</h3>
+                <ul>
+                    <li><span class="formula">ΣF = 0</span> (equilibrium: net force is zero) <span class="tooltip">Sum of forces in any direction is zero</span></li>
+                    <li><span class="formula">F = ma</span> (force = mass × acceleration) <span class="tooltip">m = mass (kg), a = acceleration (m/s²)</span></li>
+                    <li><span class="formula">F_action = -F_reaction</span> (Newton’s third law) <span class="tooltip">Equal and opposite forces</span></li>
+                    <li><span class="formula">M = F × d</span> (moment of a force: force × perpendicular distance) <span class="tooltip">F = force (N), d = distance (m)</span></li>
+                    <li><span class="formula">F_friction = μN</span> (friction force: μ = coefficient of friction, N = normal force) <span class="tooltip">μ = friction coefficient, N = normal force (N)</span></li>
+                    <li><span class="formula">μ = tanθ</span> (coefficient of friction: θ = angle of friction or repose) <span class="tooltip">θ = angle of incline</span></li>
+                    <li><span class="formula">x_cg = (Σm_i x_i) / Σm_i</span> (center of gravity for composite body: weighted average of centroids) <span class="tooltip">m_i = mass, x_i = centroid position</span></li>
+                    <li><span class="formula">J = (πr^4)/2</span> (polar moment of inertia, circular shaft) <span class="tooltip">r = radius (m)</span></li>
+                    <li><span class="formula">τ = (T × r) / J</span> (shear stress in shaft: T = torque, r = radius, J = polar moment) <span class="tooltip">T = torque (Nm), r = radius (m)</span></li>
+                </ul>
 
-    <h2>Thermodynamics</h2>
-    <h3>Gas Laws</h3>
-    <ul>
-        <li><span class="formula">PV = nRT</span> (ideal gas law: P = pressure, V = volume, n = moles, R = 8.314 J/mol.K, T = Kelvin)</li>
-        <li><span class="formula">P₁V₁ = P₂V₂</span> (Boyle’s law, constant T)</li>
-        <li><span class="formula">V₁/T₁ = V₂/T₂</span> (Charles’ law, constant P)</li>
-        <li><span class="formula">(P₁V₁)/T₁ = (P₂V₂)/T₂</span> (combined gas law)</li>
-    </ul>
+                <h3>Kinematics</h3>
+                <ul>
+                    <li><span class="formula">s = ut + (1/2)at²</span> (distance traversed, uniform acceleration: u = initial velocity, a = acceleration, t = time) <span class="tooltip">u = initial velocity (m/s), a = acceleration (m/s²)</span></li>
+                    <li><span class="formula">v = u + at</span> (velocity) <span class="tooltip">v = final velocity (m/s)</span></li>
+                    <li><span class="formula">s = vt</span> (distance, constant velocity) <span class="tooltip">v = velocity (m/s), t = time (s)</span></li>
+                    <li><span class="formula">R_max = (u²/g)</span> at θ = 45° (projectile motion, max range: u = initial velocity, g = 9.8 m/s²) <span class="tooltip">u = initial velocity (m/s), g = gravity</span></li>
+                </ul>
 
-    <h3>First Law</h3>
-    <ul>
-        <li><span class="formula">ΔU = Q - W</span> (first law: ΔU = change in internal energy, Q = heat added, W = work done by system)</li>
-        <li><span class="formula">ΔU = nC_vΔT</span> (internal energy, ideal gas: C_v = specific heat at constant volume)</li>
-        <li><span class="formula">W = PΔV</span> (work done, constant pressure)</li>
-    </ul>
+                <h3>Dynamics</h3>
+                <ul>
+                    <li><span class="formula">W = Fd cosθ</span> (work: θ = angle between force and displacement) <span class="tooltip">F = force (N), d = displacement (m)</span></li>
+                    <li><span class="formula">KE = (1/2)mv²</span> (kinetic energy) <span class="tooltip">m = mass (kg), v = velocity (m/s)</span></li>
+                    <li><span class="formula">PE = mgh</span> (potential energy: h = height) <span class="tooltip">m = mass (kg), g = 9.8 m/s², h = height (m)</span></li>
+                    <li><span class="formula">P = W/t</span> or <span class="formula">P = Fv</span> (power: v = velocity) <span class="tooltip">W = work (J), t = time (s), v = velocity (m/s)</span></li>
+                    <li><span class="formula">T = F × r</span> or <span class="formula">T = Iα</span> (torque: I = moment of inertia, α = angular acceleration) <span class="tooltip">F = force (N), r = radius (m), I = moment of inertia (kg.m²)</span></li>
+                    <li><span class="formula">I = (1/4)MR²</span> (moment of inertia, circular disc, about diameter) <span class="tooltip">M = mass (kg), R = radius (m)</span></li>
+                    <li><span class="formula">P = Tω</span> (power from torque: ω = angular velocity, rad/s) <span class="tooltip">T = torque (Nm), ω = angular velocity (rad/s)</span></li>
+                    <li><span class="formula">m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂</span> (conservation of momentum, isolated system) <span class="tooltip">m = mass (kg), u/v = velocities (m/s)</span></li>
+                    <li><span class="formula">Total energy (KE + PE) = constant</span> (conservation of energy) <span class="tooltip">KE = kinetic, PE = potential energy</span></li>
+                    <li><span class="formula">δ_max = (WL^3)/(48EI)</span> (maximum deflection, simply supported beam, central load: W = load, L = length, E = Young’s modulus, I = moment of inertia) <span class="tooltip">W = load (N), L = length (m), E = modulus (Pa)</span></li>
+                </ul>
+            </div>
+        </div>
 
-    <h3>Second Law</h3>
-    <ul>
-        <li><span class="formula">η = 1 - (T_cold/T_hot)</span> (Carnot efficiency, T in Kelvin)</li>
-        <li><span class="formula">ΔS ≥ 0</span> (entropy change, isolated system: S = entropy)</li>
-        <li><span class="formula">η = W/Q_in</span> (thermal efficiency: W = work output, Q_in = heat input)</li>
-    </ul>
+        <div class="section">
+            <h2>🔥 Thermodynamics</h2>
+            <div class="content">
+                <h3>Gas Laws</h3>
+                <ul>
+                    <li><span class="formula">PV = nRT</span> (ideal gas law: P = pressure, V = volume, n = moles, R = 8.314 J/mol.K, T = Kelvin) <span class="tooltip">P = pressure (Pa), V = volume (m³), T = temperature (K)</span></li>
+                    <li><span class="formula">P₁V₁ = P₂V₂</span> (Boyle’s law, constant T) <span class="tooltip">Constant temperature process</span></li>
+                    <li><span class="formula">V₁/T₁ = V₂/T₂</span> (Charles’ law, constant P) <span class="tooltip">Constant pressure process</span></li>
+                    <li><span class="formula">(P₁V₁)/T₁ = (P₂V₂)/T₂</span> (combined gas law) <span class="tooltip">Relates P, V, T changes</span></li>
+                </ul>
 
-    <h3>Processes</h3>
-    <ul>
-        <li><span class="formula">Isothermal: W = nRT ln(V₂/V₁), ΔU = 0</span> (constant T)</li>
-        <li><span class="formula">Adiabatic: PV^γ = constant, W = C_v (T₂ - T₁), T₁V₁^(γ-1) = T₂V₂^(γ-1)</span> (no heat transfer, γ = C_p/C_v, e.g., 1.4 for diatomic gas)</li>
-        <li><span class="formula">Isochoric: W = 0, ΔU = Q = nC_vΔT</span> (constant V)</li>
-        <li><span class="formula">Isobaric: W = P (V₂ - V₁), Q = nC_pΔT</span> (constant P: C_p = specific heat at constant pressure)</li>
-        <li><span class="formula">Polytropic: PV^n = constant, W = (P₂V₂ - P₁V₁)/(1 - n)</span></li>
-    </ul>
+                <h3>First Law</h3>
+                <ul>
+                    <li><span class="formula">ΔU = Q - W</span> (first law: ΔU = change in internal energy, Q = heat added, W = work done by system) <span class="tooltip">Q = heat (J), W = work (J)</span></li>
+                    <li><span class="formula">ΔU = nC_vΔT</span> (internal energy, ideal gas: C_v = specific heat at constant volume) <span class="tooltip">n = moles, C_v = specific heat (J/mol.K)</span></li>
+                    <li><span class="formula">W = PΔV</span> (work done, constant pressure) <span class="tooltip">P = pressure (Pa), ΔV = volume change (m³)</span></li>
+                </ul>
 
-    <h3>Cycles</h3>
-    <ul>
-        <li><span class="formula">Otto: η = 1 - (1/r^(γ-1))</span> (r = compression ratio)</li>
-        <li><span class="formula">Diesel: η = 1 - (1/r^(γ-1)) × [(r_c^γ - 1)/(γ(r_c - 1))]</span> (r_c = cut-off ratio)</li>
-    </ul>
+                <h3>Second Law</h3>
+                <ul>
+                    <li><span class="formula">η = 1 - (T_cold/T_hot)</span> (Carnot efficiency, T in Kelvin) <span class="tooltip">T_cold, T_hot = temperatures (K)</span></li>
+                    <li><span class="formula">ΔS ≥ 0</span> (entropy change, isolated system: S = entropy) <span class="tooltip">S = entropy (J/K)</span></li>
+                    <li><span class="formula">η = W/Q_in</span> (thermal efficiency: W = work output, Q_in = heat input) <span class="tooltip">W = work (J), Q_in = heat input (J)</span></li>
+                </ul>
 
-    <h3>Additional</h3>
-    <ul>
-        <li><span class="formula">C_p - C_v = R</span> (relationship between specific heats)</li>
-    </ul>
+                <h3>Processes</h3>
+                <ul>
+                    <li><span class="formula">Isothermal: W = nRT ln(V₂/V₁), ΔU = 0</span> (constant T) <span class="tooltip">Constant temperature process</span></li>
+                    <li><span class="formula">Adiabatic: PV^γ = constant, W = C_v (T₂ - T₁), T₁V₁^(γ-1) = T₂V₂^(γ-1)</span> (no heat transfer, γ = C_p/C_v, e.g., 1.4 for diatomic gas) <span class="tooltip">γ = adiabatic index</span></li>
+                    <li><span class="formula">Isochoric: W = 0, ΔU = Q = nC_vΔT</span> (constant V) <span class="tooltip">Constant volume process</span></li>
+                    <li><span class="formula">Isobaric: W = P (V₂ - V₁), Q = nC_pΔT</span> (constant P: C_p = specific heat at constant pressure) <span class="tooltip">Constant pressure process</span></li>
+                    <li><span class="formula">Polytropic: PV^n = constant, W = (P₂V₂ - P₁V₁)/(1 - n)</span> <span class="tooltip">n = polytropic index</span></li>
+                </ul>
 
-    <h2>Heat Engines</h2>
-    <h3>Cycle Efficiencies</h3>
-    <ul>
-        <li><span class="formula">Otto: η = 1 - (1/r^(γ-1))</span> (r = compression ratio, γ = adiabatic index, e.g., 1.4 for air)</li>
-        <li><span class="formula">Diesel: η = 1 - (1/r^(γ-1)) × [(r_c^γ - 1)/(γ(r_c - 1))]</span> (r_c = cut-off ratio)</li>
-        <li><span class="formula">Brayton: η = 1 - (1/r_p^((γ-1)/γ))</span> (r_p = pressure ratio)</li>
-        <li><span class="formula">r = V_total / V_clearance</span> (compression ratio)</li>
-        <li><span class="formula">r_c = V_cut-off / V_clearance</span> (cut-off ratio, Diesel)</li>
-    </ul>
+                <h3>Cycles</h3>
+                <ul>
+                    <li><span class="formula">Otto: η = 1 - (1/r^(γ-1))</span> (r = compression ratio) <span class="tooltip">r = compression ratio</span></li>
+                    <li><span class="formula">Diesel: η = 1 - (1/r^(γ-1)) × [(r_c^γ - 1)/(γ(r_c - 1))]</span> (r_c = cut-off ratio) <span class="tooltip">r_c = cut-off ratio</span></li>
+                </ul>
 
-    <h3>Work and Power</h3>
-    <ul>
-        <li><span class="formula">W = Q_in - Q_out</span> (work output: Q_in = heat added, Q_out = heat rejected)</li>
-        <li><span class="formula">P = W/t</span> or <span class="formula">P = Tω</span> (power output: T = torque, ω = angular velocity, rad/s)</li>
-        <li><span class="formula">IP = (P_m × L × A × N × n)/(60)</span> (indicated power: P_m = mean effective pressure, L = stroke length, A = piston area, N = RPM, n = number of cylinders; for 4-stroke, divide by 2)</li>
-        <li><span class="formula">BP = (2πNT)/60</span> (brake power: N = RPM, T = brake torque)</li>
-        <li><span class="formula">MEP = W_net / V_d</span> (mean effective pressure: V_d = displacement volume)</li>
-    </ul>
+                <h3>Additional</h3>
+                <ul>
+                    <li><span class="formula">C_p - C_v = R</span> (relationship between specific heats) <span class="tooltip">C_p, C_v = specific heats (J/mol.K), R = 8.314 J/mol.K</span></li>
+                </ul>
+            </div>
+        </div>
 
-    <h3>Efficiency Metrics</h3>
-    <ul>
-        <li><span class="formula">η_mech = BP/IP</span> (mechanical efficiency)</li>
-        <li><span class="formula">η_th = W/Q_in</span> (thermal efficiency)</li>
-        <li><span class="formula">SFC = Fuel consumption (kg/h) / BP (kW)</span> (specific fuel consumption)</li>
-    </ul>
+        <div class="section">
+            <h2>🚗 Heat Engines</h2>
+            <div class="content">
+                <h3>Cycle Efficiencies</h3>
+                <ul>
+                    <li><span class="formula">Otto: η = 1 - (1/r^(γ-1))</span> (r = compression ratio, γ = adiabatic index, e.g., 1.4 for air) <span class="tooltip">r = compression ratio, γ = 1.4</span></li>
+                    <li><span class="formula">Diesel: η = 1 - (1/r^(γ-1)) × [(r_c^γ - 1)/(γ(r_c - 1))]</span> (r_c = cut-off ratio) <span class="tooltip">r_c = cut-off ratio</span></li>
+                    <li><span class="formula">Brayton: η = 1 - (1/r_p^((γ-1)/γ))</span> (r_p = pressure ratio) <span class="tooltip">r_p = pressure ratio</span></li>
+                    <li><span class="formula">r = V_total / V_clearance</span> (compression ratio) <span class="tooltip">V_total, V_clearance = volumes (m³)</span></li>
+                    <li><span class="formula">r_c = V_cut-off / V_clearance</span> (cut-off ratio, Diesel) <span class="tooltip">V_cut-off, V_clearance = volumes (m³)</span></li>
+                </ul>
 
-    <h2>Electro-Mechanical</h2>
-    <ul>
-        <li><span class="formula">P = VI cosφ</span> (electrical power: V = voltage, I = current, cosφ = power factor)</li>
-        <li><span class="formula">P_mech = Tω</span> (mechanical power, motor: T = torque, ω = angular velocity)</li>
-        <li><span class="formula">η = (P_out / P_in) × 100</span> (motor efficiency: P_out = P_mech, P_in = P_elec)</li>
-        <li><span class="formula">η = (P_elec / P_mech) × 100</span> (generator efficiency)</li>
-        <li><span class="formula">T = (P × 60) / (2πN)</span> (torque: P = power in watts, N = RPM)</li>
-        <li><span class="formula">E_b = V - I_a R_a</span> (back EMF, DC motor: V = applied voltage, I_a = armature current, R_a = armature resistance)</li>
-        <li><span class="formula">N_s = (120f) / p</span> (synchronous speed, AC motor: f = frequency in Hz, p = number of poles)</li>
-        <li><span class="formula">P_cu = I²R</span> (copper loss: I = current, R = resistance)</li>
-        <li><span class="formula">s = (N_s - N_r) / N_s</span> (slip, induction motor: N_s = synchronous speed, N_r = rotor speed)</li>
-        <li><span class="formula">C = (P (tanφ₁ - tanφ₂)) / (2πf V²)</span> (power factor correction: C = capacitance, P = power, φ₁/φ₂ = initial/final phase angles)</li>
-    </ul>
+                <h3>Work and Power</h3>
+                <ul>
+                    <li><span class="formula">W = Q_in - Q_out</span> (work output: Q_in = heat added, Q_out = heat rejected) <span class="tooltip">Q_in, Q_out = heat (J)</span></li>
+                    <li><span class="formula">P = W/t</span> or <span class="formula">P = Tω</span> (power output: T = torque, ω = angular velocity, rad/s) <span class="tooltip">W = work (J), T = torque (Nm)</span></li>
+                    <li><span class="formula">IP = (P_m × L × A × N × n)/(60)</span> (indicated power: P_m = mean effective pressure, L = stroke length, A = piston area, N = RPM, n = number of cylinders; for 4-stroke, divide by 2) <span class="tooltip">P_m = pressure (Pa), L = length (m)</span></li>
+                    <li><span class="formula">BP = (2πNT)/60</span> (brake power: N = RPM, T = brake torque) <span class="tooltip">N = RPM, T = torque (Nm)</span></li>
+                    <li><span class="formula">MEP = W_net / V_d</span> (mean effective pressure: V_d = displacement volume) <span class="tooltip">W_net = net work (J), V_d = volume (m³)</span></li>
+                </ul>
 
-    <h2>Industrial Boiler</h2>
-    <ul>
-        <li><span class="formula">η_b = (m_s (h_s - h_f)) / (m_f × CV)</span> (thermal efficiency: m_s = steam mass, h_s = steam enthalpy, h_f = feedwater enthalpy, m_f = fuel mass, CV = calorific value)</li>
-        <li><span class="formula">η_overall = (Steam energy output / Fuel energy input) × 100</span> (overall efficiency)</li>
-        <li><span class="formula">Q = m_f × CV</span> (heat supplied)</li>
-        <li><span class="formula">Q_loss = m_g × C_p × (T_g - T_a)</span> (heat loss, flue gas: m_g = flue gas mass, C_p = specific heat, T_g = flue gas temperature, T_a = ambient temperature)</li>
-        <li><span class="formula">E = (m_s (h_s - h_f)) / 2257</span> (equivalent evaporation: 2257 kJ/kg = latent heat of steam at 100°C, 1 atm)</li>
-        <li><span class="formula">Capacity = m_s / t</span> (boiler capacity: kg/s or kg/h)</li>
-        <li><span class="formula">ΔP = h × ρ × g</span> (draft pressure: h = chimney height, ρ = air density, g = 9.8 m/s²)</li>
-        <li><span class="formula">m_f = (m_s (h_s - h_f)) / (η_b × CV)</span> (fuel consumption rate)</li>
-    </ul>
+                <h3>Efficiency Metrics</h3>
+                <ul>
+                    <li><span class="formula">η_mech = BP/IP</span> (mechanical efficiency) <span class="tooltip">BP = brake power (W), IP = indicated power (W)</span></li>
+                    <li><span class="formula">η_th = W/Q_in</span> (thermal efficiency) <span class="tooltip">W = work (J), Q_in = heat input (J)</span></li>
+                    <li><span class="formula">SFC = Fuel consumption (kg/h) / BP (kW)</span> (specific fuel consumption) <span class="tooltip">Fuel consumption (kg/h), BP (kW)</span></li>
+                </ul>
+            </div>
+        </div>
 
-    <h2>Estimating and Costing</h2>
-    <ul>
-        <li><span class="formula">Q_be = FC / (P - VC)</span> (break-even point, units: FC = fixed cost, P = selling price per unit, VC = variable cost per unit)</li>
-        <li><span class="formula">S_be = FC / (1 - (VC/P))</span> (break-even sales, value)</li>
-        <li><span class="formula">ROI = (Net Profit / Investment) × 100</span> (return on investment)</li>
-        <li><span class="formula">NP = TR - TC</span> (net profit: TR = total revenue, TC = total cost)</li>
-        <li><span class="formula">D = (C - S) / n</span> (straight-line depreciation: C = initial cost, S = salvage value, n = useful life in years)</li>
-        <li><span class="formula">R = D / C × 100</span> (annual depreciation rate)</li>
-        <li><span class="formula">TC = FC + VC × Q</span> (total cost: Q = quantity produced)</li>
-        <li><span class="formula">WC = Current Assets - Current Liabilities</span> (working capital)</li>
-        <li><span class="formula">A = P / [(1 - (1 + r)^(-n)) / r]</span> (amortization: P = principal, r = interest rate, n = periods)</li>
-        <li><span class="formula">CM = P - VC</span> (contribution margin)</li>
-        <li><span class="formula">PM = (NP / TR) × 100</span> (profit margin)</li>
-    </ul>
+        <div class="section">
+            <h2>⚡️ Electro-Mechanical</h2>
+            <div class="content">
+                <ul>
+                    <li><span class="formula">P = VI cosφ</span> (electrical power: V = voltage, I = current, cosφ = power factor) <span class="tooltip">V = voltage (V), I = current (A)</span></li>
+                    <li><span class="formula">P_mech = Tω</span> (mechanical power, motor: T = torque, ω = angular velocity) <span class="tooltip">T = torque (Nm), ω = rad/s</span></li>
+                    <li><span class="formula">η = (P_out / P_in) × 100</span> (motor efficiency: P_out = P_mech, P_in = P_elec) <span class="tooltip">P_out, P_in = power (W)</span></li>
+                    <li><span class="formula">η = (P_elec / P_mech) × 100</span> (generator efficiency) <span class="tooltip">P_elec, P_mech = power (W)</span></li>
+                    <li><span class="formula">T = (P × 60) / (2πN)</span> (torque: P = power in watts, N = RPM) <span class="tooltip">P = power (W), N = RPM</span></li>
+                    <li><span class="formula">E_b = V - I_a R_a</span> (back EMF, DC motor: V = applied voltage, I_a = armature current, R_a = armature resistance) <span class="tooltip">V = voltage (V), I_a = current (A)</span></li>
+                    <li><span class="formula">N_s = (120f) / p</span> (synchronous speed, AC motor: f = frequency in Hz, p = number of poles) <span class="tooltip">f = frequency (Hz), p = poles</span></li>
+                    <li><span class="formula">P_cu = I²R</span> (copper loss: I = current, R = resistance) <span class="tooltip">I = current (A), R = resistance (Ω)</span></li>
+                    <li><span class="formula">s = (N_s - N_r) / N_s</span> (slip, induction motor: N_s = synchronous speed, N_r = rotor speed) <span class="tooltip">N_s, N_r = speeds (RPM)</span></li>
+                    <li><span class="formula">C = (P (tanφ₁ - tanφ₂)) / (2πf V²)</span> (power factor correction: C = capacitance, P = power, φ₁/φ₂ = initial/final phase angles) <span class="tooltip">C = capacitance (F), P = power (W)</span></li>
+                </ul>
+            </div>
+        </div>
 
-    <h2>Machine Drawing</h2>
-    <ul>
-        <li><span class="formula">T = Upper Limit - Lower Limit</span> (tolerance range)</li>
-        <li><span class="formula">C = Hole Dimension - Shaft Dimension</span> (fit clearance, for clearance fit)</li>
-        <li><span class="formula">A = πr²</span> (area of circle, for isometric views)</li>
-    </ul>
+        <div class="section">
+            <h2>🏭 Industrial Boiler</h2>
+            <div class="content">
+                <ul>
+                    <li><span class="formula">η_b = (m_s (h_s - h_f)) / (m_f × CV)</span> (thermal efficiency: m_s = steam mass, h_s = steam enthalpy, h_f = feedwater enthalpy, m_f = fuel mass, CV = calorific value) <span class="tooltip">m_s, m_f = mass (kg), h_s, h_f = enthalpy (kJ/kg)</span></li>
+                    <li><span class="formula">η_overall = (Steam energy output / Fuel energy input) × 100</span> (overall efficiency) <span class="tooltip">Energy in kJ</span></li>
+                    <li><span class="formula">Q = m_f × CV</span> (heat supplied) <span class="tooltip">m_f = fuel mass (kg), CV = calorific value (kJ/kg)</span></li>
+                    <li><span class="formula">Q_loss = m_g × C_p × (T_g - T_a)</span> (heat loss, flue gas: m_g = flue gas mass, C_p = specific heat, T_g = flue gas temperature, T_a = ambient temperature) <span class="tooltip">m_g = mass (kg), C_p = specific heat (kJ/kg.K)</span></li>
+                    <li><span class="formula">E = (m_s (h_s - h_f)) / 2257</span> (equivalent evaporation: 2257 kJ/kg = latent heat of steam at 100°C, 1 atm) <span class="tooltip">m_s = steam mass (kg), h_s, h_f = enthalpy (kJ/kg)</span></li>
+                    <li><span class="formula">Capacity = m_s / t</span> (boiler capacity: kg/s or kg/h) <span class="tooltip">m_s = steam mass (kg), t = time (s or h)</span></li>
+                    <li><span class="formula">ΔP = h × ρ × g</span> (draft pressure: h = chimney height, ρ = air density, g = 9.8 m/s²) <span class="tooltip">h = height (m), ρ = density (kg/m³)</span></li>
+                    <li><span class="formula">m_f = (m_s (h_s - h_f)) / (η_b × CV)</span> (fuel consumption rate) <span class="tooltip">m_s, m_f = mass (kg), η_b = efficiency</span></li>
+                </ul>
+            </div>
+        </div>
 
+        <div class="section">
+            <h2>💰 Estimating and Costing</h2>
+            <div class="content">
+                <ul>
+                    <li><span class="formula">Q_be = FC / (P - VC)</span> (break-even point, units: FC = fixed cost, P = selling price per unit, VC = variable cost per unit) <span class="tooltip">FC, P, VC = costs ($)</span></li>
+                    <li><span class="formula">S_be = FC / (1 - (VC/P))</span> (break-even sales, value) <span class="tooltip">FC, VC, P = costs ($)</span></li>
+                    <li><span class="formula">ROI = (Net Profit / Investment) × 100</span> (return on investment) <span class="tooltip">Net Profit, Investment = $</span></li>
+                    <li><span class="formula">NP = TR - TC</span> (net profit: TR = total revenue, TC = total cost) <span class="tooltip">TR, TC = $</span></li>
+                    <li><span class="formula">D = (C - S) / n</span> (straight-line depreciation: C = initial cost, S = salvage value, n = useful life in years) <span class="tooltip">C, S = $, n = years</span></li>
+                    <li><span class="formula">R = D / C × 100</span> (annual depreciation rate) <span class="tooltip">D = depreciation ($), C = cost ($)</span></li>
+                    <li><span class="formula">TC = FC + VC × Q</span> (total cost: Q = quantity produced) <span class="tooltip">FC, VC = costs ($), Q = units</span></li>
+                    <li><span class="formula">WC = Current Assets - Current Liabilities</span> (working capital) <span class="tooltip">Assets, Liabilities = $</span></li>
+                    <li><span class="formula">A = P / [(1 - (1 + r)^(-n)) / r]</span> (amortization: P = principal, r = interest rate, n = periods) <span class="tooltip">P = principal ($), r = rate</span></li>
+                    <li><span class="formula">CM = P - VC</span> (contribution margin) <span class="tooltip">P, VC = costs ($ per unit)</span></li>
+                    <li><span class="formula">PM = (NP / TR) × 100</span> (profit margin) <span class="tooltip">NP = net profit ($), TR = revenue ($)</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📏 Machine Drawing</h2>
+            <div class="content">
+                <ul>
+                    <li><span class="formula">T = Upper Limit - Lower Limit</span> (tolerance range) <span class="tooltip">Limits in mm</span></li>
+                    <li><span class="formula">C = Hole Dimension - Shaft Dimension</span> (fit clearance, for clearance fit) <span class="tooltip">Dimensions in mm</span></li>
+                    <li><span class="formula">A = πr²</span> (area of circle, for isometric views) <span class="tooltip">r = radius (m)</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="links">
+        <a href="quiz-portal.html">Quiz Portal</a>
+        <a href="mock-tests.html">Mock Test List</a>
+        <a href="mock-page.html">Formula Quiz (50 MCQs)</a>
+        <a href="#" onclick="alert('Download functionality requires a backend. Save as HTML or print to PDF.')">Download PDF</a>
+    </div>
+
+    <div class="exam-tips">
+        <h2>Exam Preparation Tips</h2>
+        <ul>
+            <li>Memorize key formulas (e.g., F = ma, η = 1 - T_cold/T_hot) using the quick reference table.</li>
+            <li>Practice numerical MCQs daily via the Formula Quiz link (50 MCQs, 60 minutes).</li>
+            <li>Highlight critical formulas (click to highlight) for quick review before the exam.</li>
+            <li>Focus on high-weightage topics: Applied Mechanics (25%), Thermodynamics (15%).</li>
+            <li>Use the search bar to find formulas (e.g., “Carnot” or “break-even”) during revision.</li>
+        </ul>
+    </div>
+
+    <footer>
+        © 2025 BerlinNeverDie | Formula List for Nepal PSC Mechanical Engineering Exam
+    </footer>
 </body>
 </html>
