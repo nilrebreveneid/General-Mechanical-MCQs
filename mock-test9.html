@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test 9 – 50 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+    }
+
+    .question p {
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    #skipped-list {
+      margin-top: 2rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test 9 – 50 Questions</h1>
+    <div id="quiz"></div>
+    <div id="score"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+  <script>
+const questions = [
+  // Applied Mechanics (13 MCQs)
+  { q: "The work done is said to be zero when:", 
+    options: ["Force acts on a body, but displacement takes place", "No force acts on a body, but displacement is zero", "Force and displacement are perpendicular", "All of the above"], 
+    answer: 3 },
+  { q: "Which law states Energy can neither be created nor destroyed:", 
+    options: ["Newton’s first law", "First law of thermodynamics", "Newton’s third law", "Law of conservation of momentum"], 
+    answer: 1 },
+  { q: "In a couple, the lines of action of the forces are:", 
+    options: ["Perpendicular", "Parallel", "Collinear", "Intersecting"], 
+    answer: 1 },
+  { q: "On a ladder leaning against a smooth vertical wall, the friction acts:", 
+    options: ["Zero at its upper end", "Upward at its upper end", "Downward at its lower end", "Perpendicular at its middle"], 
+    answer: 0 },
+  { q: "Effect of a force on a body depends upon:", 
+    options: ["Magnitude", "All of the above", "Direction", "Point of application"], 
+    answer: 1 },
+  { q: "A rigid body is in a stable equilibrium if the application of any force:", 
+    options: ["Can raise the CG of the body but cannot lower it", "Tends to lower the CG of the body", "Has no effect on CG", "Rotates the body"], 
+    answer: 0 },
+  { q: "FPS unit ‘Pound’ is the unit to measure:", 
+    options: ["Length", "Weight", "Force", "Mass"], 
+    answer: 1 },
+  { q: "The center of gravity of a plane lamina will not be at its geometric center if it is a:", 
+    options: ["Rectangle", "Right-angled triangle", "Circle", "Square"], 
+    answer: 1 },
+  { q: "Force acting on 1 gram mass creating 1 cm/sec² acceleration is called:", 
+    options: ["Horsepower", "Dyne", "Newton", "Watt"], 
+    answer: 1 },
+  { q: "Non-coplanar forces are those which:", 
+    options: ["Coplanar concurrent forces", "Do not lie in the same plane", "Are parallel", "Intersect at one point"], 
+    answer: 1 },
+  { q: "Which situation is a projectile?", 
+    options: ["Lifting of a bag", "Throwing of a cricket ball", "Pushing a cart", "Dropping a stone"], 
+    answer: 1 },
+  { q: "Resultant of two forces P and Q (P > Q) in opposite direction is:", 
+    options: ["P + Q", "P - Q", "Q - P", "P × Q"], 
+    answer: 1 },
+  { q: "Young’s modulus of elasticity of a perfectly plastic body is:", 
+    options: ["One", "Zero", "Infinite", "Negative"], 
+    answer: 1 },
+
+  // Thermodynamics (8 MCQs)
+  { q: "In an isothermal process:", 
+    options: ["There is no change in enthalpy", "All of the above", "Temperature is constant", "Pressure is constant"], 
+    answer: 1 },
+  { q: "Which characteristic does not change in a reversible isothermal process?", 
+    options: ["Enthalpy", "Entropy", "Internal energy", "Temperature"], 
+    answer: 1 },
+  { q: "For any natural process, the entropy change would be:", 
+    options: ["Negative", "Positive", "Zero", "Infinite"], 
+    answer: 1 },
+  { q: "Which laws apply to behavior of perfect gas?", 
+    options: ["Boyle’s law", "Both Boyle’s law and Charles’s law", "Avogadro’s law", "Graham’s law"], 
+    answer: 1 },
+  { q: "Increase in entropy of a system means:", 
+    options: ["Increase in availability of energy", "Degradation of energy", "Conservation of energy", "Reduction of energy"], 
+    answer: 1 },
+  { q: "Step 2 in Carnot cycle is:", 
+    options: ["Isentropic compression", "Isentropic expansion", "Isothermal expansion", "Isothermal compression"], 
+    answer: 1 },
+  { q: "As octane number increases, knocking tendency of petrol engine:", 
+    options: ["Increases", "Decreases", "Remains same", "Becomes unpredictable"], 
+    answer: 1 },
+  { q: "Closeness of measured value to true value is:", 
+    options: ["Precision", "Accuracy", "Error", "Reliability"], 
+    answer: 1 },
+
+  // Machine Drawing (7 MCQs)
+  { q: "A projection that shows three faces of an object equally is called:", 
+    options: ["Isometric projection", "Orthographic projection", "Perspective projection", "Oblique projection"], 
+    answer: 0 },
+  { q: "Which CAD command is used to copy objects?", 
+    options: ["COPY", "MIRROR", "MOVE", "ROTATE"], 
+    answer: 0 },
+  { q: "What is a taper in machine drawing?", 
+    options: ["Gradual reduction in diameter", "Notch in shaft", "Threaded portion", "Flat surface"], 
+    answer: 0 },
+  { q: "The projection method used in Nepal is:", 
+    options: ["First angle", "Third angle", "Second angle", "Fourth angle"], 
+    answer: 0 },
+  { q: "Which drawing is used for manufacturing individual parts?", 
+    options: ["Detail drawing", "Assembly drawing", "Exploded drawing", "Isometric drawing"], 
+    answer: 0 },
+  { q: "Which instrument is used for measuring angle?", 
+    options: ["Protractor", "Divider", "Compass", "Ruler"], 
+    answer: 0 },
+  { q: "Which type of line is particular to section drawings?", 
+    options: ["Break lines", "Cutting plane lines", "Hidden lines", "Center lines"], 
+    answer: 1 },
+
+  // Electro-Mechanical (3 MCQs)
+  { q: "When you use left-hand rule for generators, what is indicated by the middle finger?", 
+    options: ["Direction of current flow", "Direction of the magnetic field", "Direction of motion", "Direction of force"], 
+    answer: 0 },
+  { q: "A machine that converts mechanical energy into electrical energy is known as:", 
+    options: ["A.C. generator", "D.C. motor", "Transformer", "Rectifier"], 
+    answer: 0 },
+  { q: "What part of a generator/motor ensures current direction control?", 
+    options: ["Commutator", "Brushless ring", "Slip ring", "Armature"], 
+    answer: 0 },
+
+  // Industrial Boiler (5 MCQs)
+  { q: "Water can't come out due to:", 
+    options: ["Steam stop valve", "Blow off valve", "Feed check valve", "Safety valve"], 
+    answer: 0 },
+  { q: "Feed water in economizer is heated by:", 
+    options: ["Fresh steam of the turbine", "Waste flue gas", "Burning coal", "Electric heater"], 
+    answer: 1 },
+  { q: "Cochran boiler is:", 
+    options: ["Horizontal water tube type", "Horizontal fire tube type", "Vertical water tube type", "Vertical fire tube type"], 
+    answer: 1 },
+  { q: "Safe boiler operation fittings:", 
+    options: ["Water level indicator", "All of the above", "Pressure gauge", "Safety valve"], 
+    answer: 1 },
+  { q: "Which coal has the highest calorific value?", 
+    options: ["Anthracite coal", "Bituminous coal", "Lignite coal", "Peat coal"], 
+    answer: 0 },
+
+  // Heat Engines (5 MCQs)
+  { q: "Air standard efficiency of Otto cycle depends on?", 
+    options: ["Compression ratio", "Stroke length", "Fuel type", "Engine speed"], 
+    answer: 0 },
+  { q: "Diesel cycle consists of how many processes?", 
+    options: ["Four", "Three", "Two", "Five"], 
+    answer: 0 },
+  { q: "Scavenging is used in?", 
+    options: ["Two stroke engines", "Four stroke engines", "Steam engines", "Jet engines"], 
+    answer: 0 },
+  { q: "What is the difference between steam engine and automotive engine?", 
+    options: ["Automotive engines work on the Otto cycle, whereas steam engines work on the Rankine cycle", "Automotive engines are I.C. Engine, whereas steam engines are external combustion engine", "Steam engines are more efficient", "Automotive engines use steam"], 
+    answer: 1 },
+  { q: "A 4-stroke petrol engine is:", 
+    options: ["Diesel engine", "An internal combustion engine", "External combustion engine", "Steam engine"], 
+    answer: 1 },
+
+  // Industrial Management (6 MCQs)
+  { q: "Occupational safety, health, and welfare of workers are governed by:", 
+    options: ["Industrial Act", "Labour Act", "Trade Union Act", "Factory Act"], 
+    answer: 1 },
+  { q: "ICAO is:", 
+    options: ["A government organization", "A specialized agency of UN", "A private aviation company", "A regional aviation authority"], 
+    answer: 1 },
+  { q: "What stands for ILO in the field of industrial management?", 
+    options: ["International Labor Organization", "Internal Labor Order", "Industrial Law Office", "International Logistics Organization"], 
+    answer: 0 },
+  { q: "What is the purpose of ventilation in industries?", 
+    options: ["To cater for adequate supply of oxygen/air for respiration", "To provide thermal comfort", "To remove contaminants", "All of the above"], 
+    answer: 3 },
+  { q: "In which of the following condition, human sweats more?", 
+    options: ["Relative humidity 0%", "Relative humidity 50%", "Relative humidity 20%", "Relative humidity 80%"], 
+    answer: 1 },
+  { q: "What is the function of ICAO?", 
+    options: ["Codify principles of international air navigation", "Foster the planning and development of international air transport", "Regulate airline pricing", "All of the above"], 
+    answer: 1 },
+
+  // Estimating and Costing (3 MCQs)
+  { q: "Depreciation of machines is categorized under the head:", 
+    options: ["Direct expenses", "Indirect expenses", "Fixed costs", "Variable costs"], 
+    answer: 1 },
+  { q: "A cost that has already been made and cannot be recovered is called:", 
+    options: ["Fixed cost", "Sunk cost", "Variable cost", "Opportunity cost"], 
+    answer: 1 },
+  { q: "A book published by manufacturers containing parts, numbers and diagrams is called:", 
+    options: ["Service manual", "Owner’s manual", "Technical manual", "All of the above"], 
+    answer: 1 }
+];
+    questions.sort(() => Math.random() - 0.5);
+
+    let current = 0;
+    let score = 0;
+    let skipped = [];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+
+    function showQuestion(index) {
+      const q = questions[index];
+      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
+      quizEl.innerHTML = `
+        <div class="question">
+          <p>Q${index + 1}. ${q.q}</p>
+          <div class="options">${options}</div>
+          <button onclick="skipQuestion()">Skip</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === correct) btn.classList.add("correct");
+        if (i === selected && i !== correct) btn.classList.add("wrong");
+      });
+      if (selected === correct) score++;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion(current);
+        } else {
+          endQuiz();
+        }
+      }, 3000);
+    }
+
+    function skipQuestion() {
+      skipped.push(questions[current]);
+      current++;
+      if (current < questions.length) {
+        showQuestion(current);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    showQuestion(current);
+  </script>
+</body>
+
+</html>
