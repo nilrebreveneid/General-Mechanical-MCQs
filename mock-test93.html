@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test 12 – 50 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+    }
+
+    .question p {
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    #skipped-list {
+      margin-top: 2rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test 12 – 50 Questions</h1>
+    <div id="quiz"></div>
+    <div id="score"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+  <script>
+    const questions = [
+  // Applied Mechanics (13 MCQs)
+  { q: "The ratio of limiting friction to normal reaction is called:", 
+    options: ["Coefficient of friction", "Angle of friction", "Frictional force", "Normal force"], 
+    answer: 0 },
+  { q: "The principle of transmissibility of forces states that:", 
+    options: ["Force can be moved along its line of action", "Force can be moved perpendicularly", "Force cannot be moved", "Force changes magnitude"], 
+    answer: 0 },
+  { q: "The unit of angular acceleration is:", 
+    options: ["rad/s²", "m/s²", "rad/s", "deg/s"], 
+    answer: 0 },
+  { q: "The centroid of a semicircle lies at:", 
+    options: ["4r/(3π) from the diameter", "r/2 from the diameter", "2r/π from the diameter", "r from the diameter"], 
+    answer: 0 },
+  { q: "The work done by a constant force is:", 
+    options: ["Force times displacement in the direction of force", "Force divided by displacement", "Force times velocity", "Force divided by time"], 
+    answer: 0 },
+  { q: "The angular momentum of a body is:", 
+    options: ["Moment of inertia times angular velocity", "Mass times linear velocity", "Force times distance", "Energy times time"], 
+    answer: 0 },
+  { q: "The condition for equilibrium of a body under coplanar forces is:", 
+    options: ["Sum of forces and moments is zero", "Sum of forces is non-zero", "Sum of moments is non-zero", "Forces are parallel"], 
+    answer: 0 },
+  { q: "The bulk modulus of a material measures:", 
+    options: ["Resistance to volume change", "Resistance to shear", "Resistance to bending", "Resistance to twisting"], 
+    answer: 0 },
+  { q: "The time of flight of a projectile depends on:", 
+    options: ["Initial vertical velocity", "Horizontal velocity", "Mass of the projectile", "Shape of the projectile"], 
+    answer: 0 },
+  { q: "The moment of a force about a point is:", 
+    options: ["Force times perpendicular distance", "Force divided by distance", "Force times angle", "Force times area"], 
+    answer: 0 },
+  { q: "The viscosity of a fluid is a measure of:", 
+    options: ["Resistance to flow", "Density of the fluid", "Compressibility of the fluid", "Surface tension"], 
+    answer: 0 },
+  { q: "The escape velocity from Earth’s surface is:", 
+    options: ["11.2 km/s", "7.8 km/s", "9.8 km/s", "15 km/s"], 
+    answer: 0 },
+  { q: "The principle of virtual work is used to:", 
+    options: ["Analyze equilibrium of systems", "Calculate kinetic energy", "Determine frictional forces", "Measure angular velocity"], 
+    answer: 0 },
+
+  // Thermodynamics (8 MCQs)
+  { q: "The Gibbs free energy of a system is defined as:", 
+    options: ["Enthalpy minus temperature times entropy", "Internal energy plus work", "Entropy plus pressure", "Heat minus work"], 
+    answer: 0 },
+  { q: "The isentropic process is characterized by:", 
+    options: ["Constant entropy", "Constant temperature", "Constant pressure", "Constant volume"], 
+    answer: 0 },
+  { q: "The Boyle’s law is applicable to:", 
+    options: ["Ideal gases at constant temperature", "Real gases at high pressure", "Liquids at constant volume", "Gases at constant pressure"], 
+    answer: 0 },
+  { q: "The efficiency of a reversible heat engine is always:", 
+    options: ["Greater than an irreversible engine", "Equal to an irreversible engine", "Less than an irreversible engine", "Zero"], 
+    answer: 0 },
+  { q: "The Charles’ law states that:", 
+    options: ["Volume is proportional to temperature at constant pressure", "Pressure is proportional to temperature", "Volume is inversely proportional to pressure", "Pressure is inversely proportional to volume"], 
+    answer: 0 },
+  { q: "The latent heat of vaporization is the heat required to:", 
+    options: ["Change liquid to gas at constant temperature", "Raise the temperature of a liquid", "Change solid to liquid", "Cool a gas"], 
+    answer: 0 },
+  { q: "The critical point of a substance is where:", 
+    options: ["Liquid and gas phases are indistinguishable", "Solid and liquid phases merge", "Gas and solid phases merge", "All phases coexist"], 
+    answer: 0 },
+  { q: "The first law of thermodynamics is a statement of:", 
+    options: ["Conservation of energy", "Conservation of entropy", "Conservation of momentum", "Conservation of mass"], 
+    answer: 0 },
+
+  // Machine Drawing (7 MCQs)
+  { q: "The purpose of a tolerance in a drawing is to:", 
+    options: ["Specify allowable deviations", "Show hidden lines", "Indicate material type", "Show assembly sequence"], 
+    answer: 0 },
+  { q: "A chamfer in machine drawing refers to:", 
+    options: ["Beveled edge", "Rounded corner", "Threaded surface", "Flat surface"], 
+    answer: 0 },
+  { q: "The scale 1:2 in a drawing means:", 
+    options: ["Drawing is half the size of the object", "Drawing is double the size", "Drawing is same size", "Drawing is one-fourth the size"], 
+    answer: 0 },
+  { q: "The purpose of an auxiliary view is to:", 
+    options: ["Show true shape of inclined surfaces", "Show hidden lines", "Indicate center lines", "Show sectional views"], 
+    answer: 0 },
+  { q: "The symbol for a spot weld is:", 
+    options: ["Filled circle at junction", "Arrow with tail", "Triangle with dot", "Square with cross"], 
+    answer: 0 },
+  { q: "The purpose of a bill of materials is to:", 
+    options: ["List parts and quantities", "Show assembly sequence", "Indicate scale", "Show tolerances"], 
+    answer: 0 },
+  { q: "The third angle projection places the top view:", 
+    options: ["Above the front view", "Below the front view", "Beside the front view", "Behind the side view"], 
+    answer: 0 },
+
+  // Electro-Mechanical (3 MCQs)
+  { q: "The main function of a slip ring in an AC motor is to:", 
+    options: ["Transmit current to the rotor", "Convert AC to DC", "Increase motor speed", "Reduce electrical resistance"], 
+    answer: 0 },
+  { q: "The starting torque of an induction motor is maximum when:", 
+    options: ["Rotor resistance is high", "Rotor resistance is low", "Stator voltage is low", "Frequency is high"], 
+    answer: 0 },
+  { q: "The purpose of a circuit breaker is to:", 
+    options: ["Protect against overcurrent", "Increase voltage", "Convert AC to DC", "Reduce power consumption"], 
+    answer: 0 },
+
+  // Industrial Boiler (5 MCQs)
+  { q: "The function of an air preheater in a boiler is to:", 
+    options: ["Heat incoming air", "Cool the flue gases", "Reduce steam pressure", "Increase water flow"], 
+    answer: 0 },
+  { q: "The main purpose of a steam trap is to:", 
+    options: ["Remove condensate from steam lines", "Increase steam pressure", "Cool the steam", "Regulate fuel supply"], 
+    answer: 0 },
+  { q: "The type of boiler best suited for high-pressure applications is:", 
+    options: ["Water tube boiler", "Fire tube boiler", "Electric boiler", "Low-pressure boiler"], 
+    answer: 0 },
+  // Generated questions
+  { q: "The function of a feedwater heater in a boiler is to:", 
+    options: ["Preheat water before entering the boiler", "Cool the steam", "Increase fuel combustion", "Reduce air intake"], 
+    answer: 0 },
+  { q: "The main purpose of a boiler drum is to:", 
+    options: ["Separate steam from water", "Store fuel", "Increase air flow", "Cool the flue gases"], 
+    answer: 0 },
+
+  // Heat Engines (5 MCQs)
+  { q: "The function of a spark plug in a petrol engine is to:", 
+    options: ["Ignite the air-fuel mixture", "Cool the combustion chamber", "Regulate fuel flow", "Increase air intake"], 
+    answer: 0 },
+  { q: "The main advantage of a four-stroke engine over a two-stroke is:", 
+    options: ["Higher fuel efficiency", "Higher power output", "Simpler design", "Lower cost"], 
+    answer: 0 },
+  { q: "The purpose of an exhaust manifold is to:", 
+    options: ["Collect exhaust gases", "Increase fuel efficiency", "Cool the engine", "Regulate air intake"], 
+    answer: 0 },
+  // Generated questions
+  { q: "The function of a piston ring in an engine is to:", 
+    options: ["Seal the combustion chamber", "Increase fuel flow", "Cool the piston", "Regulate valve timing"], 
+    answer: 0 },
+  { q: "The main purpose of a crankshaft in an engine is to:", 
+    options: ["Convert linear motion to rotary motion", "Ignite the fuel", "Cool the engine", "Regulate air intake"], 
+    answer: 0 },
+
+  // Industrial Management (6 MCQs)
+  { q: "The purpose of a PERT chart is to:", 
+    options: ["Analyze project timelines", "Calculate production costs", "Train employees", "Develop marketing strategies"], 
+    answer: 0 },
+  { q: "The term ‘lean manufacturing’ refers to:", 
+    options: ["Minimizing waste in production", "Maximizing employee workload", "Increasing inventory levels", "Reducing product quality"], 
+    answer: 0 },
+  { q: "The main function of a human resources department is to:", 
+    options: ["Manage employee relations", "Develop new products", "Increase sales", "Calculate depreciation"], 
+    answer: 0 },
+  { q: "The purpose of a balance sheet is to:", 
+    options: ["Show financial position", "Calculate production costs", "Analyze market trends", "Train employees"], 
+    answer: 0 },
+  { q: "The term ‘six sigma’ refers to:", 
+    options: ["Quality improvement methodology", "Employee training program", "Marketing strategy", "Financial planning"], 
+    answer: 0 },
+  { q: "The main objective of risk management is to:", 
+    options: ["Identify and mitigate risks", "Increase production costs", "Reduce employee turnover", "Develop new products"], 
+    answer: 0 },
+
+  // Estimating and Costing (3 MCQs)
+  // All generated due to depleted dataset
+  { q: "The term ‘fixed cost’ refers to:", 
+    options: ["Costs that remain constant regardless of production", "Costs that vary with production", "Costs of raw materials", "Costs of employee wages"], 
+    answer: 0 },
+  { q: "The purpose of a budget in project management is to:", 
+    options: ["Allocate financial resources", "Increase employee workload", "Develop new products", "Reduce market share"], 
+    answer: 0 },
+  { q: "The term ‘opportunity cost’ refers to:", 
+    options: ["Cost of the next best alternative forgone", "Cost of raw materials", "Cost of employee training", "Cost of advertising"], 
+    answer: 0 }
+];
+    questions.sort(() => Math.random() - 0.5);
+
+    let current = 0;
+    let score = 0;
+    let skipped = [];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+
+    function showQuestion(index) {
+      const q = questions[index];
+      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
+      quizEl.innerHTML = `
+        <div class="question">
+          <p>Q${index + 1}. ${q.q}</p>
+          <div class="options">${options}</div>
+          <button onclick="skipQuestion()">Skip</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === correct) btn.classList.add("correct");
+        if (i === selected && i !== correct) btn.classList.add("wrong");
+      });
+      if (selected === correct) score++;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion(current);
+        } else {
+          endQuiz();
+        }
+      }, 3000);
+    }
+
+    function skipQuestion() {
+      skipped.push(questions[current]);
+      current++;
+      if (current < questions.length) {
+        showQuestion(current);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    showQuestion(current);
+  </script>
+</body>
+
+</html>
