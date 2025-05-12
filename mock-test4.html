@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test 4 – 50 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+    }
+
+    .question p {
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    #skipped-list {
+      margin-top: 2rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test 4 – 50 Questions</h1>
+    <div id="quiz"></div>
+    <div id="score"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+  <script>
+    const questions = [
+      { q: "Efficiency of Carnot cycle depends on:", options: ["Temperature", "Pressure", "Volume", "Mass"], answer: 0 },
+      { q: "Break-even point is where:", options: ["Profit=0", "Revenue=0", "Cost=0", "Loss=0"], answer: 0 },
+      { q: "SI Unit of force is:", options: ["Dyne", "Newton", "Joule", "Pascal"], answer: 1 },
+      { q: "Watt is the SI unit of:", options: ["Energy", "Force", "Power", "Pressure"], answer: 2 },
+      { q: "Which of the following is a scalar quantity?", options: ["Velocity", "Displacement", "Speed", "Acceleration"], answer: 2 },
+      { q: "The center of gravity of a triangle lies at:", options: ["Circumcenter", "Centroid", "Incenter", "Orthocenter"], answer: 1 },
+      { q: "Which one is not a type of valve?", options: ["Gate valve", "Globe valve", "Check valve", "Loop valve"], answer: 3 },
+      { q: "An isometric drawing has all angles equal to:", options: ["60°", "90°", "30°", "45°"], answer: 0 },
+      { q: "The boiling point of water increases with:", options: ["Altitude", "Pressure", "Temperature", "Volume"], answer: 1 },
+      { q: "Which law states PV = Constant?", options: ["Boyle's Law", "Charles's Law", "Avogadro's Law", "Newton's Law"], answer: 0 },
+      { q: "The efficiency of a good boiler is about:", options: ["70%", "80%", "90%", "60%"], answer: 2 },
+      { q: "Welding symbols are placed on:", options: ["Assembly drawing", "Detail drawing", "Both", "None"], answer: 0 },
+      { q: "In a four-stroke engine, power is developed in:", options: ["2 strokes", "Every stroke", "1 stroke", "4 strokes"], answer: 2 },
+      { q: "Which element is not used in a centrifugal pump?", options: ["Impeller", "Shaft", "Piston", "Casing"], answer: 2 },
+      { q: "The purpose of a governor in an engine is to:", options: ["Start engine", "Control speed", "Cool engine", "Increase torque"], answer: 1 },
+      { q: "Milling operation is performed using:", options: ["Single-point tool", "Multi-point tool", "Hammer", "Lathe"], answer: 1 },
+      { q: "Heat energy is transferred by conduction in:", options: ["Solids", "Liquids", "Gases", "Vacuum"], answer: 0 },
+      { q: "Energy stored in a body due to position is:", options: ["Kinetic energy", "Potential energy", "Thermal energy", "Nuclear energy"], answer: 1 },
+      { q: "Which material is most ductile?", options: ["Cast iron", "Copper", "Glass", "Rubber"], answer: 1 },
+      { q: "Draft tube is used in:", options: ["Steam engine", "Centrifugal pump", "Hydraulic turbine", "Compressor"], answer: 2 },
+      { q: "Which of the following is a permanent joint?", options: ["Nut and bolt", "Key joint", "Welded joint", "Pin joint"], answer: 2 },
+      { q: "If net force on object is zero, motion is:", options: ["Accelerated", "Decelerated", "Uniform", "Unstable"], answer: 2 },
+      { q: "Lathe operation used to create screw thread:", options: ["Facing", "Turning", "Threading", "Drilling"], answer: 2 },
+      { q: "Heat transfer from Sun to Earth is:", options: ["Conduction", "Convection", "Radiation", "Diffusion"], answer: 2 },
+      { q: "Drawings for shop floor are called:", options: ["Detailed drawing", "Assembly drawing", "Installation drawing", "Perspective drawing"], answer: 0 },
+      { q: "Boiler accessories include:", options: ["Superheater", "Chimney", "Mud drum", "Baffle"], answer: 0 },
+      { q: "Volumetric efficiency of IC engine is:", options: ["<100%", ">100%", "=100%", "All of above"], answer: 0 },
+      { q: "Condenser is used in:", options: ["Gas turbine", "Boiler", "Refrigerator", "Steam plant"], answer: 3 },
+      { q: "Chimney height depends on:", options: ["Boiler size", "Fuel used", "Draft required", "Steam pressure"], answer: 2 },
+      { q: "Which of these is a fusible alloy?", options: ["Brass", "Solder", "Steel", "Bronze"], answer: 1 },
+      { q: "Principal planes are:", options: ["XY, YZ, ZX", "Isometric planes", "Parallel planes", "Profile planes"], answer: 0 },
+      { q: "Main purpose of condenser is to:", options: ["Increase pressure", "Reduce temperature", "Condense steam", "Save space"], answer: 2 },
+      { q: "Milling cutter has:", options: ["Single edge", "Double edge", "Multiple edges", "No edge"], answer: 2 },
+      { q: "Standard angle for thread is:", options: ["29°", "60°", "90°", "30°"], answer: 1 },
+      { q: "Function of flywheel:", options: ["Increase speed", "Reduce fuel", "Maintain speed", "Absorb vibration"], answer: 2 },
+      { q: "Which component controls governor speed?", options: ["Throttle", "Gear", "Ball", "Spring"], answer: 3 },
+      { q: "Tensile test measures:", options: ["Hardness", "Elasticity", "Toughness", "Ductility"], answer: 3 },
+      { q: "Gear is made by:", options: ["Shaper", "Lathe", "Milling", "Planer"], answer: 2 },
+      { q: "The factor of safety =", options: ["Ultimate/Working", "Yield/Ultimate", "Load/Area", "Stress/Strain"], answer: 0 },
+      { q: "Belt slip causes:", options: ["Speed loss", "Noise", "Power gain", "Cooling"], answer: 0 },
+      { q: "Strength of material is tested using:", options: ["Torsion test", "Bend test", "Impact test", "Tensile test"], answer: 3 },
+      { q: "Number of rivets for a lap joint:", options: ["1", "2", "3", "4"], answer: 1 },
+      { q: "Which pump uses reciprocating motion?", options: ["Centrifugal", "Gear", "Piston", "Jet"], answer: 2 },
+      { q: "Turbine converts:", options: ["Mechanical to electrical", "Hydraulic to mechanical", "Heat to light", "Air to sound"], answer: 1 },
+      { q: "In orthographic view, depth is seen in:", options: ["Front view", "Top view", "Side view", "Isometric"], answer: 1 },
+      { q: "Sketch without scale is:", options: ["Drawing", "Sketch", "Model", "Isometric"], answer: 1 },
+      { q: "Shaft is different from axle in that it:", options: ["Transmits power", "Supports load", "Has no rotation", "Only holds gear"], answer: 0 },
+      { q: "Which cycle has highest efficiency?", options: ["Otto", "Diesel", "Carnot", "Brayton"], answer: 2 },
+      { q: "To calculate power of shaft:", options: ["P = 2πNT/60", "P = VIt", "P = I²R", "P = W/t"], answer: 0 }
+    ];
+
+    questions.sort(() => Math.random() - 0.5);
+
+    let current = 0;
+    let score = 0;
+    let skipped = [];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+
+    function showQuestion(index) {
+      const q = questions[index];
+      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
+      quizEl.innerHTML = `
+        <div class="question">
+          <p>Q${index + 1}. ${q.q}</p>
+          <div class="options">${options}</div>
+          <button onclick="skipQuestion()">Skip</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === correct) btn.classList.add("correct");
+        if (i === selected && i !== correct) btn.classList.add("wrong");
+      });
+      if (selected === correct) score++;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion(current);
+        } else {
+          endQuiz();
+        }
+      }, 3000);
+    }
+
+    function skipQuestion() {
+      skipped.push(questions[current]);
+      current++;
+      if (current < questions.length) {
+        showQuestion(current);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    showQuestion(current);
+  </script>
+</body>
+
+</html>
