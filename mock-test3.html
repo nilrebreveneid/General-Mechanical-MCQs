@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test 3 – 50 MCQs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .quiz-container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .question {
+      margin-bottom: 2rem;
+    }
+    .question p {
+      font-weight: bold;
+    }
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .options button:hover {
+      background: #bbdefb;
+    }
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+    #skipped-list {
+      margin-top: 2rem;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>लोक सेवा आयोग – Mock Test 3 (50 Questions)</h1>
+    <div id="quiz"></div>
+    <div id="score"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+  <script>
+   const questions = [
+  { q: "Efficiency of Carnot cycle depends on:", options: ['Temperature', 'Pressure', 'Volume', 'Mass'], answer: 0 },
+  { q: "Break-even point is where:", options: ['Profit=0', 'Revenue=0', 'Cost=0', 'Loss=0'], answer: 0 },
+  { q: "SI Unit of force is:", options: ['Dyne', 'Newton', 'Joule', 'Pascal'], answer: 1 },
+  { q: "Watt is the SI unit of:", options: ['Energy', 'Force', 'Power', 'Pressure'], answer: 2 },
+  { q: "Break-even point is where:", options: ['Profit=0', 'Revenue=0', 'Cost=0', 'Loss=0'], answer: 0 },
+  { q: "Watt is the SI unit of:", options: ['Energy', 'Force', 'Power', 'Pressure'], answer: 2 },
+  { q: "SI Unit of force is:", options: ['Dyne', 'Newton', 'Joule', 'Pascal'], answer: 1 },
+  { q: "Which is not included in prime cost?", options: ['Direct materials', 'Direct wages', 'Factory overheads', 'Direct expenses'], answer: 2 },
+  { q: "The process with no heat exchange is:", options: ['Isothermal', 'Adiabatic', 'Isobaric', 'Isochoric'], answer: 1 },
+  { q: "Which fuel is used in Lancashire boiler?", options: ['Diesel', 'Coal', 'Wood', 'Kerosene'], answer: 1 },
+  { q: "Which fuel is used in Lancashire boiler?", options: ['Diesel', 'Coal', 'Wood', 'Kerosene'], answer: 1 },
+  { q: "Which is not included in prime cost?", options: ['Direct materials', 'Direct wages', 'Factory overheads', 'Direct expenses'], answer: 2 },
+  { q: "SI Unit of force is:", options: ['Dyne', 'Newton', 'Joule', 'Pascal'], answer: 1 },
+  { q: "The center of gravity of a triangle lies at the intersection of:", options: ['Altitudes', 'Medians', 'Bisectors', 'Diagonals'], answer: 1 },
+  { q: "In four stroke engine, power is produced in:", options: ['1 stroke', '2 strokes', '4 strokes', 'Every stroke'], answer: 0 },
+  { q: "The center of gravity of a triangle lies at the intersection of:", options: ['Altitudes', 'Medians', 'Bisectors', 'Diagonals'], answer: 1 },
+  { q: "Orthographic projection uses:", options: ['Parallel lines', 'Converging lines', 'Curved lines', 'None'], answer: 0 },
+  { q: "Break-even point is where:", options: ['Profit=0', 'Revenue=0', 'Cost=0', 'Loss=0'], answer: 0 },
+  { q: "Watt is the SI unit of:", options: ['Energy', 'Force', 'Power', 'Pressure'], answer: 2 },
+  { q: "Watt is the SI unit of:", options: ['Energy', 'Force', 'Power', 'Pressure'], answer: 2 },
+  { q: "Which fuel is used in Lancashire boiler?", options: ['Diesel', 'Coal', 'Wood', 'Kerosene'], answer: 1 },
+  { q: "Orthographic projection uses:", options: ['Parallel lines', 'Converging lines', 'Curved lines', 'None'], answer: 0 },
+  { q: "The process with no heat exchange is:", options: ['Isothermal', 'Adiabatic', 'Isobaric', 'Isochoric'], answer: 1 },
+  { q: "Break-even point is where:", options: ['Profit=0', 'Revenue=0', 'Cost=0', 'Loss=0'], answer: 0 },
+  { q: "In four stroke engine, power is produced in:", options: ['1 stroke', '2 strokes', '4 strokes', 'Every stroke'], answer: 0 },
+  { q: "The process with no heat exchange is:", options: ['Isothermal', 'Adiabatic', 'Isobaric', 'Isochoric'], answer: 1 },
+  { q: "The center of gravity of a triangle lies at the intersection of:", options: ['Altitudes', 'Medians', 'Bisectors', 'Diagonals'], answer: 1 },
+  { q: "Which fuel is used in Lancashire boiler?", options: ['Diesel', 'Coal', 'Wood', 'Kerosene'], answer: 1 },
+  { q: "Orthographic projection uses:", options: ['Parallel lines', 'Converging lines', 'Curved lines', 'None'], answer: 0 },
+  { q: "Efficiency of Carnot cycle depends on:", options: ['Temperature', 'Pressure', 'Volume', 'Mass'], answer: 0 },
+  { q: "Which device stores electric charge?", options: ['Inductor', 'Capacitor', 'Transistor', 'Resistor'], answer: 1 },
+  { q: "Which device stores electric charge?", options: ['Inductor', 'Capacitor', 'Transistor', 'Resistor'], answer: 1 },
+  { q: "Break-even point is where:", options: ['Profit=0', 'Revenue=0', 'Cost=0', 'Loss=0'], answer: 0 },
+  { q: "In four stroke engine, power is produced in:", options: ['1 stroke', '2 strokes', '4 strokes', 'Every stroke'], answer: 0 },
+  { q: "The center of gravity of a triangle lies at the intersection of:", options: ['Altitudes', 'Medians', 'Bisectors', 'Diagonals'], answer: 1 },
+  { q: "Which device stores electric charge?", options: ['Inductor', 'Capacitor', 'Transistor', 'Resistor'], answer: 1 },
+  { q: "In four stroke engine, power is produced in:", options: ['1 stroke', '2 strokes', '4 strokes', 'Every stroke'], answer: 0 },
+  { q: "Orthographic projection uses:", options: ['Parallel lines', 'Converging lines', 'Curved lines', 'None'], answer: 0 },
+  { q: "Break-even point is where:", options: ['Profit=0', 'Revenue=0', 'Cost=0', 'Loss=0'], answer: 0 },
+  { q: "In four stroke engine, power is produced in:", options: ['1 stroke', '2 strokes', '4 strokes', 'Every stroke'], answer: 0 },
+  { q: "The center of gravity of a triangle lies at the intersection of:", options: ['Altitudes', 'Medians', 'Bisectors', 'Diagonals'], answer: 1 },
+  { q: "Orthographic projection uses:", options: ['Parallel lines', 'Converging lines', 'Curved lines', 'None'], answer: 0 },
+  { q: "Which fuel is used in Lancashire boiler?", options: ['Diesel', 'Coal', 'Wood', 'Kerosene'], answer: 1 },
+  { q: "Efficiency of Carnot cycle depends on:", options: ['Temperature', 'Pressure', 'Volume', 'Mass'], answer: 0 },
+  { q: "Which is not included in prime cost?", options: ['Direct materials', 'Direct wages', 'Factory overheads', 'Direct expenses'], answer: 2 },
+  { q: "Orthographic projection uses:", options: ['Parallel lines', 'Converging lines', 'Curved lines', 'None'], answer: 0 },
+  { q: "The process with no heat exchange is:", options: ['Isothermal', 'Adiabatic', 'Isobaric', 'Isochoric'], answer: 1 },
+  { q: "SI Unit of force is:", options: ['Dyne', 'Newton', 'Joule', 'Pascal'], answer: 1 },
+  { q: "Efficiency of Carnot cycle depends on:", options: ['Temperature', 'Pressure', 'Volume', 'Mass'], answer: 0 },
+  { q: "Orthographic projection uses:", options: ['Parallel lines', 'Converging lines', 'Curved lines', 'None'], answer: 0 },
+];
+
+    let current = 0;
+    let score = 0;
+    let skipped = [];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+
+    function shuffleOptions(options) {
+      for (let i = options.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [options[i], options[j]] = [options[j], options[i]];
+      }
+      return options;
+    }
+
+    function showQuestion(index) {
+      const q = questions[index];
+      const shuffledOptions = shuffleOptions(q.options.map((opt, i) => ({ text: opt, index: i })));
+      const optionsHTML = shuffledOptions
+        .map(opt => `<button onclick="checkAnswer(this, ${opt.index})">${opt.text}</button>`)
+        .join('');
+      quizEl.innerHTML = `
+        <div class="question">
+          <p>Q${index + 1}. ${q.q}</p>
+          <div class="options">${optionsHTML}</div>
+          <button onclick="skipQuestion()">Skip</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
+      });
+      if (selected === correct) score++;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion(current);
+        } else {
+          endQuiz();
+        }
+      }, 800);
+    }
+
+    function skipQuestion() {
+      skipped.push(questions[current]);
+      current++;
+      if (current < questions.length) {
+        showQuestion(current);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    // Placeholder: Next step is to populate `questions` array.
+  </script>
+</body>
+</html>
