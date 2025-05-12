@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test 13 –   Ai gen 50 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+    }
+
+    .question p {
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    #skipped-list {
+      margin-top: 2rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test 13 AI gen – 50 Questions</h1>
+    <div id="quiz"></div>
+    <div id="score"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+  <script>
+ const questions = [
+  // Applied Mechanics (13 MCQs)
+  { q: "The second moment of area is also known as:", 
+    options: ["Moment of inertia", "Radius of gyration", "Polar moment", "Section modulus"], 
+    answer: 0 },
+  { q: "The maximum shear stress in a circular shaft under torsion occurs at:", 
+    options: ["Outer surface", "Center", "Mid-radius", "Quarter-radius"], 
+    answer: 0 },
+  { q: "The bending moment at a point in a beam is the:", 
+    options: ["Sum of moments about that point", "Sum of forces about that point", "Product of force and distance", "Shear force at that point"], 
+    answer: 0 },
+  { q: "The coefficient of restitution for a perfectly elastic collision is:", 
+    options: ["1", "0", "Greater than 1", "Less than 0"], 
+    answer: 0 },
+  { q: "The range of a projectile is maximum when the angle of projection is:", 
+    options: ["45°", "30°", "60°", "90°"], 
+    answer: 0 },
+  { q: "The unit of strain is:", 
+    options: ["Dimensionless", "N/m²", "m/s²", "kg/m³"], 
+    answer: 0 },
+  { q: "The center of gravity of a hollow sphere lies at:", 
+    options: ["Geometric center", "Inner surface", "Outer surface", "Midway between surfaces"], 
+    answer: 0 },
+  { q: "The work-energy principle states that:", 
+    options: ["Work done equals change in kinetic energy", "Work done equals potential energy", "Work done equals total energy", "Work done is zero"], 
+    answer: 0 },
+  { q: "The moment of a couple is independent of:", 
+    options: ["Point of rotation", "Magnitude of forces", "Distance between forces", "Direction of forces"], 
+    answer: 0 },
+  { q: "The Young’s modulus of a material is defined as:", 
+    options: ["Stress divided by strain", "Strain divided by stress", "Force divided by area", "Displacement divided by force"], 
+    answer: 0 },
+  { q: "The angular velocity of a body in uniform circular motion is:", 
+    options: ["Constant", "Variable", "Zero", "Infinite"], 
+    answer: 0 },
+  { q: "The principle of conservation of energy applies to:", 
+    options: ["Isolated systems", "Open systems", "Non-conservative systems", "Systems with friction"], 
+    answer: 0 },
+  { q: "The shear force at a section of a beam is the:", 
+    options: ["Sum of vertical forces on one side", "Sum of horizontal forces", "Moment about the section", "Twisting force"], 
+    answer: 0 },
+
+  // Thermodynamics (8 MCQs)
+  { q: "The Carnot efficiency is given by:", 
+    options: ["1 - (T_cold / T_hot)", "T_hot / T_cold", "T_cold / T_hot", "1 - (T_hot / T_cold)"], 
+    answer: 0 },
+  { q: "The specific heat capacity of a gas at constant volume is:", 
+    options: ["Less than at constant pressure", "Equal to at constant pressure", "Greater than at constant pressure", "Zero"], 
+    answer: 0 },
+  { q: "The entropy change in a reversible adiabatic process is:", 
+    options: ["Zero", "Positive", "Negative", "Infinite"], 
+    answer: 0 },
+  { q: "The ideal gas equation for one mole of gas is:", 
+    options: ["PV = RT", "PV = nRT", "PV = mRT", "PV = T"], 
+    answer: 0 },
+  { q: "The main source of irreversibility in a thermodynamic process is:", 
+    options: ["Friction", "Constant temperature", "Reversible work", "Isothermal expansion"], 
+    answer: 0 },
+  { q: "The enthalpy change in an isochoric process equals:", 
+    options: ["Change in internal energy", "Work done", "Heat rejected", "Change in entropy"], 
+    answer: 0 },
+  { q: "The Kelvin-Planck statement of the second law states:", 
+    options: ["No engine can be 100% efficient", "Energy is conserved", "Entropy is constant", "Heat flows from hot to cold"], 
+    answer: 0 },
+  { q: "The compressibility factor of an ideal gas is:", 
+    options: ["1", "0", "Greater than 1", "Less than 1"], 
+    answer: 0 },
+
+  // Machine Drawing (7 MCQs)
+  { q: "The symbol for a keyway in a drawing is:", 
+    options: ["Rectangle with rounded ends", "Circle with cross", "Triangle with dot", "Square with diagonal"], 
+    answer: 0 },
+  { q: "The purpose of a sectional view is to:", 
+    options: ["Show internal features", "Show external outline", "Indicate tolerances", "Show assembly sequence"], 
+    answer: 0 },
+  { q: "The standard line weight for object lines is:", 
+    options: ["0.7 mm", "0.3 mm", "0.5 mm", "1.0 mm"], 
+    answer: 0 },
+  { q: "The purpose of a revision block in a drawing is to:", 
+    options: ["Record changes to the drawing", "Show material specifications", "Indicate scale", "List part numbers"], 
+    answer: 0 },
+  { q: "The symbol for a countersunk hole is:", 
+    options: ["V-shaped with angle", "U-shaped", "Circular with cross", "Square with dot"], 
+    answer: 0 },
+  { q: "The purpose of a geometric dimensioning and tolerancing (GD&T) symbol is to:", 
+    options: ["Specify precise tolerances", "Show hidden lines", "Indicate material type", "Show sectional views"], 
+    answer: 0 },
+  { q: "The standard angle for isometric projection is:", 
+    options: ["30°", "45°", "60°", "90°"], 
+    answer: 0 },
+
+  // Electro-Mechanical (3 MCQs)
+  { q: "The efficiency of an induction motor is maximum at:", 
+    options: ["Full load", "No load", "Half load", "Overload"], 
+    answer: 0 },
+  { q: "The function of a stator in an electric motor is to:", 
+    options: ["Provide a magnetic field", "Rotate the rotor", "Collect current", "Reduce voltage"], 
+    answer: 0 },
+  { q: "The main advantage of a synchronous motor is:", 
+    options: ["Constant speed", "High starting torque", "Low maintenance", "Small size"], 
+    answer: 0 },
+
+  // Industrial Boiler (5 MCQs)
+  { q: "The function of a manhole in a boiler is to:", 
+    options: ["Allow inspection and cleaning", "Increase steam pressure", "Regulate fuel supply", "Cool the boiler"], 
+    answer: 0 },
+  { q: "The main advantage of a forced draught system in a boiler is:", 
+    options: ["Improved combustion efficiency", "Reduced fuel consumption", "Lower steam pressure", "Smaller boiler size"], 
+    answer: 0 },
+  // Generated questions
+  { q: "The purpose of a steam accumulator in a boiler system is to:", 
+    options: ["Store excess steam", "Cool the flue gases", "Increase fuel combustion", "Reduce water flow"], 
+    answer: 0 },
+  { q: "The main cause of boiler scale formation is:", 
+    options: ["Hard water deposits", "Low steam pressure", "Excessive fuel", "Poor air circulation"], 
+    answer: 0 },
+  { q: "The function of a boiler economizer is to:", 
+    options: ["Preheat feedwater using flue gases", "Increase steam pressure", "Cool the combustion chamber", "Regulate air intake"], 
+    answer: 0 },
+
+  // Heat Engines (5 MCQs)
+  { q: "The air-standard efficiency of an Otto cycle increases with:", 
+    options: ["Higher compression ratio", "Lower compression ratio", "Higher fuel volume", "Lower air intake"], 
+    answer: 0 },
+  { q: "The main function of a carburetor in a petrol engine is to:", 
+    options: ["Mix air and fuel", "Ignite the mixture", "Cool the engine", "Regulate valve timing"], 
+    answer: 0 },
+  // Generated questions
+  { q: "The purpose of a supercharger in an engine is to:", 
+    options: ["Increase air intake pressure", "Reduce exhaust emissions", "Cool the combustion chamber", "Ignite the fuel"], 
+    answer: 0 },
+  { q: "The main cause of engine knocking in a diesel engine is:", 
+    options: ["Delayed ignition", "Excessive fuel", "Low compression ratio", "High exhaust pressure"], 
+    answer: 0 },
+  { q: "The function of a connecting rod in an engine is to:", 
+    options: ["Transfer motion from piston to crankshaft", "Regulate fuel flow", "Cool the engine", "Control valve timing"], 
+    answer: 0 },
+
+  // Industrial Management (6 MCQs)
+  { q: "The main purpose of a work breakdown structure (WBS) is to:", 
+    options: ["Divide project into manageable tasks", "Calculate production costs", "Train employees", "Develop marketing plans"], 
+    answer: 0 },
+  { q: "The term ‘total quality management’ (TQM) refers to:", 
+    options: ["Continuous quality improvement", "Cost reduction strategy", "Employee training program", "Marketing campaign"], 
+    answer: 0 },
+  { q: "The main function of a supply chain manager is to:", 
+    options: ["Optimize logistics and inventory", "Develop new products", "Increase advertising", "Reduce employee turnover"], 
+    answer: 0 },
+  { q: "The purpose of a performance management system is to:", 
+    options: ["Align employee goals with organizational objectives", "Calculate depreciation", "Increase market share", "Develop new technologies"], 
+    answer: 0 },
+  { q: "The main objective of occupational health and safety standards is to:", 
+    options: ["Ensure worker safety", "Reduce production costs", "Increase sales", "Develop new products"], 
+    answer: 0 },
+  { q: "The term ‘benchmarking’ in management refers to:", 
+    options: ["Comparing performance with best practices", "Reducing employee workload", "Increasing inventory levels", "Developing advertising"], 
+    answer: 0 },
+
+  // Estimating and Costing (3 MCQs)
+  // All generated due to depleted dataset
+  { q: "The term ‘marginal cost’ refers to:", 
+    options: ["Cost of producing one additional unit", "Total cost of production", "Fixed cost per unit", "Cost of raw materials"], 
+    answer: 0 },
+  { q: "The main purpose of a cash flow analysis is to:", 
+    options: ["Assess financial liquidity", "Calculate depreciation", "Reduce employee turnover", "Increase market share"], 
+    answer: 0 },
+  { q: "The term ‘break-even analysis’ is used to determine:", 
+    options: ["Point where revenue equals cost", "Maximum profit point", "Minimum production cost", "Employee productivity"], 
+    answer: 0 }
+];
+    questions.sort(() => Math.random() - 0.5);
+
+    let current = 0;
+    let score = 0;
+    let skipped = [];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+
+    function showQuestion(index) {
+      const q = questions[index];
+      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
+      quizEl.innerHTML = `
+        <div class="question">
+          <p>Q${index + 1}. ${q.q}</p>
+          <div class="options">${options}</div>
+          <button onclick="skipQuestion()">Skip</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === correct) btn.classList.add("correct");
+        if (i === selected && i !== correct) btn.classList.add("wrong");
+      });
+      if (selected === correct) score++;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion(current);
+        } else {
+          endQuiz();
+        }
+      }, 3000);
+    }
+
+    function skipQuestion() {
+      skipped.push(questions[current]);
+      current++;
+      if (current < questions.length) {
+        showQuestion(current);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    showQuestion(current);
+  </script>
+</body>
+
+</html>
