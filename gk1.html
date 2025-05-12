@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mock Test Part 2 – 33 MCQs (General Knowledge & Public Management)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .quiz-container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .question p {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .options button:hover {
+      background: #bbdefb;
+    }
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    #navigation {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    #next-btn {
+      padding: 0.75rem 1.5rem;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #next-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    #next-btn:hover:not(:disabled) {
+      background: #45a049;
+    }
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 2rem;
+    }
+    #skipped-list {
+      margin-top: 2rem;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>लोक सेवा आयोग – Part 2: General Knowledge & Public Management (33 MCQs)</h1>
+    <div id="quiz"></div>
+    <div id="navigation">
+      <button id="next-btn" disabled>Next</button>
+    </div>
+    <div id="score" class="hidden"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      // 1.1: नेपालको भौगोलिक अवस्था, प्राकृतिक स्रोत र साधनहरू - 3 MCQs
+      { q: "नेपालको सबैभन्दा लामो नदी कुन हो?", options: ['कोशी', 'गण्डकी', 'कर्णाली', 'महाकाली'], answer: 2 },
+      { q: "नेपालमा कति प्रतिशत भूभाग हिमाल क्षेत्रले ओगट्छ?", options: ['१०%', '१५%', '२०%', '२५%'], answer: 1 },
+      { q: "नेपालको कुन क्षेत्रमा सबैभन्दा बढी खनिज पाइन्छ?", options: ['तराई', 'पहाड', 'हिमाल', 'सबै क्षेत्र'], answer: 2 },
+
+      // 1.2: नेपालको ऐतिहासिक, सांस्कृतिक र सामाजिक अवस्था सम्बन्धी जानकारी - 3 MCQs
+      { q: "नेपालमा प्रजातन्त्र स्थापना कहिले भएको थियो?", options: ['२००७', '२०१५', '२०४६', '२०६३'], answer: 0 },
+      { q: "नेपालको कुन जातजातिको सांस्कृतिक चाड ल्होसार हो?", options: ['थारू', 'शेर्पा', 'मगर', 'क्षेत्री'], answer: 1 },
+      { q: "नेपालमा कुन सामाजिक समस्याले ठूलो प्रभाव पारेको छ?", options: ['जातीय भेदभाव', 'शिक्षाको कमी', 'स्वास्थ्य सेवा', 'पर्यटन'], answer: 0 },
+
+      // 1.3: नेपालको आर्थिक अवस्था र चालु आवधिक योजना सम्बन्धी जानकारी - 3 MCQs
+      { q: "नेपालको अर्थतन्त्रमा पर्यटनको योगदान कति छ?", options: ['५%', '१०%', '१५%', '२०%'], answer: 1 },
+      { q: "१६औँ योजनाले कुन क्षेत्रमा मुख्य जोड दिएको छ?", options: ['कृषि', 'ऊर्जा', 'शिक्षा', 'स्वास्थ्य'], answer: 1 },
+      { q: "नेपालको बेरोजगारी दर हाल कति छ?", options: ['३.५%', '५.१%', '७.३%', '९.२%'], answer: 1 },
+
+      // 1.4: जैविक विविधत्ता, दिगो विकास, वातावरण प्रदूषण, जलवायु परिवर्तन र जनसंख्या व्यवस्थापन - 3 MCQs
+      { q: "नेपालमा एक सिंगे गैंडा कुन राष्ट्रिय निकुञ्जमा पाइन्छ?", options: ['चितवन', 'बर्दिया', 'सगरमाथा', 'रारा'], answer: 0 },
+      { q: "नेपालमा जलवायु परिवर्तनले कुन प्राकृतिक प्रकोप बढाएको छ?", options: ['भूकम्प', 'बाढी', 'आगलागी', 'हावाहुरी'], answer: 1 },
+      { q: "नेपालको जनसंख्या घनत्व कति छ?", options: ['१९८ व्यक्ति/वर्ग किमी', '२९८ व्यक्ति/वर्ग किमी', '३९८ व्यक्ति/वर्ग किमी', '४९८ व्यक्ति/वर्ग किमी'], answer: 0 },
+
+      // 1.5: मानव जीवनमा प्रत्यक्ष प्रभाव पार्ने विज्ञान र प्रविधिका महत्वपूर्ण उपलब्धिहरू - 3 MCQs
+      { q: "नेपालमा ई-गभर्नेन्सको मुख्य उद्देश्य के हो?", options: ['सेवा छिटो र पारदर्शी बनाउने', 'कर्मचारी भर्ना', 'जलविद्युत', 'शिक्षा'], answer: 0 },
+      { q: "विश्वव्यापी रूपमा AI ले कुन क्षेत्रमा प्रभाव पारेको छ?", options: ['कृषि', 'स्वास्थ्य', 'सञ्चार', 'सबै'], answer: 3 },
+      { q: "नेपालमा कुन प्रविधिले मौसम पूर्वानुमानमा सहयोग गरेको छ?", options: ['सौर्य ऊर्जा', 'उपग्रह', 'इन्टरनेट', 'टेलिमेडिसिन'], answer: 1 },
+
+      // 1.6: जनस्वास्थ्य, रोग, खाद्य र पोषण सम्बन्धी सामान्य जानकारी - 3 MCQs
+      { q: "नेपालमा कुन रोगको खोप अभियान सफल भएको छ?", options: ['दादुरा', 'मलेरिया', 'डेंगु', 'हैजा'], answer: 0 },
+      { q: "नेपालमा कति प्रतिशत जनसंख्या खाद्य असुरक्षाबाट प्रभावित छ?", options: ['१५%', '२५%', '३५%', '४५%'], answer: 2 },
+      { q: "नेपालमा स्वास्थ्य सेवाको मुख्य चुनौती के हो?", options: ['दुर्गम क्षेत्रमा पहुँच', 'शिक्षा', 'जलवायु', 'पर्यटन'], answer: 0 },
+
+      // 1.7: नेपालको संविधान (भाग १ देखि ५ सम्म र अनुसूचीहरू) - 3 MCQs
+      { q: "नेपालको संविधानमा कति भाग छन्?", options: ['२५', '३५', '४५', '५५'], answer: 1 },
+      { q: "नेपालको संविधानको भाग ४ मा के समावेश छ?", options: ['मौलिक हक', 'नागरिकता', 'निर्देशक सिद्धान्त', 'राज्य संरचना'], answer: 2 },
+      { q: "नेपालको संविधानले कुन धर्मलाई मान्यता दिएको छ?", options: ['हिन्दु', 'बौद्ध', 'धर्मनिरपेक्ष', 'इस्लाम'], answer: 2 },
+
+      // 1.8: संयुक्त राष्ट्रसंघ र यसका विशिष्टीकृत संस्था सम्बन्धी जानकारी - 3 MCQs
+      { q: "संयुक्त राष्ट्रसंघमा कति सदस्य राष्ट्र छन्?", options: ['१९३', '१९५', '१९७', '१९९'], answer: 0 },
+      { q: "WHO को मुख्यालय कहाँ छ?", options: ['न्युयोर्क', 'जेनेभा', 'पेरिस', 'लन्डन'], answer: 1 },
+      { q: "नेपालमा FAO ले कुन क्षेत्रमा सहयोग गर्छ?", options: ['खाद्य सुरक्षा', 'शिक्षा', 'स्वास्थ्य', 'जलवायु'], answer: 0 },
+
+      // 1.9: क्षेत्रीय संगठन (सार्क, बिमस्टेक, बासियान र युरोपियन संघ सम्बन्धी जानकारी) - 3 MCQs
+      { q: "सार्कमा कति सदस्य राष्ट्र छन्?", options: ['६', '८', '१०', '१२'], answer: 1 },
+      { q: "बिमस्टेकको मुख्यालय कहाँ छ?", options: ['काठमाडौँ', 'ढाका', 'नयाँ दिल्ली', 'बैंकक'], answer: 1 },
+      { q: "ASEAN मा कति सदस्य राष्ट्र छन्?", options: ['८', '१०', '१२', '१४'], answer: 1 },
+
+      // 1.10: राष्ट्रिय र अन्तर्राष्ट्रिय महत्वका समसामयिक गतिविधिहरू - 3 MCQs
+      { q: "नेपालमा ई-नागरिक चार्टर कहिले लागू भएको थियो?", options: ['२०२१', '२०२२', '२०२३', '२०२४'], answer: 2 },
+      { q: "विश्वव्यापी रूपमा कुन मुद्दाले २०२४ मा चर्चा पायो?", options: ['जलवायु सङ्कट', 'शिक्षा', 'पर्यटन', 'कृषि'], answer: 0 },
+      { q: "नेपालमा कुन क्षेत्रमा लगानी बढेको छ?", options: ['जलविद्युत', 'शिक्षा', 'स्वास्थ्य', 'कृषि'], answer: 0 },
+
+      // 2.1 to 2.10: Public Management (Combined) - 3 MCQs
+      { q: "सार्वजनिक कार्यालयमा कुन नेतृत्व शैली प्रभावकारी मानिन्छ?", options: ['निरंकुश', 'लोकतान्त्रिक', 'स्वतन्त्र', 'लेनदेन'], answer: 1 },
+      { q: "सार्वजनिक सेवा प्रवाहमा प्रविधिको प्रयोगले के गर्छ?", options: ['जटिलता बढाउँछ', 'दक्षता बढाउँछ', 'स्रोत घटाउँछ', 'कर्मचारी घटाउँछ'], answer: 1 },
+      { q: "सार्वजनिक प्रशासनमा सुशासनको मुख्य आधार के हो?", options: ['पारदर्शिता', 'गोपनीयता', 'जटिलता', 'अनौपचारिकता'], answer: 0 }
+    ];
+
+    let currentPage = 0;
+    let score = 0;
+    let skipped = [];
+    const questionsPerPage = 5;
+    const totalPages = Math.ceil(questions.length / questionsPerPage);
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+    const nextBtn = document.getElementById("next-btn");
+
+    // Track answered and skipped questions per page
+    let answeredQuestions = new Array(questions.length).fill(false);
+    let skippedQuestions = new Array(questions.length).fill(false);
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function showQuestions(page) {
+      const start = page * questionsPerPage;
+      const end = Math.min(start + questionsPerPage, questions.length);
+      let questionsHTML = '';
+
+      for (let i = start; i < end; i++) {
+        const q = questions[i];
+        const optionsHTML = shuffle(q.options.map((opt, j) =>
+          `<button onclick="checkAnswer(${i}, this, ${j})">${opt}</button>`
+        )).join('');
+
+        questionsHTML += `
+          <div class="question" id="question-${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${optionsHTML}</div>
+            <button onclick="skipQuestion(${i})" id="skip-btn-${i}">Skip</button>
+            <div class="feedback" id="feedback-${i}"></div>
+          </div>
+        `;
+      }
+
+      quizEl.innerHTML = questionsHTML;
+      updateNextButtonState(page);
+    }
+
+    function checkAnswer(index, button, selected) {
+      const correct = questions[index].answer;
+      const questionEl = document.getElementById(`question-${index}`);
+      const buttons = questionEl.querySelectorAll(".options button");
+      const feedbackEl = document.getElementById(`feedback-${index}`);
+      const skipBtn = document.getElementById(`skip-btn-${index}`);
+
+      // Disable all option buttons and the skip button for this question
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (btn.innerText === questions[index].options[correct]) {
+          btn.classList.add("correct");
+        } else if (btn === button && selected !== correct) {
+          btn.classList.add("wrong");
+        }
+      });
+      skipBtn.disabled = true;
+
+      // Provide instant feedback
+      if (selected === correct) {
+        feedbackEl.innerHTML = "✅ Correct!";
+        feedbackEl.style.color = "#388e3c";
+        score++;
+      } else {
+        feedbackEl.innerHTML = "❌ Wrong! Correct answer: " + questions[index].options[correct];
+        feedbackEl.style.color = "#d32f2f";
+      }
+
+      // Mark this question as answered
+      answeredQuestions[index] = true;
+      updateNextButtonState(currentPage);
+    }
+
+    function skipQuestion(index) {
+      const questionEl = document.getElementById(`question-${index}`);
+      const buttons = questionEl.querySelectorAll(".options button");
+      const skipBtn = document.getElementById(`skip-btn-${index}`);
+
+      // Disable all option buttons and the skip button for this question
+      buttons.forEach(btn => btn.disabled = true);
+      skipBtn.disabled = true;
+
+      // Mark as skipped if not already answered
+      if (!answeredQuestions[index]) {
+        skippedQuestions[index] = true;
+        skipped.push(questions[index]);
+      }
+
+      updateNextButtonState(currentPage);
+    }
+
+    function updateNextButtonState(page) {
+      const start = page * questionsPerPage;
+      const end = Math.min(start + questionsPerPage, questions.length);
+      let allAnsweredOrSkipped = true;
+
+      for (let i = start; i < end; i++) {
+        if (!answeredQuestions[i] && !skippedQuestions[i]) {
+          allAnsweredOrSkipped = false;
+          break;
+        }
+      }
+
+      nextBtn.disabled = !allAnsweredOrSkipped;
+    }
+
+    function nextPage() {
+      currentPage++;
+      if (currentPage < totalPages) {
+        showQuestions(currentPage);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      nextBtn.classList.add("hidden");
+      scoreEl.classList.remove("hidden");
+      scoreEl.innerHTML = `✅ Your score: <strong>${score} / ${questions.length}</strong>`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    nextBtn.addEventListener("click", nextPage);
+
+    // Show the first page of questions
+    showQuestions(currentPage);
+  </script>
+</body>
+</html>
