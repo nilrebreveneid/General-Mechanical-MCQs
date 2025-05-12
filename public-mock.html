@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mock Test – 84 MCQs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+    .quiz-container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .question p {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .options button:hover {
+      background: #bbdefb;
+    }
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+    #navigation {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    #next-btn {
+      padding: 0.75rem 1.5rem;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #next-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    #next-btn:hover:not(:disabled) {
+      background: #45a049;
+    }
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 2rem;
+    }
+    #skipped-list {
+      margin-top: 2rem;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>लोक सेवा आयोग – Public Management (84 MCQs)</h1>
+    <div id="quiz"></div>
+    <div id="navigation">
+      <button id="next-btn" disabled>Next</button>
+    </div>
+    <div id="score" class="hidden"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      // 2.1.1: कार्यालय व्यवस्थापन (Office Management) - 8 MCQs
+      { q: "कार्यालयको शाब्दिक अर्थ के हो?", options: ['काम गर्ने ठाउँ', 'नियन्त्रण गर्ने ठाउँ', 'सञ्चार गर्ने ठाउँ', 'भण्डारण गर्ने ठाउँ'], answer: 0 },
+      { q: "कार्यालयको 'सूचना केन्द्र' को रूपमा कुन भूमिका हुन्छ?", options: ['सेवा प्रदान गर्ने', 'सूचना संकलन र वितरण गर्ने', 'समन्वय गर्ने', 'नियन्त्रण गर्ने'], answer: 1 },
+      { q: "स्वामित्वको आधारमा कुन कार्यालय 'सार्वजनिक कार्यालय' को उदाहरण हो?", options: ['बुद्ध एयर', 'नबिल बैंक', 'गृह मन्त्रालय', 'विश्व बैंक'], answer: 2 },
+      { q: "भौगोलिक सीमानाको आधारमा 'राष्ट्रिय कार्यालय' को उदाहरण कुन हो?", options: ['यूनेस्को', 'विश्व बैंक', 'मानव अधिकार आयोग', 'स्थानीय तह कार्यालय'], answer: 2 },
+      { q: "प्रकृतिको आधारमा 'अस्थायी कार्यालय' को उदाहरण कुन हो?", options: ['जिल्ला प्रशासन कार्यालय', 'मालपोत कार्यालय', 'जनगणना कार्यालय', 'केन्द्रीय मन्त्रालय'], answer: 2 },
+      { q: "कार्यालयको आधारभूत कार्यमा कुन पर्दैन?", options: ['सूचना संकलन', 'नीति तर्जुमा', 'सूचना संरक्षण', 'प्रशासन सञ्चालन'], answer: 1 },
+      { q: "कार्यालयको व्यवस्थापकीय कार्यमा कुन समावेश हुन्छ?", options: ['सूचना संचार', 'मानव संसाधन व्यवस्थापन', 'सम्पर्क बिन्दुको कार्य', 'सूचना प्रशोधन'], answer: 1 },
+      { q: "सङ्घीय नेपालमा कति वटा स्थानीय तहका कार्यालयहरू स्थापना गरिएको छ?", options: ['७५३', '७५०', '७६०', '७४३'], answer: 0 },
+
+      // 2.1.2: कर्मचारी व्यवस्थापन (Personnel Management) - 10 MCQs
+      { q: "सहायक कर्मचारी (सहायक कर्मचारी) भनेको कुन तहका कर्मचारी हुन्?", options: ['अधिकृत तहका', 'माथिल्लो तहबाट निर्देशन पालना गर्ने कर्मचारी', 'नीति निर्माता', 'प्रादेशिक कर्मचारी'], answer: 1 },
+      { q: "निजामती कर्मचारीको अवकाश उमेर कति छ?", options: ['५५ वर्ष', '५८ वर्ष', '६० वर्ष', '६२ वर्ष'], answer: 1 },
+      { q: "कामको प्रकृतिको आधारमा कर्मचारी कसरी वर्गीकरण गरिन्छ?", options: ['स्थायी र अस्थायी', 'प्राविधिक र अप्राविधिक', 'राजपत्रांकित र अनंकित', 'अधिकृत र सहायक'], answer: 1 },
+      { q: "निजामती सेवा ऐन अनुसार राजपत्रांकित कर्मचारीको उच्चतम श्रेणी कुन हो?", options: ['प्रथम श्रेणी', 'विशिष्ट श्रेणी', 'द्वितीय श्रेणी', 'तृतीय श्रेणी'], answer: 1 },
+      { q: "सहायक कर्मचारीको कार्यमा कुन समावेश छैन?", options: ['अभिलेख व्यवस्थापन', 'बजेट तर्जुमा', 'सेवा प्रवाह', 'निर्देशन पालना'], answer: 1 },
+      { q: "सहायक कर्मचारीमा हुनुपर्ने गुणमा कुन पर्दैन?", options: ['सकारात्मक सोच', 'नैतिक व्यवहार', 'नीति निर्माण', 'नियम पालना'], answer: 2 },
+      { q: "१० वर्ष सेवा गरेको कर्मचारीको उपदान कसरी गणना गरिन्छ?", options: ['प्रत्येक वर्षको लागि आधा महिनाको तलब × सेवा वर्ष', 'प्रत्येक वर्षको लागि १ महिनाको तलब × सेवा वर्ष', 'प्रत्येक वर्षको लागि २ महिनाको तलब × सेवा वर्ष', 'अन्तिम तलब × सेवा वर्ष'], answer: 0 },
+      { q: "महिला कर्मचारीको परिक्षण काल (Probation Period) कति हुन्छ?", options: ['६ महिना', '१२ महिना', '१८ महिना', '२४ महिना'], answer: 0 },
+      { q: "निजामती कर्मचारीले पालना गर्नुपर्ने आचरणमा कुन समावेश छैन?", options: ['समय पालना', 'अनुशासन', 'राजनीतिमा भाग लिने', 'सरकारी आलोचना नगर्ने'], answer: 2 },
+      { q: "निजामती कर्मचारीलाई कुन कार्यमा प्रतिबन्ध छ?", options: ['सम्पत्ति विवरण बुझाउने', 'प्रदर्शन र हड्ताल गर्ने', 'सेवा ग्राहीसँग मर्यादित व्यवहार गर्ने', 'समय पालना गर्ने'], answer: 1 },
+
+      // 2.1.3: कार्यालय स्रोत साधन (Office Resources) - 5 MCQs
+      { q: "कार्यालय स्रोत साधन भनेको के हो?", options: ['कार्यालयका कर्मचारीहरू', 'कार्यालयका लक्ष्य हासिल गर्न आवश्यक साधनहरू', 'कार्यालयका भौतिक संरचनाहरू', 'कार्यालयका नीतिहरू'], answer: 1 },
+      { q: "कुन स्रोत 'भौतिक स्रोत' को रूपमा पर्छ?", options: ['कम्प्युटर र इन्टरनेट', 'भवन र फर्निचर', 'वित्तीय कोष', 'बौद्धिक सम्पत्ति'], answer: 1 },
+      { q: "स्रोत साधनको वर्गीकरणमा 'सजीव र निर्जीव' को आधारमा कुन सजीव स्रोत हो?", options: ['भवन', 'कम्प्युटर', 'कर्मचारी', 'गाडी'], answer: 2 },
+      { q: "कार्यालयमा स्रोत साधनको आवश्यकता किन पर्छ?", options: ['स्रोत परिचालन गर्न', 'नीति तर्जुमा गर्न', 'कर्मचारी भर्ना गर्न', 'सम्पत्ति बिक्री गर्न'], answer: 0 },
+      { q: "कार्यालय स्रोत साधनमा कुन समस्या समावेश छ?", options: ['नेतृत्वको कमी', 'कर्मचारीको अभाव', 'नीतिको अभाव', 'बजेटको अभाव'], answer: 0 },
+
+      // 2.1.4: सञ्चार (Communication) - 7 MCQs
+      { q: "कार्यालय सञ्चार भनेको के हो?", options: ['दैनिक कार्य सञ्चालन र सूचना आदानप्रदान', 'नीति तर्जुमा र कार्यान्वयन', 'स्रोत साधन व्यवस्थापन', 'कर्मचारी भर्ना'], answer: 0 },
+      { q: "सञ्चारको पहिलो तत्व कुन हो?", options: ['सन्देश', 'प्रेषक', 'माध्यम', 'प्राप्तकर्ता'], answer: 1 },
+      { q: "कार्यालयमा सञ्चारको महत्त्व के हो?", options: ['नीति तर्जुमा गर्न', 'सुशासन कायम गर्न', 'स्रोत साधन व्यवस्थापन गर्न', 'कर्मचारी भर्ना गर्न'], answer: 1 },
+      { q: "सञ्चारको लिखित माध्यममा कुन समावेश हुन्छ?", options: ['टेलिफोन वार्ता', 'प्रत्यक्ष छलफल', 'पत्र र प्रतिवेदन', 'बैठक'], answer: 2 },
+      { q: "सञ्चारको कुन प्रकार 'दुतर्फी सञ्चार' को उदाहरण हो?", options: ['टेलिफोन वार्ता', 'पत्राचार', 'रेडियो प्रसारण', 'टेलिभिजन प्रसारण'], answer: 0 },
+      { q: "असल सञ्चारको गुणमा कुन समावेश छ?", options: ['अस्पष्टता', 'एकरूपता', 'अनौपचारिकता', 'जटिलता'], answer: 1 },
+      { q: "सञ्चारको विशेषतामा कुन समावेश छैन?", options: ['दुई वा बढी पक्षको संलग्नता', 'निरन्तर प्रक्रिया', 'नीति तर्जुमा प्रक्रिया', 'समन्वयको आधार'], answer: 2 },
+
+      // 2.1.5: कार्यालय कार्यविधि (Office Procedures) - 13 MCQs
+      { q: "पत्र व्यवहार भनेको के हो?", options: ['लिखित रूपमा सूचना आदानप्रदान', 'मौखिक रूपमा छलफल', 'स्रोत साधन व्यवस्थापन', 'नीति तर्जुमा'], answer: 0 },
+      { q: "पत्र व्यवहारको मुख्य उद्देश्य के हो?", options: ['नीति कार्यान्वयन', 'औपचारिक सम्पर्क कायम गर्न', 'स्रोत परिचालन', 'कर्मचारी भर्ना'], answer: 1 },
+      { q: "प्रयोगको आधारमा 'सरकारी पत्र' को उदाहरण कुन हो?", options: ['व्यक्तिगत पत्र', 'व्यवसायिक पत्र', 'गृह मन्त्रालयको पत्र', 'आवेदन पत्र'], answer: 2 },
+      { q: "'अति जसरी' पत्रलाई माथिल्लो तहमा पठाउनु अघि कति दिनभित्र कारवाही गर्नुपर्छ?", options: ['१ दिन', '३ दिन', '४ दिन', '७ दिन'], answer: 1 },
+      { q: "चलानीको महत्त्व के हो?", options: ['नीति तर्जुमा गर्न', 'अभिलेख व्यवस्थापन गर्न', 'स्रोत परिचालन गर्न', 'कर्मचारी भर्ना गर्न'], answer: 1 },
+      { q: "चलानी किताबमा कुन विवरण समावेश हुन्छ?", options: ['कर्मचारीको नाम', 'चलानी नम्बर', 'नीति तर्जुमा', 'स्रोत साधन'], answer: 1 },
+      { q: "परिपत्र कस्तो सूचना हो?", options: ['मातहतका कार्यालयलाई पठाइने सूचना', 'कर्मचारी भर्ना सम्बन्धी सूचना', 'स्रोत साधन सम्बन्धी सूचना', 'नीति तर्जुमा सम्बन्धी सूचना'], answer: 0 },
+      { q: "पत्र व्यवहारको कुन प्रकारलाई 'गोप्य' पत्र भनिन्छ?", options: ['साधारण पत्र', 'जसरी पत्र', 'अति जसरी पत्र', 'संवेदनशील सूचनासहितको पत्र'], answer: 3 },
+      { q: "एउटा 'साधारण' पत्रलाई माथिल्लो तहमा पठाउनु अघि कति दिनभित्र कारवाही गर्नुपर्छ?", options: ['३ दिन', '४ दिन', '७ दिन', '१० दिन'], answer: 2 },
+      { q: "दर्ता किताबमा कुन विवरण अनिवार्य रूपमा समावेश हुन्छ?", options: ['कर्मचारीको नाम', 'दर्ता मिति र नम्बर', 'नीति तर्जुमा', 'स्रोत साधन'], answer: 1 },
+      { q: "परिपत्रको मुख्य उद्देश्य के हो?", options: ['सेवा ग्राहीलाई सूचना दिने', 'मातहतका कार्यालयलाई निर्देशन दिने', 'कर्मचारी भर्ना गर्ने', 'स्रोत परिचालन गर्ने'], answer: 1 },
+      { q: "आदर्श पत्रको कुन विशेषता महत्त्वपूर्ण हुन्छ?", options: ['जटिल भाषा', 'अस्पष्टता', 'संक्षिप्तता', 'अनौपचारिकता'], answer: 2 },
+      { q: "चलानी प्रक्रियाले कुन कुरामा सहयोग गर्छ?", options: ['सूचना लुकाउन', 'सूचना ट्र्याक गर्न', 'कर्मचारी भर्ना गर्न', 'नीति तर्जुमा गर्न'], answer: 1 },
+
+      // 2.1.6: बजेट, लेखा, लेखापरीक्षण (Budgeting, Accounting, and Auditing) - 11 MCQs
+      { q: "बजेट भनेको के हो?", options: ['राजस्व र व्ययको विवरण', 'स्रोत साधनको व्यवस्थापन', 'कर्मचारी भर्ना प्रक्रिया', 'नीति तर्जुमा प्रक्रिया'], answer: 0 },
+      { q: "आय र व्ययको आधारमा कुन बजेट 'सन्तुलित बजेट' हो?", options: ['आय र व्यय बराबर हुने', 'आयभन्दा व्यय बढी हुने', 'व्ययभन्दा आय बढी हुने', 'आय र व्यय असन्तुलित हुने'], answer: 0 },
+      { q: "आ.व. २०७९/८० को कुल बजेट कति थियो?", options: ['रु. १५.९३ खर्ब', 'रु. १७.९३ खर्ब', 'रु. १९.९३ खर्ब', 'रु. १४.९३ खर्ब'], answer: 1 },
+      { q: "आ.व. २०७९/८० मा स्वास्थ्य क्षेत्रको बजेट कति थियो?", options: ['रु. १.३१ खर्ब', 'रु. १.५१ खर्ब', 'रु. १.११ खर्ब', 'रु. १.७१ खर्ब'], answer: 0 },
+      { q: "नेपालमा पहिलो बजेट कहिले प्रस्तुत गरिएको थियो?", options: ['वि.स. २००५ माघ २१', 'वि.स. २०१० माघ २१', 'वि.स. २००० माघ २१', 'वि.स. २०१५ माघ २१'], answer: 0 },
+      { q: "आ.व. २०७९/८० को चालु बजेट कति थियो?", options: ['रु. ७.७२ खर्ब', 'रु. ३.८० खर्ब', 'रु. ३.३० खर्ब', 'रु. ४.२९ खर्ब'], answer: 0 },
+      { q: "आ.व. २०७९/८० को पूँजीगत बजेट कति थियो?", options: ['रु. ७.७२ खर्ब', 'रु. ३.८० खर्ब', 'रु. ३.३० खर्ब', 'रु. ४.२९ खर्ब'], answer: 1 },
+      { q: "नेपालको पहिलो बजेटको राजस्व कति थियो?", options: ['रु. ३.०४ करोड', 'रु. ४.२४ करोड', 'रु. २.५० करोड', 'रु. ५.०० करोड'], answer: 0 },
+      { q: "लेखा परिक्षणको मुख्य उद्देश्य के हो?", options: ['बजेट तर्जुमा', 'वित्तीय पारदर्शिता सुनिश्चित गर्ने', 'स्रोत परिचालन', 'कर्मचारी भर्ना'], answer: 1 },
+      { q: "उद्देश्यको आधारमा कुन बजेटलाई 'कार्यसम्पादन बजेट' भनिन्छ?", options: ['आय र व्यय बराबर हुने', 'कार्यसम्पादनमा आधारित', 'शून्य आधारित', 'चालु बजेट'], answer: 1 },
+      { q: "आ.व. २०७९/८० को बजेटमा कुन क्षेत्रलाई प्राथमिकता दिइएको थियो?", options: ['स्वास्थ्य क्षेत्र', 'कर्मचारी भर्ना', 'स्रोत परिचालन', 'नीति तर्जुमा'], answer: 0 },
+
+      // 2.2.1: योजना र निर्णय प्रक्रिया (Planning and Decision Making) - 4 MCQs
+      { q: "योजनाको मुख्य उद्देश्य के हो?", options: ['कर्मचारी भर्ना', 'लक्ष्य प्राप्ति र समन्वय', 'स्रोत बिक्री', 'नीति परिवर्तन'], answer: 1 },
+      { q: "योजनाको पहिलो चरण कुन हो?", options: ['लक्ष्य निर्धारण', 'कार्यान्वयन', 'अनुगमन', 'मूल्यांकन'], answer: 0 },
+      { q: "निर्णय प्रक्रियामा कुन तत्वले महत्त्वपूर्ण भूमिका खेल्छ?", options: ['सूचनाको अभाव', 'सूचनाको उपलब्धता', 'कर्मचारीको अनुपस्थिति', 'नीतिको अभाव'], answer: 1 },
+      { q: "सार्वजनिक प्रशासनमा कस्तो निर्णय प्रक्रिया प्रभावकारी हुन्छ?", options: ['निरंकुश निर्णय', 'सामूहिक र तथ्यमा आधारित निर्णय', 'अनौपचारिक निर्णय', 'जटिल निर्णय'], answer: 1 },
+
+      // 2.2.2: संगठन र कर्मचारी व्यवस्थापन (Organization and Staffing) - 3 MCQs
+      { q: "संगठन संरचनाको मुख्य उद्देश्य के हो?", options: ['कर्मचारी भर्ना', 'कार्य विभाजन र समन्वय', 'स्रोत परिचालन', 'नीति तर्जुमा'], answer: 1 },
+      { q: "कर्मचारी भर्ना प्रक्रियामा कुन चरण पहिलो हुन्छ?", options: ['लिखित परीक्षा', 'रिक्त पदको पहिचान', 'सिफारिस', 'नियुक्ति'], answer: 1 },
+      { q: "सार्वजनिक क्षेत्रमा कर्मचारी छनोट कसरी गरिन्छ?", options: ['राजनीतिक प्रभावबाट', 'योग्यता र मेरिटको आधारमा', 'अनौपचारिक रूपमा', 'जटिल प्रक्रियाबाट'], answer: 1 },
+
+      // 2.2.3: निर्देशन र नियन्त्रण (Direction and Controlling) - 3 MCQs
+      { q: "निर्देशनको मुख्य उद्देश्य के हो?", options: ['कर्मचारीलाई प्रेरित र मार्गदर्शन गर्ने', 'स्रोत परिचालन गर्ने', 'नीति तर्जुमा गर्ने', 'बजेट तर्जुमा गर्ने'], answer: 0 },
+      { q: "नियन्त्रण प्रक्रियाको पहिलो चरण कुन हो?", options: ['मापदण्ड स्थापना', 'कार्यान्वयन', 'मूल्यांकन', 'सुधार'], answer: 0 },
+      { q: "सार्वजनिक क्षेत्रमा नियन्त्रण किन आवश्यक छ?", options: ['कर्मचारी भर्ना गर्न', 'कार्यसम्पादन सुनिश्चित गर्न', 'स्रोत बिक्री गर्न', 'नीति परिवर्तन गर्न'], answer: 1 },
+
+      // 2.3: संगठन संरचना र व्यवहार (Organizational Structure and Behavior) - 3 MCQs
+      { q: "सार्वजनिक कार्यालयमा कुन संगठन संरचनाले माथिल्लो तहबाट तल्लो तहसम्म निर्देशन प्रवाह गर्छ?", options: ['समतल संरचना', 'पदानुक्रमिक संरचना', 'कार्यमूलक संरचना', 'म्याट्रिक्स संरचना'], answer: 1 },
+      { q: "कर्मचारीलाई उत्प्रेरणा प्रदान गर्न कुन विधि प्रभावकारी हुन्छ?", options: ['कडा अनुशासन', 'पुरस्कार र मान्यता', 'राजनीतिक प्रभाव', 'नीति परिवर्तन'], answer: 1 },
+      { q: "सार्वजनिक कार्यालयमा नेतृत्वको कुन शैलीले कर्मचारीको सहभागिता बढाउँछ?", options: ['निरंकुश शैली', 'लोकतान्त्रिक शैली', 'स्वतन्त्र शैली', 'लेनदेन शैली'], answer: 1 },
+
+      // 2.4: सार्वजनिक सेवा प्रवाह (Public Service Delivery) - 3 MCQs
+      { q: "सार्वजनिक सेवा प्रवाहमा कुन कुराले नागरिक सन्तुष्टि बढाउँछ?", options: ['जटिल प्रक्रिया', 'छिटो र पारदर्शी सेवा', 'कर्मचारीको अनुपस्थिति', 'नीति परिवर्तन'], answer: 1 },
+      { q: "सार्वजनिक सेवा प्रवाहको मापदण्डमा कुन कुरा समावेश हुन्छ?", options: ['समयमै सेवा प्रदान', 'कर्मचारी भर्ना', 'नीति तर्जुमा', 'स्रोत परिचालन'], answer: 0 },
+      { q: "सार्वजनिक सेवा प्रवाहमा कुन कुराले कार्यदक्षता बढाउँछ?", options: ['जटिल प्रक्रिया', 'प्रविधिको प्रयोग', 'कर्मचारीको अनुपस्थिति', 'नीति परिवर्तन'], answer: 1 },
+
+      // 2.5: सुशासन र नैतिकता (Governance and Ethics) - 3 MCQs
+      { q: "सुशासनको मुख्य विशेषता कुन हो?", options: ['गोपनीयता', 'पारदर्शिता', 'जटिलता', 'अनौपचारिकता'], answer: 1 },
+      { q: "सार्वजनिक प्रशासनमा नैतिकताको कुन सिद्धान्तले कर्मचारीलाई निष्पक्ष बनाउँछ?", options: ['राजनीतिक प्रभाव', 'निष्पक्षता र तटस्थता', 'व्यक्तिगत लाभ', 'गोपनीयता'], answer: 1 },
+      { q: "सुशासनमा जवाफदेहीताको कुन तत्वले महत्त्व राख्छ?", options: ['गोपनीयता', 'पारदर्शी जवाफदेहीता', 'जटिलता', 'अनौपचारिकता'], answer: 1 },
+
+      // 2.6: अनुगमन र मूल्यांकन (Monitoring and Evaluation) - 3 MCQs
+      { q: "सार्वजनिक कार्यालयमा अनुगमनको मुख्य उद्देश्य के हो?", options: ['कर्मचारी भर्ना', 'कार्यसम्पादन मूल्यांकन', 'नीति तर्जुमा', 'स्रोत परिचालन'], answer: 1 },
+      { q: "सार्वजनिक कार्यालयमा मूल्यांकनको मुख्य आधार के हो?", options: ['कर्मचारी भर्ना', 'कार्यसम्पादन मापदण्ड', 'नीति तर्जुमा', 'स्रोत परिचालन'], answer: 1 },
+      { q: "अनुगमन प्रक्रियाको अन्तिम चरण कुन हो?", options: ['मापदण्ड स्थापना', 'कार्य समीक्षा', 'प्रतिवेदन तयार', 'सुधार कार्य'], answer: 3 },
+
+      // 2.7: समसामयिक मुद्दाहरू (Contemporary Issues) - 3 MCQs
+      { q: "ई-गभर्नेन्सले सार्वजनिक सेवामा कसरी सुधार गर्छ?", options: ['जटिल प्रक्रिया बढाएर', 'छिटो र पारदर्शी सेवा प्रदान गरेर', 'कर्मचारीको संख्या घटाएर', 'नीति परिवर्तन गरेर'], answer: 1 },
+      { q: "नेपालमा विकेन्द्रीकरणको मुख्य उद्देश्य के हो?", options: ['केन्द्रीय नियन्त्रण बढाउने', 'स्थानीय तहमा अधिकार हस्तान्तरण गर्ने', 'कर्मचारी भर्ना गर्ने', 'नीति तर्जुमा गर्ने'], answer: 1 },
+      { q: "सार्वजनिक-निजी साझेदारी (PPP) को मुख्य उद्देश्य के हो?", options: ['केन्द्रीय नियन्त्रण बढाउने', 'सेवा प्रभावकारिता र दक्षता बढाउने', 'कर्मचारी भर्ना गर्ने', 'नीति तर्जुमा गर्ने'], answer: 1 },
+
+      // 2.8: सार्वजनिक प्रशासनमा नेतृत्व (Leadership in Public Administration) - 3 MCQs
+      { q: "सार्वजनिक प्रशासनमा नेतृत्वको मुख्य भूमिका के हो?", options: ['कर्मचारी भर्ना', 'संगठनलाई दिशानिर्देश गर्ने', 'स्रोत परिचालन', 'नीति परिवर्तन'], answer: 1 },
+      { q: "सार्वजनिक प्रशासनमा कुन नेतृत्व शैलीले पारदर्शिता बढाउँछ?", options: ['निरंकुश शैली', 'लोकतान्त्रिक शैली', 'स्वतन्त्र शैली', 'लेनदेन शैली'], answer: 1 },
+      { q: "नेतृत्वले कर्मचारीको मनोबल कसरी बढाउँछ?", options: ['कडा अनुशासनबाट', 'प्रेरणा र समर्थनबाट', 'राजनीतिक प्रभावबाट', 'नीति परिवर्तनबाट'], answer: 1 },
+
+      // 2.9: द्वन्द्व व्यवस्थापन (Conflict Management) - 3 MCQs
+      { q: "सार्वजनिक कार्यालयमा द्वन्द्व व्यवस्थापनको मुख्य उद्देश्य के हो?", options: ['कर्मचारी भर्ना', 'सहकार्य र समन्वय कायम गर्ने', 'स्रोत परिचालन', 'नीति परिवर्तन'], answer: 1 },
+      { q: "द्वन्द्व समाधानको कुन विधि प्रभावकारी हुन्छ?", options: ['दबाउने', 'समझदारी र मध्यस्थता', 'अनदेखा गर्ने', 'जटिल प्रक्रिया'], answer: 1 },
+      { q: "सार्वजनिक कार्यालयमा द्वन्द्वको मुख्य कारण के हो?", options: ['स्रोतको कमी र अस्पष्ट जिम्मेवारी', 'कर्मचारी भर्ना', 'नीति तर्जुमा', 'स्रोत बिक्री'], answer: 0 },
+
+      // 2.10: समय व्यवस्थापन (Time Management) - 3 MCQs
+      { q: "सार्वजनिक कार्यालयमा समय व्यवस्थापनको मुख्य फाइदा के हो?", options: ['कर्मचारी भर्ना', 'कार्यदक्षता र उत्पादकत्व बढाउने', 'स्रोत परिचालन', 'नीति परिवर्तन'], answer: 1 },
+      { q: "समय व्यवस्थापनको पहिलो चरण कुन हो?", options: ['कार्य प्राथमिकीकरण', 'कार्यान्वयन', 'अनुगमन', 'मूल्यांकन'], answer: 0 },
+      { q: "सार्वजनिक कार्यालयमा समय व्यवस्थापनमा कुन कुराले बाधा पुर्‍याउँछ?", options: ['स्पष्ट कार्ययोजना', 'अस्पष्ट प्राथमिकता', 'प्रविधिको प्रयोग', 'सहकार्य'], answer: 1 }
+    ];
+
+    let currentPage = 0;
+    let score = 0;
+    let skipped = [];
+    const questionsPerPage = 5;
+    const totalPages = Math.ceil(questions.length / questionsPerPage);
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+    const nextBtn = document.getElementById("next-btn");
+
+    // Track answered and skipped questions per page
+    let answeredQuestions = new Array(questions.length).fill(false);
+    let skippedQuestions = new Array(questions.length).fill(false);
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function showQuestions(page) {
+      const start = page * questionsPerPage;
+      const end = Math.min(start + questionsPerPage, questions.length);
+      let questionsHTML = '';
+
+      for (let i = start; i < end; i++) {
+        const q = questions[i];
+        const optionsHTML = shuffle(q.options.map((opt, j) =>
+          `<button onclick="checkAnswer(${i}, this, ${j})">${opt}</button>`
+        )).join('');
+
+        questionsHTML += `
+          <div class="question" id="question-${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${optionsHTML}</div>
+            <button onclick="skipQuestion(${i})" id="skip-btn-${i}">Skip</button>
+            <div class="feedback" id="feedback-${i}"></div>
+          </div>
+        `;
+      }
+
+      quizEl.innerHTML = questionsHTML;
+      updateNextButtonState(page);
+    }
+
+    function checkAnswer(index, button, selected) {
+      const correct = questions[index].answer;
+      const questionEl = document.getElementById(`question-${index}`);
+      const buttons = questionEl.querySelectorAll(".options button");
+      const feedbackEl = document.getElementById(`feedback-${index}`);
+      const skipBtn = document.getElementById(`skip-btn-${index}`);
+
+      // Disable all option buttons and the skip button for this question
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (btn.innerText === questions[index].options[correct]) {
+          btn.classList.add("correct");
+        } else if (btn === button && selected !== correct) {
+          btn.classList.add("wrong");
+        }
+      });
+      skipBtn.disabled = true;
+
+      // Provide instant feedback
+      if (selected === correct) {
+        feedbackEl.innerHTML = "✅ Correct!";
+        feedbackEl.style.color = "#388e3c";
+        score++;
+      } else {
+        feedbackEl.innerHTML = "❌ Wrong! Correct answer: " + questions[index].options[correct];
+        feedbackEl.style.color = "#d32f2f";
+      }
+
+      // Mark this question as answered
+      answeredQuestions[index] = true;
+      updateNextButtonState(currentPage);
+    }
+
+    function skipQuestion(index) {
+      const questionEl = document.getElementById(`question-${index}`);
+      const buttons = questionEl.querySelectorAll(".options button");
+      const skipBtn = document.getElementById(`skip-btn-${index}`);
+
+      // Disable all option buttons and the skip button for this question
+      buttons.forEach(btn => btn.disabled = true);
+      skipBtn.disabled = true;
+
+      // Mark as skipped if not already answered
+      if (!answeredQuestions[index]) {
+        skippedQuestions[index] = true;
+        skipped.push(questions[index]);
+      }
+
+      updateNextButtonState(currentPage);
+    }
+
+    function updateNextButtonState(page) {
+      const start = page * questionsPerPage;
+      const end = Math.min(start + questionsPerPage, questions.length);
+      let allAnsweredOrSkipped = true;
+
+      for (let i = start; i < end; i++) {
+        if (!answeredQuestions[i] && !skippedQuestions[i]) {
+          allAnsweredOrSkipped = false;
+          break;
+        }
+      }
+
+      nextBtn.disabled = !allAnsweredOrSkipped;
+    }
+
+    function nextPage() {
+      currentPage++;
+      if (currentPage < totalPages) {
+        showQuestions(currentPage);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      nextBtn.classList.add("hidden");
+      scoreEl.classList.remove("hidden");
+      scoreEl.innerHTML = `✅ Your score: <strong>${score} / ${questions.length}</strong>`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    nextBtn.addEventListener("click", nextPage);
+
+    // Show the first page of questions
+    showQuestions(currentPage);
+  </script>
+</body>
+</html>
