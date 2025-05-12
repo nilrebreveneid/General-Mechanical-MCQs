@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test 7 – 50 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+    }
+
+    .question p {
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    #skipped-list {
+      margin-top: 2rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test 7 – 50 Questions</h1>
+    <div id="quiz"></div>
+    <div id="score"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+  <script>
+    // const questions = [
+    const questions = [
+  // Applied Mechanics (13 MCQs)
+  { q: "According to equilibrium law, two forces can be in equilibrium if:", 
+    options: ["Equal in magnitude", "Opposite in direction", "Collinear", "Perpendicular"], 
+    answer: 0 },
+  { q: "Forces not meeting at a point and not lying on the same plane are called:", 
+    options: ["Non-coplanar concurrent", "Non-coplanar non-concurrent", "Coplanar concurrent", "Coplanar non-concurrent"], 
+    answer: 1 },
+  { q: "A force is completely defined when we specify:", 
+    options: ["Point of application", "Magnitude and direction", "Line of action", "All of the above"], 
+    answer: 3 },
+  { q: "Which of the following is not a projectile?", 
+    options: ["Ball thrown upwards", "A bullet fired from the gun", "A rocket in orbit", "A stone dropped from a height"], 
+    answer: 0 },
+  { q: "The velocity ratio of simple wheel and axle with D and d as diameters of effort wheel and load axle is:", 
+    options: ["D+d", "D/d", "d/D", "D-d"], 
+    answer: 1 },
+  { q: "Force acting on a mass of one gramme creating an acceleration of one cm per sec² is called:", 
+    options: ["Watt", "Dyne", "Newton", "Joule"], 
+    answer: 1 },
+  { q: "Which of the following do not meet and do not lie on the same plane?", 
+    options: ["Coplanar concurrent forces", "Non-coplanar non-concurrent forces", "Coplanar non-concurrent forces", "Non-coplanar concurrent forces"], 
+    answer: 1 },
+  { q: "A stationary object of 10 kg mass is acted upon by 20 N force for 5 seconds. The object will attain final velocity:", 
+    options: ["10 m/s", "20 m/s", "5 m/s", "15 m/s"], 
+    answer: 1 },
+  { q: "The resultant of two forces P and Q (such that P > Q) acting along the same straight line but in opposite directions is:", 
+    options: ["P + Q", "P - Q", "Q - P", "P × Q"], 
+    answer: 1 },
+  { q: "Energy can neither be created nor destroyed. This is:", 
+    options: ["First law of thermodynamics", "Second law of thermodynamics", "Zeroth law of thermodynamics", "Law of conservation of mass"], 
+    answer: 0 },
+  { q: "The rate of doing work is known as:", 
+    options: ["Kinetic energy", "Power", "Potential energy", "Torque"], 
+    answer: 1 },
+  { q: "The motion of a wheel of a car is:", 
+    options: ["Purely rotational", "Combined translation and rotational", "Purely translational", "Oscillatory"], 
+    answer: 1 },
+  { q: "If the force acting on the body, m is the mass and a is the acceleration, Newton’s 2nd law is:", 
+    options: ["F × ma = 0", "F = ma", "F = m/a", "F = m²a"], 
+    answer: 1 },
+
+  // Thermodynamics (8 MCQs)
+  { q: "In an isothermal process:", 
+    options: ["Pressure is constant", "Temperature is constant", "Volume is constant", "Entropy is constant"], 
+    answer: 1 },
+  { q: "According to the 1st Law of Thermodynamics:", 
+    options: ["Mass and light are mutually convertible", "Heat and work are mutually convertible", "Energy is created", "Entropy remains constant"], 
+    answer: 1 },
+  { q: "Which coal has the highest calorific value?", 
+    options: ["Bituminous coal", "Anthracite coal", "Lignite coal", "Peat coal"], 
+    answer: 1 },
+  { q: "Thermal power plants operate on which cycle?", 
+    options: ["Otto cycle", "Rankine cycle", "Brayton cycle", "Joule cycle"], 
+    answer: 1 },
+  { q: "Carnot cycle has maximum efficiency for:", 
+    options: ["Irreversible engine", "Reversible engine", "Diesel engine", "Petrol engine"], 
+    answer: 1 },
+  { q: "General gas equation is:", 
+    options: ["PV = mRT", "PV = nRT", "PV = RT", "PV = mT"], 
+    answer: 1 },
+  { q: "Water is a ____ fluid.", 
+    options: ["Ideal", "Real", "Perfect", "Compressible"], 
+    answer: 1 },
+  { q: "Bar is the unit of:", 
+    options: ["Power", "Pressure", "Force", "Energy"], 
+    answer: 1 },
+
+  // Machine Drawing (7 MCQs)
+  { q: "Which component lists part name, material, and quantity?", 
+    options: ["Bill of Materials", "Title Block", "Border Lines", "Revision Block"], 
+    answer: 0 },
+  { q: "In assembly drawing, hatching is used to show:", 
+    options: ["Material cut in section", "Hole center lines", "Hidden edges", "Dimension lines"], 
+    answer: 0 },
+  { q: "Which drawing represents the exact shape and size of an object?", 
+    options: ["Scale drawing", "Freehand sketch", "Isometric drawing", "Perspective drawing"], 
+    answer: 0 },
+  { q: "Which method is used to develop a cone’s surface?", 
+    options: ["Radial line development", "Parallel line development", "Triangulation development", "Approximate development"], 
+    answer: 0 },
+  { q: "What is a break line used for?", 
+    options: ["Show removed portion", "Indicate center", "Show hidden edges", "Show dimension"], 
+    answer: 0 },
+  { q: "Which one of the following lines is used for hidden features?", 
+    options: ["Dashed line", "Solid line", "Center line", "Phantom line"], 
+    answer: 0 },
+  { q: "Section lines are generally drawn at an angle of:", 
+    options: ["45°", "60°", "30°", "90°"], 
+    answer: 0 },
+
+  // Electro-Mechanical (3 MCQs)
+  { q: "In a hydropower plant, what converts mechanical energy into electrical energy?", 
+    options: ["Generator", "Pump", "Turbine", "Transformer"], 
+    answer: 0 },
+  { q: "In generators, what principle is used to convert mechanical motion to electrical energy?", 
+    options: ["Magnetic induction", "Magnetic repulsion", "Electrostatic induction", "Thermal conduction"], 
+    answer: 0 },
+  { q: "The nature of the current flowing in the armature of the DC machine is:", 
+    options: ["DC", "AC", "Pulsed DC", "Alternating DC"], 
+    answer: 0 },
+
+  // Industrial Boiler (5 MCQs)
+  { q: "Which of the following is a fire tube boiler?", 
+    options: ["Locomotive boiler", "Babcock and Wilcox boiler", "Stirling boiler", "Benson boiler"], 
+    answer: 0 },
+  { q: "Boiler HP is defined as:", 
+    options: ["Steam evaporation rate per kg of fuel fired", "Work done in evaporating 1 kg of steam", "Heat transfer rate", "Pressure capacity"], 
+    answer: 1 },
+  { q: "Fire tube boilers are:", 
+    options: ["Internally fired", "Externally fired", "Both internally and externally fired", "Neither internally nor externally fired"], 
+    answer: 0 },
+  { q: "The heat loss in a boiler takes place in the form of:", 
+    options: ["Heat carried away by flue gases", "Radiation losses", "Unburnt carbon in ash", "All of the above"], 
+    answer: 3 },
+  { q: "The device attached to the steam chest for preventing explosions due to excessive internal pressure of steam is called:", 
+    options: ["Water level indicator", "Safety valve", "Blow-off cock", "Feed check valve"], 
+    answer: 1 },
+
+  // Heat Engines (5 MCQs)
+  { q: "Which part of the engine connects piston and crankshaft?", 
+    options: ["Connecting rod", "Camshaft", "Flywheel", "Crankcase"], 
+    answer: 0 },
+  { q: "Which stroke removes burnt gases?", 
+    options: ["Exhaust stroke", "Intake stroke", "Compression stroke", "Power stroke"], 
+    answer: 0 },
+  { q: "All steam engines are:", 
+    options: ["External combustion engine", "Internal combustion engine", "Hybrid combustion engine", "Non-combustion engine"], 
+    answer: 0 },
+  { q: "Which of the following is a four-stroke engine?", 
+    options: ["Petrol engine", "Steam engine", "Two-stroke engine", "Jet engine"], 
+    answer: 0 },
+  { q: "The main function of a carburetor is to?", 
+    options: ["Mix air and fuel", "Cool the engine", "Compress the fuel", "Ignite the mixture"], 
+    answer: 0 },
+
+  // Industrial Management (6 MCQs)
+  { q: "Assets of a company include:", 
+    options: ["Building", "Machinery", "Inventory", "All of the above"], 
+    answer: 3 },
+  { q: "Amortization means:", 
+    options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis", "Depreciation of assets", "Sale of assets"], 
+    answer: 1 },
+  { q: "Industrial hygiene and safety is concerned with:", 
+    options: ["Analyzing the hazards of workplace", "Ensuring worker comfort", "Reducing operational costs", "All of the above"], 
+    answer: 3 },
+  { q: "Which of the following is not a chief organ of the UN?", 
+    options: ["Security Council", "General Assembly", "Economic and Social Council", "International Labor Organization"], 
+    answer: 3 },
+  { q: "Highest percentage of child labor is found in Nepal in which sector?", 
+    options: ["Industrial sector", "Agricultural sector", "Service sector", "Construction sector"], 
+    answer: 1 },
+  { q: "Which of the following layouts is suited for mass production?", 
+    options: ["Process Layout", "Product Layout", "Fixed Position Layout", "Cellular Layout"], 
+    answer: 1 },
+
+  // Estimating and Costing (3 MCQs)
+  { q: "Depreciation arises because of:", 
+    options: ["Fall in the market value of an asset", "Physical wear and tear", "Obsolescence", "All of the above"], 
+    answer: 3 },
+  { q: "The main objective of depreciation?", 
+    options: ["To show previous profit", "To calculate net profit", "To increase asset value", "To reduce tax liability"], 
+    answer: 1 },
+  { q: "A variable cost is a cost that:", 
+    options: ["Varies directly with the level of activity", "Remains constant", "Decreases with activity", "Is fixed per unit"], 
+    answer: 0 }
+];
+     
+    questions.sort(() => Math.random() - 0.5);
+
+    let current = 0;
+    let score = 0;
+    let skipped = [];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+
+    function showQuestion(index) {
+      const q = questions[index];
+      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
+      quizEl.innerHTML = `
+        <div class="question">
+          <p>Q${index + 1}. ${q.q}</p>
+          <div class="options">${options}</div>
+          <button onclick="skipQuestion()">Skip</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === correct) btn.classList.add("correct");
+        if (i === selected && i !== correct) btn.classList.add("wrong");
+      });
+      if (selected === correct) score++;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion(current);
+        } else {
+          endQuiz();
+        }
+      }, 3000);
+    }
+
+    function skipQuestion() {
+      skipped.push(questions[current]);
+      current++;
+      if (current < questions.length) {
+        showQuestion(current);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    showQuestion(current);
+  </script>
+</body>
+
+</html>
