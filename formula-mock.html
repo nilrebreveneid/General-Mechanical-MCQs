@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test FOR formula –   Ai gen 50 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+    }
+
+    .question p {
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    #skipped-list {
+      margin-top: 2rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test FOR formula –   Ai gen 50 Questions</h1>
+    <div id="quiz"></div>
+    <div id="score"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+  <script>
+const questions = [
+  // Applied Mechanics (15 MCQs: 9 formula selection, 6 numerical)
+  { q: "Which formula calculates the net force acting on an object accelerating uniformly?", 
+    options: ["F = ma", "W = Fd cosθ", "T = Iα", "P = Fv"], 
+    answer: 0 }, // Formula selection
+  { q: "To determine the work done by a force applied at an angle, which formula is used?", 
+    options: ["W = Fd cosθ", "F = ma", "P = W/t", "KE = (1/2)mv²"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula is used to calculate the frictional force between two surfaces?", 
+    options: ["F_friction = μN", "M = F × d", "T = F × r", "ΣF = 0"], 
+    answer: 0 }, // Formula selection
+  { q: "To find the distance traveled by a particle under uniform acceleration, which formula applies?", 
+    options: ["s = ut + (1/2)at²", "v = u + at", "s = vt", "R_max = (u²/g)"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula gives the maximum range of a projectile launched at 45°?", 
+    options: ["R_max = (u²/g)", "s = ut + (1/2)at²", "v = u + at", "PE = mgh"], 
+    answer: 0 }, // Formula selection
+  { q: "To calculate the potential energy of an object at a height, which formula is used?", 
+    options: ["PE = mgh", "KE = (1/2)mv²", "W = Fd cosθ", "P = Tω"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula determines the torque produced by a force about an axis?", 
+    options: ["T = F × r", "P = Fv", "W = Fd cosθ", "F = ma"], 
+    answer: 0 }, // Formula selection
+  { q: "To calculate the power output from a rotating shaft, which formula applies?", 
+    options: ["P = Tω", "P = W/t", "T = Iα", "W = Fd cosθ"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula ensures equilibrium of forces on a stationary object?", 
+    options: ["ΣF = 0", "F = ma", "T = Iα", "W = Fd cosθ"], 
+    answer: 0 }, // Formula selection
+  { q: "A 20 kg mass accelerates at 3 m/s². What is the net force? (Numerical)", 
+    options: ["60 N", "30 N", "90 N", "20 N"], 
+    answer: 0 }, // F = ma: 20 × 3 = 60 N
+  { q: "A 12 N force moves 4 m at 30° to the direction. What is the work done? (Numerical)", 
+    options: ["41.6 J", "48 J", "24 J", "83.2 J"], 
+    answer: 0 }, // W = Fd cosθ: 12 × 4 × cos30° ≈ 41.6 J
+  { q: "A 5 kg object is lifted 10 m. What is its potential energy (g = 10 m/s²)? (Numerical)", 
+    options: ["500 J", "250 J", "1000 J", "50 J"], 
+    answer: 0 }, // PE = mgh: 5 × 10 × 10 = 500 J
+  { q: "A force of 25 N acts 0.2 m from the pivot. What is the torque? (Numerical)", 
+    options: ["5 Nm", "10 Nm", "2.5 Nm", "50 Nm"], 
+    answer: 0 }, // T = F × r: 25 × 0.2 = 5 Nm
+  { q: "A 600 W motor runs for 5 s. How much work is done? (Numerical)", 
+    options: ["3000 J", "1500 J", "6000 J", "300 J"], 
+    answer: 0 }, // P = W/t: W = 600 × 5 = 3000 J
+  { q: "A 10 kg block on a surface with μ = 0.3 and normal force 100 N experiences what frictional force? (Numerical)", 
+    options: ["30 N", "15 N", "60 N", "10 N"], 
+    answer: 0 }, // F_friction = μN: 0.3 × 100 = 30 N
+
+  // Thermodynamics (10 MCQs: 6 formula selection, 4 numerical)
+  { q: "Which formula calculates the pressure of an ideal gas given volume and temperature?", 
+    options: ["PV = nRT", "P₁V₁ = P₂V₂", "W = PΔV", "η = W/Q_in"], 
+    answer: 0 }, // Formula selection
+  { q: "To find the work done in a constant pressure process, which formula is used?", 
+    options: ["W = PΔV", "W = nRT ln(V₂/V₁)", "ΔU = nC_vΔT", "η = 1 - (T_cold/T_hot)"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula determines the efficiency of a Carnot engine?", 
+    options: ["η = 1 - (T_cold/T_hot)", "η = W/Q_in", "ΔS ≥ 0", "PV = nRT"], 
+    answer: 0 }, // Formula selection
+  { q: "To calculate the work done in an isothermal process for an ideal gas, which formula applies?", 
+    options: ["W = nRT ln(V₂/V₁)", "W = PΔV", "W = C_v (T₂ - T₁)", "ΔU = Q"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula describes the relationship between specific heats for an ideal gas?", 
+    options: ["C_p - C_v = R", "PV = nRT", "W = nRT ln(V₂/V₁)", "η = W/Q_in"], 
+    answer: 0 }, // Formula selection
+  { q: "To find the efficiency of an Otto cycle, which formula is used?", 
+    options: ["η = 1 - (1/r^(γ-1))", "η = 1 - (T_cold/T_hot)", "η = W/Q_in", "PV = nRT"], 
+    answer: 0 }, // Formula selection
+  { q: "A Carnot engine operates between 800 K and 400 K. What is its efficiency? (Numerical)", 
+    options: ["50%", "25%", "75%", "33%"], 
+    answer: 0 }, // η = 1 - (T_cold/T_hot): 1 - 400/800 = 0.5
+  { q: "A gas at 2 atm and 0.015 m³ expands to 0.03 m³ at constant pressure. What is the work done? (Numerical)", 
+    options: ["3039 J", "1519 J", "6078 J", "760 J"], 
+    answer: 0 }, // W = PΔV: 2 × 101325 × (0.03 - 0.015) = 3039 J
+  { q: "A gas at 300 K expands isothermally from 0.1 m³ to 0.2 m³ (n = 1 mol, R = 8.314 J/mol.K). What is the work done? (Numerical)", 
+    options: ["1729 J", "865 J", "3458 J", "0 J"], 
+    answer: 0 }, // W = nRT ln(V₂/V₁): 1 × 8.314 × 300 × ln(0.2/0.1) ≈ 1729 J
+  { q: "An Otto cycle has a compression ratio of 9 (γ = 1.4). What is its efficiency? (Numerical)", 
+    options: ["58.7%", "50%", "70%", "40%"], 
+    answer: 0 }, // η = 1 - (1/r^(γ-1)): 1 - (1/9^(0.4)) ≈ 0.587
+
+  // Heat Engines (8 MCQs: 5 formula selection, 3 numerical)
+  { q: "Which formula calculates the work output of a heat engine cycle?", 
+    options: ["W = Q_in - Q_out", "P = Tω", "η = W/Q_in", "BP = (2πNT)/60"], 
+    answer: 0 }, // Formula selection
+  { q: "To find the efficiency of a Brayton cycle, which formula is used?", 
+    options: ["η = 1 - (1/r_p^((γ-1)/γ))", "η = 1 - (1/r^(γ-1))", "η = 1 - (T_cold/T_hot)", "W = Q_in - Q_out"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula determines the brake power of an engine?", 
+    options: ["BP = (2πNT)/60", "IP = (P_m × L × A × N × n)/(60)", "η_mech = BP/IP", "W = Q_in - Q_out"], 
+    answer: 0 }, // Formula selection
+  { q: "To calculate the compression ratio of an engine, which formula applies?", 
+    options: ["r = V_total / V_clearance", "r_c = V_cut-off / V_clearance", "η = W/Q_in", "P = Tω"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula gives the mechanical efficiency of an engine?", 
+    options: ["η_mech = BP/IP", "η_th = W/Q_in", "SFC = Fuel consumption / BP", "W = Q_in - Q_out"], 
+    answer: 0 }, // Formula selection
+  { q: "An engine with Q_in = 6000 J and Q_out = 3600 J produces what work output? (Numerical)", 
+    options: ["2400 J", "9600 J", "1200 J", "4800 J"], 
+    answer: 0 }, // W = Q_in - Q_out: 6000 - 3600 = 2400 J
+  { q: "An engine produces 50 Nm torque at 2000 RPM. What is the brake power? (Numerical)", 
+    options: ["10.5 kW", "5.2 kW", "21 kW", "2.6 kW"], 
+    answer: 0 }, // BP = (2πNT)/60: (2π × 2000 × 50)/60 ≈ 10,500 W = 10.5 kW
+  { q: "An engine has BP = 15 kW and IP = 20 kW. What is the mechanical efficiency? (Numerical)", 
+    options: ["75%", "80%", "90%", "60%"], 
+    answer: 0 }, // η_mech = BP/IP: 15/20 = 0.75
+
+  // Electro-Mechanical (5 MCQs: 3 formula selection, 2 numerical)
+  { q: "Which formula calculates the electrical power input to a motor?", 
+    options: ["P = VI cosφ", "P_mech = Tω", "η = P_out / P_in", "N_s = (120f) / p"], 
+    answer: 0 }, // Formula selection
+  { q: "To find the synchronous speed of an AC motor, which formula is used?", 
+    options: ["N_s = (120f) / p", "T = (P × 60) / (2πN)", "P_cu = I²R", "E_b = V - I_a R_a"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula determines the slip in an induction motor?", 
+    options: ["s = (N_s - N_r) / N_s", "P = VI cosφ", "η = P_out / P_in", "P_cu = I²R"], 
+    answer: 0 }, // Formula selection
+  { q: "A motor operates at 50 Hz with 4 poles. What is the synchronous speed? (Numerical)", 
+    options: ["1500 RPM", "3000 RPM", "750 RPM", "6000 RPM"], 
+    answer: 0 }, // N_s = (120f) / p: (120 × 50) / 4 = 1500 RPM
+  { q: "A motor with P_out = 12 kW and P_in = 15 kW has what efficiency? (Numerical)", 
+    options: ["80%", "90%", "70%", "100%"], 
+    answer: 0 }, // η = (P_out / P_in) × 100: (12/15) × 100 = 80%
+
+  // Industrial Boiler (5 MCQs: 3 formula selection, 2 numerical)
+  { q: "Which formula calculates the thermal efficiency of a boiler?", 
+    options: ["η_b = (m_s (h_s - h_f)) / (m_f × CV)", "Q = m_f × CV", "Q_loss = m_g × C_p × (T_g - T_a)", "E = (m_s (h_s - h_f)) / 2257"], 
+    answer: 0 }, // Formula selection
+  { q: "To find the heat supplied by fuel in a boiler, which formula is used?", 
+    options: ["Q = m_f × CV", "η_b = (m_s (h_s - h_f)) / (m_f × CV)", "ΔP = h × ρ × g", "m_f = (m_s (h_s - h_f)) / (η_b × CV)"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula determines the equivalent evaporation of a boiler?", 
+    options: ["E = (m_s (h_s - h_f)) / 2257", "η_b = (m_s (h_s - h_f)) / (m_f × CV)", "Q = m_f × CV", "Q_loss = m_g × C_p × (T_g - T_a)"], 
+    answer: 0 }, // Formula selection
+  { q: "A boiler produces 500 kg/h steam (h_s = 2800 kJ/kg, h_f = 400 kJ/kg) with 50 kg/h fuel (CV = 30,000 kJ/kg). What is the efficiency? (Numerical)", 
+    options: ["80%", "60%", "90%", "40%"], 
+    answer: 0 }, // η_b = (m_s (h_s - h_f)) / (m_f × CV): (500 × (2800 - 400)) / (50 × 30,000) = 0.8
+  { q: "A boiler uses 100 kg/h fuel with CV = 25,000 kJ/kg. What is the heat supplied? (Numerical)", 
+    options: ["2500 MJ/h", "1250 MJ/h", "5000 MJ/h", "625 MJ/h"], 
+    answer: 0 }, // Q = m_f × CV: 100 × 25,000 = 2,500,000 kJ/h = 2500 MJ/h
+
+  // Estimating and Costing (5 MCQs: 3 formula selection, 2 numerical)
+  { q: "Which formula calculates the break-even point in units?", 
+    options: ["Q_be = FC / (P - VC)", "ROI = (Net Profit / Investment) × 100", "D = (C - S) / n", "TC = FC + VC × Q"], 
+    answer: 0 }, // Formula selection
+  { q: "To find the return on investment, which formula is used?", 
+    options: ["ROI = (Net Profit / Investment) × 100", "Q_be = FC / (P - VC)", "NP = TR - TC", "CM = P - VC"], 
+    answer: 0 }, // Formula selection
+  { q: "Which formula determines the straight-line depreciation of an asset?", 
+    options: ["D = (C - S) / n", "TC = FC + VC × Q", "S_be = FC / (1 - (VC/P))", "PM = (NP / TR) × 100"], 
+    answer: 0 }, // Formula selection
+  { q: "A product has FC = $10,000, P = $50/unit, VC = $30/unit. What is the break-even point in units? (Numerical)", 
+    options: ["500 units", "250 units", "1000 units", "200 units"], 
+    answer: 0 }, // Q_be = FC / (P - VC): 10,000 / (50 - 30) = 500
+  { q: "An asset with C = $5000, S = $500, and n = 5 years has what annual depreciation? (Numerical)", 
+    options: ["$900/year", "$1000/year", "$450/year", "$1800/year"], 
+    answer: 0 }, // D = (C - S) / n: (5000 - 500) / 5 = 900
+
+  // Machine Drawing (2 MCQs: 1 formula selection, 1 numerical)
+  { q: "Which formula calculates the tolerance range for a dimension?", 
+    options: ["T = Upper Limit - Lower Limit", "C = Hole Dimension - Shaft Dimension", "A = πr²", "W = Fd cosθ"], 
+    answer: 0 }, // Formula selection
+  { q: "A dimension has an upper limit of 50.2 mm and a lower limit of 49.8 mm. What is the tolerance range? (Numerical)", 
+    options: ["0.4 mm", "0.2 mm", "0.8 mm", "1.0 mm"], 
+    answer: 0 }, // T = Upper Limit - Lower Limit: 50.2 - 49.8 = 0.4 mm
+];
+    questions.sort(() => Math.random() - 0.5);
+
+    let current = 0;
+    let score = 0;
+    let skipped = [];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+
+    function showQuestion(index) {
+      const q = questions[index];
+      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
+      quizEl.innerHTML = `
+        <div class="question">
+          <p>Q${index + 1}. ${q.q}</p>
+          <div class="options">${options}</div>
+          <button onclick="skipQuestion()">Skip</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === correct) btn.classList.add("correct");
+        if (i === selected && i !== correct) btn.classList.add("wrong");
+      });
+      if (selected === correct) score++;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion(current);
+        } else {
+          endQuiz();
+        }
+      }, 3000);
+    }
+
+    function skipQuestion() {
+      skipped.push(questions[current]);
+      current++;
+      if (current < questions.length) {
+        showQuestion(current);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    showQuestion(current);
+  </script>
+</body>
+
+</html>
