@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mock Test 3 – 50 MCQs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mock Test – 50 MCQs</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -22,7 +22,6 @@
     }
     h1 {
       text-align: center;
-      margin-bottom: 1rem;
     }
     .question {
       margin-bottom: 2rem;
@@ -53,8 +52,8 @@
     #score {
       text-align: center;
       font-size: 1.2rem;
-      margin-top: 2rem;
       font-weight: bold;
+      margin-top: 2rem;
     }
     #skipped-list {
       margin-top: 2rem;
@@ -66,8 +65,7 @@
 </head>
 <body>
   <div class="quiz-container">
-    <h1>लोक सेवा आयोग – Mock Test 3 (50 Questions)</h1>
-    <p>3</p>
+    <h1>लोक सेवा आयोग – Mock Test (50 MCQs)</h1>
     <div id="quiz"></div>
     <div id="score"></div>
     <div id="skipped-list" class="hidden">
@@ -75,6 +73,7 @@
       <ul id="skipped"></ul>
     </div>
   </div>
+
   <script>
    const questions = [
   { q: "Efficiency of Carnot cycle depends on:", options: ['Temperature', 'Pressure', 'Volume', 'Mass'], answer: 0 },
@@ -129,6 +128,7 @@
   { q: "Orthographic projection uses:", options: ['Parallel lines', 'Converging lines', 'Curved lines', 'None'], answer: 0 },
 ];
 
+  
     let current = 0;
     let score = 0;
     let skipped = [];
@@ -138,20 +138,21 @@
     const skippedEl = document.getElementById("skipped-list");
     const skippedList = document.getElementById("skipped");
 
-    function shuffleOptions(options) {
-      for (let i = options.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [options[i], options[j]] = [options[j], options[i]];
-      }
-      return options;
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
     }
 
     function showQuestion(index) {
       const q = questions[index];
-      const shuffledOptions = shuffleOptions(q.options.map((opt, i) => ({ text: opt, index: i })));
-      const optionsHTML = shuffledOptions
-        .map(opt => `<button onclick="checkAnswer(this, ${opt.index})">${opt.text}</button>`)
-        .join('');
+      const shuffled = shuffle(q.options.map(opt => ({
+        text: opt,
+        isCorrect: opt === q.answer
+      })));
+
+      const optionsHTML = shuffled.map(opt =>
+        `<button onclick="checkAnswer(this, ${opt.isCorrect})">${opt.text}</button>`
+      ).join('');
+
       quizEl.innerHTML = `
         <div class="question">
           <p>Q${index + 1}. ${q.q}</p>
@@ -161,15 +162,19 @@
       `;
     }
 
-    function checkAnswer(button, selected) {
-      const correct = questions[current].answer;
+    function checkAnswer(button, isCorrect) {
       const buttons = button.parentElement.querySelectorAll("button");
-      buttons.forEach((btn, i) => {
+      buttons.forEach(btn => {
         btn.disabled = true;
-        if (i === correct) btn.classList.add("correct");
-        if (btn === button && selected !== correct) btn.classList.add("wrong");
+        if (btn.textContent === questions[current].answer) {
+          btn.classList.add("correct");
+        } else if (btn === button && !isCorrect) {
+          btn.classList.add("wrong");
+        }
       });
-      if (selected === correct) score++;
+
+      if (isCorrect) score++;
+
       setTimeout(() => {
         current++;
         if (current < questions.length) {
@@ -177,7 +182,7 @@
         } else {
           endQuiz();
         }
-      }, 800);
+      }, 700);
     }
 
     function skipQuestion() {
@@ -192,14 +197,15 @@
 
     function endQuiz() {
       quizEl.innerHTML = "";
-      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
+      scoreEl.innerHTML = `✅ Your score: <strong>${score} / ${questions.length}</strong>`;
       if (skipped.length > 0) {
         skippedEl.classList.remove("hidden");
         skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
       }
     }
 
-    // Placeholder: Next step is to populate `questions` array.
+    // Start quiz
+    showQuestion(current);
   </script>
 </body>
 </html>
