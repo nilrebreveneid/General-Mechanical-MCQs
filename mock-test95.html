@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test 14 –   Ai gen 50 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+    }
+
+    .question p {
+      font-weight: bold;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+
+    #score {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    #skipped-list {
+      margin-top: 2rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test 14 AI gen – 50 Questions</h1>
+    <div id="quiz"></div>
+    <div id="score"></div>
+    <div id="skipped-list" class="hidden">
+      <h2>Skipped Questions</h2>
+      <ul id="skipped"></ul>
+    </div>
+  </div>
+  <script>
+const questions = [
+  // Applied Mechanics (13 MCQs)
+  { q: "The moment of inertia of a circular disc about its diameter is:", 
+    options: ["(1/4)MR²", "(1/2)MR²", "MR²", "(2/3)MR²"], 
+    answer: 0 },
+  { q: "The maximum normal stress in a beam under bending occurs at:", 
+    options: ["Farthest point from the neutral axis", "Neutral axis", "Midpoint of the beam", "Point of load application"], 
+    answer: 0 },
+  { q: "The angle of friction is defined as the angle between:", 
+    options: ["Normal force and resultant force", "Frictional force and applied force", "Normal force and surface", "Frictional force and surface"], 
+    answer: 0 },
+  { q: "The kinetic energy of a rotating body is given by:", 
+    options: ["(1/2)Iω²", "(1/2)mv²", "Iω", "mv²"], 
+    answer: 0 },
+  { q: "The condition for equilibrium of a particle under two forces is:", 
+    options: ["Forces are equal and opposite", "Forces are perpendicular", "Forces are parallel", "Forces are unequal"], 
+    answer: 0 },
+  { q: "The radius of gyration of a body is a measure of:", 
+    options: ["Mass distribution about an axis", "Linear velocity", "Angular acceleration", "Frictional resistance"], 
+    answer: 0 },
+  { q: "The impulse-momentum theorem states that:", 
+    options: ["Impulse equals change in momentum", "Impulse equals change in energy", "Momentum equals work done", "Impulse equals force"], 
+    answer: 0 },
+  { q: "The center of gravity of a composite body is determined by:", 
+    options: ["Weighted average of individual centroids", "Sum of individual masses", "Average of individual volumes", "Product of individual areas"], 
+    answer: 0 },
+  { q: "The power transmitted by a shaft is proportional to:", 
+    options: ["Torque and angular velocity", "Torque only", "Angular velocity only", "Shaft diameter"], 
+    answer: 0 },
+  { q: "The trajectory of a projectile in the absence of air resistance is:", 
+    options: ["Parabolic", "Linear", "Circular", "Elliptical"], 
+    answer: 0 },
+  { q: "The coefficient of static friction is generally:", 
+    options: ["Greater than dynamic friction", "Equal to dynamic friction", "Less than dynamic friction", "Zero"], 
+    answer: 0 },
+  { q: "The work done by a torque is equal to:", 
+    options: ["Torque times angular displacement", "Torque divided by angular velocity", "Torque times linear displacement", "Torque divided by time"], 
+    answer: 0 },
+  { q: "The law of conservation of energy states that:", 
+    options: ["Total energy remains constant in an isolated system", "Energy can be created", "Energy can be destroyed", "Energy is proportional to mass"], 
+    answer: 0 },
+
+  // Thermodynamics (8 MCQs)
+  { q: "The efficiency of a Carnot engine operating between 400 K and 300 K is:", 
+    options: ["25%", "33.3%", "50%", "75%"], 
+    answer: 0 },
+  { q: "The specific heat at constant pressure for an ideal gas is related to that at constant volume by:", 
+    options: ["C_p = C_v + R", "C_p = C_v - R", "C_p = C_v / R", "C_p = R - C_v"], 
+    answer: 0 },
+  { q: "The entropy of a system in an isolated system:", 
+    options: ["Never decreases", "Always decreases", "Remains constant", "Is zero"], 
+    answer: 0 },
+  { q: "The polytropic process follows the relation:", 
+    options: ["PV^n = constant", "PV = constant", "P/V = constant", "P^nV = constant"], 
+    answer: 0 },
+  { q: "The internal energy of an ideal gas depends only on:", 
+    options: ["Temperature", "Pressure", "Volume", "Mass"], 
+    answer: 0 },
+  { q: "The work done in an isothermal process for an ideal gas is:", 
+    options: ["nRT ln(V₂/V₁)", "nRT (V₂ - V₁)", "nRT (P₂ - P₁)", "Zero"], 
+    answer: 0 },
+  { q: "The second law of thermodynamics is concerned with:", 
+    options: ["Direction of energy transfer", "Conservation of energy", "Creation of energy", "Destruction of energy"], 
+    answer: 0 },
+  { q: "The mixed cycle in a diesel engine combines:", 
+    options: ["Constant volume and constant pressure", "Constant volume and isothermal", "Constant pressure and adiabatic", "Isothermal and adiabatic"], 
+    answer: 0 },
+
+  // Machine Drawing (7 MCQs)
+  { q: "The purpose of a knuckle joint in machine drawing is to:", 
+    options: ["Connect rods with angular movement", "Join flat plates", "Transmit torque", "Hold gears in place"], 
+    answer: 0 },
+  { q: "The symbol for a fillet weld in a drawing is:", 
+    options: ["Triangle below reference line", "Circle at junction", "Arrow with tail", "Square with cross"], 
+    answer: 0 },
+  { q: "The missing view of a prismatic workpiece is found using:", 
+    options: ["Orthographic projection principles", "Isometric projection", "Perspective projection", "Oblique projection"], 
+    answer: 0 },
+  { q: "The standard line type for a cutting plane is:", 
+    options: ["Thick dashed line with arrows", "Thin solid line", "Chain line", "Dotted line"], 
+    answer: 0 },
+  { q: "The purpose of a cotter joint is to:", 
+    options: ["Connect rods axially", "Join flat plates", "Transmit rotary motion", "Hold gears"], 
+    answer: 0 },
+  { q: "The isometric view of a circle appears as:", 
+    options: ["An ellipse", "A circle", "A parabola", "A hyperbola"], 
+    answer: 0 },
+  { q: "The purpose of a dimensioning tolerance is to:", 
+    options: ["Specify acceptable limits of variation", "Show material type", "Indicate assembly sequence", "Show hidden features"], 
+    answer: 0 },
+
+  // Electro-Mechanical (3 MCQs)
+  { q: "The main difference between a series and shunt DC motor is:", 
+    options: ["Field winding connection", "Armature resistance", "Commutator design", "Rotor material"], 
+    answer: 0 },
+  { q: "The function of a field coil in a DC generator is to:", 
+    options: ["Produce magnetic flux", "Collect current", "Increase voltage", "Reduce resistance"], 
+    answer: 0 },
+  { q: "The power factor of an AC motor is improved by:", 
+    options: ["Adding capacitors", "Increasing load", "Reducing voltage", "Changing frequency"], 
+    answer: 0 },
+
+  // Industrial Boiler (5 MCQs)
+  { q: "The main purpose of a water level indicator in a boiler is to:", 
+    options: ["Monitor water level", "Increase steam pressure", "Regulate fuel supply", "Cool the flue gases"], 
+    answer: 0 },
+  { q: "The efficiency of a boiler is primarily affected by:", 
+    options: ["Heat losses in flue gases", "Steam pressure", "Fuel type only", "Boiler size"], 
+    answer: 0 },
+  { q: "The main advantage of a Lancashire boiler is:", 
+    options: ["Simple design and reliability", "High pressure capability", "Compact size", "Low fuel consumption"], 
+    answer: 0 },
+  { q: "The function of a stop valve in a boiler is to:", 
+    options: ["Control steam flow to the system", "Remove condensate", "Increase fuel combustion", "Preheat feedwater"], 
+    answer: 0 },
+  { q: "The primary fuel for industrial boilers is typically:", 
+    options: ["Coal or natural gas", "Wood only", "Nuclear energy", "Solar energy"], 
+    answer: 0 },
+
+  // Heat Engines (5 MCQs)
+  { q: "The thermal efficiency of a Diesel cycle is generally:", 
+    options: ["Higher than Otto cycle for same compression ratio", "Lower than Otto cycle", "Equal to Otto cycle", "Zero"], 
+    answer: 0 },
+  { q: "The main function of a camshaft in an engine is to:", 
+    options: ["Control valve timing", "Transmit torque", "Cool the engine", "Ignite the fuel"], 
+    answer: 0 },
+  { q: "The primary difference between a steam engine and an automotive engine is:", 
+    options: ["External vs. internal combustion", "Fuel type", "Cycle efficiency", "Power output"], 
+    answer: 0 },
+  { q: "The power plant used in civil aircraft is typically:", 
+    options: ["Gas turbine engine", "Steam engine", "Diesel engine", "Two-stroke engine"], 
+    answer: 0 },
+  { q: "The main purpose of a throttle valve in an engine is to:", 
+    options: ["Regulate air-fuel mixture", "Ignite the fuel", "Cool the engine", "Increase exhaust pressure"], 
+    answer: 0 },
+
+  // Industrial Management (6 MCQs)
+  { q: "The main function of the International Labour Organization (ILO) is to:", 
+    options: ["Promote workers’ rights and standards", "Regulate international trade", "Develop aviation standards", "Manage environmental policies"], 
+    answer: 0 },
+  { q: "The primary purpose of a labor law is to:", 
+    options: ["Protect employee rights", "Increase production costs", "Reduce market competition", "Develop new technologies"], 
+    answer: 0 },
+  { q: "The main objective of industrial hygiene is to:", 
+    options: ["Prevent workplace health hazards", "Increase employee workload", "Reduce product quality", "Develop marketing strategies"], 
+    answer: 0 },
+  { q: "The function of the International Civil Aviation Organization (ICAO) is to:", 
+    options: ["Set global aviation standards", "Manage labor unions", "Regulate industrial safety", "Promote environmental policies"], 
+    answer: 0 },
+  { q: "The main purpose of a collective bargaining agreement is to:", 
+    options: ["Negotiate worker terms with management", "Increase production costs", "Develop new products", "Reduce market share"], 
+    answer: 0 },
+  { q: "The primary goal of workplace safety regulations is to:", 
+    options: ["Minimize occupational hazards", "Maximize employee workload", "Increase production costs", "Develop new technologies"], 
+    answer: 0 },
+
+  // Estimating and Costing (3 MCQs)
+  { q: "The break-even point is the level of production where:", 
+    options: ["Total revenue equals total cost", "Profit is maximized", "Costs are minimized", "Revenue is zero"], 
+    answer: 0 },
+  { q: "The main purpose of depreciation in costing is to:", 
+    options: ["Allocate asset cost over its useful life", "Increase asset value", "Reduce tax liability", "Calculate profit"], 
+    answer: 0 },
+  { q: "The return on investment (ROI) measures:", 
+    options: ["Profit relative to investment cost", "Total revenue", "Fixed cost percentage", "Variable cost ratio"], 
+    answer: 0 }
+];
+    questions.sort(() => Math.random() - 0.5);
+
+    let current = 0;
+    let score = 0;
+    let skipped = [];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const skippedEl = document.getElementById("skipped-list");
+    const skippedList = document.getElementById("skipped");
+
+    function showQuestion(index) {
+      const q = questions[index];
+      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
+      quizEl.innerHTML = `
+        <div class="question">
+          <p>Q${index + 1}. ${q.q}</p>
+          <div class="options">${options}</div>
+          <button onclick="skipQuestion()">Skip</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(button, selected) {
+      const correct = questions[current].answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === correct) btn.classList.add("correct");
+        if (i === selected && i !== correct) btn.classList.add("wrong");
+      });
+      if (selected === correct) score++;
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          showQuestion(current);
+        } else {
+          endQuiz();
+        }
+      }, 3000);
+    }
+
+    function skipQuestion() {
+      skipped.push(questions[current]);
+      current++;
+      if (current < questions.length) {
+        showQuestion(current);
+      } else {
+        endQuiz();
+      }
+    }
+
+    function endQuiz() {
+      quizEl.innerHTML = "";
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
+      if (skipped.length > 0) {
+        skippedEl.classList.remove("hidden");
+        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
+      }
+    }
+
+    showQuestion(current);
+  </script>
+</body>
+
+</html>
