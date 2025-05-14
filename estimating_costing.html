@@ -1,83 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Industrial Management Quiz</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f8f8f8; padding: 20px; }
-    .quiz-container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .question { margin-bottom: 20px; }
-    .question h3 { margin-bottom: 10px; }
-    button { margin-top: 10px; }
-    .result { font-weight: bold; margin-top: 10px; }
-    .score { font-size: 20px; margin-top: 20px; text-align: center; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e88e5;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      text-align: center;
+      color: #d81b60;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-container {
+      max-width: 900px;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #eee;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #42a5f5;
+      transition: width 0.3s;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #d81b60;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+      animation: fadeIn 0.5s;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .question h3 {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #444;
+      margin-bottom: 0.5rem;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+      text-align: left;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+      transform: translateX(5px);
+    }
+
+    .options button:focus {
+      outline: 2px solid #1e88e5;
+      outline-offset: 2px;
+    }
+
+    .options button.correct {
+      background-color: #c8e6c9 !important;
+      animation: pulse 0.5s;
+    }
+
+    .options button.wrong {
+      background-color: #ffcdd2 !important;
+      animation: shake 0.3s;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    #score, #results {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #f5f5f5;
+    }
+
+    .submit-button, .restart-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+      transition: background 0.3s;
+    }
+
+    .submit-button:hover, .restart-button:hover {
+      background: #1e88e5;
+    }
+
+    .submit-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <H2> 3 MCQs WILL COME IN EXAM</H2>
-  <div class="quiz-container" id="quiz"></div>
-  <div class="score" id="score"></div>
+  <h1>Industrial Management Quiz</h1>
+  <h2>3 MCQs Will Come in Exam</h2>
+  <div class="quiz-container">
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div id="quiz"></div>
+    <button class="submit-button" id="submit-button" disabled>Submit Quiz</button>
+    <div id="score"></div>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <button class="restart-button hidden" id="restart-button">Restart Quiz</button>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
 
   <script>
     const quizData = [
-      { q: "Depreciation is a process of:", a: "(C) Maintenance", b: "(A) Valuation" },
-      { q: "Depreciation arises because of:", a: "(B) Physical wear and tear", b: "(A) Fall in the market value of an asset" },
-      { q: "Following cost is variable cost:", a: "(C) Cost of raw material", b: "(A) Depreciation of plant" },
-      { q: "The price of goods which depends on price of goods:", a: "(B) Obtained on bad debt loss", b: "(A) Solid order" },
-      { q: "Return on Investment (ROI) =", a: "(D) Net profit / Total assets × 100", b: "(A) Gross profit / Net sales × 100" },
-      { q: "The main objective of depreciation?", a: "(B) To calculate net profit", b: "(A) To show previous profit" },
-      { q: "Break-even analysis can be used for:", a: "(A) Short run analysis", b: "(B) Long run analysis" },
-      { q: "Depreciation of machines, according to income tax regulation is calculated on the basis of:", a: "(C) Declining balance", b: "(A) Rate of returns" },
-      { q: "What is depreciation?", a: "(D) Position of fixed asset’s cost consumed during the current accounting period", b: "(A) Cost of a fixed asset" },
-      { q: "Pricing of a product is based on:", a: "(D) All of the above", b: "(A) Total cost incurred for production" },
-      { q: "A book published by manufacturers containing parts, numbers and diagrams is called:", a: "(D) Owner’s manual", b: "(A) Service manual" },
-      { q: "Civil Service Act pension formula:", a: "(B) No. of years of service × latest salary ÷ 50", b: "(A) Fixed interest × No. of years" },
-      { q: "Depreciation of fixed assets is:", a: "(C) The amount by which its value is assumed to decrease because of the asset being used", b: "(A) Full value retained" },
-      { q: "Depreciation of machines is categorized under the head:", a: "(A) Direct expenses", b: "(B) Indirect expenses" },
-      { q: "A variable cost is a cost that:", a: "(A) Varies directly with the level of activity", b: "(C) Does not change with level of activity" },
-      { q: "Pick the element of the cost from the following:", a: "(D) All of these", b: "(C) Overhead" },
-      { q: "The total cost is the sum of fixed cost and:", a: "(D) Variable cost", b: "(B) Accounting cost" },
-      { q: "A cost that has already been made and cannot be recovered is called:", a: "(D) Sunk cost", b: "(B) Fixed cost" },
-      { q: "A variable cost is a cost that:", a: "(A) Varies out at every level of activity", b: "(B) Occurs at various times during the year" },
-      { q: "Depreciation of machines is categorized under the head:", a: "(A) Direct expenses", b: "(B) Indirect expenses" },
-      { q: "The main objective of depreciation?", a: "(B) To calculate net profit", b: "(A) To show previous profit" },
-      { q: "Return on Investment (ROI) =", a: "(D) Net profit / Total assets × 100", b: "(A) Gross profit / Net sales × 100" }
+      { q: "Depreciation is a process of:", options: ["(C) Maintenance", "(A) Valuation"], answer: 1 },
+      { q: "Depreciation arises because of:", options: ["(B) Physical wear and tear", "(A) Fall in the market value of an asset"], answer: 0 },
+      { q: "Following cost is variable cost:", options: ["(C) Cost of raw material", "(A) Depreciation of plant"], answer: 0 },
+      { q: "The price of goods which depends on price of goods:", options: ["(B) Obtained on bad debt loss", "(A) Solid order"], answer: 1 },
+      { q: "Return on Investment (ROI) =", options: ["(D) Net profit / Total assets × 100", "(A) Gross profit / Net sales × 100"], answer: 0 },
+      { q: "The main objective of depreciation?", options: ["(B) To calculate net profit", "(A) To show previous profit"], answer: 0 },
+      { q: "Break-even analysis can be used for:", options: ["(A) Short run analysis", "(B) Long run analysis"], answer: 0 },
+      { q: "Depreciation of machines, according to income tax regulation is calculated on the basis of:", options: ["(C) Declining balance", "(A) Rate of returns"], answer: 0 },
+      { q: "What is depreciation?", options: ["(D) Position of fixed asset’s cost consumed during the current accounting period", "(A) Cost of a fixed asset"], answer: 0 },
+      { q: "Pricing of a product is based on:", options: ["(D) All of the above", "(A) Total cost incurred for production"], answer: 0 },
+      { q: "A book published by manufacturers containing parts, numbers and diagrams is called:", options: ["(D) Owner’s manual", "(A) Service manual"], answer: 0 },
+      { q: "Civil Service Act pension formula:", options: ["(B) No. of years of service × latest salary ÷ 50", "(A) Fixed interest × No. of years"], answer: 0 },
+      { q: "Depreciation of fixed assets is:", options: ["(C) The amount by which its value is assumed to decrease because of the asset being used", "(A) Full value retained"], answer: 0 },
+      { q: "Depreciation of machines is categorized under the head:", options: ["(A) Direct expenses", "(B) Indirect expenses"], answer: 1 },
+      { q: "A variable cost is a cost that:", options: ["(A) Varies directly with the level of activity", "(C) Does not change with level of activity"], answer: 0 },
+      { q: "Pick the element of the cost from the following:", options: ["(D) All of these", "(C) Overhead"], answer: 0 },
+      { q: "The total cost is the sum of fixed cost and:", options: ["(D) Variable cost", "(B) Accounting cost"], answer: 0 },
+      { q: "A cost that has already been made and cannot be recovered is called:", options: ["(D) Sunk cost", "(B) Fixed cost"], answer: 0 },
+      { q: "A variable cost is a cost that:", options: ["(A) Varies out at every level of activity", "(B) Occurs at various times during the year"], answer: 0 },
+      { q: "Depreciation of machines is categorized under the head:", options: ["(A) Direct expenses", "(B) Indirect expenses"], answer: 1 },
+      { q: "The main objective of depreciation?", options: ["(B) To calculate net profit", "(A) To show previous profit"], answer: 0 },
+      { q: "Return on Investment (ROI) =", options: ["(D) Net profit / Total assets × 100", "(A) Gross profit / Net sales × 100"], answer: 0 }
     ];
 
-    const quiz = document.getElementById("quiz");
-    const scoreDisplay = document.getElementById("score");
     let score = 0;
+    let userAnswers = Array(quizData.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
 
-    quizData.forEach((item, index) => {
-      const div = document.createElement("div");
-      div.classList.add("question");
-      div.innerHTML = `
-        <h3>Q${index + 1}. ${item.q}</h3>
-        <button onclick="checkAnswer(this, true)">${item.a}</button><br/>
-        <button onclick="checkAnswer(this, false)">${item.b}</button>
-        <div class="result"></div>
-      `;
-      quiz.appendChild(div);
-    });
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const submitButton = document.getElementById("submit-button");
+    const restartButton = document.getElementById("restart-button");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
 
-    function checkAnswer(button, isCorrect) {
-      const resultDiv = button.parentElement.querySelector(".result");
-      if (resultDiv.innerText !== "") return;
-      if (isCorrect) {
-        resultDiv.innerText = "Correct ✅";
-        resultDiv.style.color = "green";
-        score++;
+    // Load progress from localStorage
+    function loadProgress() {
+      const saved = localStorage.getItem("industrialManagementQuizProgress");
+      if (saved) {
+        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        score = savedScore || 0;
+        userAnswers = savedAnswers && savedAnswers.length === quizData.length ? savedAnswers : Array(quizData.length).fill(null);
+        timerSeconds = savedTime || 0;
       } else {
-        resultDiv.innerText = "Incorrect ❌";
-        resultDiv.style.color = "red";
-      }
-      const allAnswered = [...document.querySelectorAll('.result')].every(div => div.innerText !== "");
-      if (allAnswered) {
-        scoreDisplay.innerText = `Your final score: ${score} / ${quizData.length}`;
+        score = 0;
+        userAnswers = Array(quizData.length).fill(null);
+        timerSeconds = 0;
       }
     }
+
+    // Save progress to localStorage
+    function saveProgress() {
+      localStorage.setItem("industrialManagementQuizProgress", JSON.stringify({
+        score,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
+
+    // Shuffle options
+    function shuffleOptions(quizData) {
+      return quizData.map(q => {
+        const correct = q.options[q.answer];
+        const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+        return {
+          q: q.q,
+          options: shuffled,
+          answer: shuffled.indexOf(correct)
+        };
+      });
+    }
+
+    // Start timer
+    function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const answered = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answered / quizData.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+      checkAllAnswered();
+    }
+
+    // Show all questions
+    function showQuestions() {
+      let html = '';
+      for (let i = 0; i < quizData.length; i++) {
+        const q = shuffledQuizData[i];
+        const options = q.options
+          .map((opt, j) => `<button aria-label="Option ${opt}" onclick="checkAnswer(this, ${i}, ${j}, '${opt.replace(/'/g, "\\'")}')">${opt}</button>`)
+          .join('');
+        html += `
+          <div class="question" data-index="${i}">
+            <h3>${i + 1}. ${q.q}</h3>
+            <div class="options">${options}</div>
+          </div>
+        `;
+      }
+      quizEl.innerHTML = html;
+      updateProgress();
+    }
+
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuizData[questionIndex];
+      const correct = q.answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn) => {
+        btn.disabled = true;
+        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
+      });
+
+      userAnswers[questionIndex] = selectedText;
+      if (selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Audio playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Audio playback failed"));
+      }
+
+      saveProgress();
+      updateProgress();
+    }
+
+    // Check if all questions are answered to enable submit button
+    function checkAllAnswered() {
+      const allAnswered = userAnswers.every(answer => answer !== null);
+      submitButton.disabled = !allAnswered;
+    }
+
+    // End quiz and show results
+    function endQuiz() {
+      clearInterval(timerInterval);
+      quizEl.innerHTML = "";
+      submitButton.classList.add("hidden");
+      scoreEl.innerHTML = `Your score: ${score} / ${quizData.length} (${((score / quizData.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+      restartButton.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuizData.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" : userAnswers[i];
+        const correctAnswer = q.options[q.answer];
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${q.q}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Clear localStorage
+      localStorage.removeItem("industrialManagementQuizProgress");
+    }
+
+    // Restart quiz
+    function restartQuiz() {
+      score = 0;
+      userAnswers = Array(quizData.length).fill(null);
+      timerSeconds = 0;
+      shuffledQuizData = shuffleOptions(quizData);
+      resultsEl.classList.add("hidden");
+      restartButton.classList.add("hidden");
+      submitButton.classList.remove("hidden");
+      scoreEl.innerHTML = "";
+      startTimer();
+      showQuestions();
+    }
+
+    // Initialize
+    let shuffledQuizData = shuffleOptions(quizData);
+    loadProgress();
+    startTimer();
+    showQuestions();
+
+    // Add event listeners
+    submitButton.addEventListener("click", endQuiz);
+    restartButton.addEventListener("click", restartQuiz);
   </script>
 </body>
 </html>
-
