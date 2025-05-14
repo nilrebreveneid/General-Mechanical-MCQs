@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mock Test – 50 MCQs</title>
+  <title>लोक सेवा आयोग – Mock Test 3 (50 MCQs)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -184,7 +184,7 @@
 </head>
 <body>
   <div class="quiz-container">
-    <h1>लोक सेवा आयोग – Mock Test (50 MCQs)</h1>
+    <h1>लोक सेवा आयोग – Mock Test 3 (50 MCQs)</h1>
     <div id="timer">Time: 00:00</div>
     <div class="progress-bar">
       <div class="progress" id="progress"></div>
@@ -271,7 +271,7 @@
     let timerSeconds = 0;
     let timerInterval;
     const QUESTIONS_PER_PAGE = 5;
-    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+    const ANSWER_DELAY = 1500;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -284,20 +284,26 @@
 
     // Load progress from localStorage
     function loadProgress() {
-      const saved = localStorage.getItem("quizProgress3");
+      const saved = localStorage.getItem("quizProgress");
       if (saved) {
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        currentPage = savedPage;
-        score = savedScore;
-        skipped = savedSkipped;
-        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        currentPage = savedPage || 0;
+        score = savedScore || 0;
+        skipped = savedSkipped || [];
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
+      } else {
+        currentPage = 0;
+        score = 0;
+        skipped = [];
+        userAnswers = Array(questions.length).fill(null);
+        timerSeconds = 0;
       }
     }
 
     // Save progress to localStorage
     function saveProgress() {
-      localStorage.setItem("quizProgress3", JSON.stringify({
+      localStorage.setItem("quizProgress", JSON.stringify({
         currentPage,
         score,
         skipped,
@@ -320,6 +326,10 @@
 
     // Start timer
     function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -330,8 +340,19 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      const answeredOrSkipped = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answeredOrSkipped / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
+    }
+
+    // Escape special characters for JavaScript string
+    function escapeJsString(str) {
+      return str
+        .replace(/'/g, "\\'")
+        .replace(/\u2212/g, '-') // Mathematical minus to hyphen
+        .replace(/ᵥ/g, 'v')
+        .replace(/ₚ/g, 'p')
+        .replace(/\u2019/g, "'"); // Curly apostrophe to straight
     }
 
     // Show questions for the current page
@@ -343,7 +364,7 @@
         const q = shuffledQuestions[i];
         const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
         const options = shuffledOptions
-          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeJsString(opt.text)}')">${opt.text}</button>`)
           .join('');
         html += `
           <div class="question" data-index="${i}">
@@ -387,8 +408,8 @@
 
     // Skip question
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(shuffledQuestions[questionIndex])) {
-        skipped.push(shuffledQuestions[questionIndex]);
+      if (!skipped.includes(questionIndex)) {
+        skipped.push(questionIndex);
         userAnswers[questionIndex] = "Skipped";
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
@@ -450,11 +471,13 @@
       }).join('');
 
       // Clear localStorage
-      localStorage.removeItem("quizProgress3");
+      localStorage.removeItem("quizProgress");
     }
 
     // Initialize
+    console.log("Initial state:", { currentPage, score, skipped, userAnswers, timerSeconds });
     loadProgress();
+    console.log("After loadProgress:", { currentPage, score, skipped, userAnswers, timerSeconds });
     startTimer();
     showQuestions(currentPage);
   </script>
