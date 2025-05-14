@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,6 +11,7 @@
       margin: 0;
       padding: 2rem;
       color: #333;
+      min-height: 100vh;
     }
 
     .quiz-container {
@@ -26,14 +26,24 @@
     h1 {
       text-align: center;
       margin-bottom: 1rem;
+      color: #1e88e5;
     }
 
     .question {
       margin-bottom: 1.5rem;
+      animation: fadeIn 0.5s;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .question p {
       font-weight: bold;
+      font-size: 1.1rem;
     }
 
     .options button {
@@ -45,432 +55,673 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s;
+      font-size: 1rem;
     }
 
     .options button:hover {
       background: #bbdefb;
+      transform: translateX(5px);
     }
 
     .correct {
       background-color: #c8e6c9 !important;
+      animation: pulse 0.5s;
     }
 
     .wrong {
       background-color: #ffcdd2 !important;
+      animation: shake 0.3s;
     }
 
-    #score {
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #eee;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #42a5f5;
+      transition: width 0.3s;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #d81b60;
+    }
+
+    #score, #results {
       text-align: center;
       font-size: 1.2rem;
       margin-top: 2rem;
       font-weight: bold;
     }
 
-    #skipped-list {
-      margin-top: 2rem;
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #f5f5f5;
+    }
+
+    .skip-button {
+      background: #fff3cd;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      width: 100%;
+      border: 1px solid #ffca28;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .skip-button:hover {
+      background: #ffecb3;
+    }
+
+    .next-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .next-button:hover {
+      background: #1e88e5;
+    }
+
+    .next-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
     }
 
     .hidden {
       display: none;
     }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+    }
   </style>
 </head>
-
 <body>
   <div class="quiz-container">
     <h1>Mock Test 10 – 100 Questions</h1>
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
     <div id="quiz"></div>
     <div id="score"></div>
-    <div id="skipped-list" class="hidden">
-      <h2>Skipped Questions</h2>
-      <ul id="skipped"></ul>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
     </div>
   </div>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+
   <script>
-  const questions = [
-  // Applied Mechanics (26 MCQs)
-  { q: "A system of three forces acts on a body and keeps it in equilibrium. The forces need to be:", 
-    options: ["Coplanar only", "Coplanar may or may not be concurrent", "Concurrent only", "Non-coplanar"], 
-    answer: 0 },
-  { q: "Which of the following situation constitutes a projectile?", 
-    options: ["Lifting of a balloon", "Launching of a satellite", "Pushing a cart", "Rolling a ball"], 
-    answer: 1 },
-  { q: "The wheels of a moving car possess:", 
-    options: ["Kinetic energy of rotation only", "Kinetic energy of translation and rotation both", "Potential energy only", "Thermal energy"], 
-    answer: 1 },
-  { q: "Forces always exist in pairs and are equal but opposite:", 
-    options: ["Newton’s second law", "Newton’s third law", "Newton’s first law", "Law of gravitation"], 
-    answer: 1 },
-  { q: "A body moves only when:", 
-    options: ["Force of friction = applied force", "Force of friction < applied force", "Force of friction > applied force", "No force is applied"], 
-    answer: 1 },
-  { q: "Which is not a vector quantity:", 
-    options: ["Speed", "Velocity", "Acceleration", "Momentum"], 
-    answer: 0 },
-  { q: "The coefficient of friction depends on:", 
-    options: ["Area of contact", "Strength of surfaces", "Shape of surfaces", "Weight of the object"], 
-    answer: 1 },
-  { q: "Tension in a cable supporting a lift, when lift is going down is:", 
-    options: ["W + f = mg", "W - f = mg", "W = mg", "W = f"], 
-    answer: 1 },
-  { q: "Force when carried by tire:", 
-    options: ["Retard its motion", "Introduce internal stress", "Increase velocity", "Reduce friction"], 
-    answer: 1 },
-  { q: "Which of the following physical quantity is not a vector quantity?", 
-    options: ["Mass", "Momentum", "Velocity", "Force"], 
-    answer: 0 },
-  { q: "A body will move only when:", 
-    options: ["Force of friction = applied force", "Force of friction < applied force", "Force of friction > applied force", "Force is zero"], 
-    answer: 1 },
-  { q: "Following term is not a vector quantity:", 
-    options: ["Speed", "Velocity", "Acceleration", "Displacement"], 
-    answer: 0 },
-  { q: "The breakeven point is the point where:", 
-    options: ["Fixed and variable cost lines intersect", "Variable and total cost lines intersect", "Sales and profit lines intersect", "Revenue and loss lines intersect"], 
-    answer: 0 },
-  { q: "A company spends considerable amount on publicity to promote sales. This expenditure in break-even chart is shown below the:", 
-    options: ["Fixed cost line", "Sales revenue line", "Variable cost line", "Total cost line"], 
-    answer: 0 },
-  { q: "Break-even analysis consists of:", 
-    options: ["Fixed costs", "Fixed and variable costs", "Variable costs only", "Revenue costs"], 
-    answer: 1 },
-  { q: "If the velocity of 1 m/s is accelerated by 1 m/s² then the velocity after 1 sec will be:", 
-    options: ["4 m/s", "3 m/s", "2 m/s", "5 m/s"], 
-    answer: 1 },
-  { q: "The C.G. of a plane lamina will not be at its geometrical center if it is a:", 
-    options: ["Equilateral triangle", "Rectangle", "Right-angled triangle", "Circle"], 
-    answer: 1 },
-  { q: "There is no acceleration or lift if:", 
-    options: ["W = (T – W/g)", "W = T", "W > T", "W < T"], 
-    answer: 1 },
-  { q: "A force may:", 
-    options: ["Retard its motion", "All of the above", "Accelerate its motion", "Change its direction"], 
-    answer: 1 },
-  { q: "Power is equal to:", 
-    options: ["Work done per minute", "Work done per second", "Force times distance", "Energy per unit time"], 
-    answer: 1 },
-  { q: "The force of friction which exists when the body is in motion is called:", 
-    options: ["Static friction", "Dynamic friction", "Rolling friction", "Limiting friction"], 
-    answer: 1 },
-  { q: "The statement 'forces always exist in pairs and to every action there is equal but opposite reaction' is:", 
-    options: ["Newton’s first law of motion", "Newton’s third law of motion", "Newton’s second law of motion", "Law of conservation of energy"], 
-    answer: 1 },
-  { q: "Value of acceleration due to gravity (g) on earth’s surface is:", 
-    options: ["10 m/s²", "9.8 m/s²", "8.9 m/s²", "11 m/s²"], 
-    answer: 1 },
-  { q: "The statement 'stress is directly proportional to strain within elastic limit' refers to:", 
-    options: ["Pascal’s law", "Hooke’s law", "Boyle’s law", "Charles’ law"], 
-    answer: 1 },
-  { q: "Maximum range of a particle is at angle:", 
-    options: ["30°", "45°", "60°", "90°"], 
-    answer: 1 },
-  { q: "One Newton is that force which produces an acceleration of:", 
-    options: ["1 m/s² in a mass of 1 gm", "1 m/s² in a mass of 1 kg", "1 cm/s² in a mass of 1 kg", "1 m/s² in a mass of 100 gm"], 
-    answer: 1 },
+    const questions = [
+      // Applied Mechanics (26 MCQs)
+      { q: "A system of three forces acts on a body and keeps it in equilibrium. The forces need to be:", 
+        options: ["Coplanar only", "Coplanar may or may not be concurrent", "Concurrent only", "Non-coplanar"], 
+        answer: 2 },
+      { q: "Which of the following situation constitutes a projectile?", 
+        options: ["Lifting of a balloon", "Launching of a satellite", "Pushing a cart", "Rolling a ball"], 
+        answer: 1 },
+      { q: "The wheels of a moving car possess:", 
+        options: ["Kinetic energy of rotation only", "Kinetic energy of translation and rotation both", "Potential energy only", "Thermal energy"], 
+        answer: 1 },
+      { q: "Forces always exist in pairs and are equal but opposite:", 
+        options: ["Newton’s second law", "Newton’s third law", "Newton’s first law", "Law of gravitation"], 
+        answer: 1 },
+      { q: "A body moves only when:", 
+        options: ["Force of friction = applied force", "Force of friction < applied force", "Force of friction > applied force", "No force is applied"], 
+        answer: 1 },
+      { q: "Which is not a vector quantity:", 
+        options: ["Speed", "Velocity", "Acceleration", "Momentum"], 
+        answer: 0 },
+      { q: "The coefficient of friction depends on:", 
+        options: ["Area of contact", "Strength of surfaces", "Shape of surfaces", "Weight of the object"], 
+        answer: 1 },
+      { q: "Tension in a cable supporting a lift, when lift is going down is:", 
+        options: ["W + f = mg", "W - f = mg", "W = mg", "W = f"], 
+        answer: 1 },
+      { q: "Force when carried by tire:", 
+        options: ["Retard its motion", "Introduce internal stress", "Increase velocity", "Reduce friction"], 
+        answer: 1 },
+      { q: "Which of the following physical quantity is not a vector quantity?", 
+        options: ["Mass", "Momentum", "Velocity", "Force"], 
+        answer: 0 },
+      { q: "A body will move only when:", 
+        options: ["Force of friction = applied force", "Force of friction < applied force", "Force of friction > applied force", "Force is zero"], 
+        answer: 1 },
+      { q: "Following term is not a vector quantity:", 
+        options: ["Speed", "Velocity", "Acceleration", "Displacement"], 
+        answer: 0 },
+      { q: "The breakeven point is the point where:", 
+        options: ["Fixed and variable cost lines intersect", "Variable and total cost lines intersect", "Sales and profit lines intersect", "Revenue and loss lines intersect"], 
+        answer: 0 },
+      { q: "A company spends considerable amount on publicity to promote sales. This expenditure in break-even chart is shown below the:", 
+        options: ["Fixed cost line", "Sales revenue line", "Variable cost line", "Total cost line"], 
+        answer: 0 },
+      { q: "Break-even analysis consists of:", 
+        options: ["Fixed costs", "Fixed and variable costs", "Variable costs only", "Revenue costs"], 
+        answer: 1 },
+      { q: "If the velocity of 1 m/s is accelerated by 1 m/s² then the velocity after 1 sec will be:", 
+        options: ["4 m/s", "3 m/s", "2 m/s", "5 m/s"], 
+        answer: 2 },
+      { q: "The C.G. of a plane lamina will not be at its geometrical center if it is a:", 
+        options: ["Equilateral triangle", "Rectangle", "Right-angled triangle", "Circle"], 
+        answer: 2 },
+      { q: "There is no acceleration or lift if:", 
+        options: ["W = (T – W/g)", "W = T", "W > T", "W < T"], 
+        answer: 1 },
+      { q: "A force may:", 
+        options: ["Retard its motion", "All of the above", "Accelerate its motion", "Change its direction"], 
+        answer: 1 },
+      { q: "Power is equal to:", 
+        options: ["Work done per minute", "Work done per second", "Force times distance", "Energy per unit time"], 
+        answer: 3 },
+      { q: "The force of friction which exists when the body is in motion is called:", 
+        options: ["Static friction", "Dynamic friction", "Rolling friction", "Limiting friction"], 
+        answer: 1 },
+      { q: "The statement 'forces always exist in pairs and to every action there is equal but opposite reaction' is:", 
+        options: ["Newton’s first law of motion", "Newton’s third law of motion", "Newton’s second law of motion", "Law of conservation of energy"], 
+        answer: 1 },
+      { q: "Value of acceleration due to gravity (g) on earth’s surface is:", 
+        options: ["10 m/s²", "9.8 m/s²", "8.9 m/s²", "11 m/s²"], 
+        answer: 1 },
+      { q: "The statement 'stress is directly proportional to strain within elastic limit' refers to:", 
+        options: ["Pascal’s law", "Hooke’s law", "Boyle’s law", "Charles’ law"], 
+        answer: 1 },
+      { q: "Maximum range of a particle is at angle:", 
+        options: ["30°", "45°", "60°", "90°"], 
+        answer: 1 },
+      { q: "One Newton is that force which produces an acceleration of:", 
+        options: ["1 m/s² in a mass of 1 gm", "1 m/s² in a mass of 1 kg", "1 cm/s² in a mass of 1 kg", "1 m/s² in a mass of 100 gm"], 
+        answer: 1 },
 
-  // Thermodynamics (16 MCQs)
-  { q: "Water at 48 kg/cm² and 160°C when exposed to atmosphere will:", 
-    options: ["Cool down", "Flash i.e. get converted into steam", "Remain liquid", "Solidify"], 
-    answer: 1 },
-  { q: "The device that converts heat energy into work during cyclic process is:", 
-    options: ["Heat pump", "Heat engine", "Refrigerator", "Compressor"], 
-    answer: 1 },
-  { q: "Which refrigerant has the highest latent heat?", 
-    options: ["Freon-12", "Ammonia", "Carbon dioxide", "R-134a"], 
-    answer: 1 },
-  { q: "Product of pressure and volume constant (PV = const):", 
-    options: ["Gas law", "Boyle’s law", "Charles’ law", "Avogadro’s law"], 
-    answer: 1 },
-  { q: "As temperature of I.C. engine increases, efficiency will:", 
-    options: ["Decrease", "Increase", "Remain constant", "Become zero"], 
-    answer: 1 },
-  { q: "Nepal Vehicle Mass Emission Standard 2069 is equivalent to:", 
-    options: ["ISO 9001", "Euro III", "Euro IV", "BS VI"], 
-    answer: 1 },
-  { q: "If hot and cold water are mixed, the entropy of the system will:", 
-    options: ["Decrease", "Increase", "Remain constant", "Become zero"], 
-    answer: 1 },
-  { q: "The change in internal energy of an ideal gas during an adiabatic process is:", 
-    options: ["mCp ln(T₂ / T₁)", "mCv(T₂ − T₁)", "mR(T₂ − T₁)", "Zero"], 
-    answer: 1 },
-  { q: "The heating and expanding of a gas is called:", 
-    options: ["Thermodynamic system", "Thermodynamic process", "Thermodynamic cycle", "Thermodynamic state"], 
-    answer: 1 },
-  { q: "In an irreversible process there is:", 
-    options: ["No loss of heat", "Loss of heat", "No work done", "Constant entropy"], 
-    answer: 1 },
-  { q: "Equation of state gives relationship between:", 
-    options: ["Volume and temperature", "Pressure, volume, and temperature", "Pressure and temperature", "Mass and volume"], 
-    answer: 1 },
-  { q: "The constant volume cycle is also called:", 
-    options: ["Carnot cycle", "Otto cycle", "Diesel cycle", "Brayton cycle"], 
-    answer: 1 },
-  { q: "Specific fuel consumption is defined as:", 
-    options: ["Fuel consumption per hour", "Fuel consumption per BHP", "Fuel consumption per cycle", "Fuel consumption per km"], 
-    answer: 1 },
-  { q: "Any process in which no heat can flow into or out of the system is called:", 
-    options: ["Isothermal process", "Adiabatic process", "Isobaric process", "Isochoric process"], 
-    answer: 1 },
-  { q: "First law of thermodynamics deals with:", 
-    options: ["Conservation of mass", "Conservation of energy", "Conservation of momentum", "Conservation of entropy"], 
-    answer: 1 },
-  { q: "Internal energy of a substance depends on:", 
-    options: ["Volume", "Temperature", "Pressure", "Mass"], 
-    answer: 1 },
+      // Thermodynamics (16 MCQs)
+      { q: "Water at 48 kg/cm² and 160°C when exposed to atmosphere will:", 
+        options: ["Cool down", "Flash i.e. get converted into steam", "Remain liquid", "Solidify"], 
+        answer: 1 },
+      { q: "The device that converts heat energy into work during cyclic process is:", 
+        options: ["Heat pump", "Heat engine", "Refrigerator", "Compressor"], 
+        answer: 1 },
+      { q: "Which refrigerant has the highest latent heat?", 
+        options: ["Freon-12", "Ammonia", "Carbon dioxide", "R-134a"], 
+        answer: 1 },
+      { q: "Product of pressure and volume constant (PV = const):", 
+        options: ["Gas law", "Boyle’s law", "Charles’ law", "Avogadro’s law"], 
+        answer: 1 },
+      { q: "As temperature of I.C. engine increases, efficiency will:", 
+        options: ["Decrease", "Increase", "Remain constant", "Become zero"], 
+        answer: 1 },
+      { q: "Nepal Vehicle Mass Emission Standard 2069 is equivalent to:", 
+        options: ["ISO 9001", "Euro III", "Euro IV", "BS VI"], 
+        answer: 1 },
+      { q: "If hot and cold water are mixed, the entropy of the system will:", 
+        options: ["Decrease", "Increase", "Remain constant", "Become zero"], 
+        answer: 1 },
+      { q: "The change in internal energy of an ideal gas during an adiabatic process is:", 
+        options: ["mCp ln(T₂ / T₁)", "mCv(T₂ − T₁)", "mR(T₂ − T₁)", "Zero"], 
+        answer: 1 },
+      { q: "The heating and expanding of a gas is called:", 
+        options: ["Thermodynamic system", "Thermodynamic process", "Thermodynamic cycle", "Thermodynamic state"], 
+        answer: 1 },
+      { q: "In an irreversible process there is:", 
+        options: ["No loss of heat", "Loss of heat", "No work done", "Constant entropy"], 
+        answer: 1 },
+      { q: "Equation of state gives relationship between:", 
+        options: ["Volume and temperature", "Pressure, volume, and temperature", "Pressure and temperature", "Mass and volume"], 
+        answer: 1 },
+      { q: "The constant volume cycle is also called:", 
+        options: ["Carnot cycle", "Otto cycle", "Diesel cycle", "Brayton cycle"], 
+        answer: 1 },
+      { q: "Specific fuel consumption is defined as:", 
+        options: ["Fuel consumption per hour", "Fuel consumption per BHP", "Fuel consumption per cycle", "Fuel consumption per km"], 
+        answer: 1 },
+      { q: "Any process in which no heat can flow into or out of the system is called:", 
+        options: ["Isothermal process", "Adiabatic process", "Isobaric process", "Isochoric process"], 
+        answer: 1 },
+      { q: "First law of thermodynamics deals with:", 
+        options: ["Conservation of mass", "Conservation of energy", "Conservation of momentum", "Conservation of entropy"], 
+        answer: 1 },
+      { q: "Internal energy of a substance depends on:", 
+        options: ["Volume", "Temperature", "Pressure", "Mass"], 
+        answer: 1 },
 
-  // Machine Drawing (14 MCQs)
-  { q: "The drawing scale 2:1 means:", 
-    options: ["Drawing is half the size of object", "Drawing is double the size of object", "Drawing is same size as object", "Drawing is one-fourth the size"], 
-    answer: 1 },
-  { q: "Which view is generally considered as the front view?", 
-    options: ["Longest and most detailed side", "Top view", "Side view", "Bottom view"], 
-    answer: 0 },
-  { q: "Center lines are represented by:", 
-    options: ["Chain thin lines", "Thick solid lines", "Dashed lines", "Phantom lines"], 
-    answer: 0 },
-  { q: "Sectional views are generally shown using:", 
-    options: ["Hatching lines", "Dimension lines", "Hidden lines", "Break lines"], 
-    answer: 0 },
-  { q: "Which line type is thin and light?", 
-    options: ["Construction lines", "All of the above", "Object lines", "Dimension lines"], 
-    answer: 1 },
-  { q: "Projection with parallel lines perpendicular to plane is:", 
-    options: ["Perspective projection", "Orthographic projection", "Isometric projection", "Oblique projection"], 
-    answer: 1 },
-  { q: "Correct layout for third angle system projection:", 
-    options: ["Top view above front view", "Front view above top view", "Side view above front view", "Top view beside side view"], 
-    answer: 1 },
-  { q: "Circle appears as in isometric drawing:", 
-    options: ["Circle", "Ellipse", "Parabola", "Hyperbola"], 
-    answer: 1 },
-  { q: "Which is not a pictorial drawing?", 
-    options: ["Isometric", "Multiview", "Oblique", "Perspective"], 
-    answer: 1 },
-  { q: "Hidden lines are drawn as:", 
-    options: ["Dashed wide lines", "Dashed narrow lines", "Solid thick lines", "Chain lines"], 
-    answer: 1 },
-  { q: "Common projection angles in drawing:", 
-    options: ["1st and 2nd", "1st and 3rd", "2nd and 3rd", "3rd and 4th"], 
-    answer: 1 },
-  { q: "Screw thread axial advance is:", 
-    options: ["Turn", "Lead", "Pitch", "Crest"], 
-    answer: 1 },
-  { q: "Not a practical welded joint:", 
-    options: ["Butt joint", "Tree joint", "Lap joint", "Fillet joint"], 
-    answer: 1 },
-  { q: "Hatching line angle:", 
-    options: ["30°", "45°", "60°", "90°"], 
-    answer: 1 },
+      // Machine Drawing (14 MCQs)
+      { q: "The drawing scale 2:1 means:", 
+        options: ["Drawing is half the size of object", "Drawing is double the size of object", "Drawing is same size as object", "Drawing is one-fourth the size"], 
+        answer: 1 },
+      { q: "Which view is generally considered as the front view?", 
+        options: ["Longest and most detailed side", "Top view", "Side view", "Bottom view"], 
+        answer: 0 },
+      { q: "Center lines are represented by:", 
+        options: ["Chain thin lines", "Thick solid lines", "Dashed lines", "Phantom lines"], 
+        answer: 0 },
+      { q: "Sectional views are generally shown using:", 
+        options: ["Hatching lines", "Dimension lines", "Hidden lines", "Break lines"], 
+        answer: 0 },
+      { q: "Which line type is thin and light?", 
+        options: ["Construction lines", "All of the above", "Object lines", "Dimension lines"], 
+        answer: 0 },
+      { q: "Projection with parallel lines perpendicular to plane is:", 
+        options: ["Perspective projection", "Orthographic projection", "Isometric projection", "Oblique projection"], 
+        answer: 1 },
+      { q: "Correct layout for third angle system projection:", 
+        options: ["Top view above front view", "Front view above top view", "Side view above front view", "Top view beside side view"], 
+        answer: 1 },
+      { q: "Circle appears as in isometric drawing:", 
+        options: ["Circle", "Ellipse", "Parabola", "Hyperbola"], 
+        answer: 1 },
+      { q: "Which is not a pictorial drawing?", 
+        options: ["Isometric", "Multiview", "Oblique", "Perspective"], 
+        answer: 1 },
+      { q: "Hidden lines are drawn as:", 
+        options: ["Dashed wide lines", "Dashed narrow lines", "Solid thick lines", "Chain lines"], 
+        answer: 1 },
+      { q: "Common projection angles in drawing:", 
+        options: ["1st and 2nd", "1st and 3rd", "2nd and 3rd", "3rd and 4th"], 
+        answer: 1 },
+      { q: "Screw thread axial advance is:", 
+        options: ["Turn", "Lead", "Pitch", "Crest"], 
+        answer: 1 },
+      { q: "Not a practical welded joint:", 
+        options: ["Butt joint", "Tree joint", "Lap joint", "Fillet joint"], 
+        answer: 1 },
+      { q: "Hatching line angle:", 
+        options: ["30°", "45°", "60°", "90°"], 
+        answer: 1 },
 
-  // Electro-Mechanical (6 MCQs)
-  { q: "Lead Acid Battery मा कुल सेल्ल संख्या कति हुन्छ?", // Original from dataset
-    options: ["4", "6", "8", "12"], 
-    answer: 1 },
-  { q: "कम्युटेटर कुन मेसिनमा प्रयोग हुन्छ?", // Original from dataset
-    options: ["एसी मोटर", "डीसी मोटर", "सिंक्रोनस मोटर", "इन्डक्शन मोटर"], 
-    answer: 1 },
-  // Newly generated questions due to limited remaining dataset
-  { q: "The efficiency of a DC motor is maximum when:", 
-    options: ["Armature resistance is high", "Back EMF equals half the applied voltage", "Load is zero", "Speed is minimum"], 
-    answer: 1 },
-  { q: "In a DC generator, the function of the brushes is to:", 
-    options: ["Generate magnetic field", "Collect current from commutator", "Regulate voltage", "Increase speed"], 
-    answer: 1 },
-  { q: "The main advantage of a shunt DC motor is:", 
-    options: ["High starting torque", "Constant speed under varying loads", "Low maintenance", "High efficiency at low speeds"], 
-    answer: 1 },
-  { q: "The slip in an induction motor is defined as:", 
-    options: ["Difference between synchronous and actual speed", "Ratio of stator to rotor current", "Power loss in the rotor", "Voltage drop in the stator"], 
-    answer: 0 },
+      // Electro-Mechanical (6 MCQs)
+      { q: "Lead Acid Battery मा कुल सेल्ल संख्या कति हुन्छ?", 
+        options: ["4", "6", "8", "12"], 
+        answer: 1 },
+      { q: "कम्युटेटर कुन मेसिनमा प्रयोग हुन्छ?", 
+        options: ["एसी मोटर", "डीसी मोटर", "सिंक्रोनस मोटर", "इन्डक्शन मोटर"], 
+        answer: 1 },
+      { q: "The efficiency of a DC motor is maximum when:", 
+        options: ["Armature resistance is high", "Back EMF equals half the applied voltage", "Load is zero", "Speed is minimum"], 
+        answer: 1 },
+      { q: "In a DC generator, the function of the brushes is to:", 
+        options: ["Generate magnetic field", "Collect current from commutator", "Regulate voltage", "Increase speed"], 
+        answer: 1 },
+      { q: "The main advantage of a shunt DC motor is:", 
+        options: ["High starting torque", "Constant speed under varying loads", "Low maintenance", "High efficiency at low speeds"], 
+        answer: 1 },
+      { q: "The slip in an induction motor is defined as:", 
+        options: ["Difference between synchronous and actual speed", "Ratio of stator to rotor current", "Power loss in the rotor", "Voltage drop in the stator"], 
+        answer: 0 },
 
-  // Industrial Boiler (10 MCQs)
-  { q: "Baffles regulate:", 
-    options: ["Water flow", "Steam", "Fuel flow", "Air flow"], 
-    answer: 0 },
-  { q: "Heat ratio used vs liberated:", 
-    options: ["Boiler efficiency", "Power of boiler", "Fuel efficiency", "Thermal output"], 
-    answer: 0 },
-  { q: "Baffles purpose:", 
-    options: ["To improve gas contact", "To regulate water flow", "To reduce steam pressure", "To increase fuel consumption"], 
-    answer: 0 },
-  { q: "Heat used to heat liberated ratio:", 
-    options: ["Boiler efficiency", "Power of boiler", "Steam capacity", "Fuel consumption rate"], 
-    answer: 0 },
-  { q: "Steam pressure in engine:", 
-    options: ["Equal to boiler pressure", "Less than boiler pressure", "Greater than boiler pressure", "Independent of boiler pressure"], 
-    answer: 1 },
-  { q: "The capacity of a boiler is defined as:", 
-    options: ["Amount of steam produced in one hour", "Volume of feed water inside the shell", "Heat transfer rate", "Fuel consumption rate"], 
-    answer: 0 },
-  { q: "Maximum pressure at which steam can be raised in a boiler:", 
-    options: ["150 psi", "250 psi", "200 psi", "300 psi"], 
-    answer: 0 },
-  { q: "A valve installed between the boiler and the feed pump is:", 
-    options: ["Blow off cock", "Water level indicator", "Feed check valve", "Safety valve"], 
-    answer: 0 },
-  { q: "Moisture present in fuel and steam formed by combustion of hydrogen in fuel causes:", 
-    options: ["Labour and management relation", "Labour and government relation", "Heat loss in boiler", "Increased efficiency"], 
-    answer: 2 },
-  { q: "The operation of an electric generator and motor is based on interaction between:", 
-    options: ["Magnetic field and electric current", "Law of induction and dynamo-electric principle", "Electric field and magnetic field", "Voltage and current"], 
-    answer: 1 },
+      // Industrial Boiler (10 MCQs)
+      { q: "Baffles regulate:", 
+        options: ["Water flow", "Steam", "Fuel flow", "Air flow"], 
+        answer: 0 },
+      { q: "Heat ratio used vs liberated:", 
+        options: ["Boiler efficiency", "Power of boiler", "Fuel efficiency", "Thermal output"], 
+        answer: 0 },
+      { q: "Baffles purpose:", 
+        options: ["To improve gas contact", "To regulate water flow", "To reduce steam pressure", "To increase fuel consumption"], 
+        answer: 0 },
+      { q: "Heat used to heat liberated ratio:", 
+        options: ["Boiler efficiency", "Power of boiler", "Steam capacity", "Fuel consumption rate"], 
+        answer: 0 },
+      { q: "Steam pressure in engine:", 
+        options: ["Equal to boiler pressure", "Less than boiler pressure", "Greater than boiler pressure", "Independent of boiler pressure"], 
+        answer: 1 },
+      { q: "The capacity of a boiler is defined as:", 
+        options: ["Amount of steam produced in one hour", "Volume of feed water inside the shell", "Heat transfer rate", "Fuel consumption rate"], 
+        answer: 0 },
+      { q: "Maximum pressure at which steam can be raised in a boiler:", 
+        options: ["150 psi", "250 psi", "200 psi", "300 psi"], 
+        answer: 3 },
+      { q: "A valve installed between the boiler and the feed pump is:", 
+        options: ["Blow off cock", "Water level indicator", "Feed check valve", "Safety valve"], 
+        answer: 2 },
+      { q: "Moisture present in fuel and steam formed by combustion of hydrogen in fuel causes:", 
+        options: ["Labour and management relation", "Labour and government relation", "Heat loss in boiler", "Increased efficiency"], 
+        answer: 2 },
+      { q: "The operation of an electric generator and motor is based on interaction between:", 
+        options: ["Magnetic field and electric current", "Law of induction and dynamo-electric principle", "Electric field and magnetic field", "Voltage and current"], 
+        answer: 0 },
 
-  // Heat Engines (10 MCQs)
-  { q: "All steam engines work on:", 
-    options: ["Zeroth law of thermodynamics", "First law of thermodynamics", "Second law of thermodynamics", "Third law of thermodynamics"], 
-    answer: 1 },
-  { q: "Two-stroke petrol engines are used in:", 
-    options: ["Four-stroke petrol engine", "Motorcycle", "Heavy trucks", "Jet engines"], 
-    answer: 1 },
-  { q: "What is the correct sequence of components in a petrol engine?", 
-    options: ["Inlet valve, exhaust valve, piston, spark plug etc.", "Piston and carburetor only", "Camshaft and crankshaft only", "Fuel injector and radiator"], 
-    answer: 0 },
-  { q: "Unit of velocity is:", 
-    options: ["ft/sec", "m/sec", "km/h", "All of the above"], 
-    answer: 1 },
-  { q: "The fuel injection system injects fuel into the combustion chamber in a diesel engine when the piston reaches:", 
-    options: ["Bottom dead center", "Between top dead center and bottom dead center", "Top dead center", "Mid-stroke"], 
-    answer: 1 },
-  { q: "Maximum energy loss in boiler occurs due to:", 
-    options: ["Radiation losses", "Unburnt carbon in ash", "Flue gas heat loss", "Incomplete combustion"], 
-    answer: 1 },
-  { q: "The thermal efficiency of a well-maintained boiler will be of the order:", 
-    options: ["40%", "90%", "60%", "70%"], 
-    answer: 1 },
-  { q: "Which type of boiler can meet rapid changes of load?", 
-    options: ["Vertical fire tube type", "Forced circulation type", "Lancashire boiler", "Locomotive boiler"], 
-    answer: 1 },
-  { q: "Ratio of Indicated H.P. and Brake H.P. is known as:", 
-    options: ["Mechanical efficiency", "Isothermal efficiency", "Thermal efficiency", "Volumetric efficiency"], 
-    answer: 0 },
-  { q: "For the same temperature limits and heat input, the most efficient cycle is:", 
-    options: ["Carnot", "Brayton", "Otto", "Diesel"], 
-    answer: 0 },
+      // Heat Engines (10 MCQs)
+      { q: "All steam engines work on:", 
+        options: ["Zeroth law of thermodynamics", "First law of thermodynamics", "Second law of thermodynamics", "Third law of thermodynamics"], 
+        answer: 2 },
+      { q: "Two-stroke petrol engines are used in:", 
+        options: ["Four-stroke petrol engine", "Motorcycle", "Heavy trucks", "Jet engines"], 
+        answer: 1 },
+      { q: "What is the correct sequence of components in a petrol engine?", 
+        options: ["Inlet valve, exhaust valve, piston, spark plug etc.", "Piston and carburetor only", "Camshaft and crankshaft only", "Fuel injector and radiator"], 
+        answer: 0 },
+      { q: "Unit of velocity is:", 
+        options: ["ft/sec", "m/sec", "km/h", "All of the above"], 
+        answer: 3 },
+      { q: "The fuel injection system injects fuel into the combustion chamber in a diesel engine when the piston reaches:", 
+        options: ["Bottom dead center", "Between top dead center and bottom dead center", "Top dead center", "Mid-stroke"], 
+        answer: 2 },
+      { q: "Maximum energy loss in boiler occurs due to:", 
+        options: ["Radiation losses", "Unburnt carbon in ash", "Flue gas heat loss", "Incomplete combustion"], 
+        answer: 2 },
+      { q: "The thermal efficiency of a well-maintained boiler will be of the order:", 
+        options: ["40%", "90%", "60%", "70%"], 
+        answer: 3 },
+      { q: "Which type of boiler can meet rapid changes of load?", 
+        options: ["Vertical fire tube type", "Forced circulation type", "Lancashire boiler", "Locomotive boiler"], 
+        answer: 1 },
+      { q: "Ratio of Indicated H.P. and Brake H.P. is known as:", 
+        options: ["Mechanical efficiency", "Isothermal efficiency", "Thermal efficiency", "Volumetric efficiency"], 
+        answer: 0 },
+      { q: "For the same temperature limits and heat input, the most efficient cycle is:", 
+        options: ["Carnot", "Brayton", "Otto", "Diesel"], 
+        answer: 0 },
 
-  // Industrial Management (12 MCQs)
-  { q: "Which of the following actions cannot be taken by the management?", 
-    options: ["To give warning", "To stop salary increment", "To terminate employment", "To change company ownership"], 
-    answer: 0 },
-  { q: "Which of the following is the prime cost?", 
-    options: ["Cost of raw materials", "Cost of packing materials", "Cost of advertising", "Cost of utilities"], 
-    answer: 0 },
-  { q: "A company spends on advertisement to promote sales. This is:", 
-    options: ["Sales revenue line", "Total cost line", "Fixed cost line", "Variable cost line"], 
-    answer: 1 },
-  { q: "What is the total percent of reservation of posts that are to be fulfilled by open competition?", 
-    options: ["Forty five percent", "Forty percent", "Fifty percent", "Thirty five percent"], 
-    answer: 0 },
-  { q: "Which is not a type of leave in Civil Service Act?", 
-    options: ["Entertainment leave", "Home leave", "Sick leave", "Maternity leave"], 
-    answer: 0 },
-  { q: "The angle of hatching line is kept as:", 
-    options: ["30°", "45°", "60°", "90°"], 
-    answer: 1 },
-  { q: "In a four-stroke engine, the working cycle is in:", 
-    options: ["Four revolutions of the crankshaft", "Two revolutions of the crankshaft", "One revolution of the crankshaft", "Three revolutions of the crankshaft"], 
-    answer: 1 },
-  { q: "Joule is the unit of:", 
-    options: ["Work", "Energy", "Power", "Both Work and Energy"], 
-    answer: 3 },
-  { q: "Identify the pair which has same dimensions:", 
-    options: ["Force and Power", "Energy and Work", "Momentum and Velocity", "Pressure and Stress"], 
-    answer: 1 },
-  { q: "According to law of conservation of energy:", 
-    options: ["Energy can be created", "Energy can neither be created nor destroyed", "Energy can be destroyed", "Energy is always constant"], 
-    answer: 1 },
-  { q: "To every action there is equal and opposite reaction is:", 
-    options: ["Newton’s first law of motion", "Newton’s third law of motion", "Newton’s second law of motion", "Law of gravitation"], 
-    answer: 1 },
-  { q: "The force applied on a body of mass 100 kg to produce an acceleration of 5 m/s² is:", 
-    options: ["100 N", "500 N", "250 N", "1000 N"], 
-    answer: 1 },
+      // Industrial Management (12 MCQs)
+      { q: "Which of the following actions cannot be taken by the management?", 
+        options: ["To give warning", "To stop salary increment", "To terminate employment", "To change company ownership"], 
+        answer: 3 },
+      { q: "Which of the following is the prime cost?", 
+        options: ["Cost of raw materials", "Cost of packing materials", "Cost of advertising", "Cost of utilities"], 
+        answer: 0 },
+      { q: "A company spends on advertisement to promote sales. This is:", 
+        options: ["Sales revenue line", "Total cost line", "Fixed cost line", "Variable cost line"], 
+        answer: 3 },
+      { q: "What is the total percent of reservation of posts that are to be fulfilled by open competition?", 
+        options: ["Forty five percent", "Forty percent", "Fifty percent", "Thirty five percent"], 
+        answer: 0 },
+      { q: "Which is not a type of leave in Civil Service Act?", 
+        options: ["Entertainment leave", "Home leave", "Sick leave", "Maternity leave"], 
+        answer: 0 },
+      { q: "The angle of hatching line is kept as:", 
+        options: ["30°", "45°", "60°", "90°"], 
+        answer: 1 },
+      { q: "In a four-stroke engine, the working cycle is in:", 
+        options: ["Four revolutions of the crankshaft", "Two revolutions of the crankshaft", "One revolution of the crankshaft", "Three revolutions of the crankshaft"], 
+        answer: 1 },
+      { q: "Joule is the unit of:", 
+        options: ["Work", "Energy", "Power", "Both Work and Energy"], 
+        answer: 3 },
+      { q: "Identify the pair which has same dimensions:", 
+        options: ["Force and Power", "Energy and Work", "Momentum and Velocity", "Pressure and Stress"], 
+        answer: 1 },
+      { q: "According to law of conservation of energy:", 
+        options: ["Energy can be created", "Energy can neither be created nor destroyed", "Energy can be destroyed", "Energy is always constant"], 
+        answer: 1 },
+      { q: "To every action there is equal and opposite reaction is:", 
+        options: ["Newton’s first law of motion", "Newton’s third law of motion", "Newton’s second law of motion", "Law of gravitation"], 
+        answer: 1 },
+      { q: "The force applied on a body of mass 100 kg to produce an acceleration of 5 m/s² is:", 
+        options: ["100 N", "500 N", "250 N", "1000 N"], 
+        answer: 1 },
 
-  // Estimating and Costing (6 MCQs)
-  { q: "Civil Service Act pension formula:", 
-    options: ["Fixed interest × No. of years", "No. of years of service × latest salary ÷ 50", "Latest salary ÷ years of service", "Fixed amount per year"], 
-    answer: 1 },
-  { q: "Depreciation of fixed assets is:", 
-    options: ["Full value retained", "The amount by which its value is assumed to decrease because of the asset being used", "Market value increase", "Salvage value"], 
-    answer: 1 },
-  // Newly generated questions due to limited remaining dataset
-  { q: "The cost of electricity used in a manufacturing process is classified as:", 
-    options: ["Fixed cost", "Variable cost", "Sunk cost", "Opportunity cost"], 
-    answer: 1 },
-  { q: "The point at which total revenue equals total cost is known as:", 
-    options: ["Profit point", "Break-even point", "Loss point", "Margin point"], 
-    answer: 1 },
-  { q: "Overhead costs in a factory include:", 
-    options: ["Cost of raw materials", "Direct labor wages", "Factory rent", "Cost of goods sold"], 
-    answer: 2 },
-  { q: "The salvage value of an asset is:", 
-    options: ["Its initial purchase cost", "Its value after depreciation", "Its market value during use", "Its cost of maintenance"], 
-    answer: 1 }
-];
+      // Estimating and Costing (6 MCQs)
+      { q: "Civil Service Act pension formula:", 
+        options: ["Fixed interest × No. of years", "No. of years of service × latest salary ÷ 50", "Latest salary ÷ years of service", "Fixed amount per year"], 
+        answer: 1 },
+      { q: "Depreciation of fixed assets is:", 
+        options: ["Full value retained", "The amount by which its value is assumed to decrease because of the asset being used", "Market value increase", "Salvage value"], 
+        answer: 1 },
+      { q: "The cost of electricity used in a manufacturing process is classified as:", 
+        options: ["Fixed cost", "Variable cost", "Sunk cost", "Opportunity cost"], 
+        answer: 1 },
+      { q: "The point at which total revenue equals total cost is known as:", 
+        options: ["Profit point", "Break-even point", "Loss point", "Margin point"], 
+        answer: 1 },
+      { q: "Overhead costs in a factory include:", 
+        options: ["Cost of raw materials", "Direct labor wages", "Factory rent", "Cost of goods sold"], 
+        answer: 2 },
+      { q: "The salvage value of an asset is:", 
+        options: ["Its initial purchase cost", "Its value after depreciation", "Its market value during use", "Its cost of maintenance"], 
+        answer: 1 }
+    ];
 
-    questions.sort(() => Math.random() - 0.5);
-
-    let current = 0;
+    let currentPage = 0;
     let score = 0;
     let skipped = [];
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    const QUESTIONS_PER_PAGE = 5;
+    const ANSWER_DELAY = 1500; // 1.5 seconds delay
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
-    const skippedEl = document.getElementById("skipped-list");
-    const skippedList = document.getElementById("skipped");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
 
-    function showQuestion(index) {
-      const q = questions[index];
-      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
-      quizEl.innerHTML = `
-        <div class="question">
-          <p>Q${index + 1}. ${q.q}</p>
-          <div class="options">${options}</div>
-          <button onclick="skipQuestion()">Skip</button>
-        </div>
-      `;
+    // Load progress from localStorage
+    function loadProgress() {
+      const saved = localStorage.getItem("quizProgress10");
+      if (saved) {
+        const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        currentPage = savedPage;
+        score = savedScore;
+        skipped = savedSkipped;
+        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
     }
 
-    function checkAnswer(button, selected) {
-      const correct = questions[current].answer;
+    // Save progress to localStorage
+    function saveProgress() {
+      localStorage.setItem("quizProgress10", JSON.stringify({
+        currentPage,
+        score,
+        skipped,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
+
+    // Shuffle array
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Shuffle questions only once at initialization
+    const shuffledQuestions = shuffle([...questions]);
+
+    // Start timer
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+    }
+
+    // Show questions for the current page
+    function showQuestions(page) {
+      const startIndex = page * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let html = '';
+      for (let i = startIndex; i < endIndex; i++) {
+        const q = shuffledQuestions[i];
+        const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
+        const options = shuffledOptions
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .join('');
+        html += `
+          <div class="question" data-index="${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${options}</div>
+            <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
+          </div>
+        `;
+      }
+      if (endIndex < questions.length) {
+        html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+      }
+      quizEl.innerHTML = html;
+      updateProgress();
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuestions[questionIndex];
+      const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
-      buttons.forEach((btn, i) => {
+      buttons.forEach((btn) => {
         btn.disabled = true;
-        if (i === correct) btn.classList.add("correct");
-        if (i === selected && i !== correct) btn.classList.add("wrong");
+        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
-      if (selected === correct) score++;
-      setTimeout(() => {
-        current++;
-        if (current < questions.length) {
-          showQuestion(current);
-        } else {
-          endQuiz();
-        }
-      }, 3000);
+
+      userAnswers[questionIndex] = selectedText;
+      if (selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Audio playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Audio playback failed"));
+      }
+
+      saveProgress();
+      checkNextButton();
     }
 
-    function skipQuestion() {
-      skipped.push(questions[current]);
-      current++;
-      if (current < questions.length) {
-        showQuestion(current);
+    // Skip question
+    function skipQuestion(questionIndex) {
+      if (!skipped.includes(shuffledQuestions[questionIndex])) {
+        skipped.push(shuffledQuestions[questionIndex]);
+        userAnswers[questionIndex] = "Skipped";
+      }
+      const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check if all questions on the page are answered or skipped
+    function checkNextButton() {
+      const startIndex = currentPage * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let allAnswered = true;
+      for (let i = startIndex; i < endIndex; i++) {
+        if (userAnswers[i] === null) {
+          allAnswered = false;
+          break;
+        }
+      }
+      const nextButton = document.querySelector(".next-button");
+      if (nextButton) {
+        nextButton.disabled = !allAnswered;
+      }
+    }
+
+    // Move to next page
+    function nextPage() {
+      currentPage++;
+      if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+        showQuestions(currentPage);
       } else {
         endQuiz();
       }
     }
 
+    // End quiz and show results
     function endQuiz() {
+      clearInterval(timerInterval);
       quizEl.innerHTML = "";
-      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
-      if (skipped.length > 0) {
-        skippedEl.classList.remove("hidden");
-        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
-      }
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" :
+                         userAnswers[i] === "Skipped" ? "Skipped" :
+                         userAnswers[i];
+        const correctAnswer = q.options[q.answer];
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === "Skipped" ? "Skipped" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${q.q}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Clear localStorage
+      localStorage.removeItem("quizProgress10");
     }
 
-    showQuestion(current);
+    // Initialize
+    loadProgress();
+    startTimer();
+    showQuestions(currentPage);
   </script>
 </body>
-
 </html>
