@@ -1,249 +1,544 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mechanics MCQ Part 1</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f5f7fa;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+
     h1 {
       text-align: center;
-      color: #333;
+      color: #1e88e5;
+      margin-bottom: 0.5rem;
     }
+
+    h2 {
+      text-align: center;
+      color: #d81b60;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
     .quiz-container {
-      max-width: 800px;
-      margin: auto;
+      max-width: 900px;
       background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
     }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #eee;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #42a5f5;
+      transition: width 0.3s;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #d81b60;
+    }
+
     .question {
-      margin-bottom: 20px;
+      margin-bottom: 1.5rem;
+      animation: fadeIn 0.5s;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     .question p {
       font-weight: bold;
+      font-size: 1.1rem;
       color: #444;
     }
+
     .options button {
       display: block;
-      margin: 6px 0;
-      padding: 10px;
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      cursor: pointer;
-      text-align: left;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
       width: 100%;
-      transition: background-color 0.3s;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+      text-align: left;
     }
+
     .options button:hover {
-      background-color: #e0e0e0;
+      background: #bbdefb;
+      transform: translateX(5px);
     }
+
+    .options button:focus {
+      outline: 2px solid #1e88e5;
+      outline-offset: 2px;
+    }
+
     .options button.correct {
-      background-color: #c8f7c5;
+      background-color: #c8e6c9 !important;
+      animation: pulse 0.5s;
     }
+
     .options button.wrong {
-      background-color: #f7c5c5;
+      background-color: #ffcdd2 !important;
+      animation: shake 0.3s;
     }
-    .score {
-      font-size: 1.2em;
-      font-weight: bold;
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    #score, #results {
       text-align: center;
-      margin-top: 30px;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #f5f5f5;
+    }
+
+    .submit-button, .restart-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+      transition: background 0.3s;
+    }
+
+    .submit-button:hover, .restart-button:hover {
+      background: #1e88e5;
+    }
+
+    .submit-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Mechanics MCQ</h1>
-  <H2>7 MCQ WILL COME  IN EXAM</H2>
-  <div class="quiz-container" id="quiz"></div>
-  <div class="score" id="score"></div>
+  <h1>Mechanics MCQ Part 1</h1>
+  <h2>7 MCQs Will Come in Exam</h2>
+  <div class="quiz-container">
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div id="quiz"></div>
+    <button class="submit-button" id="submit-button" disabled>Submit Quiz</button>
+    <div id="score"></div>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <button class="restart-button hidden" id="restart-button">Restart Quiz</button>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
 
   <script>
-    const questions = [
-      { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Coplanar force", "Moment"], answer: 1 },
-      { q: "The maximum frictional force experienced when a body just begins to slide is:", options: ["Dynamic friction", "Static friction"], answer: 1 },
-      { q: "Which of the following is not a vector quantity?", options: ["Acceleration", "Work"], answer: 1 },
-      { q: "The force which does not meet at one point but their lines of action lie on the same plane are:", options: ["Non-coplanar non-concurrent", "Coplanar concurrent"], answer: 1 },
-      { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Torque", "Moment"], answer: 1 },
-      { q: "The maximum frictional force experienced by a body when it just begins to slide is known as:", options: ["Dynamic friction", "Static friction"], answer: 1 },
-      { q: "The linear acceleration of a rotating body is given by the relation:", options: ["a = α r²", "a = r × α"], answer: 1 },
-      { q: "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?", options: ["Acceleration", "Velocity"], answer: 1 },
-      { q: "Watt is SI unit of:", options: ["Distance", "Power"], answer: 1 },
-      { q: "The C.G. of a triangle lies at the point of intersections of:", options: ["Bisectors of angles", "Medians"], answer: 1 },
-      { q: "Which of the following is not a projectile?", options: ["Ball thrown upwards", "A bullet fired from the gun"], answer: 0 },
-      { q: "Which of the following is not a vector quantity?", options: ["Acceleration", "Work"], answer: 1 },
-      { q: "The acceleration of a body sliding down an inclined surface is:", options: ["g cos θ", "g sin θ"], answer: 0 },
-      { q: "According to equilibrium law, two forces can be in equilibrium if:", options: ["Equal in magnitude", "All of the above"], answer: 0 },
-      { q: "Forces not meeting at a point and not lying on the same plane are called:", options: ["Non-coplanar concurrent", "Non-coplanar non-concurrent"], answer: 1 },
-      { q: "SI Unit of force is:", options: ["Dyne", "Newton"], answer: 1 },
-      { q: "A force is completely defined when we specify:", options: ["Point of application", "All of the above"], answer: 1 },
-      { q: "The equation of trajectory is:", options: ["y = x cos α", "y = x tan α - gx² / (2u² cos² α)"], answer: 1 },
-      { q: "Which of the following is the fixed cost?", options: ["Cost of raw materials", "Cost of parking materials"], answer: 1 },
-      { q: "The breakeven point is the point where:", options: ["Fixed and variable cost lines intersect", "Variable and total cost lines intersect"], answer: 0 },
-      { q: "A company spends considerable amount on publicity to promote sales. This expenditure in break-even chart is shown below the:", options: ["Fixed cost line", "Sales revenue line"], answer: 0 },
-      { q: "Break-even analysis consists of:", options: ["Fixed costs", "Fixed and variable costs"], answer: 1 },
-      { q: "If the velocity of 1 m/s is accelerated by 1 m/s² then the velocity after 1 sec will be:", options: ["4 m/s", "3 m/s"], answer: 1 },
-      { q: "The velocity ratio of simple wheel and axle with D and d as diameters of effort wheel and load axle is:", options: ["D+d", "D/d"], answer: 1 },
-      { q: "The C.G. of a plane lamina will not be at its geometrical center if it is a:", options: ["Equilateral triangle", "Rectangle"], answer: 1 },
-      { q: "Force acting on a mass of one gramme creating an acceleration of one cm per sec² is called:", options: ["Watt", "Dyne"], answer: 1 },
-      { q: "Centre of gravity of triangle lies at:", options: ["Intersection of bisectors of angles", "Concurrence of the medians"], answer: 1 },
-      { q: "Which of the following do not meet and do not lie on the same plane?", options: ["Coplanar concurrent forces", "Coplanar non-concurrent forces"], answer: 1 },
-      { q: "A system of three forces acts on a body and keeps it in equilibrium. The forces need to be:", options: ["Coplanar only", "Coplanar may or may not be concurrent"], answer: 0 },
-      { q: "Which of the following situation constitutes a projectile?", options: ["Lifting of a balloon", "Launching of a satellite"], answer: 1 },
-      { q: "A stationary object of 10 kg mass is acted upon by 20 N force for 5 seconds. The object will attain final velocity:", options: ["10 m/s", "20 m/s"], answer: 1 },
-      { q: "The resultant of two forces P and Q (such that P > Q) acting along the same straight line but in opposite directions is:", options: ["Q - P", "P - Q"], answer: 1 },
-      { q: "The point through which the whole weight of the body acts, irrespective of its position is known as:", options: ["Centre of percussion", "Centre of gravity"], answer: 1 },
-      { q: "The product of pressure and volume is constant for a fixed mass of a real gas at constant temperature i.e. PV = constant. This is:", options: ["Graham’s law", "Boyle’s law"], answer: 1 },
-      { q: "Energy can neither be created nor destroyed. This is:", options: ["1st law of thermodynamics", "2nd law of thermodynamics"], answer: 0 },
-      { q: "There is no acceleration or lift if:", options: ["W = (T – W/g)", "W = T"], answer: 1 },
-      { q: "A force may:", options: ["Retard its motion", "All of the above"], answer: 1 },
-      { q: "The rate of doing work is known as:", options: ["Kinetic energy", "Power"], answer: 1 },
-      { q: "The wheels of a moving car possess:", options: ["Kinetic energy of rotation only", "Kinetic energy of translation and rotation both"], answer: 1 },
-      { q: "The motion of a wheel of a car is:", options: ["Purely rotational", "Combined translation and rotational"], answer: 1 },
-      { q: "If the force acting on the body, m is the mass and a is the acceleration, Newton’s 2nd law is:", options: ["F × ma = 0", "F = ma"], answer: 1 },
-      { q: "If the value of moment of arm is zero, what is torque produced?", options: ["1", "0"], answer: 1 },
-      { q: "Centre of gravity of solid cone lies at:", options: ["One third of its height", "One fourth of its height"], answer: 1 },
-      { q: "Velocity is defined as:", options: ["Distance covered per unit time", "Displacement covered per unit time"], answer: 1 },
-      { q: "The work done is said to be zero when:", options: ["No force acts on a body, but displacement is zero", "Force acts on a body, but displacement takes place"], answer: 1 },
-      { q: "Which law states Energy can neither be created nor destroyed:", options: ["Newton’s first law", "First law of thermodynamics"], answer: 1 },
-      { q: "Which of the following is a vector quantity?", options: ["Energy", "Momentum"], answer: 1 },
-      { q: "The center of gravity of a uniform lamina lies at:", options: ["Anywhere depending on material", "The midpoint of its axis"], answer: 1 },
-      { q: "Which of the following does not have identical dimensions?", options: ["Momentum & impulse", "Moment of force & angular momentum"], answer: 1 },
-      { q: "In drawing when all three standard views are aligned, the drawing is:", options: ["Orthographic", "Isometric"], answer: 0 },
-      { q: "When a sphere is viewed in any direction its shape will be:", options: ["Circle of radius equal to radius of sphere", "Triangle"], answer: 0 },
-      { q: "The radial component of velocity for a particle moving in a circular path is:", options: ["Zero", "Variable"], answer: 0 },
-      { q: "The motion of a bicycle wheel is:", options: ["Rotary and translatory", "Rotary"], answer: 0 },
-      { q: "Newton’s Law of Motion gives relation between:", options: ["Force and acceleration", "Force and weight"], answer: 0 },
-      { q: "In a couple, the lines of action of the forces are:", options: ["Perpendicular", "Parallel"], answer: 0 },
-      { q: "The term ‘Centroid’ is:", options: ["Same as center of gravity", "Point of suspension"], answer: 0 },
-      { q: "Where will the center of gravity of a uniform rod lie?", options: ["At its middle", "At its end"], answer: 0 },
-      { q: "On a ladder leaning against a smooth vertical wall, the friction acts:", options: ["Zero at its upper end", "Upward at its upper end"], answer: 0 },
-      { q: "Effect of a force on a body depends upon:", options: ["All of the above", "Magnitude"], answer: 0 },
-      { q: "Two non-collinear parallel equal forces in opposite direction:", options: ["Constitute a couple", "Balance each other"], answer: 0 },
-      { q: "Coefficient of friction depends upon:", options: ["Both A and B", "Nature of surfaces only"], answer: 0 },
-      { q: "A rigid body is in a stable equilibrium if the application of any force:", options: ["Can raise the CG of the body but cannot lower it", "Tends to lower the CG of the body"], answer: 0 },
-      { q: "In actual machines mechanical advantage is:", options: ["Less than velocity ratio", "Unity"], answer: 0 },
-      { q: "The point through which the whole weight of the body acts is known as:", options: ["Center of gravity", "Moment of inertia"], answer: 0 },
-      { q: "Due to the creep of belts, in a belt-driven system there will be:", options: ["Loss of power to be transmitted", "Loss of motion"], answer: 0 },
-      { q: "Which of the following is not a scalar quantity:", options: ["Acceleration", "Time"], answer: 0 },
-      { q: "FPS unit ‘Pound’ is the unit to measure:", options: ["Length", "Weight"], answer: 1 },
-      { q: "The center of gravity of a plane lamina will not be at its geometric center if it is a:", options: ["Rectangle", "Right-angled triangle"], answer: 1 },
-      { q: "Force acting on 1 gram mass creating 1 cm/sec² acceleration is called:", options: ["Horsepower", "Dyne"], answer: 1 },
-      { q: "The center of gravity of a triangle lies at:", options: ["Concurrence of medians", "Intersection of bisectors of angles"], answer: 1 },
-      { q: "Non-coplanar forces are those which:", options: ["Coplanar concurrent forces", "Do not lie in the same plane"], answer: 1 },
-      { q: "A system of three forces keeps a body in equilibrium, then the forces are:", options: ["Coplanar only", "Concurrent only"], answer: 1 },
-      { q: "Which situation is a projectile?", options: ["Lifting of a bag", "Throwing of a cricket ball"], answer: 1 },
-      { q: "A 10 kg object acted upon by 20 N for 5 sec, final velocity:", options: ["1 m/s", "10 m/s"], answer: 1 },
-      { q: "Resultant of two forces P and Q (P > Q) in opposite direction is:", options: ["P + Q", "P - Q"], answer: 1 },
-      { q: "The point through which whole weight acts is:", options: ["Movement of inertia", "Centre of gravity"], answer: 1 },
-      { q: "Young’s modulus of elasticity of a perfectly plastic body is:", options: ["One", "Zero"], answer: 1 },
-      { q: "If wire A is more elastic than B, then:", options: ["B is more elastic than A", "A is more elastic than B"], answer: 1 },
-      { q: "The value of acceleration due to gravity (g) on earth’s surface is:", options: ["89 m/s²", "9.81 m/s²"], answer: 1 },
-      { q: "Stress is directly proportional to strain within elastic limit refers to:", options: ["Charles’ law", "Hooke’s law"], answer: 1 },
-      { q: "If the angle of contact of a drop of liquid is acute:", options: ["Cohesion is more than adhesion", "Cohesion is equal to adhesion"], answer: 1 },
-      { q: "Forces always exist in pairs and are equal but opposite:", options: ["Newton’s second law", "Newton’s third law"], answer: 1 },
-      { q: "The rate of doing work is known as:", options: ["Energy", "Power"], answer: 1 },
-      { q: "The motion of a wheel of a car is:", options: ["Translation only", "Combined translation and rotational"], answer: 1 },
-      { q: "Time variation of the position of a particle (rectilinear motion):", options: ["v = 0, a = 0", "v ≠ 0, a ≠ 0"], answer: 0 },
-      { q: "Newton’s second law:", options: ["F = m·a", "p = m·a = 0"], answer: 1 },
-      { q: "If the value of moment of arm is zero what is torque produced:", options: ["1", "0"], answer: 1 },
-      { q: "Centre of gravity of solid cone lies at:", options: ["One third of its height", "One fourth of its height"], answer: 1 },
-      { q: "Velocity is defined as:", options: ["Distance covered per unit time", "Displacement covered per unit time"], answer: 1 },
-      { q: "When the axis is perpendicular to the horizontal plane:", options: ["The front view should be drawn first", "The top view should be drawn first"], answer: 1 },
-      { q: "Projection of an object shown by three views is:", options: ["Isometric", "Orthographic"], answer: 1 },
-      { q: "Which of the following is a permanent joint?", options: ["None of the above", "Riveted joint"], answer: 0 },
-      { q: "There is neither profit nor loss:", options: ["Break-even point", "Gross profit"], answer: 0 },
-      { q: "Pair with same dimensions:", options: ["Energy and work", "Force and velocity"], answer: 0 },
-      { q: "According to law of conservation of energy:", options: ["Energy can neither be created nor destroyed", "Both A and B"], answer: 1 },
-      { q: "To every action there is equal and opposite reaction:", options: ["Newton’s first law", "Newton’s third law of motion"], answer: 1 },
-      { q: "Force applied on 100kg body to accelerate at 5 m/s²:", options: ["100N", "500N"], answer: 1 },
-      { q: "Maximum range of a particle is at angle:", options: ["30°", "45°"], answer: 1 },
-      { q: "One Newton produces acceleration:", options: ["1 m/s² in 1 gm", "1 m/s² in 1 kg"], answer: 1 },
-      { q: "Which is not a vector quantity:", options: ["Mass", "Acceleration"], answer: 0 },
-      { q: "A body moves only when:", options: ["Force of friction = applied force", "Force of friction < applied force"], answer: 1 },
-      { q: "Which is not a vector quantity:", options: ["Speed", "Velocity"], answer: 0 },
-      { q: "The coefficient of friction depends on:", options: ["Area of contact", "Strength of surfaces"], answer: 1 },
-      { q: "Tension in a cable supporting a lift, when lift is going down is:", options: ["W + f = mg", "W - f = mg"], answer: 1 },
-      { q: "Force when carried by tire:", options: ["Introduce internal stress", "Retard its motion"], answer: 1 },
-      { q: "Which of the following physical quantity is not a vector quantity?", options: ["Mass", "Momentum"], answer: 0 },
-      { q: "A body will move only when", options: ["Force of friction = applied force", "Force of friction < applied force"], answer: 1 },
-      { q: "Following term is not a vector quantity", options: ["Speed", "Velocity"], answer: 0 },
-      { q: "The center of gravity of a plane will not be at its geometrical center if it is a", options: ["Circle", "Right-angled triangle"], answer: 1 },
-      { q: "What is the total percent of reservation of posts that are to be fulfilled by open competition?", options: ["Forty-five percent", "Forty percent"], answer: 0 },
-      { q: "Which is not a type of leave in Civil Service Act?", options: ["Sickness leave", "Entertainments leave"], answer: 1 },
-      { q: "The angle of hatching line is kept as:", options: ["30°", "45°"], answer: 1 },
-      { q: "In a four-stroke engine, the working cycle is in:", options: ["Four revolutions of the crankshaft", "Two revolutions of the crankshaft"], answer: 1 },
-      { q: "Joule is the unit of:", options: ["Work", "Energy"], answer: 1 },
-      { q: "Identify the pair which has same dimensions:", options: ["Force and Power", "Energy and Work"], answer: 1 },
-      { q: "According to law of conservation of energy:", options: ["Energy can neither be created nor destroyed", "Both A and B"], answer: 1 },
-      { q: "To every action there is equal and opposite reaction is:", options: ["Newton’s first law of motion", "Newton’s third law of motion"], answer: 1 },
-      { q: "The force applied on a body of mass 100 kg to produce an acceleration of 5 m/s² is:", options: ["100 N", "500 N"], answer: 1 },
-      { q: "For the maximum range of a particle, the angle of projection should be:", options: ["30°", "45°"], answer: 1 },
-      { q: "One Newton is that force which produces an acceleration of:", options: ["1 m/s² in a mass of 1 gm", "1 m/s² in a mass of 1 kg"], answer: 1 },
-      { q: "केन्द्र गुरुत्व त्रिभुजको के हुन्छ ?", options: ["Intersection of diagonals", "Concurrence of the medians"], answer: 1 },
-      { q: "The product of pressure and volume is constant for fixed mass at constant temperature:", options: ["Gas law", "Boyle’s Law"], answer: 1 },
-      { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Coplanar force", "Couple"], answer: 1 },
-      { q: "The maximum frictional force experienced by a body when it just begins to slide:", options: ["Dynamic friction", "Static friction"], answer: 1 },
-      { q: "The linear acceleration of a rotating body is given by:", options: ["a = v²/r", "αr"], answer: 1 },
-      { q: "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?", options: ["Acceleration", "Velocity"], answer: 1 },
-      { q: "Watt is SI unit of:", options: ["Force", "Work"], answer: 1 },
-      { q: "The C.G. (centroid) of a triangle lies at the intersection of:", options: ["None of the above", "Medians"], answer: 1 },
-      { q: "कुन वस्तु projectile होइन?", options: ["A bullet fired from the gun", "A rocket fired into space"], answer: 1 },
-      { q: "Work is not a vector quantity:", options: ["Force", "Work"], answer: 1 },
-      { q: "The acceleration of a body sliding down an inclined surface is given by:", options: ["2g", "g sin θ"], answer: 1 },
-      { q: "According to the law of equilibrium, two equal and opposite forces will be in equilibrium if:", options: ["Opposite in direction", "All of the above"], answer: 1 },
-      { q: "The forces which do not meet at one point and their lines of action do not lie on the same plane are:", options: ["Coplanar concurrent", "Coplanar non-concurrent"], answer: 1 },
-      { q: "Power is equal to:", options: ["Work done per minute", "Work done per second"], answer: 1 },
-      { q: "In SI system, the unit of force is:", options: ["Dyne", "Newton"], answer: 1 },
-      { q: "Equation of trajectory is written as:", options: ["x = u cos θ t", "y = x tan θ - (gx² / 2u² cos²θ)"], answer: 1 },
-      { q: "The force of friction which exists when the body is in motion is called:", options: ["Static friction", "Dynamic friction"], answer: 1 },
-      { q: "The purpose of transmission in an automobile is:", options: ["To vary the vibration and shock to rider", "To vary the torque at the road wheels"], answer: 1 },
-      { q: "The statement 'forces always exist in pairs and to every action there is equal but opposite reaction' is:", options: ["Newton’s first law of motion", "Newton’s third law of motion"], answer: 1 },
-      { q: "Value of acceleration due to gravity (g) on earth’s surface is:", options: ["10 m/s²", "9.8 m/s²"], answer: 1 },
-      { q: "The statement 'stress is directly proportional to strain within elastic limit' refers to:", options: ["Pascal’s law", "Hooke’s law"], answer: 1 },
-  ];
+// The original questions array (160 MCQs)
+const questions = [
+    { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Coplanar force", "Moment"], answer: 1 },
+    { q: "The maximum frictional force experienced when a body just begins to slide is:", options: ["Dynamic friction", "Static friction"], answer: 1 },
+    { q: "Which of the following is not a vector quantity?", options: ["Acceleration", "Work"], answer: 1 },
+    { q: "The force which does not meet at one point but their lines of action lie on the same plane are:", options: ["Non-coplanar non-concurrent", "Coplanar concurrent"], answer: 1 },
+    { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Torque", "Moment"], answer: 1 },
+    { q: "The maximum frictional force experienced by a body when it just begins to slide is known as:", options: ["Dynamic friction", "Static friction"], answer: 1 },
+    { q: "The linear acceleration of a rotating body is given by the relation:", options: ["a = α r²", "a = r × α"], answer: 1 },
+    { q: "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?", options: ["Acceleration", "Velocity"], answer: 1 },
+    { q: "Watt is SI unit of:", options: ["Distance", "Power"], answer: 1 },
+    { q: "The C.G. of a triangle lies at the point of intersections of:", options: ["Bisectors of angles", "Medians"], answer: 1 },
+    { q: "Which of the following is not a projectile?", options: ["Ball thrown upwards", "A bullet fired from the gun"], answer: 0 },
+    { q: "Which of the following is not a vector quantity?", options: ["Acceleration", "Work"], answer: 1 },
+    { q: "The acceleration of a body sliding down an inclined surface is:", options: ["g cos θ", "g sin θ"], answer: 0 },
+    { q: "According to equilibrium law, two forces can be in equilibrium if:", options: ["Equal in magnitude", "All of the above"], answer: 0 },
+    { q: "Forces not meeting at a point and not lying on the same plane are called:", options: ["Non-coplanar concurrent", "Non-coplanar non-concurrent"], answer: 1 },
+    { q: "SI Unit of force is:", options: ["Dyne", "Newton"], answer: 1 },
+    { q: "A force is completely defined when we specify:", options: ["Point of application", "All of the above"], answer: 1 },
+    { q: "The equation of trajectory is:", options: ["y = x cos α", "y = x tan α - gx² / (2u² cos² α)"], answer: 1 },
+    { q: "Which of the following is the fixed cost?", options: ["Cost of raw materials", "Cost of parking materials"], answer: 1 },
+    { q: "The breakeven point is the point where:", options: ["Fixed and variable cost lines intersect", "Variable and total cost lines intersect"], answer: 0 },
+    { q: "A company spends considerable amount on publicity to promote sales. This expenditure in break-even chart is shown below the:", options: ["Fixed cost line", "Sales revenue line"], answer: 0 },
+    { q: "Break-even analysis consists of:", options: ["Fixed costs", "Fixed and variable costs"], answer: 1 },
+    { q: "If the velocity of 1 m/s is accelerated by 1 m/s² then the velocity after 1 sec will be:", options: ["4 m/s", "3 m/s"], answer: 1 },
+    { q: "The velocity ratio of simple wheel and axle with D and d as diameters of effort wheel and load axle is:", options: ["D+d", "D/d"], answer: 1 },
+    { q: "The C.G. of a plane lamina will not be at its geometrical center if it is a:", options: ["Equilateral triangle", "Rectangle"], answer: 1 },
+    { q: "Force acting on a mass of one gramme creating an acceleration of one cm per sec² is called:", options: ["Watt", "Dyne"], answer: 1 },
+    { q: "Centre of gravity of triangle lies at:", options: ["Intersection of bisectors of angles", "Concurrence of the medians"], answer: 1 },
+    { q: "Which of the following do not meet and do not lie on the same plane?", options: ["Coplanar concurrent forces", "Coplanar non-concurrent forces"], answer: 1 },
+    { q: "A system of three forces acts on a body and keeps it in equilibrium. The forces need to be:", options: ["Coplanar only", "Coplanar may or may not be concurrent"], answer: 0 },
+    { q: "Which of the following situation constitutes a projectile?", options: ["Lifting of a balloon", "Launching of a satellite"], answer: 1 },
+    { q: "A stationary object of 10 kg mass is acted upon by 20 N force for 5 seconds. The object will attain final velocity:", options: ["10 m/s", "20 m/s"], answer: 1 },
+    { q: "The resultant of two forces P and Q (such that P > Q) acting along the same straight line but in opposite directions is:", options: ["Q - P", "P - Q"], answer: 1 },
+    { q: "The point through which the whole weight of the body acts, irrespective of its position is known as:", options: ["Centre of percussion", "Centre of gravity"], answer: 1 },
+    { q: "The product of pressure and volume is constant for a fixed mass of a real gas at constant temperature i.e. PV = constant. This is:", options: ["Graham’s law", "Boyle’s law"], answer: 1 },
+    { q: "Energy can neither be created nor destroyed. This is:", options: ["1st law of thermodynamics", "2nd law of thermodynamics"], answer: 0 },
+    { q: "There is no acceleration or lift if:", options: ["W = (T – W/g)", "W = T"], answer: 1 },
+    { q: "A force may:", options: ["Retard its motion", "All of the above"], answer: 1 },
+    { q: "The rate of doing work is known as:", options: ["Kinetic energy", "Power"], answer: 1 },
+    { q: "The wheels of a moving car possess:", options: ["Kinetic energy of rotation only", "Kinetic energy of translation and rotation both"], answer: 1 },
+    { q: "The motion of a wheel of a car is:", options: ["Purely rotational", "Combined translation and rotational"], answer: 1 },
+    { q: "If the force acting on the body, m is the mass and a is the acceleration, Newton’s 2nd law is:", options: ["F × ma = 0", "F = ma"], answer: 1 },
+    { q: "If the value of moment of arm is zero, what is torque produced?", options: ["1", "0"], answer: 1 },
+    { q: "Centre of gravity of solid cone lies at:", options: ["One third of its height", "One fourth of its height"], answer: 1 },
+    { q: "Velocity is defined as:", options: ["Distance covered per unit time", "Displacement covered per unit time"], answer: 1 },
+    { q: "The work done is said to be zero when:", options: ["No force acts on a body, but displacement is zero", "Force acts on a body, but displacement takes place"], answer: 1 },
+    { q: "Which law states Energy can neither be created nor destroyed:", options: ["Newton’s first law", "First law of thermodynamics"], answer: 1 },
+    { q: "Which of the following is a vector quantity?", options: ["Energy", "Momentum"], answer: 1 },
+    { q: "The center of gravity of a uniform lamina lies at:", options: ["Anywhere depending on material", "The midpoint of its axis"], answer: 1 },
+    { q: "Which of the following does not have identical dimensions?", options: ["Momentum & impulse", "Moment of force & angular momentum"], answer: 1 },
+    { q: "In drawing when all three standard views are aligned, the drawing is:", options: ["Orthographic", "Isometric"], answer: 0 },
+    { q: "When a sphere is viewed in any direction its shape will be:", options: ["Circle of radius equal to radius of sphere", "Triangle"], answer: 0 },
+    { q: "The radial component of velocity for a particle moving in a circular path is:", options: ["Zero", "Variable"], answer: 0 },
+    { q: "The motion of a bicycle wheel is:", options: ["Rotary and translatory", "Rotary"], answer: 0 },
+    { q: "Newton’s Law of Motion gives relation between:", options: ["Force and acceleration", "Force and weight"], answer: 0 },
+    { q: "In a couple, the lines of action of the forces are:", options: ["Perpendicular", "Parallel"], answer: 0 },
+    { q: "The term ‘Centroid’ is:", options: ["Same as center of gravity", "Point of suspension"], answer: 0 },
+    { q: "Where will the center of gravity of a uniform rod lie?", options: ["At its middle", "At its end"], answer: 0 },
+    { q: "On a ladder leaning against a smooth vertical wall, the friction acts:", options: ["Zero at its upper end", "Upward at its upper end"], answer: 0 },
+    { q: "Effect of a force on a body depends upon:", options: ["All of the above", "Magnitude"], answer: 0 },
+    { q: "Two non-collinear parallel equal forces in opposite direction:", options: ["Constitute a couple", "Balance each other"], answer: 0 },
+    { q: "Coefficient of friction depends upon:", options: ["Both A and B", "Nature of surfaces only"], answer: 0 },
+    { q: "A rigid body is in a stable equilibrium if the application of any force:", options: ["Can raise the CG of the body but cannot lower it", "Tends to lower the CG of the body"], answer: 0 },
+    { q: "In actual machines mechanical advantage is:", options: ["Less than velocity ratio", "Unity"], answer: 0 },
+    { q: "The point through which the whole weight of the body acts is known as:", options: ["Center of gravity", "Moment of inertia"], answer: 0 },
+    { q: "Due to the creep of belts, in a belt-driven system there will be:", options: ["Loss of power to be transmitted", "Loss of motion"], answer: 0 },
+    { q: "Which of the following is not a scalar quantity:", options: ["Acceleration", "Time"], answer: 0 },
+    { q: "FPS unit ‘Pound’ is the unit to measure:", options: ["Length", "Weight"], answer: 1 },
+    { q: "The center of gravity of a plane lamina will not be at its geometric center if it is a:", options: ["Rectangle", "Right-angled triangle"], answer: 1 },
+    { q: "Force acting on 1 gram mass creating 1 cm/sec² acceleration is called:", options: ["Horsepower", "Dyne"], answer: 1 },
+    { q: "The center of gravity of a triangle lies at:", options: ["Concurrence of medians", "Intersection of bisectors of angles"], answer: 1 },
+    { q: "Non-coplanar forces are those which:", options: ["Coplanar concurrent forces", "Do not lie in the same plane"], answer: 1 },
+    { q: "A system of three forces keeps a body in equilibrium, then the forces are:", options: ["Coplanar only", "Concurrent only"], answer: 1 },
+    { q: "Which situation is a projectile?", options: ["Lifting of a bag", "Throwing of a cricket ball"], answer: 1 },
+    { q: "A 10 kg object acted upon by 20 N for 5 sec, final velocity:", options: ["1 m/s", "10 m/s"], answer: 1 },
+    { q: "Resultant of two forces P and Q (P > Q) in opposite direction is:", options: ["P + Q", "P - Q"], answer: 1 },
+    { q: "The point through which whole weight acts is:", options: ["Movement of inertia", "Centre of gravity"], answer: 1 },
+    { q: "Young’s modulus of elasticity of a perfectly plastic body is:", options: ["One", "Zero"], answer: 1 },
+    { q: "If wire A is more elastic than B, then:", options: ["B is more elastic than A", "A is more elastic than B"], answer: 1 },
+    { q: "The value of acceleration due to gravity (g) on earth’s surface is:", options: ["89 m/s²", "9.81 m/s²"], answer: 1 },
+    { q: "Stress is directly proportional to strain within elastic limit refers to:", options: ["Charles’ law", "Hooke’s law"], answer: 1 },
+    { q: "If the angle of contact of a drop of liquid is acute:", options: ["Cohesion is more than adhesion", "Cohesion is equal to adhesion"], answer: 1 },
+    { q: "Forces always exist in pairs and are equal but opposite:", options: ["Newton’s second law", "Newton’s third law"], answer: 1 },
+    { q: "The rate of doing work is known as:", options: ["Energy", "Power"], answer: 1 },
+    { q: "The motion of a wheel of a car is:", options: ["Translation only", "Combined translation and rotational"], answer: 1 },
+    { q: "Time variation of the position of a particle (rectilinear motion):", options: ["v = 0, a = 0", "v ≠ 0, a ≠ 0"], answer: 0 },
+    { q: "Newton’s second law:", options: ["F = m·a", "p = m·a = 0"], answer: 1 },
+    { q: "If the value of moment of arm is zero what is torque produced:", options: ["1", "0"], answer: 1 },
+    { q: "Centre of gravity of solid cone lies at:", options: ["One third of its height", "One fourth of its height"], answer: 1 },
+    { q: "Velocity is defined as:", options: ["Distance covered per unit time", "Displacement covered per unit time"], answer: 1 },
+    { q: "When the axis is perpendicular to the horizontal plane:", options: ["The front view should be drawn first", "The top view should be drawn first"], answer: 1 },
+    { q: "Projection of an object shown by three views is:", options: ["Isometric", "Orthographic"], answer: 1 },
+    { q: "Which of the following is a permanent joint?", options: ["None of the above", "Riveted joint"], answer: 0 },
+    { q: "There is neither profit nor loss:", options: ["Break-even point", "Gross profit"], answer: 0 },
+    { q: "Pair with same dimensions:", options: ["Energy and work", "Force and velocity"], answer: 0 },
+    { q: "According to law of conservation of energy:", options: ["Energy can neither be created nor destroyed", "Both A and B"], answer: 1 },
+    { q: "To every action there is equal and opposite reaction:", options: ["Newton’s first law", "Newton’s third law of motion"], answer: 1 },
+    { q: "Force applied on 100kg body to accelerate at 5 m/s²:", options: ["100N", "500N"], answer: 1 },
+    { q: "Maximum range of a particle is at angle:", options: ["30°", "45°"], answer: 1 },
+    { q: "One Newton produces acceleration:", options: ["1 m/s² in 1 gm", "1 m/s² in 1 kg"], answer: 1 },
+    { q: "Which is not a vector quantity:", options: ["Mass", "Acceleration"], answer: 0 },
+    { q: "A body moves only when:", options: ["Force of friction = applied force", "Force of friction < applied force"], answer: 1 },
+    { q: "Which is not a vector quantity:", options: ["Speed", "Velocity"], answer: 0 },
+    { q: "The coefficient of friction depends on:", options: ["Area of contact", "Strength of surfaces"], answer: 1 },
+    { q: "Tension in a cable supporting a lift, when lift is going down is:", options: ["W + f = mg", "W - f = mg"], answer: 1 },
+    { q: "Force when carried by tire:", options: ["Introduce internal stress", "Retard its motion"], answer: 1 },
+    { q: "Which of the following physical quantity is not a vector quantity?", options: ["Mass", "Momentum"], answer: 0 },
+    { q: "A body will move only when", options: ["Force of friction = applied force", "Force of friction < applied force"], answer: 1 },
+    { q: "Following term is not a vector quantity", options: ["Speed", "Velocity"], answer: 0 },
+    { q: "The center of gravity of a plane will not be at its geometrical center if it is a", options: ["Circle", "Right-angled triangle"], answer: 1 },
+    { q: "What is the total percent of reservation of posts that are to be fulfilled by open competition?", options: ["Forty-five percent", "Forty percent"], answer: 0 },
+    { q: "Which is not a type of leave in Civil Service Act?", options: ["Sickness leave", "Entertainments leave"], answer: 1 },
+    { q: "The angle of hatching line is kept as:", options: ["30°", "45°"], answer: 1 },
+    { q: "In a four-stroke engine, the working cycle is in:", options: ["Four revolutions of the crankshaft", "Two revolutions of the crankshaft"], answer: 1 },
+    { q: "Joule is the unit of:", options: ["Work", "Energy"], answer: 1 },
+    { q: "Identify the pair which has same dimensions:", options: ["Force and Power", "Energy and Work"], answer: 1 },
+    { q: "According to law of conservation of energy:", options: ["Energy can neither be created nor destroyed", "Both A and B"], answer: 1 },
+    { q: "To every action there is equal and opposite reaction is:", options: ["Newton’s first law of motion", "Newton’s third law of motion"], answer: 1 },
+    { q: "The force applied on a body of mass 100 kg to produce an acceleration of 5 m/s² is:", options: ["100 N", "500 N"], answer: 1 },
+    { q: "For the maximum range of a particle, the angle of projection should be:", options: ["30°", "45°"], answer: 1 },
+    { q: "One Newton is that force which produces an acceleration of:", options: ["1 m/s² in a mass of 1 gm", "1 m/s² in a mass of 1 kg"], answer: 1 },
+    { q: "केन्द्र गुरुत्व त्रिभुजको के हुन्छ ?", options: ["Intersection of diagonals", "Concurrence of the medians"], answer: 1 },
+    { q: "The product of pressure and volume is constant for fixed mass at constant temperature:", options: ["Gas law", "Boyle’s Law"], answer: 1 },
+    { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Coplanar force", "Couple"], answer: 1 },
+    { q: "The maximum frictional force experienced by a body when it just begins to slide:", options: ["Dynamic friction", "Static friction"], answer: 1 },
+    { q: "The linear acceleration of a rotating body is given by:", options: ["a = v²/r", "αr"], answer: 1 },
+    { q: "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?", options: ["Acceleration", "Velocity"], answer: 1 },
+    { q: "Watt is SI unit of:", options: ["Force", "Work"], answer: 1 },
+    { q: "The C.G. (centroid) of a triangle lies at the intersection of:", options: ["None of the above", "Medians"], answer: 1 },
+    { q: "कुन वस्तु projectile होइन?", options: ["A bullet fired from the gun", "A rocket fired into space"], answer: 1 },
+    { q: "Work is not a vector quantity:", options: ["Force", "Work"], answer: 1 },
+    { q: "The acceleration of a body sliding down an inclined surface is given by:", options: ["2g", "g sin θ"], answer: 1 },
+    { q: "According to the law of equilibrium, two equal and opposite forces will be in equilibrium if:", options: ["Opposite in direction", "All of the above"], answer: 1 },
+    { q: "The forces which do not meet at one point and their lines of action do not lie on the same plane are:", options: ["Coplanar concurrent", "Coplanar non-concurrent"], answer: 1 },
+    { q: "Power is equal to:", options: ["Work done per minute", "Work done per second"], answer: 1 },
+    { q: "In SI system, the unit of force is:", options: ["Dyne", "Newton"], answer: 1 },
+    { q: "Equation of trajectory is written as:", options: ["x = u cos θ t", "y = x tan θ - (gx² / 2u² cos²θ)"], answer: 1 },
+    { q: "The force of friction which exists when the body is in motion is called:", options: ["Static friction", "Dynamic friction"], answer: 1 },
+    { q: "The purpose of transmission in an automobile is:", options: ["To vary the vibration and shock to rider", "To vary the torque at the road wheels"], answer: 1 },
+    { q: "The statement 'forces always exist in pairs and to every action there is equal but opposite reaction' is:", options: ["Newton’s first law of motion", "Newton’s third law of motion"], answer: 1 },
+    { q: "Value of acceleration due to gravity (g) on earth’s surface is:", options: ["10 m/s²", "9.8 m/s²"], answer: 1 },
+    { q: "The statement 'stress is directly proportional to strain within elastic limit' refers to:", options: ["Pascal’s law", "Hooke’s law"], answer: 1 },
+];
 
-    const quizContainer = document.getElementById('quiz');
-    const scoreContainer = document.getElementById('score');
     let score = 0;
-    let answered = 0;
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
 
-    questions.forEach((q, i) => {
-      const div = document.createElement('div');
-      div.classList.add('question');
-      div.innerHTML = `<p>${i + 1}. ${q.q}</p>`;
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const submitButton = document.getElementById("submit-button");
+    const restartButton = document.getElementById("restart-button");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
 
-      const optsDiv = document.createElement('div');
-      optsDiv.classList.add('options');
+    // Load progress from localStorage
+    function loadProgress() {
+      const saved = localStorage.getItem("mechanicsMCQProgress");
+      if (saved) {
+        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        score = savedScore || 0;
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      } else {
+        score = 0;
+        userAnswers = Array(questions.length).fill(null);
+        timerSeconds = 0;
+      }
+    }
 
-      q.options.forEach((opt, j) => {
-        const btn = document.createElement('button');
-        btn.textContent = opt;
-        btn.onclick = () => {
-          if (btn.classList.contains('correct') || btn.classList.contains('wrong')) return;
-          if (j === q.answer) {
-            btn.classList.add('correct');
-            score++;
-          } else {
-            btn.classList.add('wrong');
-          }
-          answered++;
-          if (answered === questions.length) {
-            scoreContainer.textContent = `Your score: ${score} out of ${questions.length}`;
-          }
+    // Save progress to localStorage
+    function saveProgress() {
+      localStorage.setItem("mechanicsMCQProgress", JSON.stringify({
+        score,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
+
+    // Shuffle options
+    function shuffleOptions(questions) {
+      return questions.map(q => {
+        const correct = q.options[q.answer];
+        const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+        return {
+          q: q.q,
+          options: shuffled,
+          answer: shuffled.indexOf(correct)
         };
-        optsDiv.appendChild(btn);
+      });
+    }
+
+    // Start timer
+    function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const answered = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answered / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+      checkAllAnswered();
+    }
+
+    // Show all questions
+    function showQuestions() {
+      let html = '';
+      for (let i = 0; i < questions.length; i++) {
+        const q = shuffledQuestions[i];
+        const options = q.options
+          .map((opt, j) => `<button aria-label="Option ${opt}" onclick="checkAnswer(this, ${i}, ${j}, '${opt.replace(/'/g, "\\'")}')">${opt}</button>`)
+          .join('');
+        html += `
+          <div class="question" data-index="${i}">
+            <p>${i + 1}. ${q.q}</p>
+            <div class="options">${options}</div>
+          </div>
+        `;
+      }
+      quizEl.innerHTML = html;
+      updateProgress();
+    }
+
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuestions[questionIndex];
+      const correct = q.answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn) => {
+        btn.disabled = true;
+        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
-      div.appendChild(optsDiv);
-      quizContainer.appendChild(div);
-    });
+      userAnswers[questionIndex] = selectedText;
+      if (selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Audio playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Audio playback failed"));
+      }
+
+      saveProgress();
+      updateProgress();
+    }
+
+    // Check if all questions are answered to enable submit button
+    function checkAllAnswered() {
+      const allAnswered = userAnswers.every(answer => answer !== null);
+      submitButton.disabled = !allAnswered;
+    }
+
+    // End quiz and show results
+    function endQuiz() {
+      clearInterval(timerInterval);
+      quizEl.innerHTML = "";
+      submitButton.classList.add("hidden");
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+      restartButton.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" : userAnswers[i];
+        const correctAnswer = q.options[q.answer];
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${q.q}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Clear localStorage
+      localStorage.removeItem("mechanicsMCQProgress");
+    }
+
+    // Restart quiz
+    function restartQuiz() {
+      score = 0;
+      userAnswers = Array(questions.length).fill(null);
+      timerSeconds = 0;
+      shuffledQuestions = shuffleOptions(questions);
+      resultsEl.classList.add("hidden");
+      restartButton.classList.add("hidden");
+      submitButton.classList.remove("hidden");
+      scoreEl.innerHTML = "";
+      startTimer();
+      showQuestions();
+    }
+
+    // Initialize
+    let shuffledQuestions = shuffleOptions(questions);
+    loadProgress();
+    startTimer();
+    showQuestions();
+
+    // Add event listeners
+    submitButton.addEventListener("click", endQuiz);
+    restartButton.addEventListener("click", restartQuiz);
   </script>
 </body>
 </html>
