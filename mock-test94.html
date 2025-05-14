@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mock Test 13 –   Ai gen 50 Questions</title>
+  <title>Mock Test 13 – AI gen 50 Questions</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,6 +11,7 @@
       margin: 0;
       padding: 2rem;
       color: #333;
+      min-height: 100vh;
     }
 
     .quiz-container {
@@ -26,14 +26,24 @@
     h1 {
       text-align: center;
       margin-bottom: 1rem;
+      color: #1e88e5;
     }
 
     .question {
       margin-bottom: 1.5rem;
+      animation: fadeIn 0.5s;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .question p {
       font-weight: bold;
+      font-size: 1.1rem;
     }
 
     .options button {
@@ -45,282 +55,523 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s;
+      font-size: 1rem;
     }
 
     .options button:hover {
       background: #bbdefb;
+      transform: translateX(5px);
     }
 
     .correct {
       background-color: #c8e6c9 !important;
+      animation: pulse 0.5s;
     }
 
     .wrong {
       background-color: #ffcdd2 !important;
+      animation: shake 0.3s;
     }
 
-    #score {
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #eee;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #42a5f5;
+      transition: width 0.3s;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #d81b60;
+    }
+
+    #score, #results {
       text-align: center;
       font-size: 1.2rem;
       margin-top: 2rem;
       font-weight: bold;
     }
 
-    #skipped-list {
-      margin-top: 2rem;
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #f5f5f5;
+    }
+
+    .skip-button {
+      background: #fff3cd;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      width: 100%;
+      border: 1px solid #ffca28;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .skip-button:hover {
+      background: #ffecb3;
+    }
+
+    .next-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .next-button:hover {
+      background: #1e88e5;
+    }
+
+    .next-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
     }
 
     .hidden {
       display: none;
     }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+    }
   </style>
 </head>
-
 <body>
   <div class="quiz-container">
-    <h1>Mock Test 13 AI gen – 50 Questions</h1>
+    <h1>Mock Test 13 – AI gen 50 Questions</h1>
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
     <div id="quiz"></div>
     <div id="score"></div>
-    <div id="skipped-list" class="hidden">
-      <h2>Skipped Questions</h2>
-      <ul id="skipped"></ul>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
     </div>
   </div>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+
   <script>
- const questions = [
-  // Applied Mechanics (13 MCQs)
-  { q: "The second moment of area is also known as:", 
-    options: ["Moment of inertia", "Radius of gyration", "Polar moment", "Section modulus"], 
-    answer: 0 },
-  { q: "The maximum shear stress in a circular shaft under torsion occurs at:", 
-    options: ["Outer surface", "Center", "Mid-radius", "Quarter-radius"], 
-    answer: 0 },
-  { q: "The bending moment at a point in a beam is the:", 
-    options: ["Sum of moments about that point", "Sum of forces about that point", "Product of force and distance", "Shear force at that point"], 
-    answer: 0 },
-  { q: "The coefficient of restitution for a perfectly elastic collision is:", 
-    options: ["1", "0", "Greater than 1", "Less than 0"], 
-    answer: 0 },
-  { q: "The range of a projectile is maximum when the angle of projection is:", 
-    options: ["45°", "30°", "60°", "90°"], 
-    answer: 0 },
-  { q: "The unit of strain is:", 
-    options: ["Dimensionless", "N/m²", "m/s²", "kg/m³"], 
-    answer: 0 },
-  { q: "The center of gravity of a hollow sphere lies at:", 
-    options: ["Geometric center", "Inner surface", "Outer surface", "Midway between surfaces"], 
-    answer: 0 },
-  { q: "The work-energy principle states that:", 
-    options: ["Work done equals change in kinetic energy", "Work done equals potential energy", "Work done equals total energy", "Work done is zero"], 
-    answer: 0 },
-  { q: "The moment of a couple is independent of:", 
-    options: ["Point of rotation", "Magnitude of forces", "Distance between forces", "Direction of forces"], 
-    answer: 0 },
-  { q: "The Young’s modulus of a material is defined as:", 
-    options: ["Stress divided by strain", "Strain divided by stress", "Force divided by area", "Displacement divided by force"], 
-    answer: 0 },
-  { q: "The angular velocity of a body in uniform circular motion is:", 
-    options: ["Constant", "Variable", "Zero", "Infinite"], 
-    answer: 0 },
-  { q: "The principle of conservation of energy applies to:", 
-    options: ["Isolated systems", "Open systems", "Non-conservative systems", "Systems with friction"], 
-    answer: 0 },
-  { q: "The shear force at a section of a beam is the:", 
-    options: ["Sum of vertical forces on one side", "Sum of horizontal forces", "Moment about the section", "Twisting force"], 
-    answer: 0 },
+    const questions = [
+      // Applied Mechanics (13 MCQs)
+      { q: "The second moment of area is also known as:", 
+        options: ["Moment of inertia", "Radius of gyration", "Polar moment", "Section modulus"], 
+        answer: 0 },
+      { q: "The maximum shear stress in a circular shaft under torsion occurs at:", 
+        options: ["Outer surface", "Center", "Mid-radius", "Quarter-radius"], 
+        answer: 0 },
+      { q: "The bending moment at a point in a beam is the:", 
+        options: ["Sum of moments about that point", "Sum of forces about that point", "Product of force and distance", "Shear force at that point"], 
+        answer: 0 },
+      { q: "The coefficient of restitution for a perfectly elastic collision is:", 
+        options: ["1", "0", "Greater than 1", "Less than 0"], 
+        answer: 0 },
+      { q: "The range of a projectile is maximum when the angle of projection is:", 
+        options: ["45°", "30°", "60°", "90°"], 
+        answer: 0 },
+      { q: "The unit of strain is:", 
+        options: ["Dimensionless", "N/m²", "m/s²", "kg/m³"], 
+        answer: 0 },
+      { q: "The center of gravity of a hollow sphere lies at:", 
+        options: ["Geometric center", "Inner surface", "Outer surface", "Midway between surfaces"], 
+        answer: 0 },
+      { q: "The work-energy principle states that:", 
+        options: ["Work done equals change in kinetic energy", "Work done equals potential energy", "Work done equals total energy", "Work done is zero"], 
+        answer: 0 },
+      { q: "The moment of a couple is independent of:", 
+        options: ["Point of rotation", "Magnitude of forces", "Distance between forces", "Direction of forces"], 
+        answer: 0 },
+      { q: "The Young’s modulus of a material is defined as:", 
+        options: ["Stress divided by strain", "Strain divided by stress", "Force divided by area", "Displacement divided by force"], 
+        answer: 0 },
+      { q: "The angular velocity of a body in uniform circular motion is:", 
+        options: ["Constant", "Variable", "Zero", "Infinite"], 
+        answer: 0 },
+      { q: "The principle of conservation of energy applies to:", 
+        options: ["Isolated systems", "Open systems", "Non-conservative systems", "Systems with friction"], 
+        answer: 0 },
+      { q: "The shear force at a section of a beam is the:", 
+        options: ["Sum of vertical forces on one side", "Sum of horizontal forces", "Moment about the section", "Twisting force"], 
+        answer: 0 },
 
-  // Thermodynamics (8 MCQs)
-  { q: "The Carnot efficiency is given by:", 
-    options: ["1 - (T_cold / T_hot)", "T_hot / T_cold", "T_cold / T_hot", "1 - (T_hot / T_cold)"], 
-    answer: 0 },
-  { q: "The specific heat capacity of a gas at constant volume is:", 
-    options: ["Less than at constant pressure", "Equal to at constant pressure", "Greater than at constant pressure", "Zero"], 
-    answer: 0 },
-  { q: "The entropy change in a reversible adiabatic process is:", 
-    options: ["Zero", "Positive", "Negative", "Infinite"], 
-    answer: 0 },
-  { q: "The ideal gas equation for one mole of gas is:", 
-    options: ["PV = RT", "PV = nRT", "PV = mRT", "PV = T"], 
-    answer: 0 },
-  { q: "The main source of irreversibility in a thermodynamic process is:", 
-    options: ["Friction", "Constant temperature", "Reversible work", "Isothermal expansion"], 
-    answer: 0 },
-  { q: "The enthalpy change in an isochoric process equals:", 
-    options: ["Change in internal energy", "Work done", "Heat rejected", "Change in entropy"], 
-    answer: 0 },
-  { q: "The Kelvin-Planck statement of the second law states:", 
-    options: ["No engine can be 100% efficient", "Energy is conserved", "Entropy is constant", "Heat flows from hot to cold"], 
-    answer: 0 },
-  { q: "The compressibility factor of an ideal gas is:", 
-    options: ["1", "0", "Greater than 1", "Less than 1"], 
-    answer: 0 },
+      // Thermodynamics (8 MCQs)
+      { q: "The Carnot efficiency is given by:", 
+        options: ["1 - (T_cold / T_hot)", "T_hot / T_cold", "T_cold / T_hot", "1 - (T_hot / T_cold)"], 
+        answer: 0 },
+      { q: "The specific heat capacity of a gas at constant volume is:", 
+        options: ["Less than at constant pressure", "Equal to at constant pressure", "Greater than at constant pressure", "Zero"], 
+        answer: 0 },
+      { q: "The entropy change in a reversible adiabatic process is:", 
+        options: ["Zero", "Positive", "Negative", "Infinite"], 
+        answer: 0 },
+      { q: "The ideal gas equation for one mole of gas is:", 
+        options: ["PV = RT", "PV = nRT", "PV = mRT", "PV = T"], 
+        answer: 0 },
+      { q: "The main source of irreversibility in a thermodynamic process is:", 
+        options: ["Friction", "Constant temperature", "Reversible work", "Isothermal expansion"], 
+        answer: 0 },
+      { q: "The enthalpy change in an isochoric process equals:", 
+        options: ["Change in internal energy", "Work done", "Heat rejected", "Change in entropy"], 
+        answer: 0 },
+      { q: "The Kelvin-Planck statement of the second law states:", 
+        options: ["No engine can be 100% efficient", "Energy is conserved", "Entropy is constant", "Heat flows from hot to cold"], 
+        answer: 0 },
+      { q: "The compressibility factor of an ideal gas is:", 
+        options: ["1", "0", "Greater than 1", "Less than 1"], 
+        answer: 0 },
 
-  // Machine Drawing (7 MCQs)
-  { q: "The symbol for a keyway in a drawing is:", 
-    options: ["Rectangle with rounded ends", "Circle with cross", "Triangle with dot", "Square with diagonal"], 
-    answer: 0 },
-  { q: "The purpose of a sectional view is to:", 
-    options: ["Show internal features", "Show external outline", "Indicate tolerances", "Show assembly sequence"], 
-    answer: 0 },
-  { q: "The standard line weight for object lines is:", 
-    options: ["0.7 mm", "0.3 mm", "0.5 mm", "1.0 mm"], 
-    answer: 0 },
-  { q: "The purpose of a revision block in a drawing is to:", 
-    options: ["Record changes to the drawing", "Show material specifications", "Indicate scale", "List part numbers"], 
-    answer: 0 },
-  { q: "The symbol for a countersunk hole is:", 
-    options: ["V-shaped with angle", "U-shaped", "Circular with cross", "Square with dot"], 
-    answer: 0 },
-  { q: "The purpose of a geometric dimensioning and tolerancing (GD&T) symbol is to:", 
-    options: ["Specify precise tolerances", "Show hidden lines", "Indicate material type", "Show sectional views"], 
-    answer: 0 },
-  { q: "The standard angle for isometric projection is:", 
-    options: ["30°", "45°", "60°", "90°"], 
-    answer: 0 },
+      // Machine Drawing (7 MCQs)
+      { q: "The symbol for a keyway in a drawing is:", 
+        options: ["Rectangle with rounded ends", "Circle with cross", "Triangle with dot", "Square with diagonal"], 
+        answer: 0 },
+      { q: "The purpose of a sectional view is to:", 
+        options: ["Show internal features", "Show external outline", "Indicate tolerances", "Show assembly sequence"], 
+        answer: 0 },
+      { q: "The standard line weight for object lines is:", 
+        options: ["0.7 mm", "0.3 mm", "0.5 mm", "1.0 mm"], 
+        answer: 0 },
+      { q: "The purpose of a revision block in a drawing is to:", 
+        options: ["Record changes to the drawing", "Show material specifications", "Indicate scale", "List part numbers"], 
+        answer: 0 },
+      { q: "The symbol for a countersunk hole is:", 
+        options: ["V-shaped with angle", "U-shaped", "Circular with cross", "Square with dot"], 
+        answer: 0 },
+      { q: "The purpose of a geometric dimensioning and tolerancing (GD&T) symbol is to:", 
+        options: ["Specify precise tolerances", "Show hidden lines", "Indicate material type", "Show sectional views"], 
+        answer: 0 },
+      { q: "The standard angle for isometric projection is:", 
+        options: ["30°", "45°", "60°", "90°"], 
+        answer: 0 },
 
-  // Electro-Mechanical (3 MCQs)
-  { q: "The efficiency of an induction motor is maximum at:", 
-    options: ["Full load", "No load", "Half load", "Overload"], 
-    answer: 0 },
-  { q: "The function of a stator in an electric motor is to:", 
-    options: ["Provide a magnetic field", "Rotate the rotor", "Collect current", "Reduce voltage"], 
-    answer: 0 },
-  { q: "The main advantage of a synchronous motor is:", 
-    options: ["Constant speed", "High starting torque", "Low maintenance", "Small size"], 
-    answer: 0 },
+      // Electro-Mechanical (3 MCQs)
+      { q: "The efficiency of an induction motor is maximum at:", 
+        options: ["Full load", "No load", "Half load", "Overload"], 
+        answer: 0 },
+      { q: "The function of a stator in an electric motor is to:", 
+        options: ["Provide a magnetic field", "Rotate the rotor", "Collect current", "Reduce voltage"], 
+        answer: 0 },
+      { q: "The main advantage of a synchronous motor is:", 
+        options: ["Constant speed", "High starting torque", "Low maintenance", "Small size"], 
+        answer: 0 },
 
-  // Industrial Boiler (5 MCQs)
-  { q: "The function of a manhole in a boiler is to:", 
-    options: ["Allow inspection and cleaning", "Increase steam pressure", "Regulate fuel supply", "Cool the boiler"], 
-    answer: 0 },
-  { q: "The main advantage of a forced draught system in a boiler is:", 
-    options: ["Improved combustion efficiency", "Reduced fuel consumption", "Lower steam pressure", "Smaller boiler size"], 
-    answer: 0 },
-  // Generated questions
-  { q: "The purpose of a steam accumulator in a boiler system is to:", 
-    options: ["Store excess steam", "Cool the flue gases", "Increase fuel combustion", "Reduce water flow"], 
-    answer: 0 },
-  { q: "The main cause of boiler scale formation is:", 
-    options: ["Hard water deposits", "Low steam pressure", "Excessive fuel", "Poor air circulation"], 
-    answer: 0 },
-  { q: "The function of a boiler economizer is to:", 
-    options: ["Preheat feedwater using flue gases", "Increase steam pressure", "Cool the combustion chamber", "Regulate air intake"], 
-    answer: 0 },
+      // Industrial Boiler (5 MCQs)
+      { q: "The function of a manhole in a boiler is to:", 
+        options: ["Allow inspection and cleaning", "Increase steam pressure", "Regulate fuel supply", "Cool the boiler"], 
+        answer: 0 },
+      { q: "The main advantage of a forced draught system in a boiler is:", 
+        options: ["Improved combustion efficiency", "Reduced fuel consumption", "Lower steam pressure", "Smaller boiler size"], 
+        answer: 0 },
+      { q: "The purpose of a steam accumulator in a boiler system is to:", 
+        options: ["Store excess steam", "Cool the flue gases", "Increase fuel combustion", "Reduce water flow"], 
+        answer: 0 },
+      { q: "The main cause of boiler scale formation is:", 
+        options: ["Hard water deposits", "Low steam pressure", "Excessive fuel", "Poor air circulation"], 
+        answer: 0 },
+      { q: "The function of a boiler economizer is to:", 
+        options: ["Preheat feedwater using flue gases", "Increase steam pressure", "Cool the combustion chamber", "Regulate air intake"], 
+        answer: 0 },
 
-  // Heat Engines (5 MCQs)
-  { q: "The air-standard efficiency of an Otto cycle increases with:", 
-    options: ["Higher compression ratio", "Lower compression ratio", "Higher fuel volume", "Lower air intake"], 
-    answer: 0 },
-  { q: "The main function of a carburetor in a petrol engine is to:", 
-    options: ["Mix air and fuel", "Ignite the mixture", "Cool the engine", "Regulate valve timing"], 
-    answer: 0 },
-  // Generated questions
-  { q: "The purpose of a supercharger in an engine is to:", 
-    options: ["Increase air intake pressure", "Reduce exhaust emissions", "Cool the combustion chamber", "Ignite the fuel"], 
-    answer: 0 },
-  { q: "The main cause of engine knocking in a diesel engine is:", 
-    options: ["Delayed ignition", "Excessive fuel", "Low compression ratio", "High exhaust pressure"], 
-    answer: 0 },
-  { q: "The function of a connecting rod in an engine is to:", 
-    options: ["Transfer motion from piston to crankshaft", "Regulate fuel flow", "Cool the engine", "Control valve timing"], 
-    answer: 0 },
+      // Heat Engines (5 MCQs)
+      { q: "The air-standard efficiency of an Otto cycle increases with:", 
+        options: ["Higher compression ratio", "Lower compression ratio", "Higher fuel volume", "Lower air intake"], 
+        answer: 0 },
+      { q: "The main function of a carburetor in a petrol engine is to:", 
+        options: ["Mix air and fuel", "Ignite the mixture", "Cool the engine", "Regulate valve timing"], 
+        answer: 0 },
+      { q: "The purpose of a supercharger in an engine is to:", 
+        options: ["Increase air intake pressure", "Reduce exhaust emissions", "Cool the combustion chamber", "Ignite the fuel"], 
+        answer: 0 },
+      { q: "The main cause of engine knocking in a diesel engine is:", 
+        options: ["Delayed ignition", "Excessive fuel", "Low compression ratio", "High exhaust pressure"], 
+        answer: 0 },
+      { q: "The function of a connecting rod in an engine is to:", 
+        options: ["Transfer motion from piston to crankshaft", "Regulate fuel flow", "Cool the engine", "Control valve timing"], 
+        answer: 0 },
 
-  // Industrial Management (6 MCQs)
-  { q: "The main purpose of a work breakdown structure (WBS) is to:", 
-    options: ["Divide project into manageable tasks", "Calculate production costs", "Train employees", "Develop marketing plans"], 
-    answer: 0 },
-  { q: "The term ‘total quality management’ (TQM) refers to:", 
-    options: ["Continuous quality improvement", "Cost reduction strategy", "Employee training program", "Marketing campaign"], 
-    answer: 0 },
-  { q: "The main function of a supply chain manager is to:", 
-    options: ["Optimize logistics and inventory", "Develop new products", "Increase advertising", "Reduce employee turnover"], 
-    answer: 0 },
-  { q: "The purpose of a performance management system is to:", 
-    options: ["Align employee goals with organizational objectives", "Calculate depreciation", "Increase market share", "Develop new technologies"], 
-    answer: 0 },
-  { q: "The main objective of occupational health and safety standards is to:", 
-    options: ["Ensure worker safety", "Reduce production costs", "Increase sales", "Develop new products"], 
-    answer: 0 },
-  { q: "The term ‘benchmarking’ in management refers to:", 
-    options: ["Comparing performance with best practices", "Reducing employee workload", "Increasing inventory levels", "Developing advertising"], 
-    answer: 0 },
+      // Industrial Management (6 MCQs)
+      { q: "The main purpose of a work breakdown structure (WBS) is to:", 
+        options: ["Divide project into manageable tasks", "Calculate production costs", "Train employees", "Develop marketing plans"], 
+        answer: 0 },
+      { q: "The term ‘total quality management’ (TQM) refers to:", 
+        options: ["Continuous quality improvement", "Cost reduction strategy", "Employee training program", "Marketing campaign"], 
+        answer: 0 },
+      { q: "The main function of a supply chain manager is to:", 
+        options: ["Optimize logistics and inventory", "Develop new products", "Increase advertising", "Reduce employee turnover"], 
+        answer: 0 },
+      { q: "The purpose of a performance management system is to:", 
+        options: ["Align employee goals with organizational objectives", "Calculate depreciation", "Increase market share", "Develop new technologies"], 
+        answer: 0 },
+      { q: "The main objective of occupational health and safety standards is to:", 
+        options: ["Ensure worker safety", "Reduce production costs", "Increase sales", "Develop new products"], 
+        answer: 0 },
+      { q: "The term ‘benchmarking’ in management refers to:", 
+        options: ["Comparing performance with best practices", "Reducing employee workload", "Increasing inventory levels", "Developing advertising"], 
+        answer: 0 },
 
-  // Estimating and Costing (3 MCQs)
-  // All generated due to depleted dataset
-  { q: "The term ‘marginal cost’ refers to:", 
-    options: ["Cost of producing one additional unit", "Total cost of production", "Fixed cost per unit", "Cost of raw materials"], 
-    answer: 0 },
-  { q: "The main purpose of a cash flow analysis is to:", 
-    options: ["Assess financial liquidity", "Calculate depreciation", "Reduce employee turnover", "Increase market share"], 
-    answer: 0 },
-  { q: "The term ‘break-even analysis’ is used to determine:", 
-    options: ["Point where revenue equals cost", "Maximum profit point", "Minimum production cost", "Employee productivity"], 
-    answer: 0 }
-];
-    questions.sort(() => Math.random() - 0.5);
+      // Estimating and Costing (3 MCQs)
+      { q: "The term ‘marginal cost’ refers to:", 
+        options: ["Cost of producing one additional unit", "Total cost of production", "Fixed cost per unit", "Cost of raw materials"], 
+        answer: 0 },
+      { q: "The main purpose of a cash flow analysis is to:", 
+        options: ["Assess financial liquidity", "Calculate depreciation", "Reduce employee turnover", "Increase market share"], 
+        answer: 0 },
+      { q: "The term ‘break-even analysis’ is used to determine:", 
+        options: ["Point where revenue equals cost", "Maximum profit point", "Minimum production cost", "Employee productivity"], 
+        answer: 0 }
+    ];
 
-    let current = 0;
+    let currentPage = 0;
     let score = 0;
     let skipped = [];
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    const QUESTIONS_PER_PAGE = 5;
+    const ANSWER_DELAY = 1500; // 1.5 seconds delay
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
-    const skippedEl = document.getElementById("skipped-list");
-    const skippedList = document.getElementById("skipped");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
 
-    function showQuestion(index) {
-      const q = questions[index];
-      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
-      quizEl.innerHTML = `
-        <div class="question">
-          <p>Q${index + 1}. ${q.q}</p>
-          <div class="options">${options}</div>
-          <button onclick="skipQuestion()">Skip</button>
-        </div>
-      `;
+    // Load progress from localStorage
+    function loadProgress() {
+      const saved = localStorage.getItem("quizProgress13");
+      if (saved) {
+        const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        currentPage = savedPage;
+        score = savedScore;
+        skipped = savedSkipped;
+        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
     }
 
-    function checkAnswer(button, selected) {
-      const correct = questions[current].answer;
+    // Save progress to localStorage
+    function saveProgress() {
+      localStorage.setItem("quizProgress13", JSON.stringify({
+        currentPage,
+        score,
+        skipped,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
+
+    // Shuffle array
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Shuffle questions only once at initialization
+    const shuffledQuestions = shuffle([...questions]);
+
+    // Start timer
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+    }
+
+    // Show questions for the current page
+    function showQuestions(page) {
+      const startIndex = page * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let html = '';
+      for (let i = startIndex; i < endIndex; i++) {
+        const q = shuffledQuestions[i];
+        const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
+        const options = shuffledOptions
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .join('');
+        html += `
+          <div class="question" data-index="${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${options}</div>
+            <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
+          </div>
+        `;
+      }
+      if (endIndex < questions.length) {
+        html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+      }
+      quizEl.innerHTML = html;
+      updateProgress();
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuestions[questionIndex];
+      const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
-      buttons.forEach((btn, i) => {
+      buttons.forEach((btn) => {
         btn.disabled = true;
-        if (i === correct) btn.classList.add("correct");
-        if (i === selected && i !== correct) btn.classList.add("wrong");
+        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
-      if (selected === correct) score++;
-      setTimeout(() => {
-        current++;
-        if (current < questions.length) {
-          showQuestion(current);
-        } else {
-          endQuiz();
-        }
-      }, 3000);
+
+      userAnswers[questionIndex] = selectedText;
+      if (selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Audio playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Audio playback failed"));
+      }
+
+      saveProgress();
+      checkNextButton();
     }
 
-    function skipQuestion() {
-      skipped.push(questions[current]);
-      current++;
-      if (current < questions.length) {
-        showQuestion(current);
+    // Skip question
+    function skipQuestion(questionIndex) {
+      if (!skipped.includes(shuffledQuestions[questionIndex])) {
+        skipped.push(shuffledQuestions[questionIndex]);
+        userAnswers[questionIndex] = "Skipped";
+      }
+      const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check if all questions on the page are answered or skipped
+    function checkNextButton() {
+      const startIndex = currentPage * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let allAnswered = true;
+      for (let i = startIndex; i < endIndex; i++) {
+        if (userAnswers[i] === null) {
+          allAnswered = false;
+          break;
+        }
+      }
+      const nextButton = document.querySelector(".next-button");
+      if (nextButton) {
+        nextButton.disabled = !allAnswered;
+      }
+    }
+
+    // Move to next page
+    function nextPage() {
+      currentPage++;
+      if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+        showQuestions(currentPage);
       } else {
         endQuiz();
       }
     }
 
+    // End quiz and show results
     function endQuiz() {
+      clearInterval(timerInterval);
       quizEl.innerHTML = "";
-      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
-      if (skipped.length > 0) {
-        skippedEl.classList.remove("hidden");
-        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
-      }
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" :
+                         userAnswers[i] === "Skipped" ? "Skipped" :
+                         userAnswers[i];
+        const correctAnswer = q.options[q.answer];
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === "Skipped" ? "Skipped" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${q.q}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Clear localStorage
+      localStorage.removeItem("quizProgress13");
     }
 
-    showQuestion(current);
+    // Initialize
+    loadProgress();
+    startTimer();
+    showQuestions(currentPage);
   </script>
 </body>
-
 </html>
