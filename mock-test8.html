@@ -32,6 +32,8 @@
     .question {
       margin-bottom: 1.5rem;
       animation: fadeIn 0.5s;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
     }
 
     @keyframes fadeIn {
@@ -143,6 +145,28 @@
       background: #ffecb3;
     }
 
+    .next-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .next-button:hover {
+      background: #1e88e5;
+    }
+
+    .next-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
     .hidden {
       display: none;
     }
@@ -193,7 +217,7 @@
         options: ["1", "0", "Infinite", "Negative"], 
         answer: 1 },
       { q: "Centre of gravity of solid cone lies at:", 
-        options: ["One fourth of its height", "One third of its height", "Half of its height", "Base of the cone"], 
+        options: ["One fourth of its height from base", "One third of its height from base", "Half of its height", "Base of the cone"], 
         answer: 0 },
       { q: "Velocity is defined as:", 
         options: ["Distance covered per unit time", "Displacement covered per unit time", "Speed in a direction", "Acceleration per unit time"], 
@@ -229,7 +253,7 @@
         options: ["Acceleration", "Time", "Mass", "Energy"], 
         answer: 0 },
 
-      // Thermodynamics (8 MCQs)
+      // Thermodynamics (9 MCQs)
       { q: "Work done in a free expansion process is:", 
         options: ["Positive", "Zero", "Negative", "Infinite"], 
         answer: 1 },
@@ -243,10 +267,10 @@
         options: ["Positive", "Zero value", "Negative", "Infinite"], 
         answer: 1 },
       { q: "The specific heat of air at constant volume is equal to:", 
-        options: ["0.17", "0.21", "0.25", "0.30"], 
+        options: ["0.17 kcal/kg·K", "0.21 kcal/kg·K", "0.25 kcal/kg·K", "0.30 kcal/kg·K"], 
         answer: 0 },
       { q: "The change in enthalpy of an ideal gas during an adiabatic process is:", 
-        options: ["mCᵥ(T₂ − T₁)", "mCₚ(T₂ − T₁)", "Zero", "mR(T₂ − T₁)"], 
+        options: ["mC_v(T₂ − T₁)", "mC_p(T₂ − T₁)", "Zero", "mR(T₂ − T₁)"], 
         answer: 2 },
       { q: "Heat transferred to a closed system during an isochoric process is equal to:", 
         options: ["Change in enthalpy", "Change in internal energy", "Change in entropy", "Change in pressure"], 
@@ -254,6 +278,9 @@
       { q: "Gas heated such that PV = const. Heat supplied is equal to:", 
         options: ["Change in internal energy", "Product of pressure and volume", "Change in enthalpy", "Work done"], 
         answer: 2 },
+      { q: "In thermodynamics, a function is called a path function when the quantities depend on:", 
+        options: ["Area of the graph", "The path taken", "State of the system", "Equilibrium conditions"], 
+        answer: 1 },
 
       // Machine Drawing (7 MCQs)
       { q: "Which of the following is not a type of section?", 
@@ -323,7 +350,7 @@
         options: ["Radiator", "Flywheel", "Crankshaft", "Camshaft"], 
         answer: 0 },
 
-      // Industrial Management (6 MCQs)
+      // Industrial Management (5 MCQs)
       { q: "Wages of any employee is:", 
         options: ["Bonus", "All of the above", "Basic salary", "Overtime pay"], 
         answer: 1 },
@@ -339,9 +366,6 @@
       { q: "Which of the following is independent of sales forecast?", 
         options: ["Productivity", "Inventory control", "Production planning", "Market demand"], 
         answer: 0 },
-      { q: "In thermodynamics, a function is called a path function when the quantities depend on:", 
-        options: ["Area of the graph", "By a path", "State of the system", "Equilibrium conditions"], 
-        answer: 1 },
 
       // Estimating and Costing (3 MCQs)
       { q: "Depreciation of machines, according to income tax regulation is calculated on the basis of:", 
@@ -355,13 +379,14 @@
         answer: 1 }
     ];
 
-    let current = 0;
+    let currentPage = 0;
     let score = 0;
     let skipped = [];
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
     let timerInterval;
-    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+    const QUESTIONS_PER_PAGE = 5;
+    const ANSWER_DELAY = 1500; // Defined but not used in checkAnswer
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -376,8 +401,8 @@
     function loadProgress() {
       const saved = localStorage.getItem("quizProgress8");
       if (saved) {
-        const { current: savedCurrent, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        current = savedCurrent;
+        const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        currentPage = savedPage;
         score = savedScore;
         skipped = savedSkipped;
         userAnswers = savedAnswers || Array(questions.length).fill(null);
@@ -388,7 +413,7 @@
     // Save progress to localStorage
     function saveProgress() {
       localStorage.setItem("quizProgress8", JSON.stringify({
-        current,
+        currentPage,
         score,
         skipped,
         answers: userAnswers,
@@ -420,31 +445,41 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = (current / questions.length) * 100;
+      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
     }
 
-    // Show question
-    function showQuestion(index) {
-      const q = shuffledQuestions[index];
-      const shuffledOptions = shuffle([...q.options].map((opt, i) => ({ text: opt, index: i })));
-      const options = shuffledOptions
-        .map(opt => `<button onclick="checkAnswer(this, ${opt.index}, '${opt.text.replace(/'/g, "\\'").replace(/ᵥ/g, 'v').replace(/ᵥ/g, 'p')}')">${opt.text}</button>`)
-        .join('');
-      quizEl.innerHTML = `
-        <div class="question">
-          <p>Q${index + 1}. ${q.q}</p>
-          <div class="options">${options}</div>
-          <button class="skip-button" onclick="skipQuestion()">Skip</button>
-        </div>
-      `;
+    // Show questions for the current page
+    function showQuestions(page) {
+      const startIndex = page * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let html = '';
+      for (let i = startIndex; i < endIndex; i++) {
+        const q = shuffledQuestions[i];
+        const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
+        const options = shuffledOptions
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'").replace(/ᵥ/g, 'v').replace(/ₚ/g, 'p')}')">${opt.text}</button>`)
+          .join('');
+        html += `
+          <div class="question" data-index="${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${options}</div>
+            <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
+          </div>
+        `;
+      }
+      if (endIndex < questions.length) {
+        html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+      }
+      quizEl.innerHTML = html;
       updateProgress();
       saveProgress();
+      checkNextButton();
     }
 
     // Check answer
-    function checkAnswer(button, selected, selectedText) {
-      const q = shuffledQuestions[current];
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuestions[questionIndex];
       const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
       buttons.forEach((btn) => {
@@ -453,7 +488,7 @@
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
-      userAnswers[current] = selectedText;
+      userAnswers[questionIndex] = selectedText;
       if (selected === correct) {
         score++;
         correctSound.play().catch(() => console.log("Audio playback failed"));
@@ -461,25 +496,44 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      setTimeout(() => {
-        current++;
-        if (current < questions.length) {
-          showQuestion(current);
-        } else {
-          endQuiz();
-        }
-      }, ANSWER_DELAY);
+      saveProgress();
+      checkNextButton();
     }
 
     // Skip question
-    function skipQuestion() {
-      if (!skipped.includes(shuffledQuestions[current])) {
-        skipped.push(shuffledQuestions[current]);
-        userAnswers[current] = "Skipped";
+    function skipQuestion(questionIndex) {
+      if (!skipped.includes(shuffledQuestions[questionIndex])) {
+        skipped.push(shuffledQuestions[questionIndex]);
+        userAnswers[questionIndex] = "Skipped";
       }
-      current++;
-      if (current < questions.length) {
-        showQuestion(current);
+      const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check if all questions on the page are answered or skipped
+    function checkNextButton() {
+      const startIndex = currentPage * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let allAnswered = true;
+      for (let i = startIndex; i < endIndex; i++) {
+        if (userAnswers[i] === null) {
+          allAnswered = false;
+          break;
+        }
+      }
+      const nextButton = document.querySelector(".next-button");
+      if (nextButton) {
+        nextButton.disabled = !allAnswered;
+      }
+    }
+
+    // Move to next page
+    function nextPage() {
+      currentPage++;
+      if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+        showQuestions(currentPage);
       } else {
         endQuiz();
       }
@@ -517,7 +571,7 @@
     // Initialize
     loadProgress();
     startTimer();
-    showQuestion(current);
+    showQuestions(currentPage);
   </script>
 </body>
 </html>
