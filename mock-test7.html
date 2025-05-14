@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,6 +11,7 @@
       margin: 0;
       padding: 2rem;
       color: #333;
+      min-height: 100vh;
     }
 
     .quiz-container {
@@ -26,14 +26,22 @@
     h1 {
       text-align: center;
       margin-bottom: 1rem;
+      color: #1e88e5;
     }
 
     .question {
       margin-bottom: 1.5rem;
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .question p {
       font-weight: bold;
+      font-size: 1.1rem;
     }
 
     .options button {
@@ -45,250 +53,414 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s;
+      font-size: 1rem;
     }
 
     .options button:hover {
       background: #bbdefb;
+      transform: translateX(5px);
     }
 
     .correct {
       background-color: #c8e6c9 !important;
+      animation: pulse 0.5s;
     }
 
     .wrong {
       background-color: #ffcdd2 !important;
+      animation: shake 0.3s;
     }
 
-    #score {
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #eee;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #42a5f5;
+      transition: width 0.3s;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #d81b60;
+    }
+
+    #score, #results {
       text-align: center;
       font-size: 1.2rem;
       margin-top: 2rem;
       font-weight: bold;
     }
 
-    #skipped-list {
-      margin-top: 2rem;
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #f5f5f5;
+    }
+
+    .skip-button {
+      background: #fff3cd;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      width: 100%;
+      border: 1px solid #ffca28;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .skip-button:hover {
+      background: #ffecb3;
     }
 
     .hidden {
       display: none;
     }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+    }
   </style>
 </head>
-
 <body>
   <div class="quiz-container">
     <h1>Mock Test 7 – 50 Questions</h1>
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
     <div id="quiz"></div>
     <div id="score"></div>
-    <div id="skipped-list" class="hidden">
-      <h2>Skipped Questions</h2>
-      <ul id="skipped"></ul>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
     </div>
   </div>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+
   <script>
-    // const questions = [
     const questions = [
-  // Applied Mechanics (13 MCQs)
-  { q: "According to equilibrium law, two forces can be in equilibrium if:", 
-    options: ["Equal in magnitude", "Opposite in direction", "Collinear", "Perpendicular"], 
-    answer: 0 },
-  { q: "Forces not meeting at a point and not lying on the same plane are called:", 
-    options: ["Non-coplanar concurrent", "Non-coplanar non-concurrent", "Coplanar concurrent", "Coplanar non-concurrent"], 
-    answer: 1 },
-  { q: "A force is completely defined when we specify:", 
-    options: ["Point of application", "Magnitude and direction", "Line of action", "All of the above"], 
-    answer: 3 },
-  { q: "Which of the following is not a projectile?", 
-    options: ["Ball thrown upwards", "A bullet fired from the gun", "A rocket in orbit", "A stone dropped from a height"], 
-    answer: 0 },
-  { q: "The velocity ratio of simple wheel and axle with D and d as diameters of effort wheel and load axle is:", 
-    options: ["D+d", "D/d", "d/D", "D-d"], 
-    answer: 1 },
-  { q: "Force acting on a mass of one gramme creating an acceleration of one cm per sec² is called:", 
-    options: ["Watt", "Dyne", "Newton", "Joule"], 
-    answer: 1 },
-  { q: "Which of the following do not meet and do not lie on the same plane?", 
-    options: ["Coplanar concurrent forces", "Non-coplanar non-concurrent forces", "Coplanar non-concurrent forces", "Non-coplanar concurrent forces"], 
-    answer: 1 },
-  { q: "A stationary object of 10 kg mass is acted upon by 20 N force for 5 seconds. The object will attain final velocity:", 
-    options: ["10 m/s", "20 m/s", "5 m/s", "15 m/s"], 
-    answer: 1 },
-  { q: "The resultant of two forces P and Q (such that P > Q) acting along the same straight line but in opposite directions is:", 
-    options: ["P + Q", "P - Q", "Q - P", "P × Q"], 
-    answer: 1 },
-  { q: "Energy can neither be created nor destroyed. This is:", 
-    options: ["First law of thermodynamics", "Second law of thermodynamics", "Zeroth law of thermodynamics", "Law of conservation of mass"], 
-    answer: 0 },
-  { q: "The rate of doing work is known as:", 
-    options: ["Kinetic energy", "Power", "Potential energy", "Torque"], 
-    answer: 1 },
-  { q: "The motion of a wheel of a car is:", 
-    options: ["Purely rotational", "Combined translation and rotational", "Purely translational", "Oscillatory"], 
-    answer: 1 },
-  { q: "If the force acting on the body, m is the mass and a is the acceleration, Newton’s 2nd law is:", 
-    options: ["F × ma = 0", "F = ma", "F = m/a", "F = m²a"], 
-    answer: 1 },
+      // Applied Mechanics (13 MCQs)
+      { q: "According to equilibrium law, two forces can be in equilibrium if:", 
+        options: ["Equal in magnitude", "Opposite in direction", "Collinear", "Perpendicular"], 
+        answer: 0 },
+      { q: "Forces not meeting at a point and not lying on the same plane are called:", 
+        options: ["Non-coplanar concurrent", "Non-coplanar non-concurrent", "Coplanar concurrent", "Coplanar non-concurrent"], 
+        answer: 1 },
+      { q: "A force is completely defined when we specify:", 
+        options: ["Point of application", "Magnitude and direction", "Line of action", "All of the above"], 
+        answer: 3 },
+      { q: "Which of the following is not a projectile?", 
+        options: ["Ball thrown upwards", "A bullet fired from the gun", "A rocket in orbit", "A stone dropped from a height"], 
+        answer: 2 },
+      { q: "The velocity ratio of simple wheel and axle with D and d as diameters of effort wheel and load axle is:", 
+        options: ["D+d", "D/d", "d/D", "D-d"], 
+        answer: 1 },
+      { q: "Force acting on a mass of one gramme creating an acceleration of one cm per sec² is called:", 
+        options: ["Watt", "Dyne", "Newton", "Joule"], 
+        answer: 1 },
+      { q: "Which of the following do not meet and do not lie on the same plane?", 
+        options: ["Coplanar concurrent forces", "Non-coplanar non-concurrent forces", "Coplanar non-concurrent forces", "Non-coplanar concurrent forces"], 
+        answer: 1 },
+      { q: "A stationary object of 10 kg mass is acted upon by 20 N force for 5 seconds. The object will attain final velocity:", 
+        options: ["10 m/s", "20 m/s", "5 m/s", "15 m/s"], 
+        answer: 0 },
+      { q: "The resultant of two forces P and Q (such that P > Q) acting along the same straight line but in opposite directions is:", 
+        options: ["P + Q", "P - Q", "Q - P", "P × Q"], 
+        answer: 1 },
+      { q: "Energy can neither be created nor destroyed. This is:", 
+        options: ["First law of thermodynamics", "Second law of thermodynamics", "Zeroth law of thermodynamics", "Law of conservation of mass"], 
+        answer: 0 },
+      { q: "The rate of doing work is known as:", 
+        options: ["Kinetic energy", "Power", "Potential energy", "Torque"], 
+        answer: 1 },
+      { q: "The motion of a wheel of a car is:", 
+        options: ["Purely rotational", "Combined translation and rotational", "Purely translational", "Oscillatory"], 
+        answer: 1 },
+      { q: "If the force acting on the body, m is the mass and a is the acceleration, Newton’s 2nd law is:", 
+        options: ["F × ma = 0", "F = ma", "F = m/a", "F = m²a"], 
+        answer: 1 },
 
-  // Thermodynamics (8 MCQs)
-  { q: "In an isothermal process:", 
-    options: ["Pressure is constant", "Temperature is constant", "Volume is constant", "Entropy is constant"], 
-    answer: 1 },
-  { q: "According to the 1st Law of Thermodynamics:", 
-    options: ["Mass and light are mutually convertible", "Heat and work are mutually convertible", "Energy is created", "Entropy remains constant"], 
-    answer: 1 },
-  { q: "Which coal has the highest calorific value?", 
-    options: ["Bituminous coal", "Anthracite coal", "Lignite coal", "Peat coal"], 
-    answer: 1 },
-  { q: "Thermal power plants operate on which cycle?", 
-    options: ["Otto cycle", "Rankine cycle", "Brayton cycle", "Joule cycle"], 
-    answer: 1 },
-  { q: "Carnot cycle has maximum efficiency for:", 
-    options: ["Irreversible engine", "Reversible engine", "Diesel engine", "Petrol engine"], 
-    answer: 1 },
-  { q: "General gas equation is:", 
-    options: ["PV = mRT", "PV = nRT", "PV = RT", "PV = mT"], 
-    answer: 1 },
-  { q: "Water is a ____ fluid.", 
-    options: ["Ideal", "Real", "Perfect", "Compressible"], 
-    answer: 1 },
-  { q: "Bar is the unit of:", 
-    options: ["Power", "Pressure", "Force", "Energy"], 
-    answer: 1 },
+      // Thermodynamics (8 MCQs)
+      { q: "In an isothermal process:", 
+        options: ["Pressure is constant", "Temperature is constant", "Volume is constant", "Entropy is constant"], 
+        answer: 1 },
+      { q: "According to the 1st Law of Thermodynamics:", 
+        options: ["Mass and light are mutually convertible", "Heat and work are mutually convertible", "Energy is created", "Entropy remains constant"], 
+        answer: 1 },
+      { q: "Which coal has the highest calorific value?", 
+        options: ["Bituminous coal", "Anthracite coal", "Lignite coal", "Peat coal"], 
+        answer: 1 },
+      { q: "Thermal power plants operate on which cycle?", 
+        options: ["Otto cycle", "Rankine cycle", "Brayton cycle", "Joule cycle"], 
+        answer: 1 },
+      { q: "Carnot cycle has maximum efficiency for:", 
+        options: ["Irreversible engine", "Reversible engine", "Diesel engine", "Petrol engine"], 
+        answer: 1 },
+      { q: "General gas equation is:", 
+        options: ["PV = mRT", "PV = nRT", "PV = RT", "PV = mT"], 
+        answer: 1 },
+      { q: "Water is a ____ fluid.", 
+        options: ["Ideal", "Real", "Perfect", "Compressible"], 
+        answer: 1 },
+      { q: "Bar is the unit of:", 
+        options: ["Power", "Pressure", "Force", "Energy"], 
+        answer: 1 },
 
-  // Machine Drawing (7 MCQs)
-  { q: "Which component lists part name, material, and quantity?", 
-    options: ["Bill of Materials", "Title Block", "Border Lines", "Revision Block"], 
-    answer: 0 },
-  { q: "In assembly drawing, hatching is used to show:", 
-    options: ["Material cut in section", "Hole center lines", "Hidden edges", "Dimension lines"], 
-    answer: 0 },
-  { q: "Which drawing represents the exact shape and size of an object?", 
-    options: ["Scale drawing", "Freehand sketch", "Isometric drawing", "Perspective drawing"], 
-    answer: 0 },
-  { q: "Which method is used to develop a cone’s surface?", 
-    options: ["Radial line development", "Parallel line development", "Triangulation development", "Approximate development"], 
-    answer: 0 },
-  { q: "What is a break line used for?", 
-    options: ["Show removed portion", "Indicate center", "Show hidden edges", "Show dimension"], 
-    answer: 0 },
-  { q: "Which one of the following lines is used for hidden features?", 
-    options: ["Dashed line", "Solid line", "Center line", "Phantom line"], 
-    answer: 0 },
-  { q: "Section lines are generally drawn at an angle of:", 
-    options: ["45°", "60°", "30°", "90°"], 
-    answer: 0 },
+      // Machine Drawing (7 MCQs)
+      { q: "Which component lists part name, material, and quantity?", 
+        options: ["Bill of Materials", "Title Block", "Border Lines", "Revision Block"], 
+        answer: 0 },
+      { q: "In assembly drawing, hatching is used to show:", 
+        options: ["Material cut in section", "Hole center lines", "Hidden edges", "Dimension lines"], 
+        answer: 0 },
+      { q: "Which drawing represents the exact shape and size of an object?", 
+        options: ["Scale drawing", "Freehand sketch", "Isometric drawing", "Perspective drawing"], 
+        answer: 0 },
+      { q: "Which method is used to develop a cone’s surface?", 
+        options: ["Radial line development", "Parallel line development", "Triangulation development", "Approximate development"], 
+        answer: 0 },
+      { q: "What is a break line used for?", 
+        options: ["Show removed portion", "Indicate center", "Show hidden edges", "Show dimension"], 
+        answer: 0 },
+      { q: "Which one of the following lines is used for hidden features?", 
+        options: ["Dashed line", "Solid line", "Center line", "Phantom line"], 
+        answer: 0 },
+      { q: "Section lines are generally drawn at an angle of:", 
+        options: ["45°", "60°", "30°", "90°"], 
+        answer: 0 },
 
-  // Electro-Mechanical (3 MCQs)
-  { q: "In a hydropower plant, what converts mechanical energy into electrical energy?", 
-    options: ["Generator", "Pump", "Turbine", "Transformer"], 
-    answer: 0 },
-  { q: "In generators, what principle is used to convert mechanical motion to electrical energy?", 
-    options: ["Magnetic induction", "Magnetic repulsion", "Electrostatic induction", "Thermal conduction"], 
-    answer: 0 },
-  { q: "The nature of the current flowing in the armature of the DC machine is:", 
-    options: ["DC", "AC", "Pulsed DC", "Alternating DC"], 
-    answer: 0 },
+      // Electro-Mechanical (3 MCQs)
+      { q: "In a hydropower plant, what converts mechanical energy into electrical energy?", 
+        options: ["Generator", "Pump", "Turbine", "Transformer"], 
+        answer: 0 },
+      { q: "In generators, what principle is used to convert mechanical motion to electrical energy?", 
+        options: ["Magnetic induction", "Magnetic repulsion", "Electrostatic induction", "Thermal conduction"], 
+        answer: 0 },
+      { q: "The nature of the current flowing in the armature of the DC machine is:", 
+        options: ["DC", "AC", "Pulsed DC", "Alternating DC"], 
+        answer: 1 },
 
-  // Industrial Boiler (5 MCQs)
-  { q: "Which of the following is a fire tube boiler?", 
-    options: ["Locomotive boiler", "Babcock and Wilcox boiler", "Stirling boiler", "Benson boiler"], 
-    answer: 0 },
-  { q: "Boiler HP is defined as:", 
-    options: ["Steam evaporation rate per kg of fuel fired", "Work done in evaporating 1 kg of steam", "Heat transfer rate", "Pressure capacity"], 
-    answer: 1 },
-  { q: "Fire tube boilers are:", 
-    options: ["Internally fired", "Externally fired", "Both internally and externally fired", "Neither internally nor externally fired"], 
-    answer: 0 },
-  { q: "The heat loss in a boiler takes place in the form of:", 
-    options: ["Heat carried away by flue gases", "Radiation losses", "Unburnt carbon in ash", "All of the above"], 
-    answer: 3 },
-  { q: "The device attached to the steam chest for preventing explosions due to excessive internal pressure of steam is called:", 
-    options: ["Water level indicator", "Safety valve", "Blow-off cock", "Feed check valve"], 
-    answer: 1 },
+      // Industrial Boiler (5 MCQs)
+      { q: "Which of the following is a fire tube boiler?", 
+        options: ["Locomotive boiler", "Babcock and Wilcox boiler", "Stirling boiler", "Benson boiler"], 
+        answer: 0 },
+      { q: "Boiler HP is defined as:", 
+        options: ["Steam evaporation rate per kg of fuel fired", "Work done in evaporating 1 kg of steam", "Heat transfer rate", "Pressure capacity"], 
+        answer: 0 },
+      { q: "Fire tube boilers are:", 
+        options: ["Internally fired", "Externally fired", "Both internally and externally fired", "Neither internally nor externally fired"], 
+        answer: 2 },
+      { q: "The heat loss in a boiler takes place in the form of:", 
+        options: ["Heat carried away by flue gases", "Radiation losses", "Unburnt carbon in ash", "All of the above"], 
+        answer: 3 },
+      { q: "The device attached to the steam chest for preventing explosions due to excessive internal pressure of steam is called:", 
+        options: ["Water level indicator", "Safety valve", "Blow-off cock", "Feed check valve"], 
+        answer: 1 },
 
-  // Heat Engines (5 MCQs)
-  { q: "Which part of the engine connects piston and crankshaft?", 
-    options: ["Connecting rod", "Camshaft", "Flywheel", "Crankcase"], 
-    answer: 0 },
-  { q: "Which stroke removes burnt gases?", 
-    options: ["Exhaust stroke", "Intake stroke", "Compression stroke", "Power stroke"], 
-    answer: 0 },
-  { q: "All steam engines are:", 
-    options: ["External combustion engine", "Internal combustion engine", "Hybrid combustion engine", "Non-combustion engine"], 
-    answer: 0 },
-  { q: "Which of the following is a four-stroke engine?", 
-    options: ["Petrol engine", "Steam engine", "Two-stroke engine", "Jet engine"], 
-    answer: 0 },
-  { q: "The main function of a carburetor is to?", 
-    options: ["Mix air and fuel", "Cool the engine", "Compress the fuel", "Ignite the mixture"], 
-    answer: 0 },
+      // Heat Engines (5 MCQs)
+      { q: "Which part of the engine connects piston and crankshaft?", 
+        options: ["Connecting rod", "Camshaft", "Flywheel", "Crankcase"], 
+        answer: 0 },
+      { q: "Which stroke removes burnt gases?", 
+        options: ["Exhaust stroke", "Intake stroke", "Compression stroke", "Power stroke"], 
+        answer: 0 },
+      { q: "All steam engines are:", 
+        options: ["External combustion engine", "Internal combustion engine", "Hybrid combustion engine", "Non-combustion engine"], 
+        answer: 0 },
+      { q: "Which of the following is a four-stroke engine?", 
+        options: ["Petrol engine", "Steam engine", "Two-stroke engine", "Jet engine"], 
+        answer: 0 },
+      { q: "The main function of a carburetor is to?", 
+        options: ["Mix air and fuel", "Cool the engine", "Compress the fuel", "Ignite the mixture"], 
+        answer: 0 },
 
-  // Industrial Management (6 MCQs)
-  { q: "Assets of a company include:", 
-    options: ["Building", "Machinery", "Inventory", "All of the above"], 
-    answer: 3 },
-  { q: "Amortization means:", 
-    options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis", "Depreciation of assets", "Sale of assets"], 
-    answer: 1 },
-  { q: "Industrial hygiene and safety is concerned with:", 
-    options: ["Analyzing the hazards of workplace", "Ensuring worker comfort", "Reducing operational costs", "All of the above"], 
-    answer: 3 },
-  { q: "Which of the following is not a chief organ of the UN?", 
-    options: ["Security Council", "General Assembly", "Economic and Social Council", "International Labor Organization"], 
-    answer: 3 },
-  { q: "Highest percentage of child labor is found in Nepal in which sector?", 
-    options: ["Industrial sector", "Agricultural sector", "Service sector", "Construction sector"], 
-    answer: 1 },
-  { q: "Which of the following layouts is suited for mass production?", 
-    options: ["Process Layout", "Product Layout", "Fixed Position Layout", "Cellular Layout"], 
-    answer: 1 },
+      // Industrial Management (6 MCQs)
+      { q: "Assets of a company include:", 
+        options: ["Building", "Machinery", "Inventory", "All of the above"], 
+        answer: 3 },
+      { q: "Amortization means:", 
+        options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis", "Depreciation of assets", "Sale of assets"], 
+        answer: 1 },
+      { q: "Industrial hygiene and safety is concerned with:", 
+        options: ["Analyzing the hazards of workplace", "Ensuring worker comfort", "Reducing operational costs", "All of the above"], 
+        answer: 3 },
+      { q: "Which of the following is not a chief organ of the UN?", 
+        options: ["Security Council", "General Assembly", "Economic and Social Council", "International Labor Organization"], 
+        answer: 3 },
+      { q: "Highest percentage of child labor is found in Nepal in which sector?", 
+        options: ["Industrial sector", "Agricultural sector", "Service sector", "Construction sector"], 
+        answer: 1 },
+      { q: "Which of the following layouts is suited for mass production?", 
+        options: ["Process Layout", "Product Layout", "Fixed Position Layout", "Cellular Layout"], 
+        answer: 1 },
 
-  // Estimating and Costing (3 MCQs)
-  { q: "Depreciation arises because of:", 
-    options: ["Fall in the market value of an asset", "Physical wear and tear", "Obsolescence", "All of the above"], 
-    answer: 3 },
-  { q: "The main objective of depreciation?", 
-    options: ["To show previous profit", "To calculate net profit", "To increase asset value", "To reduce tax liability"], 
-    answer: 1 },
-  { q: "A variable cost is a cost that:", 
-    options: ["Varies directly with the level of activity", "Remains constant", "Decreases with activity", "Is fixed per unit"], 
-    answer: 0 }
-];
-     
-    questions.sort(() => Math.random() - 0.5);
+      // Estimating and Costing (3 MCQs)
+      { q: "Depreciation arises because of:", 
+        options: ["Fall in the market value of an asset", "Physical wear and tear", "Obsolescence", "All of the above"], 
+        answer: 3 },
+      { q: "The main objective of depreciation?", 
+        options: ["To show previous profit", "To calculate net profit", "To increase asset value", "To reduce tax liability"], 
+        answer: 1 },
+      { q: "A variable cost is a cost that:", 
+        options: ["Varies directly with the level of activity", "Remains constant", "Decreases with activity", "Is fixed per unit"], 
+        answer: 0 }
+    ];
 
     let current = 0;
     let score = 0;
     let skipped = [];
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    const ANSWER_DELAY = 2200; // 1.5 seconds delay
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
-    const skippedEl = document.getElementById("skipped-list");
-    const skippedList = document.getElementById("skipped");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
 
+    // Load progress from localStorage
+    function loadProgress() {
+      const saved = localStorage.getItem("quizProgress7");
+      if (saved) {
+        const { current: savedCurrent, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        current = savedCurrent;
+        score = savedScore;
+        skipped = savedSkipped;
+        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
+    }
+
+    // Save progress to localStorage
+    function saveProgress() {
+      localStorage.setItem("quizProgress7", JSON.stringify({
+        current,
+        score,
+        skipped,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
+
+    // Shuffle array
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Shuffle questions only once at initialization
+    const shuffledQuestions = shuffle([...questions]);
+
+    // Start timer
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const percentage = (current / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+    }
+
+    // Show question
     function showQuestion(index) {
-      const q = questions[index];
-      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
+      const q = shuffledQuestions[index];
+      const shuffledOptions = shuffle([...q.options].map((opt, i) => ({ text: opt, index: i })));
+      const options = shuffledOptions
+        .map(opt => `<button onclick="checkAnswer(this, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+        .join('');
       quizEl.innerHTML = `
         <div class="question">
           <p>Q${index + 1}. ${q.q}</p>
           <div class="options">${options}</div>
-          <button onclick="skipQuestion()">Skip</button>
+          <button class="skip-button" onclick="skipQuestion()">Skip</button>
         </div>
       `;
+      updateProgress();
+      saveProgress();
     }
 
-    function checkAnswer(button, selected) {
-      const correct = questions[current].answer;
+    // Check answer
+    function checkAnswer(button, selected, selectedText) {
+      const q = shuffledQuestions[current];
+      const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
-      buttons.forEach((btn, i) => {
+      buttons.forEach((btn) => {
         btn.disabled = true;
-        if (i === correct) btn.classList.add("correct");
-        if (i === selected && i !== correct) btn.classList.add("wrong");
+        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
-      if (selected === correct) score++;
+
+      userAnswers[current] = selectedText;
+      if (selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Audio playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Audio playback failed"));
+      }
+
       setTimeout(() => {
         current++;
         if (current < questions.length) {
@@ -296,11 +468,15 @@
         } else {
           endQuiz();
         }
-      }, 3000);
+      }, ANSWER_DELAY);
     }
 
+    // Skip question
     function skipQuestion() {
-      skipped.push(questions[current]);
+      if (!skipped.includes(shuffledQuestions[current])) {
+        skipped.push(shuffledQuestions[current]);
+        userAnswers[current] = "Skipped";
+      }
       current++;
       if (current < questions.length) {
         showQuestion(current);
@@ -309,17 +485,39 @@
       }
     }
 
+    // End quiz and show results
     function endQuiz() {
+      clearInterval(timerInterval);
       quizEl.innerHTML = "";
-      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
-      if (skipped.length > 0) {
-        skippedEl.classList.remove("hidden");
-        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
-      }
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" :
+                         userAnswers[i] === "Skipped" ? "Skipped" :
+                         userAnswers[i];
+        const correctAnswer = q.options[q.answer];
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === "Skipped" ? "Skipped" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${q.q}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Clear localStorage
+      localStorage.removeItem("quizProgress7");
     }
 
+    // Initialize
+    loadProgress();
+    startTimer();
     showQuestion(current);
   </script>
 </body>
-
 </html>
