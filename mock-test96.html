@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mock Test 15 –   Ai gen 100 Questions</title>
+  <title>Mock Test 15 – AI gen 100 Questions</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,6 +11,7 @@
       margin: 0;
       padding: 2rem;
       color: #333;
+      min-height: 100vh;
     }
 
     .quiz-container {
@@ -26,14 +26,24 @@
     h1 {
       text-align: center;
       margin-bottom: 1rem;
+      color: #1e88e5;
     }
 
     .question {
       margin-bottom: 1.5rem;
+      animation: fadeIn 0.5s;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .question p {
       font-weight: bold;
+      font-size: 1.1rem;
     }
 
     .options button {
@@ -45,429 +55,673 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s;
+      font-size: 1rem;
     }
 
     .options button:hover {
       background: #bbdefb;
+      transform: translateX(5px);
     }
 
     .correct {
       background-color: #c8e6c9 !important;
+      animation: pulse 0.5s;
     }
 
     .wrong {
       background-color: #ffcdd2 !important;
+      animation: shake 0.3s;
     }
 
-    #score {
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #eee;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #42a5f5;
+      transition: width 0.3s;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #d81b60;
+    }
+
+    #score, #results {
       text-align: center;
       font-size: 1.2rem;
       margin-top: 2rem;
       font-weight: bold;
     }
 
-    #skipped-list {
-      margin-top: 2rem;
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #f5f5f5;
+    }
+
+    .skip-button {
+      background: #fff3cd;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      width: 100%;
+      border: 1px solid #ffca28;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .skip-button:hover {
+      background: #ffecb3;
+    }
+
+    .next-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .next-button:hover {
+      background: #1e88e5;
+    }
+
+    .next-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
     }
 
     .hidden {
       display: none;
     }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+    }
   </style>
 </head>
-
 <body>
   <div class="quiz-container">
-    <h1>Mock Test 15 AI gen – 100 Questions</h1>
+    <h1>Mock Test 15 – AI gen 100 Questions</h1>
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
     <div id="quiz"></div>
     <div id="score"></div>
-    <div id="skipped-list" class="hidden">
-      <h2>Skipped Questions</h2>
-      <ul id="skipped"></ul>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
     </div>
   </div>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+
   <script>
-const questions = [
-  // Applied Mechanics (26 MCQs)
-  { q: "The polar moment of inertia of a circular shaft is used to calculate:", 
-    options: ["Torsional stress", "Bending stress", "Compressive stress", "Shear stress"], 
-    answer: 0 },
-  { q: "The maximum deflection of a simply supported beam with a central point load occurs at:", 
-    options: ["Midpoint", "Supports", "Quarter length", "One-third length"], 
-    answer: 0 },
-  { q: "The resolving of a force into components is based on:", 
-    options: ["Parallelogram law", "Triangle law", "Polygon law", "All of the above"], 
-    answer: 3 },
-  { q: "The power developed by a force is given by:", 
-    options: ["Force times velocity", "Force times distance", "Force divided by time", "Force times acceleration"], 
-    answer: 0 },
-  { q: "The center of gravity of a uniform circular ring lies at:", 
-    options: ["Geometric center", "Inner radius", "Outer radius", "Midway between radii"], 
-    answer: 0 },
-  { q: "The angle of repose for a material is equal to:", 
-    options: ["Angle of friction", "Angle of inclination", "Angle of projection", "Angle of trajectory"], 
-    answer: 0 },
-  { q: "The work done by a conservative force in a closed path is:", 
-    options: ["Zero", "Positive", "Negative", "Infinite"], 
-    answer: 0 },
-  { q: "The modulus of rigidity of a material measures:", 
-    options: ["Resistance to shear deformation", "Resistance to compression", "Resistance to tension", "Resistance to bending"], 
-    answer: 0 },
-  { q: "The velocity of a particle in uniform rectilinear motion is:", 
-    options: ["Constant", "Increasing", "Decreasing", "Zero"], 
-    answer: 0 },
-  { q: "The torque required to accelerate a rotating body is proportional to:", 
-    options: ["Moment of inertia", "Linear velocity", "Mass only", "Radius only"], 
-    answer: 0 },
-  { q: "The unit of dynamic viscosity in SI units is:", 
-    options: ["N.s/m²", "N/m²", "kg/m.s²", "m²/s"], 
-    answer: 0 },
-  { q: "The resultant of two perpendicular forces of equal magnitude is:", 
-    options: ["√2 times one force", "Twice one force", "Half one force", "Equal to one force"], 
-    answer: 0 },
-  { q: "The time period of a simple harmonic motion is independent of:", 
-    options: ["Amplitude", "Mass", "Length", "Gravity"], 
-    answer: 0 },
-  { q: "The shear modulus of a material is defined as:", 
-    options: ["Shear stress divided by shear strain", "Normal stress divided by normal strain", "Shear stress divided by normal strain", "Normal stress divided by shear strain"], 
-    answer: 0 },
-  { q: "The kinetic energy of a particle moving in a circular path is:", 
-    options: ["Constant", "Variable", "Zero", "Infinite"], 
-    answer: 0 },
-  { q: "The condition for equilibrium of a rigid body under coplanar forces includes:", 
-    options: ["Zero net force and zero net moment", "Zero net force only", "Zero net moment only", "Non-zero net force"], 
-    answer: 0 },
-  { q: "The acceleration of a particle in projectile motion is:", 
-    options: ["Constant due to gravity", "Variable due to air resistance", "Zero in horizontal direction", "Infinite"], 
-    answer: 0 },
-  { q: "The moment of a force about an axis is maximum when the force is:", 
-    options: ["Perpendicular to the axis", "Parallel to the axis", "At 45° to the axis", "Zero"], 
-    answer: 0 },
-  { q: "The bulk modulus of a fluid is a measure of:", 
-    options: ["Resistance to volume change", "Resistance to shear", "Resistance to flow", "Resistance to tension"], 
-    answer: 0 },
-  { q: "The angular acceleration of a body is given by:", 
-    options: ["Torque divided by moment of inertia", "Torque times moment of inertia", "Force divided by mass", "Velocity divided by time"], 
-    answer: 0 },
-  { q: "The frictional force between two surfaces is independent of:", 
-    options: ["Area of contact", "Normal force", "Nature of surfaces", "Relative velocity"], 
-    answer: 0 },
-  { q: "The potential energy of a spring is proportional to:", 
-    options: ["Square of displacement", "Displacement", "Spring constant only", "Mass of the spring"], 
-    answer: 0 },
-  { q: "The centripetal force required for circular motion is provided by:", 
-    options: ["External force towards the center", "Frictional force only", "Gravitational force only", "No force"], 
-    answer: 0 },
-  { q: "The distance traversed by a particle in uniform motion is given by:", 
-    options: ["s = ut + (1/2)at²", "s = ut", "s = at²", "s = u/t"], 
-    answer: 0 },
-  { q: "The mechanical advantage of a lever is defined as:", 
-    options: ["Load divided by effort", "Effort divided by load", "Load times effort", "Effort minus load"], 
-    answer: 0 },
-  { q: "The law of conservation of momentum applies to:", 
-    options: ["Isolated systems", "Open systems", "Systems with friction", "Non-conservative systems"], 
-    answer: 0 },
+    const questions = [
+      // Applied Mechanics (26 MCQs)
+      { q: "The polar moment of inertia of a circular shaft is used to calculate:", 
+        options: ["Torsional stress", "Bending stress", "Compressive stress", "Shear stress"], 
+        answer: 0 },
+      { q: "The maximum deflection of a simply supported beam with a central point load occurs at:", 
+        options: ["Midpoint", "Supports", "Quarter length", "One-third length"], 
+        answer: 0 },
+      { q: "The resolving of a force into components is based on:", 
+        options: ["Parallelogram law", "Triangle law", "Polygon law", "All of the above"], 
+        answer: 0 }, // Corrected from index 3 to 0
+      { q: "The power developed by a force is given by:", 
+        options: ["Force times velocity", "Force times distance", "Force divided by time", "Force times acceleration"], 
+        answer: 0 },
+      { q: "The center of gravity of a uniform circular ring lies at:", 
+        options: ["Geometric center", "Inner radius", "Outer radius", "Midway between radii"], 
+        answer: 0 },
+      { q: "The angle of repose for a material is equal to:", 
+        options: ["Angle of friction", "Angle of inclination", "Angle of projection", "Angle of trajectory"], 
+        answer: 0 },
+      { q: "The work done by a conservative force in a closed path is:", 
+        options: ["Zero", "Positive", "Negative", "Infinite"], 
+        answer: 0 },
+      { q: "The modulus of rigidity of a material measures:", 
+        options: ["Resistance to shear deformation", "Resistance to compression", "Resistance to tension", "Resistance to bending"], 
+        answer: 0 },
+      { q: "The velocity of a particle in uniform rectilinear motion is:", 
+        options: ["Constant", "Increasing", "Decreasing", "Zero"], 
+        answer: 0 },
+      { q: "The torque required to accelerate a rotating body is proportional to:", 
+        options: ["Moment of inertia", "Linear velocity", "Mass only", "Radius only"], 
+        answer: 0 },
+      { q: "The unit of dynamic viscosity in SI units is:", 
+        options: ["N.s/m²", "N/m²", "kg/m.s²", "m²/s"], 
+        answer: 0 },
+      { q: "The resultant of two perpendicular forces of equal magnitude is:", 
+        options: ["√2 times one force", "Twice one force", "Half one force", "Equal to one force"], 
+        answer: 0 },
+      { q: "The time period of a simple harmonic motion is independent of:", 
+        options: ["Amplitude", "Mass", "Length", "Gravity"], 
+        answer: 0 },
+      { q: "The shear modulus of a material is defined as:", 
+        options: ["Shear stress divided by shear strain", "Normal stress divided by normal strain", "Shear stress divided by normal strain", "Normal stress divided by shear strain"], 
+        answer: 0 },
+      { q: "The kinetic energy of a particle moving in a circular path is:", 
+        options: ["Constant", "Variable", "Zero", "Infinite"], 
+        answer: 0 },
+      { q: "The condition for equilibrium of a rigid body under coplanar forces includes:", 
+        options: ["Zero net force and zero net moment", "Zero net force only", "Zero net moment only", "Non-zero net force"], 
+        answer: 0 },
+      { q: "The acceleration of a particle in projectile motion is:", 
+        options: ["Constant due to gravity", "Variable due to air resistance", "Zero in horizontal direction", "Infinite"], 
+        answer: 0 },
+      { q: "The moment of a force about an axis is maximum when the force is:", 
+        options: ["Perpendicular to the axis", "Parallel to the axis", "At 45° to the axis", "Zero"], 
+        answer: 0 },
+      { q: "The bulk modulus of a fluid is a measure of:", 
+        options: ["Resistance to volume change", "Resistance to shear", "Resistance to flow", "Resistance to tension"], 
+        answer: 0 },
+      { q: "The angular acceleration of a body is given by:", 
+        options: ["Torque divided by moment of inertia", "Torque times moment of inertia", "Force divided by mass", "Velocity divided by time"], 
+        answer: 0 },
+      { q: "The frictional force between two surfaces is independent of:", 
+        options: ["Area of contact", "Normal force", "Nature of surfaces", "Relative velocity"], 
+        answer: 0 },
+      { q: "The potential energy of a spring is proportional to:", 
+        options: ["Square of displacement", "Displacement", "Spring constant only", "Mass of the spring"], 
+        answer: 0 },
+      { q: "The centripetal force required for circular motion is provided by:", 
+        options: ["External force towards the center", "Frictional force only", "Gravitational force only", "No force"], 
+        answer: 0 },
+      { q: "The distance traversed by a particle in uniform motion is given by:", 
+        options: ["s = ut", "s = ut + (1/2)at²", "s = at²", "s = u/t"], 
+        answer: 0 },
+      { q: "The mechanical advantage of a lever is defined as:", 
+        options: ["Load divided by effort", "Effort divided by load", "Load times effort", "Effort minus load"], 
+        answer: 0 },
+      { q: "The law of conservation of momentum applies to:", 
+        options: ["Isolated systems", "Open systems", "Systems with friction", "Non-conservative systems"], 
+        answer: 0 },
 
-  // Thermodynamics (16 MCQs)
-  { q: "The thermal efficiency of a heat engine is defined as:", 
-    options: ["Work output divided by heat input", "Heat input divided by work output", "Work output divided by heat rejected", "Heat rejected divided by work output"], 
-    answer: 0 },
-  { q: "The gas constant R in the ideal gas law is equal to:", 
-    options: ["8.314 J/mol.K", "0.0821 J/mol.K", "1.987 J/mol.K", "22.4 J/mol.K"], 
-    answer: 0 },
-  { q: "The entropy change in an irreversible process is:", 
-    options: ["Always positive", "Always negative", "Zero", "Infinite"], 
-    answer: 0 },
-  { q: "The work done in an adiabatic process for an ideal gas is:", 
-    options: ["C_v (T₂ - T₁)", "nRT ln(V₂/V₁)", "P (V₂ - V₁)", "Zero"], 
-    answer: 0 },
-  { q: "The specific heat at constant volume for an ideal gas is:", 
-    options: ["Independent of temperature", "Proportional to temperature", "Proportional to pressure", "Proportional to volume"], 
-    answer: 0 },
-  { q: "The Boyle’s law states that for a gas at constant temperature:", 
-    options: ["Pressure is inversely proportional to volume", "Pressure is proportional to volume", "Volume is proportional to temperature", "Pressure is proportional to temperature"], 
-    answer: 0 },
-  { q: "The enthalpy of an ideal gas is a function of:", 
-    options: ["Temperature only", "Pressure only", "Volume only", "Pressure and volume"], 
-    answer: 0 },
-  { q: "The Otto cycle is characterized by:", 
-    options: ["Two constant volume processes", "Two constant pressure processes", "Two isothermal processes", "Two adiabatic processes"], 
-    answer: 0 },
-  { q: "The Gibbs free energy is used to determine:", 
-    options: ["Spontaneity of a process", "Work done", "Internal energy", "Heat transfer"], 
-    answer: 0 },
-  { q: "The adiabatic index (γ) for a diatomic gas is:", 
-    options: ["1.4", "1.67", "1.33", "1.0"], 
-    answer: 0 },
-  { q: "The work done in a constant pressure process is:", 
-    options: ["P (V₂ - V₁)", "nRT ln(V₂/V₁)", "C_v (T₂ - T₁)", "Zero"], 
-    answer: 0 },
-  { q: "The Clausius inequality applies to:", 
-    options: ["Cyclic processes", "Isothermal processes", "Adiabatic processes", "Isochoric processes"], 
-    answer: 0 },
-  { q: "The Diesel cycle is characterized by:", 
-    options: ["Constant pressure heat addition", "Constant volume heat addition", "Isothermal heat addition", "Adiabatic heat addition"], 
-    answer: 0 },
-  { q: "The internal energy change in an isothermal process for an ideal gas is:", 
-    options: ["Zero", "Positive", "Negative", "Infinite"], 
-    answer: 0 },
-  { q: "The second law of thermodynamics implies that:", 
-    options: ["Heat cannot flow from cold to hot without work", "Energy is always conserved", "All processes are reversible", "Entropy is constant"], 
-    answer: 0 },
-  { q: "The Avogadro’s law states that:", 
-    options: ["Equal volumes of gases contain equal molecules", "Pressure is proportional to temperature", "Volume is inversely proportional to pressure", "Temperature is proportional to volume"], 
-    answer: 0 },
+      // Thermodynamics (16 MCQs)
+      { q: "The thermal efficiency of a heat engine is defined as:", 
+        options: ["Work output divided by heat input", "Heat input divided by work output", "Work output divided by heat rejected", "Heat rejected divided by work output"], 
+        answer: 0 },
+      { q: "The gas constant R in the ideal gas law is equal to:", 
+        options: ["8.314 J/mol.K", "0.0821 J/mol.K", "1.987 J/mol.K", "22.4 J/mol.K"], 
+        answer: 0 },
+      { q: "The entropy change in an irreversible process is:", 
+        options: ["Always positive", "Always negative", "Zero", "Infinite"], 
+        answer: 0 },
+      { q: "The work done in an adiabatic process for an ideal gas is:", 
+        options: ["C_v (T₂ - T₁)", "nRT ln(V₂/V₁)", "P (V₂ - V₁)", "Zero"], 
+        answer: 0 },
+      { q: "The specific heat at constant volume for an ideal gas is:", 
+        options: ["Independent of temperature", "Proportional to temperature", "Proportional to pressure", "Proportional to volume"], 
+        answer: 0 },
+      { q: "The Boyle’s law states that for a gas at constant temperature:", 
+        options: ["Pressure is inversely proportional to volume", "Pressure is proportional to volume", "Volume is proportional to temperature", "Pressure is proportional to temperature"], 
+        answer: 0 },
+      { q: "The enthalpy of an ideal gas is a function of:", 
+        options: ["Temperature only", "Pressure only", "Volume only", "Pressure and volume"], 
+        answer: 0 },
+      { q: "The Otto cycle is characterized by:", 
+        options: ["Two constant volume processes", "Two constant pressure processes", "Two isothermal processes", "Two adiabatic processes"], 
+        answer: 0 },
+      { q: "The Gibbs free energy is used to determine:", 
+        options: ["Spontaneity of a process", "Work done", "Internal energy", "Heat transfer"], 
+        answer: 0 },
+      { q: "The adiabatic index (γ) for a diatomic gas is:", 
+        options: ["1.4", "1.67", "1.33", "1.0"], 
+        answer: 0 },
+      { q: "The work done in a constant pressure process is:", 
+        options: ["P (V₂ - V₁)", "nRT ln(V₂/V₁)", "C_v (T₂ - T₁)", "Zero"], 
+        answer: 0 },
+      { q: "The Clausius inequality applies to:", 
+        options: ["Cyclic processes", "Isothermal processes", "Adiabatic processes", "Isochoric processes"], 
+        answer: 0 },
+      { q: "The Diesel cycle is characterized by:", 
+        options: ["Constant pressure heat addition", "Constant volume heat addition", "Isothermal heat addition", "Adiabatic heat addition"], 
+        answer: 0 },
+      { q: "The internal energy change in an isothermal process for an ideal gas is:", 
+        options: ["Zero", "Positive", "Negative", "Infinite"], 
+        answer: 0 },
+      { q: "The second law of thermodynamics implies that:", 
+        options: ["Heat cannot flow from cold to hot without work", "Energy is always conserved", "All processes are reversible", "Entropy is constant"], 
+        answer: 0 },
+      { q: "The Avogadro’s law states that:", 
+        options: ["Equal volumes of gases contain equal molecules", "Pressure is proportional to temperature", "Volume is inversely proportional to pressure", "Temperature is proportional to volume"], 
+        answer: 0 },
 
-  // Machine Drawing (14 MCQs)
-  { q: "The purpose of a gib and cotter joint is to:", 
-    options: ["Connect flat plates with adjustable tension", "Join rods axially", "Transmit rotary motion", "Hold gears in place"], 
-    answer: 0 },
-  { q: "The symbol for a surface roughness in a drawing is:", 
-    options: ["Check mark with value", "Circle with cross", "Triangle with dot", "Square with diagonal"], 
-    answer: 0 },
-  { q: "The orthographic projection of a sphere appears as:", 
-    options: ["A circle", "An ellipse", "A parabola", "A hyperbola"], 
-    answer: 0 },
-  { q: "The purpose of a flange coupling is to:", 
-    options: ["Connect two shafts", "Join flat plates", "Transmit linear motion", "Hold gears"], 
-    answer: 0 },
-  { q: "The standard line type for hidden edges is:", 
-    options: ["Dashed line", "Solid line", "Chain line", "Phantom line"], 
-    answer: 0 },
-  { q: "The missing view of a conical workpiece is determined by:", 
-    options: ["Projecting lines from given views", "Isometric sketching", "Perspective drawing", "Freehand sketching"], 
-    answer: 0 },
-  { q: "The symbol for a butt weld is:", 
-    options: ["Straight line on reference line", "Triangle below reference line", "Circle at junction", "Arrow with tail"], 
-    answer: 0 },
-  { q: "The purpose of a sectional isometric drawing is to:", 
-    options: ["Show internal features in 3D", "Show external outline only", "Indicate tolerances", "Show assembly sequence"], 
-    answer: 0 },
-  { q: "The standard scale for a full-size drawing is:", 
-    options: ["1:1", "1:2", "2:1", "1:10"], 
-    answer: 0 },
-  { q: "The purpose of a spline joint is to:", 
-    options: ["Transmit torque between shafts", "Join flat plates", "Connect rods axially", "Hold bolts"], 
-    answer: 0 },
-  { q: "The first-angle projection places the side view:", 
-    options: ["To the right of the front view", "To the left of the front view", "Above the front view", "Below the front view"], 
-    answer: 0 },
-  { q: "The purpose of a leader line in a drawing is to:", 
-    options: ["Connect notes to features", "Show hidden edges", "Indicate symmetry", "Show cutting planes"], 
-    answer: 0 },
-  { q: "The standard angle for section line hatching is:", 
-    options: ["45°", "30°", "60°", "90°"], 
-    answer: 0 },
-  { q: "The purpose of a dimension line is to:", 
-    options: ["Indicate distance between points", "Show hidden features", "Indicate center lines", "Show material type"], 
-    answer: 0 },
+      // Machine Drawing (14 MCQs)
+      { q: "The purpose of a gib and cotter joint is to:", 
+        options: ["Connect flat plates with adjustable tension", "Join rods axially", "Transmit rotary motion", "Hold gears in place"], 
+        answer: 0 },
+      { q: "The symbol for a surface roughness in a drawing is:", 
+        options: ["Check mark with value", "Circle with cross", "Triangle with dot", "Square with diagonal"], 
+        answer: 0 },
+      { q: "The orthographic projection of a sphere appears as:", 
+        options: ["A circle", "An ellipse", "A parabola", "A hyperbola"], 
+        answer: 0 },
+      { q: "The purpose of a flange coupling is to:", 
+        options: ["Connect two shafts", "Join flat plates", "Transmit linear motion", "Hold gears"], 
+        answer: 0 },
+      { q: "The standard line type for hidden edges is:", 
+        options: ["Dashed line", "Solid line", "Chain line", "Phantom line"], 
+        answer: 0 },
+      { q: "The missing view of a conical workpiece is determined by:", 
+        options: ["Projecting lines from given views", "Isometric sketching", "Perspective drawing", "Freehand sketching"], 
+        answer: 0 },
+      { q: "The symbol for a butt weld is:", 
+        options: ["Straight line on reference line", "Triangle below reference line", "Circle at junction", "Arrow with tail"], 
+        answer: 0 },
+      { q: "The purpose of a sectional isometric drawing is to:", 
+        options: ["Show internal features in 3D", "Show external outline only", "Indicate tolerances", "Show assembly sequence"], 
+        answer: 0 },
+      { q: "The standard scale for a full-size drawing is:", 
+        options: ["1:1", "1:2", "2:1", "1:10"], 
+        answer: 0 },
+      { q: "The purpose of a spline joint is to:", 
+        options: ["Transmit torque between shafts", "Join flat plates", "Connect rods axially", "Hold bolts"], 
+        answer: 0 },
+      { q: "The first-angle projection places the side view:", 
+        options: ["To the right of the front view", "To the left of the front view", "Above the front view", "Below the front view"], 
+        answer: 0 },
+      { q: "The purpose of a leader line in a drawing is to:", 
+        options: ["Connect notes to features", "Show hidden edges", "Indicate symmetry", "Show cutting planes"], 
+        answer: 0 },
+      { q: "The standard angle for section line hatching is:", 
+        options: ["45°", "30°", "60°", "90°"], 
+        answer: 0 },
+      { q: "The purpose of a dimension line is to:", 
+        options: ["Indicate distance between points", "Show hidden features", "Indicate center lines", "Show material type"], 
+        answer: 0 },
 
-  // Electro-Mechanical (6 MCQs)
-  { q: "The main advantage of a squirrel cage induction motor is:", 
-    options: ["Simple and rugged design", "High starting torque", "Constant speed", "Low efficiency"], 
-    answer: 0 },
-  { q: "The function of an exciter in a generator is to:", 
-    options: ["Provide initial magnetic field", "Collect current", "Increase voltage", "Reduce resistance"], 
-    answer: 0 },
-  { q: "The main difference between an AC and DC motor is:", 
-    options: ["Type of current supply", "Rotor design", "Stator material", "Commutator size"], 
-    answer: 0 },
-  { q: "The power output of a DC motor is maximum when:", 
-    options: ["Back EMF is half the applied voltage", "Back EMF is zero", "Back EMF equals applied voltage", "Current is zero"], 
-    answer: 0 },
-  { q: "The function of a rotor in an AC motor is to:", 
-    options: ["Rotate within the magnetic field", "Produce magnetic field", "Collect current", "Increase voltage"], 
-    answer: 0 },
-  { q: "The efficiency of a generator is improved by:", 
-    options: ["Reducing copper losses", "Increasing load", "Reducing voltage", "Changing frequency"], 
-    answer: 0 },
+      // Electro-Mechanical (6 MCQs)
+      { q: "The main advantage of a squirrel cage induction motor is:", 
+        options: ["Simple and rugged design", "High starting torque", "Constant speed", "Low efficiency"], 
+        answer: 0 },
+      { q: "The function of an exciter in a generator is to:", 
+        options: ["Provide initial magnetic field", "Collect current", "Increase voltage", "Reduce resistance"], 
+        answer: 0 },
+      { q: "The main difference between an AC and DC motor is:", 
+        options: ["Type of current supply", "Rotor design", "Stator material", "Commutator size"], 
+        answer: 0 },
+      { q: "The power output of a DC motor is maximum when:", 
+        options: ["Back EMF is half the applied voltage", "Back EMF is zero", "Back EMF equals applied voltage", "Current is zero"], 
+        answer: 0 },
+      { q: "The function of a rotor in an AC motor is to:", 
+        options: ["Rotate within the magnetic field", "Produce magnetic field", "Collect current", "Increase voltage"], 
+        answer: 0 },
+      { q: "The efficiency of a generator is improved by:", 
+        options: ["Reducing copper losses", "Increasing load", "Reducing voltage", "Changing frequency"], 
+        answer: 0 },
 
-  // Industrial Boiler (10 MCQs)
-  { q: "The main purpose of a mud drum in a boiler is to:", 
-    options: ["Collect sediments", "Increase steam pressure", "Regulate fuel supply", "Cool the flue gases"], 
-    answer: 0 },
-  { q: "The advantage of a Babcock and Wilcox boiler is:", 
-    options: ["High pressure and efficiency", "Simple design", "Low cost", "Small size"], 
-    answer: 0 },
-  { q: "The function of a draft fan in a boiler is to:", 
-    options: ["Supply air for combustion", "Remove condensate", "Increase steam pressure", "Cool the boiler"], 
-    answer: 0 },
-  { q: "The main cause of boiler corrosion is:", 
-    options: ["Dissolved oxygen in water", "High steam pressure", "Low fuel quality", "Excessive air intake"], 
-    answer: 0 },
-  { q: "The purpose of a boiler safety valve is to:", 
-    options: ["Release excess pressure", "Regulate water flow", "Increase fuel combustion", "Cool the flue gases"], 
-    answer: 0 },
-  { q: "The efficiency of a boiler is calculated as:", 
-    options: ["Heat utilized divided by heat supplied", "Heat supplied divided by heat utilized", "Steam output divided by fuel input", "Water input divided by steam output"], 
-    answer: 0 },
-  { q: "The main advantage of a packaged boiler is:", 
-    options: ["Compact and ready-to-use design", "High pressure capability", "Low fuel consumption", "Large steam output"], 
-    answer: 0 },
-  { q: "The function of a blowdown valve in a boiler is to:", 
-    options: ["Remove impurities from water", "Increase steam pressure", "Regulate air intake", "Cool the combustion chamber"], 
-    answer: 0 },
-  { q: "The primary fuel for a high-efficiency boiler is typically:", 
-    options: ["Natural gas", "Wood", "Nuclear energy", "Solar energy"], 
-    answer: 0 },
-  { q: "The purpose of a steam separator in a boiler is to:", 
-    options: ["Remove moisture from steam", "Increase fuel combustion", "Cool the flue gases", "Regulate water flow"], 
-    answer: 0 },
+      // Industrial Boiler (10 MCQs)
+      { q: "The main purpose of a mud drum in a boiler is to:", 
+        options: ["Collect sediments", "Increase steam pressure", "Regulate fuel supply", "Cool the flue gases"], 
+        answer: 0 },
+      { q: "The advantage of a Babcock and Wilcox boiler is:", 
+        options: ["High pressure and efficiency", "Simple design", "Low cost", "Small size"], 
+        answer: 0 },
+      { q: "The function of a draft fan in a boiler is to:", 
+        options: ["Supply air for combustion", "Remove condensate", "Increase steam pressure", "Cool the boiler"], 
+        answer: 0 },
+      { q: "The main cause of boiler corrosion is:", 
+        options: ["Dissolved oxygen in water", "High steam pressure", "Low fuel quality", "Excessive air intake"], 
+        answer: 0 },
+      { q: "The purpose of a boiler safety valve is to:", 
+        options: ["Release excess pressure", "Regulate water flow", "Increase fuel combustion", "Cool the flue gases"], 
+        answer: 0 },
+      { q: "The efficiency of a boiler is calculated as:", 
+        options: ["Heat utilized divided by heat supplied", "Heat supplied divided by heat utilized", "Steam output divided by fuel input", "Water input divided by steam output"], 
+        answer: 0 },
+      { q: "The main advantage of a packaged boiler is:", 
+        options: ["Compact and ready-to-use design", "High pressure capability", "Low fuel consumption", "Large steam output"], 
+        answer: 0 },
+      { q: "The function of a blowdown valve in a boiler is to:", 
+        options: ["Remove impurities from water", "Increase steam pressure", "Regulate air intake", "Cool the combustion chamber"], 
+        answer: 0 },
+      { q: "The primary fuel for a high-efficiency boiler is typically:", 
+        options: ["Natural gas", "Wood", "Nuclear energy", "Solar energy"], 
+        answer: 0 },
+      { q: "The purpose of a steam separator in a boiler is to:", 
+        options: ["Remove moisture from steam", "Increase fuel combustion", "Cool the flue gases", "Regulate water flow"], 
+        answer: 0 },
 
-  // Heat Engines (10 MCQs)
-  { q: "The air-standard efficiency of a Diesel cycle depends on:", 
-    options: ["Cut-off ratio and compression ratio", "Compression ratio only", "Fuel type", "Engine speed"], 
-    answer: 0 },
-  { q: "The main function of a fuel pump in a diesel engine is to:", 
-    options: ["Deliver fuel to injectors", "Ignite the fuel", "Cool the engine", "Regulate air intake"], 
-    answer: 0 },
-  { q: "The primary advantage of a gas turbine engine in aircraft is:", 
-    options: ["High power-to-weight ratio", "Low fuel consumption", "Simple design", "Low maintenance"], 
-    answer: 0 },
-  { q: "The main difference between an Otto and Diesel cycle is:", 
-    options: ["Ignition method", "Fuel type", "Compression ratio", "Cycle duration"], 
-    answer: 0 },
-  { q: "The function of a distributor in a petrol engine is to:", 
-    options: ["Distribute spark to cylinders", "Regulate fuel flow", "Cool the engine", "Control valve timing"], 
-    answer: 0 },
-  { q: "The thermal efficiency of a steam engine is typically:", 
-    options: ["Lower than internal combustion engines", "Higher than internal combustion engines", "Equal to internal combustion engines", "Zero"], 
-    answer: 0 },
-  { q: "The purpose of a governor in a heat engine is to:", 
-    options: ["Regulate engine speed", "Increase power output", "Cool the engine", "Ignite the fuel"], 
-    answer: 0 },
-  { q: "The main cause of power loss in an engine is:", 
-    options: ["Friction and heat losses", "Fuel quality", "Air intake", "Exhaust pressure"], 
-    answer: 0 },
-  { q: "The function of an intake manifold in an engine is to:", 
-    options: ["Distribute air-fuel mixture to cylinders", "Remove exhaust gases", "Cool the engine", "Increase fuel pressure"], 
-    answer: 0 },
-  { q: "The primary cycle used in a jet engine is:", 
-    options: ["Brayton cycle", "Otto cycle", "Diesel cycle", "Rankine cycle"], 
-    answer: 0 },
+      // Heat Engines (10 MCQs)
+      { q: "The air-standard efficiency of a Diesel cycle depends on:", 
+        options: ["Cut-off ratio and compression ratio", "Compression ratio only", "Fuel type", "Engine speed"], 
+        answer: 0 },
+      { q: "The main function of a fuel pump in a diesel engine is to:", 
+        options: ["Deliver fuel to injectors", "Ignite the fuel", "Cool the engine", "Regulate air intake"], 
+        answer: 0 },
+      { q: "The primary advantage of a gas turbine engine in aircraft is:", 
+        options: ["High power-to-weight ratio", "Low fuel consumption", "Simple design", "Low maintenance"], 
+        answer: 0 },
+      { q: "The main difference between an Otto and Diesel cycle is:", 
+        options: ["Ignition method", "Fuel type", "Compression ratio", "Cycle duration"], 
+        answer: 0 },
+      { q: "The function of a distributor in a petrol engine is to:", 
+        options: ["Distribute spark to cylinders", "Regulate fuel flow", "Cool the engine", "Control valve timing"], 
+        answer: 0 },
+      { q: "The thermal efficiency of a steam engine is typically:", 
+        options: ["Lower than internal combustion engines", "Higher than internal combustion engines", "Equal to internal combustion engines", "Zero"], 
+        answer: 0 },
+      { q: "The purpose of a governor in a heat engine is to:", 
+        options: ["Regulate engine speed", "Increase power output", "Cool the engine", "Ignite the fuel"], 
+        answer: 0 },
+      { q: "The main cause of power loss in an engine is:", 
+        options: ["Friction and heat losses", "Fuel quality", "Air intake", "Exhaust pressure"], 
+        answer: 0 },
+      { q: "The function of an intake manifold in an engine is to:", 
+        options: ["Distribute air-fuel mixture to cylinders", "Remove exhaust gases", "Cool the engine", "Increase fuel pressure"], 
+        answer: 0 },
+      { q: "The primary cycle used in a jet engine is:", 
+        options: ["Brayton cycle", "Otto cycle", "Diesel cycle", "Rankine cycle"], 
+        answer: 0 },
 
-  // Industrial Management (12 MCQs)
-  { q: "The main purpose of the International Labour Organization (ILO) is to:", 
-    options: ["Set global labor standards", "Regulate aviation safety", "Manage environmental policies", "Promote international trade"], 
-    answer: 0 },
-  { q: "The primary objective of a labor union is to:", 
-    options: ["Negotiate better wages and conditions", "Increase production costs", "Develop new products", "Reduce market competition"], 
-    answer: 0 },
-  { q: "The main purpose of industrial safety audits is to:", 
-    options: ["Identify workplace hazards", "Increase employee workload", "Reduce product quality", "Develop marketing strategies"], 
-    answer: 0 },
-  { q: "The function of the International Civil Aviation Organization (ICAO) is to:", 
-    options: ["Ensure safe air navigation", "Promote labor rights", "Regulate industrial efficiency", "Manage environmental policies"], 
-    answer: 0 },
-  { q: "The main goal of a labor law is to:", 
-    options: ["Protect worker rights and welfare", "Increase production costs", "Reduce market share", "Develop new technologies"], 
-    answer: 0 },
-  { q: "The purpose of a safety management system in industry is to:", 
-    options: ["Minimize occupational risks", "Maximize production output", "Increase employee turnover", "Develop new products"], 
-    answer: 0 },
-  { q: "The main function of a shop steward in a union is to:", 
-    options: ["Represent workers in negotiations", "Manage company finances", "Develop new products", "Increase market share"], 
-    answer: 0 },
-  { q: "The primary purpose of a workplace ergonomics program is to:", 
-    options: ["Improve worker comfort and efficiency", "Reduce product quality", "Increase production costs", "Develop marketing plans"], 
-    answer: 0 },
-  { q: "The main objective of a compensation policy is to:", 
-    options: ["Ensure fair employee remuneration", "Increase employee turnover", "Reduce market competition", "Develop new technologies"], 
-    answer: 0 },
-  { q: "The purpose of a hazard identification process is to:", 
-    options: ["Detect potential risks in the workplace", "Increase production output", "Reduce employee training", "Develop new products"], 
-    answer: 0 },
-  { q: "The main function of a labor-management committee is to:", 
-    options: ["Resolve workplace disputes", "Increase production costs", "Develop marketing strategies", "Reduce market share"], 
-    answer: 0 },
-  { q: "The primary goal of industrial hygiene is to:", 
-    options: ["Prevent occupational health issues", "Maximize employee workload", "Increase production costs", "Develop new technologies"], 
-    answer: 0 },
+      // Industrial Management (12 MCQs)
+      { q: "The main purpose of the International Labour Organization (ILO) is to:", 
+        options: ["Set global labor standards", "Regulate aviation safety", "Manage environmental policies", "Promote international trade"], 
+        answer: 0 },
+      { q: "The primary objective of a labor union is to:", 
+        options: ["Negotiate better wages and conditions", "Increase production costs", "Develop new products", "Reduce market competition"], 
+        answer: 0 },
+      { q: "The main purpose of industrial safety audits is to:", 
+        options: ["Identify workplace hazards", "Increase employee workload", "Reduce product quality", "Develop marketing strategies"], 
+        answer: 0 },
+      { q: "The function of the International Civil Aviation Organization (ICAO) is to:", 
+        options: ["Ensure safe air navigation", "Promote labor rights", "Regulate industrial efficiency", "Manage environmental policies"], 
+        answer: 0 },
+      { q: "The main goal of a labor law is to:", 
+        options: ["Protect worker rights and welfare", "Increase production costs", "Reduce market share", "Develop new technologies"], 
+        answer: 0 },
+      { q: "The purpose of a safety management system in industry is to:", 
+        options: ["Minimize occupational risks", "Maximize production output", "Increase employee turnover", "Develop new products"], 
+        answer: 0 },
+      { q: "The main function of a shop steward in a union is to:", 
+        options: ["Represent workers in negotiations", "Manage company finances", "Develop new products", "Increase market share"], 
+        answer: 0 },
+      { q: "The primary purpose of a workplace ergonomics program is to:", 
+        options: ["Improve worker comfort and efficiency", "Reduce product quality", "Increase production costs", "Develop marketing plans"], 
+        answer: 0 },
+      { q: "The main objective of a compensation policy is to:", 
+        options: ["Ensure fair employee remuneration", "Increase employee turnover", "Reduce market competition", "Develop new technologies"], 
+        answer: 0 },
+      { q: "The purpose of a hazard identification process is to:", 
+        options: ["Detect potential risks in the workplace", "Increase production output", "Reduce employee training", "Develop new products"], 
+        answer: 0 },
+      { q: "The main function of a labor-management committee is to:", 
+        options: ["Resolve workplace disputes", "Increase production costs", "Develop marketing strategies", "Reduce market share"], 
+        answer: 0 },
+      { q: "The primary goal of industrial hygiene is to:", 
+        options: ["Prevent occupational health issues", "Maximize employee workload", "Increase production costs", "Develop new technologies"], 
+        answer: 0 },
 
-  // Estimating and Costing (6 MCQs)
-  { q: "The main purpose of a cost control system is to:", 
-    options: ["Monitor and reduce project expenses", "Increase profit margins", "Reduce employee workload", "Develop new products"], 
-    answer: 0 },
-  { q: "The term ‘working capital’ refers to:", 
-    options: ["Funds available for daily operations", "Total assets of a company", "Fixed assets only", "Long-term investments"], 
-    answer: 0 },
-  { q: "The main purpose of a profitability analysis is to:", 
-    options: ["Evaluate financial performance", "Reduce employee turnover", "Increase market share", "Develop new technologies"], 
-    answer: 0 },
-  { q: "The term ‘amortization’ refers to:", 
-    options: ["Gradual repayment of intangible assets", "Depreciation of fixed assets", "Increase in asset value", "Reduction in liabilities"], 
-    answer: 0 },
-  { q: "The main purpose of a cost-benefit analysis is to:", 
-    options: ["Compare project costs and benefits", "Reduce employee workload", "Increase production costs", "Develop new products"], 
-    answer: 0 },
-  { q: "The term ‘fixed capital’ refers to:", 
-    options: ["Long-term assets like machinery", "Daily operational funds", "Short-term investments", "Employee wages"], 
-    answer: 0 }
-];
-    questions.sort(() => Math.random() - 0.5);
+      // Estimating and Costing (6 MCQs)
+      { q: "The main purpose of a cost control system is to:", 
+        options: ["Monitor and reduce project expenses", "Increase profit margins", "Reduce employee workload", "Develop new products"], 
+        answer: 0 },
+      { q: "The term ‘working capital’ refers to:", 
+        options: ["Funds available for daily operations", "Total assets of a company", "Fixed assets only", "Long-term investments"], 
+        answer: 0 },
+      { q: "The main purpose of a profitability analysis is to:", 
+        options: ["Evaluate financial performance", "Reduce employee turnover", "Increase market share", "Develop new technologies"], 
+        answer: 0 },
+      { q: "The term ‘amortization’ refers to:", 
+        options: ["Gradual repayment of intangible assets", "Depreciation of fixed assets", "Increase in asset value", "Reduction in liabilities"], 
+        answer: 0 },
+      { q: "The main purpose of a cost-benefit analysis is to:", 
+        options: ["Compare project costs and benefits", "Reduce employee workload", "Increase production costs", "Develop new products"], 
+        answer: 0 },
+      { q: "The term ‘fixed capital’ refers to:", 
+        options: ["Long-term assets like machinery", "Daily operational funds", "Short-term investments", "Employee wages"], 
+        answer: 0 }
+    ];
 
-    let current = 0;
+    let currentPage = 0;
     let score = 0;
     let skipped = [];
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    const QUESTIONS_PER_PAGE = 5;
+    const ANSWER_DELAY = 1500; // 1.5 seconds delay
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
-    const skippedEl = document.getElementById("skipped-list");
-    const skippedList = document.getElementById("skipped");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
 
-    function showQuestion(index) {
-      const q = questions[index];
-      const options = q.options.map((opt, i) => `<button onclick="checkAnswer(this, ${i})">${opt}</button>`).join('');
-      quizEl.innerHTML = `
-        <div class="question">
-          <p>Q${index + 1}. ${q.q}</p>
-          <div class="options">${options}</div>
-          <button onclick="skipQuestion()">Skip</button>
-        </div>
-      `;
+    // Load progress from localStorage
+    function loadProgress() {
+      const saved = localStorage.getItem("quizProgress15");
+      if (saved) {
+        const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        currentPage = savedPage;
+        score = savedScore;
+        skipped = savedSkipped;
+        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
     }
 
-    function checkAnswer(button, selected) {
-      const correct = questions[current].answer;
+    // Save progress to localStorage
+    function saveProgress() {
+      localStorage.setItem("quizProgress15", JSON.stringify({
+        currentPage,
+        score,
+        skipped,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
+
+    // Shuffle array
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Shuffle questions only once at initialization
+    const shuffledQuestions = shuffle([...questions]);
+
+    // Start timer
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+    }
+
+    // Show questions for the current page
+    function showQuestions(page) {
+      const startIndex = page * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let html = '';
+      for (let i = startIndex; i < endIndex; i++) {
+        const q = shuffledQuestions[i];
+        const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
+        const options = shuffledOptions
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .join('');
+        html += `
+          <div class="question" data-index="${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${options}</div>
+            <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
+          </div>
+        `;
+      }
+      if (endIndex < questions.length) {
+        html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+      }
+      quizEl.innerHTML = html;
+      updateProgress();
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuestions[questionIndex];
+      const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
-      buttons.forEach((btn, i) => {
+      buttons.forEach((btn) => {
         btn.disabled = true;
-        if (i === correct) btn.classList.add("correct");
-        if (i === selected && i !== correct) btn.classList.add("wrong");
+        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
-      if (selected === correct) score++;
-      setTimeout(() => {
-        current++;
-        if (current < questions.length) {
-          showQuestion(current);
-        } else {
-          endQuiz();
-        }
-      }, 3000);
+
+      userAnswers[questionIndex] = selectedText;
+      if (selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Audio playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Audio playback failed"));
+      }
+
+      saveProgress();
+      checkNextButton();
     }
 
-    function skipQuestion() {
-      skipped.push(questions[current]);
-      current++;
-      if (current < questions.length) {
-        showQuestion(current);
+    // Skip question
+    function skipQuestion(questionIndex) {
+      if (!skipped.includes(shuffledQuestions[questionIndex])) {
+        skipped.push(shuffledQuestions[questionIndex]);
+        userAnswers[questionIndex] = "Skipped";
+      }
+      const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check if all questions on the page are answered or skipped
+    function checkNextButton() {
+      const startIndex = currentPage * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let allAnswered = true;
+      for (let i = startIndex; i < endIndex; i++) {
+        if (userAnswers[i] === null) {
+          allAnswered = false;
+          break;
+        }
+      }
+      const nextButton = document.querySelector(".next-button");
+      if (nextButton) {
+        nextButton.disabled = !allAnswered;
+      }
+    }
+
+    // Move to next page
+    function nextPage() {
+      currentPage++;
+      if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+        showQuestions(currentPage);
       } else {
         endQuiz();
       }
     }
 
+    // End quiz and show results
     function endQuiz() {
+      clearInterval(timerInterval);
       quizEl.innerHTML = "";
-      scoreEl.innerHTML = `Your score: ${score} / ${questions.length}`;
-      if (skipped.length > 0) {
-        skippedEl.classList.remove("hidden");
-        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
-      }
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" :
+                         userAnswers[i] === "Skipped" ? "Skipped" :
+                         userAnswers[i];
+        const correctAnswer = q.options[q.answer];
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === "Skipped" ? "Skipped" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${q.q}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Clear localStorage
+      localStorage.removeItem("quizProgress15");
     }
 
-    showQuestion(current);
+    // Initialize
+    loadProgress();
+    startTimer();
+    showQuestions(currentPage);
   </script>
 </body>
-
 </html>
