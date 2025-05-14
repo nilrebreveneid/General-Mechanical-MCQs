@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #80deea);
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
       margin: 0;
       padding: 2rem;
       color: #333;
@@ -15,7 +15,7 @@
     }
 
     .quiz-container {
-      max-width: 900px;
+      max-width: 800px;
       margin: auto;
       background: #fff;
       padding: 2rem;
@@ -26,12 +26,14 @@
     h1 {
       text-align: center;
       margin-bottom: 1rem;
-      color: #0277bd;
+      color: #1e88e5;
     }
 
     .question {
       margin-bottom: 1.5rem;
       animation: fadeIn 0.5s;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
     }
 
     @keyframes fadeIn {
@@ -95,7 +97,7 @@
 
     .progress {
       height: 100%;
-      background: #0288d1;
+      background: #42a5f5;
       transition: width 0.3s;
     }
 
@@ -141,6 +143,28 @@
 
     .skip-button:hover {
       background: #ffecb3;
+    }
+
+    .next-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .next-button:hover {
+      background: #1e88e5;
+    }
+
+    .next-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
     }
 
     .hidden {
@@ -240,13 +264,14 @@
       { q: "Which view shows interior details:", options: ["Sectional view", "Front view", "Top view", "Side view"], answer: 0 }
     ];
 
-    let current = 0;
+    let currentPage = 0;
     let score = 0;
     let skipped = [];
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
     let timerInterval;
-    const ANSWER_DELAY = 1000; // 3 seconds delay
+    const QUESTIONS_PER_PAGE = 5;
+    const ANSWER_DELAY = 1500; // 1.5 seconds delay
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -261,19 +286,19 @@
     function loadProgress() {
       const saved = localStorage.getItem("quizProgress2");
       if (saved) {
-        const { current: savedCurrent, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        current = savedCurrent;
+        const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        currentPage = savedPage;
         score = savedScore;
         skipped = savedSkipped;
-        userAnswers = savedAnswers;
-        timerSeconds = savedTime;
+        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
       }
     }
 
     // Save progress to localStorage
     function saveProgress() {
       localStorage.setItem("quizProgress2", JSON.stringify({
-        current,
+        currentPage,
         score,
         skipped,
         answers: userAnswers,
@@ -281,15 +306,17 @@
       }));
     }
 
-    // Shuffle questions
-    function shuffleArray(array) {
+    // Shuffle array
+    function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
       }
+      return array;
     }
 
-    shuffleArray(questions);
+    // Shuffle questions only once at initialization
+    const shuffledQuestions = shuffle([...questions]);
 
     // Start timer
     function startTimer() {
@@ -303,69 +330,95 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = (current / questions.length) * 100;
+      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
     }
 
-    // Show question
-    function showQuestion(index) {
-      const q = questions[index];
-      const shuffledOptions = q.options
-        .map((opt) => ({ sort: Math.random(), value: opt }))
-        .sort((a, b) => a.sort - b.sort)
-        .map((obj) => obj.value);
-      const options = shuffledOptions
-        .map((opt, i) => `<button onclick="checkAnswer(this, '${opt}')">${opt}</button>`)
-        .join('');
-      quizEl.innerHTML = `
-        <div class="question">
-          <p>Q${index + 1}. ${q.q}</p>
-          <div class="options">${options}</div>
-          <button class="skip-button" onclick="skipQuestion()">Skip</button>
-        </div>
-      `;
-      q.correctOption = q.options[q.answer];
+    // Show questions for the current page
+    function showQuestions(page) {
+      const startIndex = page * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let html = '';
+      for (let i = startIndex; i < endIndex; i++) {
+        const q = shuffledQuestions[i];
+        const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
+        const options = shuffledOptions
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .join('');
+        html += `
+          <div class="question" data-index="${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${options}</div>
+            <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
+          </div>
+        `;
+      }
+      if (endIndex < questions.length) {
+        html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+      }
+      quizEl.innerHTML = html;
       updateProgress();
       saveProgress();
+      checkNextButton();
     }
 
     // Check answer
-    function checkAnswer(button, selectedText) {
-      const correct = questions[current].correctOption;
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuestions[questionIndex];
+      const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
       buttons.forEach((btn) => {
         btn.disabled = true;
-        if (btn.innerText === correct) btn.classList.add("correct");
-        if (btn.innerText === selectedText && btn.innerText !== correct) btn.classList.add("wrong");
+        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
-      userAnswers[current] = selectedText;
-      if (selectedText === correct) {
+      userAnswers[questionIndex] = selectedText;
+      if (selected === correct) {
         score++;
-        correctSound.play();
+        correctSound.play().catch(() => console.log("Audio playback failed"));
       } else {
-        wrongSound.play();
+        wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      setTimeout(() => {
-        current++;
-        if (current < questions.length) {
-          showQuestion(current);
-        } else {
-          endQuiz();
-        }
-      }, ANSWER_DELAY);
+      saveProgress();
+      checkNextButton();
     }
 
     // Skip question
-    function skipQuestion() {
-      if (!skipped.includes(questions[current])) {
-        skipped.push(questions[current]);
-        userAnswers[current] = "Skipped";
+    function skipQuestion(questionIndex) {
+      if (!skipped.includes(shuffledQuestions[questionIndex])) {
+        skipped.push(shuffledQuestions[questionIndex]);
+        userAnswers[questionIndex] = "Skipped";
       }
-      current++;
-      if (current < questions.length) {
-        showQuestion(current);
+      const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check if all questions on the page are answered or skipped
+    function checkNextButton() {
+      const startIndex = currentPage * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let allAnswered = true;
+      for (let i = startIndex; i < endIndex; i++) {
+        if (userAnswers[i] === null) {
+          allAnswered = false;
+          break;
+        }
+      }
+      const nextButton = document.querySelector(".next-button");
+      if (nextButton) {
+        nextButton.disabled = !allAnswered;
+      }
+    }
+
+    // Move to next page
+    function nextPage() {
+      currentPage++;
+      if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+        showQuestions(currentPage);
       } else {
         endQuiz();
       }
@@ -378,7 +431,7 @@
       scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
       resultsEl.classList.remove("hidden");
 
-      resultsBody.innerHTML = questions.map((q, i) => {
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
         const userAnswer = userAnswers[i] === null ? "Not attempted" :
                          userAnswers[i] === "Skipped" ? "Skipped" :
                          userAnswers[i];
@@ -403,7 +456,7 @@
     // Initialize
     loadProgress();
     startTimer();
-    showQuestion(current);
+    showQuestions(currentPage);
   </script>
 </body>
 </html>
