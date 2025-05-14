@@ -15,7 +15,7 @@
     }
 
     .quiz-container {
-      max-width: 900px;
+      max-width: 800px;
       margin: auto;
       background: #fff;
       padding: 2rem;
@@ -32,6 +32,8 @@
     .question {
       margin-bottom: 1.5rem;
       animation: fadeIn 0.5s;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
     }
 
     @keyframes fadeIn {
@@ -143,6 +145,28 @@
       background: #ffecb3;
     }
 
+    .next-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .next-button:hover {
+      background: #1e88e5;
+    }
+
+    .next-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
     .hidden {
       display: none;
     }
@@ -199,53 +223,55 @@
       { q: "In four stroke engine, power is produced in:", options: ["1 stroke", "2 strokes", "4 strokes", "Every stroke"], answer: 0 },
       { q: "Orthographic projection uses:", options: ["Parallel lines", "Converging lines", "Curved lines", "None"], answer: 0 },
       { q: "Which device stores electric charge?", options: ["Inductor", "Capacitor", "Transistor", "Resistor"], answer: 1 },
-      { q: "Efficiency of Carnot cycle depends on:", options: ["Temperature", "Pressure", "Volume", "Mass"], answer: 0 },
-      { q: "Which is not included in prime cost?", options: ["Direct materials", "Direct wages", "Factory overheads", "Direct expenses"], answer: 2 },
-      { q: "The process with no heat exchange is:", options: ["Isothermal", "Adiabatic", "Isobaric", "Isochoric"], answer: 1 },
-      { q: "Break-even point is where:", options: ["Profit=0", "Revenue=0", "Cost=0", "Loss=0"], answer: 0 },
-      { q: "SI Unit of force is:", options: ["Dyne", "Newton", "Joule", "Pascal"], answer: 1 },
-      { q: "Watt is the SI unit of:", options: ["Energy", "Force", "Power", "Pressure"], answer: 2 },
-      { q: "Which fuel is used in Lancashire boiler?", options: ["Diesel", "Coal", "Wood", "Kerosene"], answer: 1 },
-      { q: "Orthographic projection uses:", options: ["Parallel lines", "Converging lines", "Curved lines", "None"], answer: 0 },
-      { q: "Break-even point is where:", options: ["Profit=0", "Revenue=0", "Cost=0", "Loss=0"], answer: 0 },
-      { q: "Efficiency of Carnot cycle depends on:", options: ["Temperature", "Pressure", "Volume", "Mass"], answer: 0 },
-      { q: "The center of gravity of a triangle lies at the intersection of:", options: ["Altitudes", "Medians", "Bisectors", "Diagonals"], answer: 1 },
-      { q: "In four stroke engine, power is produced in:", options: ["1 stroke", "2 strokes", "4 strokes", "Every stroke"], answer: 0 },
-      { q: "Which device stores electric charge?", options: ["Inductor", "Capacitor", "Transistor", "Resistor"], answer: 1 },
-      { q: "SI Unit of force is:", options: ["Dyne", "Newton", "Joule", "Pascal"], answer: 1 },
-      { q: "Orthographic projection uses:", options: ["Parallel lines", "Converging lines", "Curved lines", "None"], answer: 0 },
-      { q: "The process with no heat exchange is:", options: ["Isothermal", "Adiabatic", "Isobaric", "Isochoric"], answer: 1 },
-      { q: "Watt is the SI unit of:", options: ["Energy", "Force", "Power", "Pressure"], answer: 2 },
-      { q: "Which fuel is used in Lancashire boiler?", options: ["Diesel", "Coal", "Wood", "Kerosene"], answer: 1 },
-      { q: "Break-even point is where:", options: ["Profit=0", "Revenue=0", "Cost=0", "Loss=0"], answer: 0 },
-      { q: "Which is not included in prime cost?", options: ["Direct materials", "Direct wages", "Factory overheads", "Direct expenses"], answer: 2 },
-      { q: "The center of gravity of a triangle lies at the intersection of:", options: ["Altitudes", "Medians", "Bisectors", "Diagonals"], answer: 1 },
-      { q: "In four stroke engine, power is produced in:", options: ["1 stroke", "2 strokes", "4 strokes", "Every stroke"], answer: 0 },
-      { q: "Which device stores electric charge?", options: ["Inductor", "Capacitor", "Transistor", "Resistor"], answer: 1 },
-      { q: "Efficiency of Carnot cycle depends on:", options: ["Temperature", "Pressure", "Volume", "Mass"], answer: 0 },
-      { q: "Orthographic projection uses:", options: ["Parallel lines", "Converging lines", "Curved lines", "None"], answer: 0 },
-      { q: "Watt is the SI unit of:", options: ["Energy", "Force", "Power", "Pressure"], answer: 2 },
-      { q: "Which is not included in prime cost?", options: ["Direct materials", "Direct wages", "Factory overheads", "Direct expenses"], answer: 2 },
-      { q: "The process with no heat exchange is:", options: ["Isothermal", "Adiabatic", "Isobaric", "Isochoric"], answer: 1 },
-      { q: "Which fuel is used in Lancashire boiler?", options: ["Diesel", "Coal", "Wood", "Kerosene"], answer: 1 },
-      { q: "The center of gravity of a triangle lies at the intersection of:", options: ["Altitudes", "Medians", "Bisectors", "Diagonals"], answer: 1 },
-      { q: "In four stroke engine, power is produced in:", options: ["1 stroke", "2 strokes", "4 strokes", "Every stroke"], answer: 0 },
-      { q: "Break-even point is where:", options: ["Profit=0", "Revenue=0", "Cost=0", "Loss=0"], answer: 0 },
-      { q: "Orthographic projection uses:", options: ["Parallel lines", "Converging lines", "Curved lines", "None"], answer: 0 },
-      { q: "Efficiency of Carnot cycle depends on:", options: ["Temperature", "Pressure", "Volume", "Mass"], answer: 0 },
-      { q: "Which device stores electric charge?", options: ["Inductor", "Capacitor", "Transistor", "Resistor"], answer: 1 },
-      { q: "SI Unit of force is:", options: ["Dyne", "Newton", "Joule", "Pascal"], answer: 1 },
-      { q: "The center of gravity of a triangle lies at the intersection of:", options: ["Altitudes", "Medians", "Bisectors", "Diagonals"], answer: 1 },
-      { q: "Break-even point is where:", options: ["Profit=0", "Revenue=0", "Cost=0", "Loss=0"], answer: 0 },
+      { q: "Boyle’s law relates:", options: ["Pressure and volume", "Temperature and volume", "Pressure and temperature", "Mass and volume"], answer: 0 },
+      { q: "The SI unit of torque is:", options: ["Newton-meter", "Joule", "Watt", "Pascal"], answer: 0 },
+      { q: "In a diesel engine, ignition occurs due to:", options: ["Spark plug", "Compression", "Fuel injection", "Glow plug"], answer: 1 },
+      { q: "The centroid of a circle is located at its:", options: ["Edge", "Center", "Radius", "Diameter"], answer: 1 },
+      { q: "A process where pressure remains constant is called:", options: ["Isothermal", "Isobaric", "Isochoric", "Adiabatic"], answer: 1 },
+      { q: "The primary purpose of a governor in an engine is to:", options: ["Regulate speed", "Increase torque", "Reduce vibrations", "Cool the system"], answer: 0 },
+      { q: "In technical drawing, a section view shows:", options: ["External features", "Internal details", "3D perspective", "Scaled dimensions"], answer: 1 },
+      { q: "The device that converts electrical to mechanical energy is:", options: ["Generator", "Motor", "Transformer", "Capacitor"], answer: 1 },
+      { q: "The moment of inertia depends on:", options: ["Mass distribution", "Velocity", "Temperature", "Pressure"], answer: 0 },
+      { q: "The SI unit of electrical resistance is:", options: ["Ohm", "Volt", "Ampere", "Coulomb"], answer: 0 },
+      { q: "In a two-stroke engine, power is produced in:", options: ["Every stroke", "Every other stroke", "Two strokes", "Four strokes"], answer: 0 },
+      { q: "The cost of raw materials is considered a:", options: ["Fixed cost", "Variable cost", "Overhead cost", "Sunk cost"], answer: 1 },
+      { q: "A thermodynamic process with constant temperature is:", options: ["Isobaric", "Isochoric", "Isothermal", "Adiabatic"], answer: 2 },
+      { q: "The safety valve in a boiler is used to:", options: ["Release excess pressure", "Control fuel flow", "Regulate temperature", "Increase steam flow"], answer: 0 },
+      { q: "In orthographic projection, the top view shows:", options: ["Height and width", "Width and depth", "Height and depth", "All dimensions"], answer: 1 },
+      { q: "The device that stores energy in a magnetic field is:", options: ["Capacitor", "Inductor", "Resistor", "Transistor"], answer: 1 },
+      { q: "The ideal gas law relates pressure, volume, and:", options: ["Mass", "Temperature", "Density", "Viscosity"], answer: 1 },
+      { q: "The force that opposes relative motion is:", options: ["Gravitational force", "Frictional force", "Magnetic force", "Centrifugal force"], answer: 1 },
+      { q: "The SI unit of frequency is:", options: ["Hertz", "Watt", "Joule", "Newton"], answer: 0 },
+      { q: "The compression ratio in an engine affects its:", options: ["Efficiency", "Weight", "Speed", "Cooling"], answer: 0 },
+      { q: "The center of gravity of a cone lies along its:", options: ["Base", "Apex", "Axis", "Slant height"], answer: 2 },
+      { q: "A process with constant entropy is called:", options: ["Isentropic", "Isothermal", "Isobaric", "Isochoric"], answer: 0 },
+      { q: "The component in a boiler that superheats steam is:", options: ["Economizer", "Superheater", "Feed pump", "Air preheater"], answer: 1 },
+      { q: "In technical drawing, an auxiliary view shows:", options: ["True shape of inclined surfaces", "3D perspective", "Hidden edges", "Overall dimensions"], answer: 0 },
+      { q: "The device that amplifies electrical signals is:", options: ["Diode", "Capacitor", "Transistor", "Resistor"], answer: 2 },
+      { q: "The specific heat of a substance is measured at constant:", options: ["Volume or pressure", "Mass or density", "Temperature or volume", "Pressure or entropy"], answer: 0 },
+      { q: "The force per unit area is defined as:", options: ["Stress", "Strain", "Torque", "Power"], answer: 0 },
+      { q: "The SI unit of magnetic flux is:", options: ["Tesla", "Weber", "Gauss", "Henry"], answer: 1 },
+      { q: "The stroke in a four-stroke engine where gases are compressed is:", options: ["Intake", "Compression", "Power", "Exhaust"], answer: 1 },
+      { q: "The cost of depreciation is considered a:", options: ["Variable cost", "Direct cost", "Fixed cost", "Marginal cost"], answer: 2 },
+      { q: "The center of gravity of a sphere is at its:", options: ["Surface", "Center", "Equator", "Pole"], answer: 1 },
+      { q: "A process where no mass crosses the system boundary is:", options: ["Open system", "Closed system", "Isolated system", "Adiabatic system"], answer: 1 },
+      { q: "The fusible plug in a boiler prevents:", options: ["Overheating", "Low water level", "Excess steam", "Fuel wastage"], answer: 1 },
+      { q: "In engineering drawing, a centerline indicates:", options: ["Symmetry or axis", "Hidden edge", "Visible edge", "Dimension"], answer: 0 },
+      { q: "The device that rectifies AC to DC is:", options: ["Capacitor", "Diode", "Inductor", "Transformer"], answer: 1 },
+      { q: "The material commonly used for steam boiler tubes is:", options: ["Copper", "Steel", "Aluminum", "Brass"], answer: 1 },
+      { q: "In engineering drawing, a hidden line represents:", options: ["Visible edge", "Invisible edge", "Centerline", "Dimension line"], answer: 1 },
+      { q: "The work done in an isochoric process is:", options: ["Zero", "Maximum", "Negative", "Constant"], answer: 0 },
+      { q: "Which cycle has the highest efficiency?", options: ["Otto", "Diesel", "Carnot", "Brayton"], answer: 2 }
     ];
 
-    let current = 0;
+    let currentPage = 0;
     let score = 0;
     let skipped = [];
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
     let timerInterval;
-    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+    const QUESTIONS_PER_PAGE = 5;
+    const ANSWER_DELAY = 1500; // 1.5 seconds delay (not used in checkAnswer)
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -260,8 +286,8 @@
     function loadProgress() {
       const saved = localStorage.getItem("quizProgress3");
       if (saved) {
-        const { current: savedCurrent, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        current = savedCurrent;
+        const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        currentPage = savedPage;
         score = savedScore;
         skipped = savedSkipped;
         userAnswers = savedAnswers || Array(questions.length).fill(null);
@@ -272,7 +298,7 @@
     // Save progress to localStorage
     function saveProgress() {
       localStorage.setItem("quizProgress3", JSON.stringify({
-        current,
+        currentPage,
         score,
         skipped,
         answers: userAnswers,
@@ -304,31 +330,41 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = (current / questions.length) * 100;
+      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
     }
 
-    // Show question
-    function showQuestion(index) {
-      const q = shuffledQuestions[index];
-      const shuffledOptions = shuffle([...q.options].map((opt, i) => ({ text: opt, index: i })));
-      const options = shuffledOptions
-        .map(opt => `<button onclick="checkAnswer(this, ${opt.index}, '${opt.text}')">${opt.text}</button>`)
-        .join('');
-      quizEl.innerHTML = `
-        <div class="question">
-          <p>Q${index + 1}. ${q.q}</p>
-          <div class="options">${options}</div>
-          <button class="skip-button" onclick="skipQuestion()">Skip</button>
-        </div>
-      `;
+    // Show questions for the current page
+    function showQuestions(page) {
+      const startIndex = page * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let html = '';
+      for (let i = startIndex; i < endIndex; i++) {
+        const q = shuffledQuestions[i];
+        const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
+        const options = shuffledOptions
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .join('');
+        html += `
+          <div class="question" data-index="${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${options}</div>
+            <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
+          </div>
+        `;
+      }
+      if (endIndex < questions.length) {
+        html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+      }
+      quizEl.innerHTML = html;
       updateProgress();
       saveProgress();
+      checkNextButton();
     }
 
     // Check answer
-    function checkAnswer(button, selected, selectedText) {
-      const q = shuffledQuestions[current];
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuestions[questionIndex];
       const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
       buttons.forEach((btn) => {
@@ -337,7 +373,7 @@
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
-      userAnswers[current] = selectedText;
+      userAnswers[questionIndex] = selectedText;
       if (selected === correct) {
         score++;
         correctSound.play().catch(() => console.log("Audio playback failed"));
@@ -345,25 +381,44 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      setTimeout(() => {
-        current++;
-        if (current < questions.length) {
-          showQuestion(current);
-        } else {
-          endQuiz();
-        }
-      }, ANSWER_DELAY);
+      saveProgress();
+      checkNextButton();
     }
 
     // Skip question
-    function skipQuestion() {
-      if (!skipped.includes(shuffledQuestions[current])) {
-        skipped.push(shuffledQuestions[current]);
-        userAnswers[current] = "Skipped";
+    function skipQuestion(questionIndex) {
+      if (!skipped.includes(shuffledQuestions[questionIndex])) {
+        skipped.push(shuffledQuestions[questionIndex]);
+        userAnswers[questionIndex] = "Skipped";
       }
-      current++;
-      if (current < questions.length) {
-        showQuestion(current);
+      const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check if all questions on the page are answered or skipped
+    function checkNextButton() {
+      const startIndex = currentPage * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let allAnswered = true;
+      for (let i = startIndex; i < endIndex; i++) {
+        if (userAnswers[i] === null) {
+          allAnswered = false;
+          break;
+        }
+      }
+      const nextButton = document.querySelector(".next-button");
+      if (nextButton) {
+        nextButton.disabled = !allAnswered;
+      }
+    }
+
+    // Move to next page
+    function nextPage() {
+      currentPage++;
+      if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+        showQuestions(currentPage);
       } else {
         endQuiz();
       }
@@ -401,7 +456,7 @@
     // Initialize
     loadProgress();
     startTimer();
-    showQuestion(current);
+    showQuestions(currentPage);
   </script>
 </body>
 </html>
