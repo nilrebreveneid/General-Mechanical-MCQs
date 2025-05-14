@@ -32,6 +32,8 @@
     .question {
       margin-bottom: 1.5rem;
       animation: fadeIn 0.5s;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
     }
 
     @keyframes fadeIn {
@@ -143,6 +145,28 @@
       background: #ffecb3;
     }
 
+    .next-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .next-button:hover {
+      background: #1e88e5;
+    }
+
+    .next-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
     .hidden {
       display: none;
     }
@@ -190,7 +214,7 @@
     const questions = [
       // Applied Mechanics (13 MCQs)
       { q: "According to equilibrium law, two forces can be in equilibrium if:", 
-        options: ["Equal in magnitude", "Opposite in direction", "Collinear", "Perpendicular"], 
+        options: ["Equal in magnitude, opposite in direction, collinear", "Equal in magnitude", "Opposite in direction", "Collinear"], 
         answer: 0 },
       { q: "Forces not meeting at a point and not lying on the same plane are called:", 
         options: ["Non-coplanar concurrent", "Non-coplanar non-concurrent", "Coplanar concurrent", "Coplanar non-concurrent"], 
@@ -294,7 +318,7 @@
         options: ["Locomotive boiler", "Babcock and Wilcox boiler", "Stirling boiler", "Benson boiler"], 
         answer: 0 },
       { q: "Boiler HP is defined as:", 
-        options: ["Steam evaporation rate per kg of fuel fired", "Work done in evaporating 1 kg of steam", "Heat transfer rate", "Pressure capacity"], 
+        options: ["Steam evaporation rate of 34.5 lb/hr from and at 212°F", "Work done in evaporating 1 kg of steam", "Heat transfer rate", "Pressure capacity"], 
         answer: 0 },
       { q: "Fire tube boilers are:", 
         options: ["Internally fired", "Externally fired", "Both internally and externally fired", "Neither internally nor externally fired"], 
@@ -319,7 +343,7 @@
       { q: "Which of the following is a four-stroke engine?", 
         options: ["Petrol engine", "Steam engine", "Two-stroke engine", "Jet engine"], 
         answer: 0 },
-      { q: "The main function of a carburetor is to?", 
+      { q: "The main function of a carburetor is to:", 
         options: ["Mix air and fuel", "Cool the engine", "Compress the fuel", "Ignite the mixture"], 
         answer: 0 },
 
@@ -341,27 +365,17 @@
         answer: 1 },
       { q: "Which of the following layouts is suited for mass production?", 
         options: ["Process Layout", "Product Layout", "Fixed Position Layout", "Cellular Layout"], 
-        answer: 1 },
-
-      // Estimating and Costing (3 MCQs)
-      { q: "Depreciation arises because of:", 
-        options: ["Fall in the market value of an asset", "Physical wear and tear", "Obsolescence", "All of the above"], 
-        answer: 3 },
-      { q: "The main objective of depreciation?", 
-        options: ["To show previous profit", "To calculate net profit", "To increase asset value", "To reduce tax liability"], 
-        answer: 1 },
-      { q: "A variable cost is a cost that:", 
-        options: ["Varies directly with the level of activity", "Remains constant", "Decreases with activity", "Is fixed per unit"], 
-        answer: 0 }
+        answer: 1 }
     ];
 
-    let current = 0;
+    let currentPage = 0;
     let score = 0;
     let skipped = [];
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
     let timerInterval;
-    const ANSWER_DELAY = 2200; // 1.5 seconds delay
+    const QUESTIONS_PER_PAGE = 5;
+    const ANSWER_DELAY = 2200; // Defined but not used in checkAnswer
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -376,8 +390,8 @@
     function loadProgress() {
       const saved = localStorage.getItem("quizProgress7");
       if (saved) {
-        const { current: savedCurrent, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        current = savedCurrent;
+        const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        currentPage = savedPage;
         score = savedScore;
         skipped = savedSkipped;
         userAnswers = savedAnswers || Array(questions.length).fill(null);
@@ -388,7 +402,7 @@
     // Save progress to localStorage
     function saveProgress() {
       localStorage.setItem("quizProgress7", JSON.stringify({
-        current,
+        currentPage,
         score,
         skipped,
         answers: userAnswers,
@@ -420,31 +434,41 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = (current / questions.length) * 100;
+      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
     }
 
-    // Show question
-    function showQuestion(index) {
-      const q = shuffledQuestions[index];
-      const shuffledOptions = shuffle([...q.options].map((opt, i) => ({ text: opt, index: i })));
-      const options = shuffledOptions
-        .map(opt => `<button onclick="checkAnswer(this, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
-        .join('');
-      quizEl.innerHTML = `
-        <div class="question">
-          <p>Q${index + 1}. ${q.q}</p>
-          <div class="options">${options}</div>
-          <button class="skip-button" onclick="skipQuestion()">Skip</button>
-        </div>
-      `;
+    // Show questions for the current page
+    function showQuestions(page) {
+      const startIndex = page * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let html = '';
+      for (let i = startIndex; i < endIndex; i++) {
+        const q = shuffledQuestions[i];
+        const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
+        const options = shuffledOptions
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .join('');
+        html += `
+          <div class="question" data-index="${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${options}</div>
+            <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
+          </div>
+        `;
+      }
+      if (endIndex < questions.length) {
+        html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+      }
+      quizEl.innerHTML = html;
       updateProgress();
       saveProgress();
+      checkNextButton();
     }
 
     // Check answer
-    function checkAnswer(button, selected, selectedText) {
-      const q = shuffledQuestions[current];
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuestions[questionIndex];
       const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
       buttons.forEach((btn) => {
@@ -453,7 +477,7 @@
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
-      userAnswers[current] = selectedText;
+      userAnswers[questionIndex] = selectedText;
       if (selected === correct) {
         score++;
         correctSound.play().catch(() => console.log("Audio playback failed"));
@@ -461,25 +485,44 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      setTimeout(() => {
-        current++;
-        if (current < questions.length) {
-          showQuestion(current);
-        } else {
-          endQuiz();
-        }
-      }, ANSWER_DELAY);
+      saveProgress();
+      checkNextButton();
     }
 
     // Skip question
-    function skipQuestion() {
-      if (!skipped.includes(shuffledQuestions[current])) {
-        skipped.push(shuffledQuestions[current]);
-        userAnswers[current] = "Skipped";
+    function skipQuestion(questionIndex) {
+      if (!skipped.includes(shuffledQuestions[questionIndex])) {
+        skipped.push(shuffledQuestions[questionIndex]);
+        userAnswers[questionIndex] = "Skipped";
       }
-      current++;
-      if (current < questions.length) {
-        showQuestion(current);
+      const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check if all questions on the page are answered or skipped
+    function checkNextButton() {
+      const startIndex = currentPage * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let allAnswered = true;
+      for (let i = startIndex; i < endIndex; i++) {
+        if (userAnswers[i] === null) {
+          allAnswered = false;
+          break;
+        }
+      }
+      const nextButton = document.querySelector(".next-button");
+      if (nextButton) {
+        nextButton.disabled = !allAnswered;
+      }
+    }
+
+    // Move to next page
+    function nextPage() {
+      currentPage++;
+      if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+        showQuestions(currentPage);
       } else {
         endQuiz();
       }
@@ -517,7 +560,7 @@
     // Initialize
     loadProgress();
     startTimer();
-    showQuestion(current);
+    showQuestions(currentPage);
   </script>
 </body>
 </html>
