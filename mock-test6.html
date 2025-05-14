@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mock Test – 50 MCQs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test 6 – 50 MCQs</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,7 +11,9 @@
       margin: 0;
       padding: 2rem;
       color: #333;
+      min-height: 100vh;
     }
+
     .quiz-container {
       max-width: 900px;
       margin: auto;
@@ -20,15 +22,28 @@
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
+
     h1 {
       text-align: center;
+      margin-bottom: 1rem;
+      color: #1e88e5;
     }
+
     .question {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
+      animation: fadeIn 0.5s;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     .question p {
       font-weight: bold;
+      font-size: 1.1rem;
     }
+
     .options button {
       display: block;
       margin: 0.5rem 0;
@@ -38,255 +53,413 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s;
+      font-size: 1rem;
     }
+
     .options button:hover {
       background: #bbdefb;
+      transform: translateX(5px);
     }
+
     .correct {
       background-color: #c8e6c9 !important;
+      animation: pulse 0.5s;
     }
+
     .wrong {
       background-color: #ffcdd2 !important;
+      animation: shake 0.3s;
     }
-    #score {
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #eee;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #42a5f5;
+      transition: width 0.3s;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #d81b60;
+    }
+
+    #score, #results {
       text-align: center;
       font-size: 1.2rem;
+      margin-top: 2rem;
       font-weight: bold;
-      margin-top: 2rem;
     }
-    #skipped-list {
-      margin-top: 2rem;
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
     }
+
+    .results-table th, .results-table td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #f5f5f5;
+    }
+
+    .skip-button {
+      background: #fff3cd;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      width: 100%;
+      border: 1px solid #ffca28;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .skip-button:hover {
+      background: #ffecb3;
+    }
+
     .hidden {
       display: none;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="quiz-container">
-    <h1> Mock Test 6</h1>
+    <h1>Mock Test 6</h1>
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
     <div id="quiz"></div>
     <div id="score"></div>
-    <div id="skipped-list" class="hidden">
-      <h2>Skipped Questions</h2>
-      <ul id="skipped"></ul>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
     </div>
   </div>
 
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+
   <script>
-    // const questions = [
-     
-
     const questions = [
-  // Applied Mechanics (13 MCQs)
-  { q: "An attempt to turn a key into a lock manifests in the application of:", 
-    options: ["Coplanar force", "Moment", "Linear force", "Shear stress"], 
-    answer: 1 },
-  { q: "The maximum frictional force experienced when a body just begins to slide is:", 
-    options: ["Dynamic friction", "Static friction", "Kinetic friction", "Rolling friction"], 
-    answer: 1 },
-  { q: "Which of the following is not a vector quantity?", 
-    options: ["Acceleration", "Work", "Velocity", "Momentum"], 
-    answer: 1 },
-  { q: "The force which does not meet at one point but their lines of action lie on the same plane are:", 
-    options: ["Non-coplanar non-concurrent", "Coplanar concurrent", "Coplanar non-concurrent", "Non-coplanar concurrent"], 
-    answer: 1 },
-  { q: "The linear acceleration of a rotating body is given by the relation:", 
-    options: ["a = α r²", "a = r × α", "a = α / r", "a = r² / α"], 
-    answer: 1 },
-  { q: "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?", 
-    options: ["Acceleration", "Velocity", "Angular velocity", "Displacement"], 
-    answer: 1 },
-  { q: "Watt is SI unit of:", 
-    options: ["Distance", "Power", "Force", "Energy"], 
-    answer: 1 },
-  { q: "The C.G. of a triangle lies at the point of intersections of:", 
-    options: ["Bisectors of angles", "Medians", "Altitudes", "Perpendicular bisectors"], 
-    answer: 1 },
-  { q: "The acceleration of a body sliding down an inclined surface is:", 
-    options: ["g sin θ", "g cos θ", "g tan θ", "g / sin θ"], 
-    answer: 0 },
-  { q: "SI Unit of force is:", 
-    options: ["Dyne", "Newton", "Pound", "Kilogram"], 
-    answer: 1 },
-  { q: "The equation of trajectory is:", 
-    options: ["y = x cos α", "y = x tan α - gx² / (2u² cos² α)", "y = x sin α", "y = gx² / (2u²)"], 
-    answer: 1 },
-  { q: "The point through which the whole weight of the body acts, irrespective of its position is known as:", 
-    options: ["Centre of percussion", "Centre of gravity", "Centre of mass", "Centre of rotation"], 
-    answer: 1 },
-  { q: "The product of pressure and volume is constant for a fixed mass of a real gas at constant temperature i.e. PV = constant. This is:", 
-    options: ["Graham’s law", "Boyle’s law", "Charles’ law", "Avogadro’s law"], 
-    answer: 1 },
+      // Applied Mechanics (13 MCQs)
+      { q: "An attempt to turn a key into a lock manifests in the application of:", 
+        options: ["Coplanar force", "Moment", "Linear force", "Shear stress"], 
+        answer: 1 },
+      { q: "The maximum frictional force experienced when a body just begins to slide is:", 
+        options: ["Dynamic friction", "Static friction", "Kinetic friction", "Rolling friction"], 
+        answer: 1 },
+      { q: "Which of the following is not a vector quantity?", 
+        options: ["Acceleration", "Work", "Velocity", "Momentum"], 
+        answer: 1 },
+      { q: "The force which does not meet at one point but their lines of action lie on the same plane are:", 
+        options: ["Non-coplanar non-concurrent", "Coplanar concurrent", "Coplanar non-concurrent", "Non-coplanar concurrent"], 
+        answer: 2 },
+      { q: "The linear acceleration of a rotating body is given by the relation:", 
+        options: ["a = α r²", "a = r × α", "a = α / r", "a = r² / α"], 
+        answer: 1 },
+      { q: "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?", 
+        options: ["Acceleration", "Velocity", "Angular velocity", "Displacement"], 
+        answer: 2 },
+      { q: "Watt is SI unit of:", 
+        options: ["Distance", "Power", "Force", "Energy"], 
+        answer: 1 },
+      { q: "The C.G. of a triangle lies at the point of intersections of:", 
+        options: ["Bisectors of angles", "Medians", "Altitudes", "Perpendicular bisectors"], 
+        answer: 1 },
+      { q: "The acceleration of a body sliding down an inclined surface is:", 
+        options: ["g sin θ", "g cos θ", "g tan θ", "g / sin θ"], 
+        answer: 0 },
+      { q: "SI Unit of force is:", 
+        options: ["Dyne", "Newton", "Pound", "Kilogram"], 
+        answer: 1 },
+      { q: "The equation of trajectory is:", 
+        options: ["y = x cos α", "y = x tan α - gx² / (2u² cos² α)", "y = x sin α", "y = gx² / (2u²)"], 
+        answer: 1 },
+      { q: "The point through which the whole weight of the body acts, irrespective of its position is known as:", 
+        options: ["Centre of percussion", "Centre of gravity", "Centre of mass", "Centre of rotation"], 
+        answer: 1 },
+      { q: "The product of pressure and volume is constant for a fixed mass of a real gas at constant temperature i.e. PV = constant. This is:", 
+        options: ["Graham’s law", "Boyle’s law", "Charles’ law", "Avogadro’s law"], 
+        answer: 1 },
 
-  // Thermodynamics (8 MCQs)
-  { q: "The unit of temperature is based on:", 
-    options: ["Boiling point of mercury", "Triple point of water", "Freezing point of water", "Boiling point of water"], 
-    answer: 1 },
-  { q: "Absolute zero temperature is taken as:", 
-    options: ["237°C", "-273°C", "0°C", "-237°C"], 
-    answer: 1 },
-  { q: "Essential condition for heat transfer is:", 
-    options: ["Difference in conductivity", "Difference in temperature", "Difference in pressure", "Difference in volume"], 
-    answer: 1 },
-  { q: "A constant volume air thermometer works on:", 
-    options: ["Archimedes’ principle", "Charles’ Law", "Boyle’s Law", "Pascal’s Law"], 
-    answer: 1 },
-  { q: "The value of Cp/Cv for air is:", 
-    options: ["1.2", "1.4", "1.0", "1.6"], 
-    answer: 1 },
-  { q: "A gas behaves as an ideal gas at:", 
-    options: ["Very high pressure", "Low pressure", "High temperature only", "Low temperature only"], 
-    answer: 1 },
-  { q: "The efficiency of the Joule cycle is:", 
-    options: ["Greater than Carnot cycle", "Less than Carnot cycle", "Equal to Carnot cycle", "Independent of Carnot cycle"], 
-    answer: 1 },
-  { q: "Heat engine attains 100% thermal efficiency: it violates —", 
-    options: ["First law of thermodynamics", "Second law of thermodynamics", "Zeroth law of thermodynamics", "Third law of thermodynamics"], 
-    answer: 1 },
+      // Thermodynamics (8 MCQs)
+      { q: "The unit of temperature is based on:", 
+        options: ["Boiling point of mercury", "Triple point of water", "Freezing point of water", "Boiling point of water"], 
+        answer: 1 },
+      { q: "Absolute zero temperature is taken as:", 
+        options: ["237°C", "-273°C", "0°C", "-237°C"], 
+        answer: 1 },
+      { q: "Essential condition for heat transfer is:", 
+        options: ["Difference in conductivity", "Difference in temperature", "Difference in pressure", "Difference in volume"], 
+        answer: 1 },
+      { q: "A constant volume air thermometer works on:", 
+        options: ["Archimedes’ principle", "Charles’ Law", "Boyle’s Law", "Pascal’s Law"], 
+        answer: 1 },
+      { q: "The value of Cp/Cv for air is:", 
+        options: ["1.2", "1.4", "1.0", "1.6"], 
+        answer: 1 },
+      { q: "A gas behaves as an ideal gas at:", 
+        options: ["Very high pressure", "Low pressure", "High temperature only", "Low temperature only"], 
+        answer: 1 },
+      { q: "The efficiency of the Joule cycle is:", 
+        options: ["Greater than Carnot cycle", "Less than Carnot cycle", "Equal to Carnot cycle", "Independent of Carnot cycle"], 
+        answer: 1 },
+      { q: "Heat engine attains 100% thermal efficiency: it violates —", 
+        options: ["First law of thermodynamics", "Second law of thermodynamics", "Zeroth law of thermodynamics", "Third law of thermodynamics"], 
+        answer: 1 },
 
-  // Machine Drawing (7 MCQs)
-  { q: "Which is the correct conventional representation of a splined hole (BS 308)?", 
-    options: ["⭘ with vertical line", "⭘ with zig-zag and center marking", "⭘ with cross", "⭘ with diagonal line"], 
-    answer: 1 },
-  { q: "A title block contains all the following information except:", 
-    options: ["Part list", "Drawing No.", "Scale", "Date"], 
-    answer: 0 },
-  { q: "What is the standard angle between isometric axes?", 
-    options: ["120°", "90°", "60°", "45°"], 
-    answer: 0 },
-  { q: "Which symbol is used to denote surface roughness?", 
-    options: ["Check mark (✓)", "Tick with triangle (⏜✓)", "Circle (⭘)", "Square (⬛)"], 
-    answer: 1 },
-  { q: "In AutoCAD, what is the function of the ORTHO mode?", 
-    options: ["Constrains cursor to 90° angles", "Mirrors the object", "Rotates the object", "Scales the object"], 
-    answer: 0 },
-  { q: "What does the symbol ⌀ represent in machine drawing?", 
-    options: ["Radius", "Diameter", "Angle", "Depth"], 
-    answer: 1 },
-  { q: "Which of the following is a permanent joint?", 
-    options: ["Welded joint", "Nut and bolt", "Screw joint", "Cotter joint"], 
-    answer: 0 },
+      // Machine Drawing (7 MCQs)
+      { q: "Which is the correct conventional representation of a splined hole (BS 308)?", 
+        options: ["⭘ with vertical line", "⭘ with zig-zag and center marking", "⭘ with cross", "⭘ with diagonal line"], 
+        answer: 1 },
+      { q: "A title block contains all the following information except:", 
+        options: ["Part list", "Drawing No.", "Scale", "Date"], 
+        answer: 0 },
+      { q: "What is the standard angle between isometric axes?", 
+        options: ["120°", "90°", "60°", "45°"], 
+        answer: 0 },
+      { q: "Which symbol is used to denote surface roughness?", 
+        options: ["Check mark (✓)", "Tick with triangle (⏜✓)", "Circle (⭘)", "Square (⬛)"], 
+        answer: 1 },
+      { q: "In AutoCAD, what is the function of the ORTHO mode?", 
+        options: ["Constrains cursor to 90° angles", "Mirrors the object", "Rotates the object", "Scales the object"], 
+        answer: 0 },
+      { q: "What does the symbol ⌀ represent in machine drawing?", 
+        options: ["Radius", "Diameter", "Angle", "Depth"], 
+        answer: 1 },
+      { q: "Which of the following is a permanent joint?", 
+        options: ["Welded joint", "Nut and bolt", "Screw joint", "Cotter joint"], 
+        answer: 0 },
 
-  // Electro-Mechanical (3 MCQs)
-  { q: "An equipment or device used to convert electrical energy into mechanical energy is called:", 
-    options: ["Motor", "Generator", "Transformer", "Rectifier"], 
-    answer: 0 },
-  { q: "The power factor of an alternator depends on:", 
-    options: ["Load", "Alternate loss", "Voltage", "Frequency"], 
-    answer: 0 },
-  { q: "Which D.C. motor is used in machine tool?", 
-    options: ["Series motor", "Shunt motor", "Compound motor", "Synchronous motor"], 
-    answer: 0 },
+      // Electro-Mechanical (3 MCQs)
+      { q: "An equipment or device used to convert electrical energy into mechanical energy is called:", 
+        options: ["Motor", "Generator", "Transformer", "Rectifier"], 
+        answer: 0 },
+      { q: "The power factor of an alternator depends on:", 
+        options: ["Load", "Alternate loss", "Voltage", "Frequency"], 
+        answer: 0 },
+      { q: "Which D.C. motor is used in machine tool?", 
+        options: ["Series motor", "Shunt motor", "Compound motor", "Synchronous motor"], 
+        answer: 1 },
 
-  // Industrial Boiler (5 MCQs)
-  { q: "Safety valve generally used on high pressure boiler is:", 
-    options: ["Dead weight type", "Both of the above", "Spring-loaded type", "Lever type"], 
-    answer: 1 },
-  { q: "Fire tube boilers are those in which:", 
-    options: ["Water passes through the tubes and fine gases around it", "Gases pass through tubes and water around it", "Steam flows through tubes", "Fuel burns inside tubes"], 
-    answer: 1 },
-  { q: "Which of the following is a water tube boiler?", 
-    options: ["Cochran boiler", "Babcock and Wilcox boiler", "Lancashire boiler", "Locomotive boiler"], 
-    answer: 1 },
-  { q: "Water tube boilers are preferred for:", 
-    options: ["Low pressure and high output", "High pressure and high output", "Low pressure and low output", "High pressure and low output"], 
-    answer: 1 },
-  { q: "Efficiency improving component:", 
-    options: ["Safety valve", "Economizer", "Blow-off valve", "Steam stop valve"], 
-    answer: 1 },
+      // Industrial Boiler (5 MCQs)
+      { q: "Safety valve generally used on high pressure boiler is:", 
+        options: ["Dead weight type", "Both of the above", "Spring-loaded type", "Lever type"], 
+        answer: 2 },
+      { q: "Fire tube boilers are those in which:", 
+        options: ["Water passes through the tubes and fine gases around it", "Gases pass through tubes and water around it", "Steam flows through tubes", "Fuel burns inside tubes"], 
+        answer: 1 },
+      { q: "Which of the following is a water tube boiler?", 
+        options: ["Cochran boiler", "Babcock and Wilcox boiler", "Lancashire boiler", "Locomotive boiler"], 
+        answer: 1 },
+      { q: "Water tube boilers are preferred for:", 
+        options: ["Low pressure and high output", "High pressure and high output", "Low pressure and low output", "High pressure and low output"], 
+        answer: 1 },
+      { q: "Efficiency improving component:", 
+        options: ["Safety valve", "Economizer", "Blow-off valve", "Steam stop valve"], 
+        answer: 1 },
 
-  // Heat Engines (5 MCQs)
-  { q: "Which cycle is used in petrol engines?", 
-    options: ["Diesel cycle", "Otto cycle", "Brayton cycle", "Rankine cycle"], 
-    answer: 1 },
-  { q: "Compression ratio of diesel engine is?", 
-    options: ["10:1", "20:1", "5:1", "15:1"], 
-    answer: 1 },
-  { q: "Fuel is ignited in CI engine by?", 
-    options: ["Spark plug", "Compression", "Glow plug", "Fuel injector"], 
-    answer: 1 },
-  { q: "The unit of brake power is:", 
-    options: ["kW", "N.m", "J/s", "W/m²"], 
-    answer: 0 },
-  { q: "Thermal efficiency of an ideal diesel cycle is?", 
-    options: ["Less than Otto cycle", "More than Otto cycle", "Equal to Otto cycle", "Independent of Otto cycle"], 
-    answer: 1 },
+      // Heat Engines (5 MCQs)
+      { q: "Which cycle is used in petrol engines?", 
+        options: ["Diesel cycle", "Otto cycle", "Brayton cycle", "Rankine cycle"], 
+        answer: 1 },
+      { q: "Compression ratio of diesel engine is?", 
+        options: ["10:1", "20:1", "5:1", "15:1"], 
+        answer: 1 },
+      { q: "Fuel is ignited in CI engine by?", 
+        options: ["Spark plug", "Compression", "Glow plug", "Fuel injector"], 
+        answer: 1 },
+      { q: "The unit of brake power is:", 
+        options: ["kW", "N.m", "J/s", "W/m²"], 
+        answer: 0 },
+      { q: "Thermal efficiency of an ideal diesel cycle is?", 
+        options: ["Less than Otto cycle", "More than Otto cycle", "Equal to Otto cycle", "Independent of Otto cycle"], 
+        answer: 0 },
 
-  // Industrial Management (6 MCQs)
-  { q: "According to the Civil Service Act, 2049, the required age to apply for non-gazetted 2nd class:", 
-    options: ["16 years", "18 years", "21 years", "25 years"], 
-    answer: 0 },
-  { q: "According to Labour Act, no enterprise is allowed to employ the worker below the age of:", 
-    options: ["16 years", "14 years", "12 years", "18 years"], 
-    answer: 0 },
-  { q: "Which one is the full form of ICAO?", 
-    options: ["International civil action organization", "International civil aviation organization", "International council of aviation operations", "International committee for air oversight"], 
-    answer: 0 },
-  { q: "Industrial relation can be defined as:", 
-    options: ["Labour management relation", "The interactions between employers, employees and government", "Employee-to-employee interactions", "Government-to-industry regulations"], 
-    answer: 1 },
-  { q: "ILO stands for:", 
-    options: ["International Labor Organization", "Industrial Labor Operation", "International Law Organization", "Industrial Leadership Office"], 
-    answer: 0 },
-  { q: "What is the purpose of ventilation in industries?", 
-    options: ["For air circulation only", "All of the above", "For temperature control only", "For humidity control only"], 
-    answer: 1 },
+      // Industrial Management (6 MCQs)
+      { q: "According to the Civil Service Act, 2049, the required age to apply for non-gazetted 2nd class:", 
+        options: ["16 years", "18 years", "21 years", "25 years"], 
+        answer: 1 },
+      { q: "According to Labour Act, no enterprise is allowed to employ the worker below the age of:", 
+        options: ["16 years", "14 years", "12 years", "18 years"], 
+        answer: 0 },
+      { q: "Which one is the full form of ICAO?", 
+        options: ["International civil action organization", "International civil aviation organization", "International council of aviation operations", "International committee for air oversight"], 
+        answer: 1 },
+      { q: "Industrial relation can be defined as:", 
+        options: ["Labour management relation", "The interactions between employers, employees and government", "Employee-to-employee interactions", "Government-to-industry regulations"], 
+        answer: 1 },
+      { q: "ILO stands for:", 
+        options: ["International Labor Organization", "Industrial Labor Operation", "International Law Organization", "Industrial Leadership Office"], 
+        answer: 0 },
+      { q: "What is the purpose of ventilation in industries?", 
+        options: ["For air circulation only", "All of the above", "For temperature control only", "For humidity control only"], 
+        answer: 1 },
 
-  // Estimating and Costing (3 MCQs)
-  { q: "Depreciation is a process of:", 
-    options: ["Maintenance", "Valuation", "Cost estimation", "Profit calculation"], 
-    answer: 0 },
-  { q: "Following cost is variable cost:", 
-    options: ["Depreciation of plant", "Cost of raw material", "Rent of building", "Insurance premium"], 
-    answer: 1 },
-  { q: "Return on Investment (ROI) =", 
-    options: ["Gross profit / Net sales × 100", "Net profit / Total assets × 100", "Total revenue / Total cost × 100", "Net sales / Total assets × 100"], 
-    answer: 1 }
-];
+      // Estimating and Costing (3 MCQs)
+      { q: "Depreciation is a process of:", 
+        options: ["Maintenance", "Valuation", "Cost estimation", "Profit calculation"], 
+        answer: 1 },
+      { q: "Following cost is variable cost:", 
+        options: ["Depreciation of plant", "Cost of raw material", "Rent of building", "Insurance premium"], 
+        answer: 1 },
+      { q: "Return on Investment (ROI) =", 
+        options: ["Gross profit / Net sales × 100", "Net profit / Total assets × 100", "Total revenue / Total cost × 100", "Net sales / Total assets × 100"], 
+        answer: 1 }
+    ];
+
     let current = 0;
     let score = 0;
     let skipped = [];
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    const ANSWER_DELAY = 2000; // 1.5 seconds delay
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
-    const skippedEl = document.getElementById("skipped-list");
-    const skippedList = document.getElementById("skipped");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
 
-    function shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
+    // Load progress from localStorage
+    function loadProgress() {
+      const saved = localStorage.getItem("quizProgress6");
+      if (saved) {
+        const { current: savedCurrent, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        current = savedCurrent;
+        score = savedScore;
+        skipped = savedSkipped;
+        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
     }
 
-    function showQuestion(index) {
-      const q = questions[index];
-      const optionsHTML = shuffle(q.options.map((opt, i) =>
-        `<button onclick="checkAnswer(this, ${i})">${opt}</button>`
-      )).join('');
+    // Save progress to localStorage
+    function saveProgress() {
+      localStorage.setItem("quizProgress6", JSON.stringify({
+        current,
+        score,
+        skipped,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
 
+    // Shuffle array
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Shuffle questions only once at initialization
+    const shuffledQuestions = shuffle([...questions]);
+
+    // Start timer
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const percentage = (current / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+    }
+
+    // Show question
+    function showQuestion(index) {
+      const q = shuffledQuestions[index];
+      const shuffledOptions = shuffle([...q.options].map((opt, i) => ({ text: opt, index: i })));
+      const options = shuffledOptions
+        .map(opt => `<button onclick="checkAnswer(this, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+        .join('');
       quizEl.innerHTML = `
         <div class="question">
           <p>Q${index + 1}. ${q.q}</p>
-          <div class="options">${optionsHTML}</div>
-          <button onclick="skipQuestion()">Skip</button>
+          <div class="options">${options}</div>
+          <button class="skip-button" onclick="skipQuestion()">Skip</button>
         </div>
       `;
+      updateProgress();
+      saveProgress();
     }
 
-    function checkAnswer(button, selected) {
-      const correct = questions[current].answer;
+    // Check answer
+    function checkAnswer(button, selected, selectedText) {
+      const q = shuffledQuestions[current];
+      const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
-
-      buttons.forEach((btn, i) => {
+      buttons.forEach((btn) => {
         btn.disabled = true;
-        if (btn.innerText === questions[current].options[correct]) {
-          btn.classList.add("correct");
-        } else if (btn === button && selected !== correct) {
-          btn.classList.add("wrong");
-        }
+        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
-      if (selected === correct) score++;
+      userAnswers[current] = selectedText;
+      if (selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Audio playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Audio playback failed"));
+      }
 
       setTimeout(() => {
         current++;
@@ -295,11 +468,15 @@
         } else {
           endQuiz();
         }
-      }, 1000);
+      }, ANSWER_DELAY);
     }
 
+    // Skip question
     function skipQuestion() {
-      skipped.push(questions[current]);
+      if (!skipped.includes(shuffledQuestions[current])) {
+        skipped.push(shuffledQuestions[current]);
+        userAnswers[current] = "Skipped";
+      }
       current++;
       if (current < questions.length) {
         showQuestion(current);
@@ -308,15 +485,38 @@
       }
     }
 
+    // End quiz and show results
     function endQuiz() {
+      clearInterval(timerInterval);
       quizEl.innerHTML = "";
-      scoreEl.innerHTML = `✅ Your score: <strong>${score} / ${questions.length}</strong>`;
-      if (skipped.length > 0) {
-        skippedEl.classList.remove("hidden");
-        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
-      }
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" :
+                         userAnswers[i] === "Skipped" ? "Skipped" :
+                         userAnswers[i];
+        const correctAnswer = q.options[q.answer];
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === "Skipped" ? "Skipped" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${q.q}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Clear localStorage
+      localStorage.removeItem("quizProgress6");
     }
 
+    // Initialize
+    loadProgress();
+    startTimer();
     showQuestion(current);
   </script>
 </body>
