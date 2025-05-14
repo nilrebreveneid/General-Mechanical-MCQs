@@ -386,7 +386,7 @@
     let timerSeconds = 0;
     let timerInterval;
     const QUESTIONS_PER_PAGE = 5;
-    const ANSWER_DELAY = 1500; // Defined but not used in checkAnswer
+    const ANSWER_DELAY = 1500;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -402,11 +402,17 @@
       const saved = localStorage.getItem("quizProgress8");
       if (saved) {
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        currentPage = savedPage;
-        score = savedScore;
-        skipped = savedSkipped;
-        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        currentPage = savedPage || 0;
+        score = savedScore || 0;
+        skipped = savedSkipped || [];
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
+      } else {
+        currentPage = 0;
+        score = 0;
+        skipped = [];
+        userAnswers = Array(questions.length).fill(null);
+        timerSeconds = 0;
       }
     }
 
@@ -435,6 +441,10 @@
 
     // Start timer
     function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -445,7 +455,8 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      const answeredOrSkipped = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answeredOrSkipped / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
     }
 
@@ -579,7 +590,9 @@
     }
 
     // Initialize
+    console.log("Initial state:", { currentPage, score, skipped, userAnswers, timerSeconds });
     loadProgress();
+    console.log("After loadProgress:", { currentPage, score, skipped, userAnswers, timerSeconds });
     startTimer();
     showQuestions(currentPage);
   </script>
