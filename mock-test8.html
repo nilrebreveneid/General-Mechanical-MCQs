@@ -231,7 +231,7 @@
       { q: "Which of the following does not have identical dimensions?", 
         options: ["Momentum & impulse", "Moment of force & angular momentum", "Force & weight", "Work & energy"], 
         answer: 1 },
-      { q: "The term ‘Centroid’ is:", 
+      { q: "The term 'Centroid' is:", 
         options: ["Same as center of gravity", "Point of suspension", "Point of rotation", "Geometric center only"], 
         answer: 0 },
       { q: "Where will the center of gravity of a uniform rod lie?", 
@@ -270,7 +270,7 @@
         options: ["0.17 kcal/kg·K", "0.21 kcal/kg·K", "0.25 kcal/kg·K", "0.30 kcal/kg·K"], 
         answer: 0 },
       { q: "The change in enthalpy of an ideal gas during an adiabatic process is:", 
-        options: ["mC_v(T₂ − T₁)", "mC_p(T₂ − T₁)", "Zero", "mR(T₂ − T₁)"], 
+        options: ["mCv(T2 - T1)", "mCp(T2 - T1)", "Zero", "mR(T2 - T1)"], 
         answer: 2 },
       { q: "Heat transferred to a closed system during an isochoric process is equal to:", 
         options: ["Change in enthalpy", "Change in internal energy", "Change in entropy", "Change in pressure"], 
@@ -372,7 +372,7 @@
         options: ["Rate of returns", "Declining balance", "Straight-line method", "Sum-of-years-digits"], 
         answer: 1 },
       { q: "What is depreciation?", 
-        options: ["Cost of a fixed asset", "Position of fixed asset’s cost consumed during the current accounting period", "Market value of asset", "Salvage value of asset"], 
+        options: ["Cost of a fixed asset", "Portion of fixed asset's cost consumed during the current accounting period", "Market value of asset", "Salvage value of asset"], 
         answer: 1 },
       { q: "Pricing of a product is based on:", 
         options: ["Total cost incurred for production", "All of the above", "Market demand", "Competitor pricing"], 
@@ -449,6 +449,16 @@
       progressEl.style.width = `${percentage}%`;
     }
 
+    // Escape special characters for JavaScript string
+    function escapeJsString(str) {
+      return str
+        .replace(/'/g, "\\'")
+        .replace(/\u2212/g, '-') // Mathematical minus to hyphen
+        .replace(/ᵥ/g, 'v')
+        .replace(/ₚ/g, 'p')
+        .replace(/\u2019/g, "'"); // Curly apostrophe to straight
+    }
+
     // Show questions for the current page
     function showQuestions(page) {
       const startIndex = page * QUESTIONS_PER_PAGE;
@@ -458,7 +468,7 @@
         const q = shuffledQuestions[i];
         const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
         const options = shuffledOptions
-          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'").replace(/ᵥ/g, 'v').replace(/ₚ/g, 'p')}')">${opt.text}</button>`)
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeJsString(opt.text)}')">${opt.text}</button>`)
           .join('');
         html += `
           <div class="question" data-index="${i}">
@@ -502,8 +512,8 @@
 
     // Skip question
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(shuffledQuestions[questionIndex])) {
-        skipped.push(shuffledQuestions[questionIndex]);
+      if (!skipped.includes(questionIndex)) {
+        skipped.push(questionIndex);
         userAnswers[questionIndex] = "Skipped";
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
