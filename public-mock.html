@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mock Test – 84 MCQs</title>
   <style>
     body {
@@ -11,7 +11,9 @@
       margin: 0;
       padding: 2rem;
       color: #333;
+      min-height: 100vh;
     }
+
     .quiz-container {
       max-width: 900px;
       margin: auto;
@@ -20,19 +22,32 @@
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
+
     h1 {
       text-align: center;
+      margin-bottom: 1rem;
+      color: #1e88e5;
     }
+
     .question {
       margin-bottom: 2rem;
       padding: 1rem;
       border: 1px solid #ddd;
       border-radius: 5px;
+      animation: fadeIn 0.5s;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     .question p {
       font-weight: bold;
       margin-bottom: 0.5rem;
+      font-size: 1.1rem;
     }
+
     .options button {
       display: block;
       margin: 0.5rem 0;
@@ -42,26 +57,70 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s;
+      font-size: 1rem;
     }
+
     .options button:hover {
       background: #bbdefb;
+      transform: translateX(5px);
     }
+
     .correct {
       background-color: #c8e6c9 !important;
+      animation: pulse 0.5s;
     }
+
     .wrong {
       background-color: #ffcdd2 !important;
+      animation: shake 0.3s;
     }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
     .feedback {
       margin-top: 0.5rem;
       font-size: 0.9rem;
       font-weight: bold;
     }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #eee;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #42a5f5;
+      transition: width 0.3s;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #d81b60;
+    }
+
     #navigation {
       text-align: center;
       margin-top: 1rem;
     }
+
     #next-btn {
       padding: 0.75rem 1.5rem;
       background: #4caf50;
@@ -70,41 +129,104 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s;
+      font-size: 1rem;
     }
+
     #next-btn:disabled {
       background: #ccc;
       cursor: not-allowed;
     }
+
     #next-btn:hover:not(:disabled) {
       background: #45a049;
     }
-    #score {
+
+    #score, #results {
       text-align: center;
       font-size: 1.2rem;
+      margin-top: 2rem;
       font-weight: bold;
-      margin-top: 2rem;
     }
-    #skipped-list {
-      margin-top: 2rem;
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
     }
+
+    .results-table th, .results-table td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #f5f5f5;
+    }
+
+    .skip-button {
+      background: #fff3cd;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      width: 100%;
+      border: 1px solid #ffca28;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .skip-button:hover {
+      background: #ffecb3;
+    }
+
     .hidden {
       display: none;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+      #next-btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="quiz-container">
     <h1>लोक सेवा आयोग – Public Management (84 MCQs)</h1>
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
     <div id="quiz"></div>
     <div id="navigation">
       <button id="next-btn" disabled>Next</button>
     </div>
-    <div id="score" class="hidden"></div>
-    <div id="skipped-list" class="hidden">
-      <h2>Skipped Questions</h2>
-      <ul id="skipped"></ul>
+    <div id="score"></div>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
     </div>
   </div>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
 
   <script>
     const questions = [
@@ -120,7 +242,7 @@
 
       // 2.1.2: कर्मचारी व्यवस्थापन (Personnel Management) - 10 MCQs
       { q: "सहायक कर्मचारी (सहायक कर्मचारी) भनेको कुन तहका कर्मचारी हुन्?", options: ['अधिकृत तहका', 'माथिल्लो तहबाट निर्देशन पालना गर्ने कर्मचारी', 'नीति निर्माता', 'प्रादेशिक कर्मचारी'], answer: 1 },
-      { q: "निजामती कर्मचारीको अवकाश उमेर कति छ?", options: ['५५ वर्ष', '५८ वर्ष', '६० वर्ष', '६२ वर्ष'], answer: 1 },
+      { q: "निजामती कर्मचारीको अवकाश उमेर कति छ?", options: ['५५ वर्ष', '५८ वर्ष', '६० वर्ष', '६२ वर्ष'], answer: 2 }, // Corrected from index 1 to 2
       { q: "कामको प्रकृतिको आधारमा कर्मचारी कसरी वर्गीकरण गरिन्छ?", options: ['स्थायी र अस्थायी', 'प्राविधिक र अप्राविधिक', 'राजपत्रांकित र अनंकित', 'अधिकृत र सहायक'], answer: 1 },
       { q: "निजामती सेवा ऐन अनुसार राजपत्रांकित कर्मचारीको उच्चतम श्रेणी कुन हो?", options: ['प्रथम श्रेणी', 'विशिष्ट श्रेणी', 'द्वितीय श्रेणी', 'तृतीय श्रेणी'], answer: 1 },
       { q: "सहायक कर्मचारीको कार्यमा कुन समावेश छैन?", options: ['अभिलेख व्यवस्थापन', 'बजेट तर्जुमा', 'सेवा प्रवाह', 'निर्देशन पालना'], answer: 1 },
@@ -234,114 +356,164 @@
     let currentPage = 0;
     let score = 0;
     let skipped = [];
-    const questionsPerPage = 5;
-    const totalPages = Math.ceil(questions.length / questionsPerPage);
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    const QUESTIONS_PER_PAGE = 5;
+    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+    const totalPages = Math.ceil(questions.length / QUESTIONS_PER_PAGE);
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
-    const skippedEl = document.getElementById("skipped-list");
-    const skippedList = document.getElementById("skipped");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
     const nextBtn = document.getElementById("next-btn");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
 
-    // Track answered and skipped questions per page
-    let answeredQuestions = new Array(questions.length).fill(false);
-    let skippedQuestions = new Array(questions.length).fill(false);
-
-    function shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
+    // Load progress from localStorage
+    function loadProgress() {
+      const saved = localStorage.getItem("quizProgress84");
+      if (saved) {
+        const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        currentPage = savedPage;
+        score = savedScore;
+        skipped = savedSkipped;
+        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
     }
 
+    // Save progress to localStorage
+    function saveProgress() {
+      localStorage.setItem("quizProgress84", JSON.stringify({
+        currentPage,
+        score,
+        skipped,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
+
+    // Shuffle array
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Shuffle questions only once at initialization
+    const shuffledQuestions = shuffle([...questions]);
+
+    // Start timer
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+    }
+
+    // Show questions for the current page
     function showQuestions(page) {
-      const start = page * questionsPerPage;
-      const end = Math.min(start + questionsPerPage, questions.length);
-      let questionsHTML = '';
-
-      for (let i = start; i < end; i++) {
-        const q = questions[i];
-        const optionsHTML = shuffle(q.options.map((opt, j) =>
-          `<button onclick="checkAnswer(${i}, this, ${j})">${opt}</button>`
-        )).join('');
-
-        questionsHTML += `
+      const startIndex = page * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let html = '';
+      for (let i = startIndex; i < endIndex; i++) {
+        const q = shuffledQuestions[i];
+        const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
+        const options = shuffledOptions
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .join('');
+        html += `
           <div class="question" id="question-${i}">
             <p>Q${i + 1}. ${q.q}</p>
-            <div class="options">${optionsHTML}</div>
-            <button onclick="skipQuestion(${i})" id="skip-btn-${i}">Skip</button>
+            <div class="options">${options}</div>
+            <button class="skip-button" id="skip-btn-${i}" onclick="skipQuestion(${i})">Skip</button>
             <div class="feedback" id="feedback-${i}"></div>
           </div>
         `;
       }
-
-      quizEl.innerHTML = questionsHTML;
-      updateNextButtonState(page);
+      quizEl.innerHTML = html;
+      updateProgress();
+      saveProgress();
+      checkNextButton();
     }
 
-    function checkAnswer(index, button, selected) {
-      const correct = questions[index].answer;
-      const questionEl = document.getElementById(`question-${index}`);
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuestions[questionIndex];
+      const correct = q.answer;
+      const questionEl = document.getElementById(`question-${questionIndex}`);
       const buttons = questionEl.querySelectorAll(".options button");
-      const feedbackEl = document.getElementById(`feedback-${index}`);
-      const skipBtn = document.getElementById(`skip-btn-${index}`);
+      const feedbackEl = document.getElementById(`feedback-${questionIndex}`);
+      const skipBtn = document.getElementById(`skip-btn-${questionIndex}`);
 
-      // Disable all option buttons and the skip button for this question
-      buttons.forEach((btn, i) => {
+      buttons.forEach((btn) => {
         btn.disabled = true;
-        if (btn.innerText === questions[index].options[correct]) {
-          btn.classList.add("correct");
-        } else if (btn === button && selected !== correct) {
-          btn.classList.add("wrong");
-        }
+        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
       skipBtn.disabled = true;
 
-      // Provide instant feedback
+      userAnswers[questionIndex] = selectedText;
       if (selected === correct) {
+        score++;
         feedbackEl.innerHTML = "✅ Correct!";
         feedbackEl.style.color = "#388e3c";
-        score++;
+        correctSound.play().catch(() => console.log("Audio playback failed"));
       } else {
-        feedbackEl.innerHTML = "❌ Wrong! Correct answer: " + questions[index].options[correct];
+        feedbackEl.innerHTML = `❌ Wrong! Correct answer: ${q.options[correct]}`;
         feedbackEl.style.color = "#d32f2f";
+        wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      // Mark this question as answered
-      answeredQuestions[index] = true;
-      updateNextButtonState(currentPage);
+      saveProgress();
+      checkNextButton();
     }
 
-    function skipQuestion(index) {
-      const questionEl = document.getElementById(`question-${index}`);
+    // Skip question
+    function skipQuestion(questionIndex) {
+      if (!skipped.includes(shuffledQuestions[questionIndex])) {
+        skipped.push(shuffledQuestions[questionIndex]);
+        userAnswers[questionIndex] = "Skipped";
+      }
+      const questionEl = document.getElementById(`question-${questionIndex}`);
       const buttons = questionEl.querySelectorAll(".options button");
-      const skipBtn = document.getElementById(`skip-btn-${index}`);
-
-      // Disable all option buttons and the skip button for this question
+      const skipBtn = document.getElementById(`skip-btn-${questionIndex}`);
       buttons.forEach(btn => btn.disabled = true);
       skipBtn.disabled = true;
 
-      // Mark as skipped if not already answered
-      if (!answeredQuestions[index]) {
-        skippedQuestions[index] = true;
-        skipped.push(questions[index]);
-      }
-
-      updateNextButtonState(currentPage);
+      saveProgress();
+      checkNextButton();
     }
 
-    function updateNextButtonState(page) {
-      const start = page * questionsPerPage;
-      const end = Math.min(start + questionsPerPage, questions.length);
-      let allAnsweredOrSkipped = true;
-
-      for (let i = start; i < end; i++) {
-        if (!answeredQuestions[i] && !skippedQuestions[i]) {
-          allAnsweredOrSkipped = false;
+    // Check if all questions on the page are answered or skipped
+    function checkNextButton() {
+      const startIndex = currentPage * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let allAnswered = true;
+      for (let i = startIndex; i < endIndex; i++) {
+        if (userAnswers[i] === null) {
+          allAnswered = false;
           break;
         }
       }
-
-      nextBtn.disabled = !allAnsweredOrSkipped;
+      nextBtn.disabled = !allAnswered;
     }
 
+    // Move to next page
     function nextPage() {
       currentPage++;
       if (currentPage < totalPages) {
@@ -351,21 +523,41 @@
       }
     }
 
+    // End quiz and show results
     function endQuiz() {
+      clearInterval(timerInterval);
       quizEl.innerHTML = "";
       nextBtn.classList.add("hidden");
-      scoreEl.classList.remove("hidden");
-      scoreEl.innerHTML = `✅ Your score: <strong>${score} / ${questions.length}</strong>`;
-      if (skipped.length > 0) {
-        skippedEl.classList.remove("hidden");
-        skippedList.innerHTML = skipped.map((q, i) => `<li>${i + 1}. ${q.q}</li>`).join('');
-      }
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" :
+                         userAnswers[i] === "Skipped" ? "Skipped" :
+                         userAnswers[i];
+        const correctAnswer = q.options[q.answer];
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === "Skipped" ? "Skipped" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${q.q}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Clear localStorage
+      localStorage.removeItem("quizProgress84");
     }
 
-    nextBtn.addEventListener("click", nextPage);
-
-    // Show the first page of questions
+    // Initialize
+    loadProgress();
+    startTimer();
     showQuestions(currentPage);
+    nextBtn.addEventListener("click", nextPage);
   </script>
 </body>
 </html>
