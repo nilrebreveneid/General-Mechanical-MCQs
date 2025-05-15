@@ -74,6 +74,14 @@
       animation: shake 0.3s;
     }
 
+    .skipped {
+      background-color: #fff3cd !important;
+    }
+
+    .notattempted {
+      background-color: #f5f5f5 !important;
+    }
+
     @keyframes pulse {
       0% { transform: scale(1); }
       50% { transform: scale(1.05); }
@@ -349,7 +357,7 @@
         answer: 1 },
       { q: "Which is the false statement?", 
         options: ["Speed is a vector quantity.", "Velocity is a vector quantity.", "Acceleration is a vector quantity.", "Velocity has both the magnitude and direction."], 
-        answer: 3 },
+        answer: 0 },
       { q: "For maximum range of a projectile the angle of projection should be", 
         options: ["90°", "30°", "45°", "15°"], 
         answer: 2 },
@@ -369,12 +377,11 @@
 
     let currentPage = 0;
     let score = 0;
-    let skipped = [];
+    let skipped = new Set();
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
     let timerInterval;
     const QUESTIONS_PER_PAGE = 5;
-    const ANSWER_DELAY = 1500; // 1.5 seconds delay
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -392,7 +399,7 @@
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
         currentPage = savedPage;
         score = savedScore;
-        skipped = savedSkipped;
+        skipped = new Set(savedSkipped || []);
         userAnswers = savedAnswers || Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
       }
@@ -403,7 +410,7 @@
       localStorage.setItem("quizProgress", JSON.stringify({
         currentPage,
         score,
-        skipped,
+        skipped: Array.from(skipped),
         answers: userAnswers,
         time: timerSeconds
       }));
@@ -418,8 +425,17 @@
       return array;
     }
 
-    // Shuffle questions only once at initialization
-    const shuffledQuestions = shuffle([...questions]);
+    // Escape special characters in strings
+    function escapeHTML(str) {
+      const htmlEntities = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      };
+      return str.replace(/[&<>"']/g, match => htmlEntities[match]);
+    }
 
     // Start timer
     function startTimer() {
@@ -431,48 +447,69 @@
       }, 1000);
     }
 
-    // Update progress bar
+    // Update progress bar based on answered questions
     function updateProgress() {
-      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      const answeredQuestions = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answeredQuestions / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
     }
 
     // Show questions for the current page
     function showQuestions(page) {
+      console.log(`Rendering questions for page ${page}`);
       const startIndex = page * QUESTIONS_PER_PAGE;
       const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
       let html = '';
-      for (let i = startIndex; i < endIndex; i++) {
-        const q = shuffledQuestions[i];
-        const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
-        const options = shuffledOptions
-          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
-          .join('');
-        html += `
-          <div class="question" data-index="${i}">
-            <p>Q${i + 1}. ${q.q}</p>
-            <div class="options">${options}</div>
-            <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
-          </div>
-        `;
+      
+      try {
+        for (let i = startIndex; i < endIndex; i++) {
+          const q = questions[i]; // Use original questions array instead of shuffledQuestions for consistency
+          console.log(`Rendering question ${i + 1}: ${q.q}`);
+          
+          const options = q.options.map((opt, j) => ({
+            text: opt,
+            index: j
+          }));
+          
+          const optionsHtml = options
+            .map(opt => `<button data-index="${opt.index}" onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeHTML(opt.text)}')">${escapeHTML(opt.text)}</button>`)
+            .join('');
+          
+          html += `
+            <div class="question" data-index="${i}">
+              <p>Q${i + 1}. ${escapeHTML(q.q)}</p>
+              <div class="options">${optionsHtml}</div>
+              <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
+            </div>
+          `;
+        }
+        
+        if (endIndex < questions.length) {
+          html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+        }
+        
+        console.log("Generated HTML:", html);
+        quizEl.innerHTML = html;
+        updateProgress();
+        saveProgress();
+        checkNextButton();
+      } catch (error) {
+        console.error("Error rendering questions:", error);
+        quizEl.innerHTML = "<p>Error loading questions. Please refresh the page.</p>";
       }
-      if (endIndex < questions.length) {
-        html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
-      }
-      quizEl.innerHTML = html;
-      updateProgress();
-      saveProgress();
-      checkNextButton();
     }
 
     // Check answer
     function checkAnswer(button, questionIndex, selected, selectedText) {
-      const q = shuffledQuestions[questionIndex];
+      console.log(`Checking answer for question ${questionIndex + 1}: Selected ${selectedText}`);
+      const q = questions[questionIndex];
       const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
+      
       buttons.forEach((btn) => {
+        const btnIndex = parseInt(btn.getAttribute("data-index"));
         btn.disabled = true;
-        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btnIndex === correct) btn.classList.add("correct");
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
@@ -490,14 +527,17 @@
 
     // Skip question
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(shuffledQuestions[questionIndex])) {
-        skipped.push(shuffledQuestions[questionIndex]);
+      console.log(`Skipping question ${questionIndex + 1}`);
+      if (!skipped.has(questionIndex)) {
+        skipped.add(questionIndex);
         userAnswers[questionIndex] = "Skipped";
+        const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`)?.querySelectorAll("button");
+        if (buttons) {
+          buttons.forEach(btn => btn.disabled = true);
+        }
+        saveProgress();
+        checkNextButton();
       }
-      const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
-      buttons.forEach(btn => btn.disabled = true);
-      saveProgress();
-      checkNextButton();
     }
 
     // Check if all questions on the page are answered or skipped
@@ -519,8 +559,10 @@
 
     // Move to next page
     function nextPage() {
-      currentPage++;
-      if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+      console.log(`Moving to next page: ${currentPage + 1}`);
+      const totalPages = Math.ceil(questions.length / QUESTIONS_PER_PAGE);
+      if (currentPage + 1 < totalPages) {
+        currentPage++;
         showQuestions(currentPage);
       } else {
         endQuiz();
@@ -529,12 +571,13 @@
 
     // End quiz and show results
     function endQuiz() {
+      console.log("Ending quiz");
       clearInterval(timerInterval);
       quizEl.innerHTML = "";
       scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
       resultsEl.classList.remove("hidden");
 
-      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+      resultsBody.innerHTML = questions.map((q, i) => {
         const userAnswer = userAnswers[i] === null ? "Not attempted" :
                          userAnswers[i] === "Skipped" ? "Skipped" :
                          userAnswers[i];
@@ -544,19 +587,19 @@
                       userAnswers[i] === null ? "Not attempted" : "Wrong";
         return `
           <tr>
-            <td>${i + 1}. ${q.q}</td>
-            <td>${userAnswer}</td>
-            <td>${correctAnswer}</td>
-            <td class="${status.toLowerCase()}">${status}</td>
+            <td>${i + 1}. ${escapeHTML(q.q)}</td>
+            <td>${escapeHTML(userAnswer)}</td>
+            <td>${escapeHTML(correctAnswer)}</td>
+            <td class="${status.toLowerCase().replace(/\s/g, '')}">${status}</td>
           </tr>
         `;
       }).join('');
 
-      // Clear localStorage
       localStorage.removeItem("quizProgress");
     }
 
     // Initialize
+    console.log("Initializing quiz");
     loadProgress();
     startTimer();
     showQuestions(currentPage);
