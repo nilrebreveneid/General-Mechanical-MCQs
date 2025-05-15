@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test – 50 Questions (Key C)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #1e88e5;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+
+    .question p {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 1rem;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test 2078 – 50 Questions (Key C)</h1>
+    <div id="quiz"></div>
+  </div>
+
+  <script>
+    const questions = [
+      // Key C – Page 1
+      { q: "Which of the following layouts is suited for mass production?", 
+        options: ["Process Layout", "Product Layout", "Fixed Position Layout", "Plant Layout"], 
+        answer: 1 },
+      { q: "The weight of copper of both armature and field windings decreases with … in number of poles.", 
+        options: ["increase", "decrease", "both A and B", "none of the above"], 
+        answer: 1 },
+      { q: "The deciding factor in selection of DC motor for particular application is its …… characteristics.", 
+        options: ["speed-torque", "speed-armature current", "torque-armature current", "all of the above"], 
+        answer: 0 },
+      { q: "Open circuit test on transformer measures", 
+        options: ["insulation resistance", "voltage regulation", "core loss", "copper loss"], 
+        answer: 1 },
+      { q: "The biggest loss in the boiler is", 
+        options: ["moisture in fuel", "dry in flue gases", "steam formation", "unburnt carbon"], 
+        answer: 1 },
+      { q: "An economiser in a boiler", 
+        options: ["increases steam pressure", "increases steam flow", "decreases fuel consumption", "decreases steam pressure"], 
+        answer: 2 },
+      { q: "Which of the boiler is best suitable to meet the fluctuating demand of steam?", 
+        options: ["Lancashire boiler", "Locomotive boiler", "Cornish boiler", "Babcock boiler"], 
+        answer: 1 },
+      { q: "The pressure of steam in the engine cylinder at the beginning of the stroke is …… the boiler pressure.", 
+        options: ["equal to", "less than", "higher than", "none of the above"], 
+        answer: 1 },
+      { q: "In economiser, feed water is heated by", 
+        options: ["waste flue gas of the boiler", "exhaust steam of the turbine", "fresh steam of the turbine", "all of the above"], 
+        answer: 3 },
+      { q: "Cochran boiler is a", 
+        options: ["horizontal fire tube type", "horizontal water tube type", "vertical water tube type", "vertical fire tube type"], 
+        answer: 3 },
+      { q: "The fittings mounted on the boiler for its proper and safe functioning is a", 
+        options: ["water level indicator", "pressure gauge", "safety valve", "all of the above"], 
+        answer: 3 },
+      { q: "Amortization means", 
+        options: ["payment on installment basis", "liquidation of an industry", "liquidation of financial obligation on installment basis", "none of the above"], 
+        answer: 3 },
+      { q: "Break-even analysis can be used for", 
+        options: ["short run analysis", "long run analysis", "average run analysis", "none of the above"], 
+        answer: 0 },
+      { q: "Depreciation of machines, according to income tax regulation is calculated on the basis of following method", 
+        options: ["rate of returns", "sinking fund", "declining balance", "machine hour"], 
+        answer: 2 },
+      { q: "In straight line depreciation method, value of depreciation …", 
+        options: ["remains same in all year", "decreases with time", "increases with time", "none of the above"], 
+        answer: 0 },
+
+      // Key C – C-2 Mechanical
+      { q: "Effect of a force on a body depends upon", 
+        options: ["magnitude", "direction", "position or line of action", "all of the above"], 
+        answer: 3 },
+      { q: "Two non-collinear parallel equal forces in opposite direction:", 
+        options: ["balance each other", "constitute a moment", "constitute a couple", "constitute a moment of couple"], 
+        answer: 2 },
+      { q: "Coefficient of friction depends upon", 
+        options: ["Nature of surfaces only", "Area of contact only", "Both A and B", "None of the above"], 
+        answer: 0 },
+      { q: "Joule is the unit of", 
+        options: ["power", "impulse", "work", "momentum"], 
+        answer: 2 },
+      { q: "A rigid body is in a stable equilibrium if the application of any force", 
+        options: ["can rise the CG of the body but cannot lower it", "tends to lower the CG of the body", "neither raises nor lowers the CG of the body", "none of the above"], 
+        answer: 0 },
+      { q: "In actual machines mechanical advantage is", 
+        options: ["unity", "less than unity", "less than velocity ratio", "greater than velocity ratio"], 
+        answer: 1 },
+      { q: "The point, through which the whole weight of the body acts, irrespective of its position, is known as", 
+        options: ["moment of inertia", "center of gravity", "center of percussion", "center of mass"], 
+        answer: 1 },
+      { q: "A structure which offers negligible or zero resistance on bending at any point is known as", 
+        options: ["beam", "girder", "rod", "cable or string"], 
+        answer: 3 },
+      { q: "Due to the creep of belts, in a belt driven system there will be", 
+        options: ["loss of motion", "loss of power to be transmitted", "extra movement of belt as compared to the follower", "All of the above"], 
+        answer: 3 },
+      { q: "Which of the following is not scalar quantity?", 
+        options: ["Time", "Mass", "Density", "Acceleration"], 
+        answer: 3 },
+      { q: "According to Civil Service Act 2049, who appoints the gazetted officers?", 
+        options: ["Public Service Commission", "Government of Nepal", "State Government", "Finance Ministry"], 
+        answer: 1 },
+      { q: "Which are the commonly used angle of projection in engineering drawing?", 
+        options: ["1st and 2nd", "2nd and 3rd", "3rd and 4th", "1st and 3rd"], 
+        answer: 3 },
+      { q: "A circle will appear on isometric drawings as an", 
+        options: ["ellipse", "cycloid", "circle", "parabola"], 
+        answer: 0 },
+      { q: "In order to create assembly drawing the drafter should create the …… drawing first.", 
+        options: ["Detail", "Title block", "Parts list", "Isometric"], 
+        answer: 2 },
+      { q: "When the projectors are parallel to each other and also perpendicular to the plane, the projection is called", 
+        options: ["Orthographic projection", "Isometric projection", "Isometric drawing", "None of the above"], 
+        answer: 0 },
+      { q: "The distance a screw thread advances axially in one turn is the", 
+        options: ["lead", "pitch", "thread", "crest"], 
+        answer: 0 },
+      { q: "In thread joints the term ‘lead’ is defined as the", 
+        options: ["distance of one turn", "the distance measured parallel to axis", "distance of screw advancement in one turn", "straight portion of the surface"], 
+        answer: 2 },
+      { q: "Which of the following is not a welded joint used practically?", 
+        options: ["Butt joint", "Lap joint", "Tree joint", "Edge joint"], 
+        answer: 2 },
+      { q: "In diesel engine, fuel is admitted at the", 
+        options: ["beginning of suction stroke", "beginning of compression stroke", "end of compression stroke", "before suction stroke"], 
+        answer: 2 },
+
+      // Key C – C-3 Planning/General Mechanical
+      { q: "A gas undergoes step 4 in Carnot cycle. Which of these processes describes the 2nd step?", 
+        options: ["Isentropic expansion", "Isentropic compression", "Isothermal expansion", "Isothermal compression"], 
+        answer: 1 },
+      { q: "Thermal power plants operate on which of these cycles?", 
+        options: ["Otto cycle", "Rankine cycle", "Carnot cycle", "Stirling cycle"], 
+        answer: 1 },
+      { q: "All heat engines utilize", 
+        options: ["higher value of oil", "net calorific value of oil", "calorific value of oil", "none of the above"], 
+        answer: 1 },
+      { q: "Carnot cycle has maximum efficiency for", 
+        options: ["reversible engine", "irreversible engine", "diesel engine", "petrol engine"], 
+        answer: 0 },
+      { q: "The crown of the fire box is made hemispherical in order to", 
+        options: ["give maximum strength", "give maximum volume", "withstand pressure inside boiler", "resist intense heat in fire box"], 
+        answer: 3 },
+      { q: "Water at standard atmospheric conditions …", 
+        options: ["behaves as an ideal gas", "is mostly liquid", "is far above its critical state", "is far below its critical state"], 
+        answer: 1 },
+      { q: "The increase in entropy of a system represents", 
+        options: ["increase in availability of energy", "increase in temperature", "decrease in pressure", "degradation of energy"], 
+        answer: 3 },
+      { q: "General gas equation is", 
+        options: ["PV = nRT", "PV = mRT", "PV = K/RT", "PV = C"], 
+        answer: 1 },
+      { q: "Superheated vapour behaves", 
+        options: ["exactly as gas", "as steam", "as ordinary vapour", "approximately as gas"], 
+        answer: 3 },
+      { q: "In an isothermal process …", 
+        options: ["temperature is constant", "pressure is constant", "internal energy is constant", "enthalpy is constant"], 
+        answer: 0 },
+      { q: "Change in enthalpy of a system is the heat supplied at", 
+        options: ["constant pressure", "constant temperature", "constant volume", "constant entropy"], 
+        answer: 2 },
+      { q: "ILO ensures the right of worker by developing labour standards, policies and programs in coordination with", 
+        options: ["Government and employer", "Employer and employees", "Government and employers", "Government, employer and employee"], 
+        answer: 3 },
+      { q: "Labor Act stated that the employees are eligible for over time at a rate of ….. time of ordinary wages, if they work more than 48 hours per week", 
+        options: ["1.2", "1.5", "1.8", "2"], 
+        answer: 3 },
+      { q: "According to the Labour Act, 2074, no employer shall employ laborer to work more than …", 
+        options: ["8 hours a day and 48 hours a week", "8 hours a day and 44 hours a week", "7 hours a day and 49 hours a week", "None of the above"], 
+        answer: 0 },
+      { q: "Highest percentage of child labor is found in Nepal in which sector?", 
+        options: ["Industrial sector", "Agricultural sector", "Domestic sector", "Medical sector"], 
+        answer: 1 },
+      { q: "Which of the following is independent of sales forecast?", 
+        options: ["Productivity", "Inventory control", "Production planning", "Production control"], 
+        answer: 0 }
+    ];
+
+    const quizEl = document.getElementById("quiz");
+
+    // Escape special characters in strings
+    function escapeHTML(str) {
+      const htmlEntities = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      };
+      return str.replace(/[&<>"']/g, match => htmlEntities[match]);
+    }
+
+    // Show all questions
+    function showQuestions() {
+      console.log("Rendering all questions");
+      let html = '';
+
+      try {
+        questions.forEach((q, i) => {
+          console.log(`Rendering question ${i + 1}: ${q.q}`);
+          const optionsHtml = q.options
+            .map((opt, j) => `<button data-index="${j}" onclick="checkAnswer(this, ${i}, ${j}, '${escapeHTML(opt)}')">${escapeHTML(opt)}</button>`)
+            .join('');
+
+          html += `
+            <div class="question" data-index="${i}">
+              <p>Q${i + 1}. ${escapeHTML(q.q)}</p>
+              <div class="options">${optionsHtml}</div>
+            </div>
+          `;
+        });
+
+        console.log("Generated HTML:", html);
+        quizEl.innerHTML = html;
+      } catch (error) {
+        console.error("Error rendering questions:", error);
+        quizEl.innerHTML = "<p>Error loading questions. Please check the console for details.</p>";
+      }
+    }
+
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      console.log(`Checking answer for question ${questionIndex + 1}: Selected ${selectedText}`);
+      const q = questions[questionIndex];
+      const correct = q.answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+
+      buttons.forEach((btn) => {
+        const btnIndex = parseInt(btn.getAttribute("data-index"));
+        btn.disabled = true;
+        if (btnIndex === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
+      });
+    }
+
+    // Initialize
+    console.log("Initializing quiz");
+    showQuestions();
+  </script>
+</body>
+</html>
