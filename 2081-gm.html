@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test – 50 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #1e88e5;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+      animation: fadeIn 0.5s;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .question p {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+      transform: translateX(5px);
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+      animation: pulse 0.5s;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+      animation: shake 0.3s;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #eee;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: #42a5f5;
+      transition: width 0.3s;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #d81b60;
+    }
+
+    #score, #results {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #f5f5f5;
+    }
+
+    .skip-button {
+      background: #fff3cd;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      width: 100%;
+      border: 1px solid #ffca28;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .skip-button:hover {
+      background: #ffecb3;
+    }
+
+    .next-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .next-button:hover {
+      background: #1e88e5;
+    }
+
+    .next-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test – 50 Questions</h1>
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div id="quiz"></div>
+    <div id="score"></div>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Your Answer</th>
+            <th>Correct Answer</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+
+  <script>
+    const questions = [
+      // सामान्य ज्ञान र सार्वजनिक व्यवस्थापन (Questions 1-20)
+      { q: "नेपालमा समुन्द्र सतहबाट कति मिटरको उचाईमा हावामा पर्ने हावापातलाई ठण्डा हावापातमा राखिन्छ?", 
+        options: ["1200–1500 मिटर", "2000–2500 मिटर", "3000–4000 मिटर", "5000 मिटरभन्दा माथि"], 
+        answer: 2 },
+      { q: "निलम्बित वा भाग मानिने सरकारी सेवाबाट सम्बन्ध कायम गर्ने अनुशासनको के भनिन्छ?", 
+        options: ["डाँको अधिकार", "फुलवा अधिकार", "चाकडी अधिकार", "मापदण्ड"], 
+        answer: 1 },
+      { q: "तेस्रो पञ्चवर्षीय योजनाको अन्तरगत नेपाली नागरिकको प्रतिव्यक्ति कुल राष्ट्रिय आय कति पु¥याउने लक्ष्य राखिएको थियो?", 
+        options: ["४०५० अमेरिकी डलर", "३२५० अमेरिकी डलर", "४५०० अमेरिकी डलर", "३७५० अमेरिकी डलर"], 
+        answer: 2 },
+      { q: "कुन विकास सूचकांकले शिक्षाको तात्त्विक दरलाई राखेको छ?", 
+        options: ["९९९", "९६६", "३७", "३५"], 
+        answer: 1 },
+      { q: "Microscope का पिता भन्ने कसलाई चिनिन्छ?", 
+        options: ["एण्टोनी भेन ल्युवनहोक", "रॉबर्ट हुक", "अलेसजेन्डर ग्राहम बेल", "थोमस अल्वा एडिसन"], 
+        answer: 2 },
+      { q: "रोग लाग्नुअगाडि नै गरिने रोकथामको उपायलाई के भनिन्छ?", 
+        options: ["प्राथमिक रोकथाम", "माध्यमिक रोकथाम", "तृतीय रोकथाम", "प्रारम्भिक उपचार"], 
+        answer: 0 },
+      { q: "नेपालको संविधानको अनुसूची ८ अनुसार कृषिको प्रयोगशाला कार्यको अधिकार कुन तहमा राखिएको छ?", 
+        options: ["१०", "८", "२३", "१४"], 
+        answer: 0 },
+      { q: "विश्व खाद्य तथा कृषि संगठन (FAO) को प्रधान कार्यालय कुन देशमा रहेको छ?", 
+        options: ["फ्रान्स", "स्विट्जरल्याण्ड", "अमेरिका", "इटाली"], 
+        answer: 2 },
+      { q: "स्थायी समितिमा सहभागी हुने व्यवस्था कहाँ गरिएको छ?", 
+        options: ["राष्ट्र प्रमुखबाट", "परराष्ट्र (विदेश) मन्त्रीबाट", "निर्वाचन आयोगबाट", "परराष्ट्र सचिवबाट"], 
+        answer: 1 },
+      { q: "सन् २०२३ को लागि Nobel Peace Prize निम्नमध्ये कसलाई प्रदान गरिएको हो?", 
+        options: ["Drew Weissman", "Narges Mohammadi", "Jon Fosse", "Claudia Goldin"], 
+        answer: 1 },
+      { q: "कार्यालय श्रम साधन (Office Resources) अन्तर्गत तलको मध्ये कुन पर्दछ/पर्दैन?", 
+        options: ["बजेट", "कर्मचारी", "कानुन", "मापदण्ड सबै"], 
+        answer: 1 },
+      { q: "निजामती सेवा ऐन, २०४९ अनुसार कुनै निजामती कर्मचारीलाई आरोग्य प्रमाणपत्र बिनाको आधारमा अनिश्चितकालीन बिदा दिनु पर्ने व्यवस्था कहाँ छ?", 
+        options: ["तलब दिनु", "२ वर्षभन्दा ५ महिनासम्म बिदा थप्न सकिने", "सेवाबाट हटाउने", "सेवाबाट बर्खास्त गर्ने"], 
+        answer: 2 },
+      { q: "सङ्घीय मामिला तथा सामान्य प्रशासन मन्त्रालयको कार्यक्षेत्र तलका मध्ये कुन होईन?", 
+        options: ["सङ्ग र सत्तरी तह तथा प्रदेश र स्थानीय तहबीच समन्वय", "सेवासम्बन्धी कानुनी, नीति मापदण्ड", "विदेशी सरसामान र अन्तर्राष्ट्रिय सहयोगको कार्य", "निजामती सेवा व्यवस्थापन नीति, मापदण्ड"], 
+        answer: 0 },
+      { q: "नेपालको संविधानमा संघीयतन्त्रको निगमन पश्चात् राष्ट्रपति र उपराष्ट्रपतिका प्रति उत्तरदायित्व र जवाफदेहिता सुनिश्चित व्यवस्था गरिएको छ", 
+        options: ["संघीय संसदबाट", "राष्ट्रपतिबाट", "सर्वोच्च अदालतबाट", "मन्त्रीपरिषद्बाट"], 
+        answer: 1 },
+      { q: "नेपालमा चलनचल्तीमा भएको संवैधानिक सभा निर्वाचन कहिले भएको थियो?", 
+        options: ["वि.सं. २०६०", "वि.सं. २०६४", "वि.सं. २०६५", "वि.सं. २०६६"], 
+        answer: 2 },
+      { q: "कार्यालयमा प्राप्त छुट्टी पश्चात् पुनः उपस्थित रहने कार्यलाई के भनिन्छ?", 
+        options: ["दर्ता", "उपस्थिति", "टिप्पणी", "पत्र व्यवस्था"], 
+        answer: 2 },
+      { q: "निजामती सेवा नियमावली, २०५० अनुसार नेपाल इन्जिनियरिङ्ग सेवा अन्तर्गत कति उपसमूह गठन गरिएको छ?", 
+        options: ["८", "१२", "१५", "१६"], 
+        answer: 2 },
+      { q: "सुशासनको आयाम (Dimension) तलका मध्ये कुन होईन?", 
+        options: ["जवाफदेहिता", "पारदर्शिता", "उत्तरदायित्व", "सेवाग्राहीका लागि उत्कृष्टता"], 
+        answer: 1 },
+      { q: "जसबाट प्रेरणा बढाउन Hierarchy of Needs Theory को प्रतिपादन गर्ने को हुन्?", 
+        options: ["McGregor", "Abraham Maslow", "Frederick Herzberg", "Frederic Winslow Taylor"], 
+        answer: 1 },
+      { q: "नेपालको संविधान अनुसार नागरिकको कर्तव्य अन्तर्गत तलका कुन पर्दैन?", 
+        options: ["सामाजिक सदाचार कायम गर्नु", "राज्यले चाहेको बमोजिम अनिवार्य सेवा गर्नु", "विधिको शासनको पालना गर्नु", "सार्वजनिक सम्पत्तिको सुरक्षा र संरक्षण गर्नु"], 
+        answer: 1 },
+
+      // सेवा सम्बन्धी तथ्य-ज्ञान (Questions 21-50)
+      { q: "Which of the following is not a drawing symbol?", 
+        options: ["Ø", "D", "R", "Ψ"], 
+        answer: 3 },
+      { q: "In machine drawing, which of the following joints is considered as permanent joints?", 
+        options: ["Screws", "Brazing", "Key", "Cotter and Pin"], 
+        answer: 1 },
+      { q: "In which type of projections are the three dimensional objects projected on a picture plane?", 
+        options: ["Isometric drawing", "Orthographic projection", "Isometric projection", "Schematic illustration"], 
+        answer: 1 },
+      { q: "Orthographic projection is drawn using two methods. They are …", 
+        options: ["second angle and third angle method", "first angle and third angle method", "first angle and fourth angle method", "second angle and fourth angle method"], 
+        answer: 1 },
+      { q: "The fuel in diesel engine is ignited by", 
+        options: ["spark plug", "injector", "compressed air temperature property", "glow plug"], 
+        answer: 1 },
+      { q: "A steam engine comes under the category of", 
+        options: ["external combustion engines", "internal combustion engines", "both A and B", "none of the above"], 
+        answer: 0 },
+      { q: "For the same temperature limits and heat input, the most efficient cycle is", 
+        options: ["Brayton", "Carnot", "Diesel", "Otto"], 
+        answer: 1 },
+      { q: "Heat does not spontaneously flow from a colder body to hotter one. Which of the following thermodynamics law states this?", 
+        options: ["Zeroth law of thermodynamics", "First law of thermodynamics", "Second law of thermodynamics", "Third law of thermodynamics"], 
+        answer: 2 },
+      { q: "When the gas is heated at constant volume, the heat supplied", 
+        options: ["increases the internal energy of the gas", "decreases the temperature of the gas", "does some external work during expansion", "does not change anything in the system"], 
+        answer: 0 },
+      { q: "Change in enthalpy of a system is due to heat supplied at", 
+        options: ["constant volume", "constant pressure", "both A and B", "none of the above"], 
+        answer: 1 },
+      { q: "If a heat engine takes 600J of heat from hot reservoir and produces 360J of work in each cycle, then efficiency of heat engine will be", 
+        options: ["62.5%", "60%", "58%", "56%"], 
+        answer: 0 },
+      { q: "Which of the following is not basic function of ICAO?", 
+        options: ["To set standards and policies for civil aviation", "To serve as a clearinghouse for cooperation and discussion on civil aviation issues among its member states", "To foster the planning and development of the international air transport system", "To set standard for employees working condition"], 
+        answer: 3 },
+      { q: "The magnitude of electric shock on human body depends upon", 
+        options: ["the line voltage", "the line current", "the line current and line voltage", "current flowing through the human body"], 
+        answer: 3 },
+      { q: "When was International Labour Organization established?", 
+        options: ["1910 AD", "1919 AD", "1935 AD", "1945 AD"], 
+        answer: 1 },
+      { q: "The starting motor used in vehicle is", 
+        options: ["an AC motor", "a DC motor", "the combination of both AC and DC motor", "none of the above"], 
+        answer: 1 },
+      { q: "For starting a DC motor, a starter is required because", 
+        options: ["it limits the speed of the motor", "it limits the starting current to a safe value", "it starts the motor", "none of the above"], 
+        answer: 1 },
+      { q: "Which of the following is a part of a generator?", 
+        options: ["An internal combustion engine", "An alternator", "A starter", "All of the above"], 
+        answer: 3 },
+      { q: "Boiler efficiency is related to", 
+        options: ["boiler energy output to the boiler energy input", "boiler steam output to the boiler water input", "water input temperature to steam output temperature", "fuel consumption to the steam output"], 
+        answer: 0 },
+      { q: "The maximum heat loss in a boiler occurs due to", 
+        options: ["moisture in fuel", "dry flue gases", "steam formation", "unburnt carbon"], 
+        answer: 1 },
+      { q: "Water and sediment in fuel oil can be removed by", 
+        options: ["heating the oil in the settling tanks", "cooling the oil in the settling tanks", "burning the oil", "suspension"], 
+        answer: 0 },
+      { q: "Depreciation occurs due to", 
+        options: ["fall in the market value of an asset", "physical wear and tear of an asset", "increase in the value of liabilities", "reduction in capital"], 
+        answer: 1 },
+      { q: "The cost incurred to acquire or manufacture a product is known as", 
+        options: ["period cost", "product cost", "admin cost", "real cost"], 
+        answer: 3 },
+      { q: "A graphic device used to determine the break-even point and profit potential under varying conditions of output and cost is known as", 
+        options: ["Gantt chart", "flow chart", "PERT chart", "break-even chart"], 
+        answer: 3 },
+      { q: "The friction experienced by an object at rest is", 
+        options: ["dynamic friction", "static friction", "rolling friction", "coefficient of friction"], 
+        answer: 1 },
+      { q: "Which is the false statement?", 
+        options: ["Speed is a vector quantity.", "Velocity is a vector quantity.", "Acceleration is a vector quantity.", "Velocity has both the magnitude and direction."], 
+        answer: 3 },
+      { q: "For maximum range of a projectile the angle of projection should be", 
+        options: ["90°", "30°", "45°", "15°"], 
+        answer: 2 },
+      { q: "Rate of doing work is called", 
+        options: ["power", "energy", "work", "force"], 
+        answer: 0 },
+      { q: "The product of the moment of inertia and the angular acceleration is", 
+        options: ["force", "torque", "work", "angular momentum"], 
+        answer: 1 },
+      { q: "If a body is moving along a circular path of radius(r) and with angular acceleration (φ), then its linear acceleration is given by", 
+        options: ["r/φ", "rφ²", "φ/r", "rφ"], 
+        answer: 1 },
+      { q: "In curvilinear motion on a curve with a radius of curvature of θ, what is the normal component of acceleration?", 
+        options: ["a²/t", "v²/θ", "θ/v", "dv/dt"], 
+        answer: 1 }
+    ];
+
+    let currentPage = 0;
+    let score = 0;
+    let skipped = [];
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    const QUESTIONS_PER_PAGE = 5;
+    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
+
+    // Load progress from localStorage
+    function loadProgress() {
+      const saved = localStorage.getItem("quizProgress");
+      if (saved) {
+        const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        currentPage = savedPage;
+        score = savedScore;
+        skipped = savedSkipped;
+        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
+    }
+
+    // Save progress to localStorage
+    function saveProgress() {
+      localStorage.setItem("quizProgress", JSON.stringify({
+        currentPage,
+        score,
+        skipped,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
+
+    // Shuffle array
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Shuffle questions only once at initialization
+    const shuffledQuestions = shuffle([...questions]);
+
+    // Start timer
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+    }
+
+    // Show questions for the current page
+    function showQuestions(page) {
+      const startIndex = page * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let html = '';
+      for (let i = startIndex; i < endIndex; i++) {
+        const q = shuffledQuestions[i];
+        const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
+        const options = shuffledOptions
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .join('');
+        html += `
+          <div class="question" data-index="${i}">
+            <p>Q${i + 1}. ${q.q}</p>
+            <div class="options">${options}</div>
+            <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
+          </div>
+        `;
+      }
+      if (endIndex < questions.length) {
+        html += `<button class="next-button" onclick="nextPage()" disabled>Next</button>`;
+      }
+      quizEl.innerHTML = html;
+      updateProgress();
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = shuffledQuestions[questionIndex];
+      const correct = q.answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      buttons.forEach((btn) => {
+        btn.disabled = true;
+        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
+      });
+
+      userAnswers[questionIndex] = selectedText;
+      if (selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Audio playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Audio playback failed"));
+      }
+
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Skip question
+    function skipQuestion(questionIndex) {
+      if (!skipped.includes(shuffledQuestions[questionIndex])) {
+        skipped.push(shuffledQuestions[questionIndex]);
+        userAnswers[questionIndex] = "Skipped";
+      }
+      const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
+      buttons.forEach(btn => btn.disabled = true);
+      saveProgress();
+      checkNextButton();
+    }
+
+    // Check if all questions on the page are answered or skipped
+    function checkNextButton() {
+      const startIndex = currentPage * QUESTIONS_PER_PAGE;
+      const endIndex = Math.min(startIndex + QUESTIONS_PER_PAGE, questions.length);
+      let allAnswered = true;
+      for (let i = startIndex; i < endIndex; i++) {
+        if (userAnswers[i] === null) {
+          allAnswered = false;
+          break;
+        }
+      }
+      const nextButton = document.querySelector(".next-button");
+      if (nextButton) {
+        nextButton.disabled = !allAnswered;
+      }
+    }
+
+    // Move to next page
+    function nextPage() {
+      currentPage++;
+      if (currentPage * QUESTIONS_PER_PAGE < questions.length) {
+        showQuestions(currentPage);
+      } else {
+        endQuiz();
+      }
+    }
+
+    // End quiz and show results
+    function endQuiz() {
+      clearInterval(timerInterval);
+      quizEl.innerHTML = "";
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" :
+                         userAnswers[i] === "Skipped" ? "Skipped" :
+                         userAnswers[i];
+        const correctAnswer = q.options[q.answer];
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === "Skipped" ? "Skipped" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${q.q}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Clear localStorage
+      localStorage.removeItem("quizProgress");
+    }
+
+    // Initialize
+    loadProgress();
+    startTimer();
+    showQuestions(currentPage);
+  </script>
+</body>
+</html>
