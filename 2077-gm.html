@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test – Engineering & Mechanical (Key C)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5);
+      color: #333;
+      line-height: 1.6;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .quiz-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      font-size: 2.2rem;
+    }
+
+    .section-title {
+      color: #2980b9;
+      font-size: 1.5rem;
+      margin: 2rem 0 1rem;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 0.5rem;
+    }
+
+    .question {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: #f9f9f9;
+      border-radius: 10px;
+      transition: transform 0.2s;
+    }
+
+    .question:hover {
+      transform: translateY(-5px);
+    }
+
+    .question p {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #34495e;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      background: #ecf0f1;
+      border: 2px solid #bdc3c7;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+
+    .options button:hover {
+      background: #dfe6e9;
+      border-color: #7f8c8d;
+    }
+
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .correct {
+      background: #27ae60 !important;
+      color: #fff !important;
+      border-color: #219653 !important;
+    }
+
+    .wrong {
+      background: #c0392b !important;
+      color: #fff !important;
+      border-color: #a93226 !important;
+    }
+
+    .score-board {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #3498db;
+      color: #fff;
+      border-radius: 10px;
+      font-size: 1.2rem;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+
+    .nav-buttons button {
+      padding: 0.8rem 1.5rem;
+      background: #2980b9;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    .nav-buttons button:hover {
+      background: #2c3e50;
+    }
+
+    .nav-buttons button:disabled {
+      background: #95a5a6;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .quiz-container {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .question p {
+        font-size: 1rem;
+      }
+
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.6rem;
+      }
+
+      .nav-buttons button {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test – Engineering & Mechanical (Key C)</h1>
+    <div class="score-board" id="scoreBoard">Score: 0/50</div>
+    <div id="quiz"></div>
+    <div class="nav-buttons">
+      <button id="prevBtn" onclick="navigate(-1)" disabled>Previous</button>
+      <button id="nextBtn" onclick="navigate(1)">Next</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      // Key C – Service Related 1
+      { q: "Industrial relation can be defined as", options: ["the relationships between employees and employers within the organizational setting", "labour management relation", "the interactions between employers, employees and government", "all of the above"], answer: 3 },
+      { q: "Industrial hygiene and safety is concerned with", options: ["identifying the hazards of workplace", "analyzing the hazards of workplace", "controlling the hazards of workplace", "all of the above"], answer: 3 },
+      { q: "The power factor of an alternator depends on", options: ["load", "speed of rotor", "core losses", "armature losses"], answer: 0 },
+      { q: "A machine that converts mechanical energy into electrical energy is known as:", options: ["D.C. generator", "D.C. motor", "rectifier", "none of the above"], answer: 0 },
+      { q: "Which one of the following is a part of DC motor?", options: ["Armature", "Draft Tube", "Mother Board", "Nozzle"], answer: 0 },
+      { q: "What is the objective of providing baffles in between water tubes in a boiler?", options: ["To regulate water flow", "To regulate steam flow", "To have better contact of fuel gases with water tubes", "None of the above"], answer: 1 },
+      { q: "Fire tube boilers are", options: ["internally fired", "externally fired", "internally as well as externally fired", "none of the above"], answer: 0 },
+      { q: "The ratio of heat actually used in producing the steam to the heat liberated in the furnace is known as:", options: ["boiler efficiency", "power of boiler", "capacity of power", "none of the above"], answer: 0 },
+      { q: "Which of the following component is fitted on a boiler to improve its efficiency?", options: ["Safety valve", "Steam trap", "Economizer", "None of the above"], answer: 2 },
+      { q: "Following cost is variable cost:", options: ["depreciation of plant", "interest on capital invested", "cost of raw material", "none of the above"], answer: 2 },
+      { q: "Amortization means", options: ["liquidation of financial obligations", "liquidation of an industry", "commitment of financial obligations", "liquidation of financial obligation on installment basis"], answer: 3 },
+
+      // Key C – C-2 Engineering / Mechanical Engineering
+      { q: "Depreciation of fixed assets is:", options: ["a decrease in the asset’s value because of poor maintenance", "difference between the asset’s purchase price and the price of a similar new asset", "the amount by which its value is assumed to decrease because of the asset being used", "only a theoretical concept"], answer: 2 },
+      { q: "At break-even point (BEP):", options: ["There is neither profit nor loss", "The profit is very high", "The profit is very low", "The loss is very high"], answer: 0 },
+      { q: "In a four stroke engine, the working cycle is in", options: ["two revolutions of the crankshaft", "three revolutions of the crankshaft", "four revolutions of the crankshaft", "one revolution of the crankshaft"], answer: 0 },
+      { q: "Joule is the unit of", options: ["work", "power", "energy", "none of the above"], answer: 2 },
+      { q: "Identify the pair which has same dimensions:", options: ["force and power", "energy and work", "momentum and energy", "impulse and momentum"], answer: 1 },
+      { q: "According to law of conservation of energy", options: ["energy can neither be created nor destroyed", "energy can be transferred from one form to another", "Both A and B", "none of the above"], answer: 2 },
+      { q: "“To every action there is equal and opposite reaction”, this is", options: ["Newton’s first law of motion", "Newton’s third law of motion", "Newton’s second law of motion", "Law of momentum"], answer: 1 },
+      { q: "The force applied on a body of mass 100 kg to produce an acceleration of 5 m/s² is", options: ["20N", "95N", "100N", "500N"], answer: 3 },
+      { q: "For the maximum range of a particle, the angle of projection should be", options: ["30°", "45°", "60°", "90°"], answer: 1 },
+      { q: "One Newton is that force which produces an acceleration of", options: ["1 cm/s² in a mass of 1 gm", "1 m/s² in a mass of 1 kg", "1 m/s² in a mass of 9.81 kg", "1 m/s² in a mass of 1 gm"], answer: 1 },
+      { q: "Which of the following physical quantity is not a vector quantity?", options: ["Mass", "Momentum", "Impulse", "Acceleration"], answer: 0 },
+      { q: "A body will move only when", options: ["force of friction = applied force", "force of friction < applied force", "force of friction > applied force", "none of the above"], answer: 0 },
+      { q: "Following term is not a vector quantity", options: ["Speed", "Velocity", "Acceleration", "none of the above"], answer: 0 },
+      { q: "The center of gravity of a plane will not be at its geometrical center if it is a:", options: ["Circle", "Square", "Rectangle", "Right-angled triangle"], answer: 3 },
+      { q: "What is the total percent of reservation of posts that are to be fulfilled by open competition?", options: ["Forty five percent", "Fifty percent", "Forty percent", "none of the above"], answer: 2 },
+      { q: "Which is not a type of leave in Civil Service Act?", options: ["Sickness leave", "Study leave", "Entertainments leave", "Home leave"], answer: 2 },
+      { q: "The angle of hatching line is kept as:", options: ["30°", "45°", "60°", "75°"], answer: 1 },
+
+      // Key C – C-3 Engineering / Mechanical Engineering
+      { q: "When the axis is perpendicular to the horizontal plane:", options: ["the top view should be drawn first", "the front view should be drawn first", "the top and front view should be drawn at same time", "none of the above"], answer: 2 },
+      { q: "Projection of an object shown by three views is known by:", options: ["perspective", "isometric", "oblique", "orthographic"], answer: 3 },
+      { q: "Which of the following is a permanent joint?", options: ["Keys joints", "Spline joints", "Gear joints", "None of the above"], answer: 3 },
+      { q: "Which of the following is not an external combustion heat engine?", options: ["Steam engine", "Stirling engine", "Stem turbine", "Pelton turbine"], answer: 1 },
+      { q: "The engine in which the combustion of fuel takes place inside the engine cylinder is called?", options: ["Internal combustion engine", "External combustion engine", "Both A and B", "None of the above"], answer: 0 },
+      { q: "The compression ratio of diesel engine may have a range", options: ["8 to 10", "10 to 15", "16 to 20", "20 to 30"], answer: 2 },
+      { q: "Otto cycle is also known as:", options: ["constant pressure cycle", "constant volume cycle", "constant temperature cycle", "constant temperature and pressure cycle"], answer: 1 },
+      { q: "A diesel engine theoretically operates on", options: ["constant pressure cycle", "constant volume cycle", "constant temperature cycle", "mixed cycle"], answer: 0 },
+      { q: "Enthalpy is defined as the sum of", options: ["volume and the product of internal energy and pressure", "internal energy and the product of pressure and volume", "internal energy and the product of pressure and temperature", "pressure and the product of internal energy and volume"], answer: 1 },
+      { q: "Heat transferred to a closed system during an isobaric process is equal to", options: ["change in internal energy", "change in enthalpy", "change in entropy", "change in temperature"], answer: 1 },
+      { q: "Which one of the following characteristics does not change during reversible adiabatic process?", options: ["Enthalpy", "Entropy", "Internal energy", "Rate of heat exchange"], answer: 1 },
+      { q: "Most of the gases behave as an ideal gas at", options: ["high pressure and high temperature", "high pressure and low temperature", "low pressure and high temperature", "low pressure and low temperature"], answer: 2 },
+      { q: "Which is not the property of the thermodynamic system?", options: ["Pressure", "Impulse momentum", "Thermal conductivity", "Heat"], answer: 3 },
+      { q: "Entropy is called the property of the system because", options: ["its derivative is zero for any process", "it has same value at each equilibrium state", "it has constant value at each equilibrium state", "it depends upon path followed by it"], answer: 2 },
+      { q: "Temperature of a gas is due to", options: ["its heating value", "kinetic energy of molecules", "repulsion of molecules", "attraction of molecules"], answer: 1 },
+      { q: "When the expansion or compression takes place according to the law P·Vⁿ = constant, the process is known as:", options: ["adiabatic process", "constant volume process", "constant pressure process", "polytropic process"], answer: 3 },
+
+      // Key C – C-4 Engineering / Mechanical
+      { q: "First law of thermodynamics deals with", options: ["conservation of heat", "conservation of momentum", "conservation of mass", "conservation of energy"], answer: 3 },
+      { q: "Internal energy of a substance depends on", options: ["volume", "pressure", "temperature", "entropy"], answer: 2 },
+      { q: "A thermodynamic system refers to:", options: ["any defined region in space", "a specified mass in fluid flow", "a specified region of constant volume", "a prescribed and unidentifiable quantity of matter"], answer: 0 },
+      { q: "What stands for ILO in the field of industrial management?", options: ["International Labor Organization", "International Language Office", "Internal Labor Order", "None of the above"], answer: 0 },
+      { q: "What is purpose of ventilation in industries?", options: ["To cater for adequate supply of oxygen/air for respiration", "To provide thermal comfort", "To get rid of contaminants produced in various industrial process", "All of the above"], answer: 3 },
+      { q: "ICAO is", options: ["a unit of government of Nepal", "an INGO", "a specialized agency of UN", "a private organization"], answer: 2 }
+    ];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreBoardEl = document.getElementById("scoreBoard");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = new Array(questions.length).fill(false);
+
+    // Escape special characters
+    function escapeHTML(str) {
+      const htmlEntities = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+      return str.replace(/[&<>"']/g, match => htmlEntities[match]);
+    }
+
+    // Show current question
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      const sectionTitles = [
+        { index: 0, title: "Service Related 1" },
+        { index: 11, title: "Engineering / Mechanical Engineering (C-2)" },
+        { index: 28, title: "Engineering / Mechanical Engineering (C-3)" },
+        { index: 44, title: "Engineering / Mechanical (C-4)" }
+      ];
+      let sectionHtml = '';
+      const currentSection = sectionTitles.find(s => currentQuestion >= s.index && (s.index === sectionTitles[sectionTitles.length - 1].index || currentQuestion < sectionTitles[sectionTitles.findIndex(t => t.index > s.index)].index));
+      if (currentQuestion === currentSection.index) {
+        sectionHtml = `<h2 class="section-title">${escapeHTML(currentSection.title)}</h2>`;
+      }
+
+      const optionsHtml = q.options
+        .map((opt, j) => `<button data-index="${j}" onclick="checkAnswer(this, ${currentQuestion}, ${j}, '${escapeHTML(opt)}')">${escapeHTML(opt)}</button>`)
+        .join('');
+
+      quizEl.innerHTML = `
+        ${sectionHtml}
+        <div class="question" data-index="${currentQuestion}">
+          <p>Q${currentQuestion + 1}. ${escapeHTML(q.q)}</p>
+          <div class="options">${optionsHtml}</div>
+        </div>
+      `;
+
+      // Disable buttons if already answered
+      if (answered[currentQuestion]) {
+        const buttons = quizEl.querySelectorAll(".options button");
+        buttons.forEach(btn => {
+          const btnIndex = parseInt(btn.getAttribute("data-index"));
+          btn.disabled = true;
+          if (btnIndex === q.answer) btn.classList.add("correct");
+          else if (answered[currentQuestion] === btnIndex && btnIndex !== q.answer) btn.classList.add("wrong");
+        });
+      }
+
+      // Update navigation buttons
+      prevBtn.disabled = currentQuestion === 0;
+      nextBtn.disabled = currentQuestion === questions.length - 1;
+    }
+
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      if (answered[questionIndex]) return;
+      const q = questions[questionIndex];
+      const buttons = button.parentElement.querySelectorAll("button");
+
+      buttons.forEach(btn => {
+        const btnIndex = parseInt(btn.getAttribute("data-index"));
+        btn.disabled = true;
+        if (btnIndex === q.answer) btn.classList.add("correct");
+        if (btn === button && selected !== q.answer) btn.classList.add("wrong");
+      });
+
+      answered[questionIndex] = selected;
+      if (selected === q.answer) score++;
+      scoreBoardEl.textContent = `Score: ${score}/${questions.length}`;
+    }
+
+    // Navigate questions
+    function navigate(direction) {
+      currentQuestion += direction;
+      if (currentQuestion < 0) currentQuestion = 0;
+      if (currentQuestion >= questions.length) currentQuestion = questions.length - 1;
+      showQuestion();
+    }
+
+    // Initialize
+    showQuestion();
+  </script>
+</body>
+</html>
