@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test – Engineering & Mechanical</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5);
+      color: #333;
+      line-height: 1.6;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .quiz-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      font-size: 2.2rem;
+    }
+
+    .section-title {
+      color: #2980b9;
+      font-size: 1.5rem;
+      margin: 2rem 0 1rem;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 0.5rem;
+    }
+
+    .question {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: #f9f9f9;
+      border-radius: 10px;
+      transition: transform 0.2s;
+    }
+
+    .question:hover {
+      transform: translateY(-5px);
+    }
+
+    .question p {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #34495e;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      background: #ecf0f1;
+      border: 2px solid #bdc3c7;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+
+    .options button:hover {
+      background: #dfe6e9;
+      border-color: #7f8c8d;
+    }
+
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .correct {
+      background: #27ae60 !important;
+      color: #fff !important;
+      border-color: #219653 !important;
+    }
+
+    .wrong {
+      background: #c0392b !important;
+      color: #fff !important;
+      border-color: #a93226 !important;
+    }
+
+    .score-board {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #3498db;
+      color: #fff;
+      border-radius: 10px;
+      font-size: 1.2rem;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+
+    .page-info {
+      text-align: center;
+      font-size: 1rem;
+      color: #2c3e50;
+      margin-top: 1rem;
+    }
+
+    .progress-info {
+      text-align: center;
+      font-size: 1rem;
+      color: #2c3e50;
+      margin-top: 0.5rem;
+    }
+
+    .nav-buttons button, .submit-btn {
+      padding: 0.8rem 1.5rem;
+      background: #2980b9;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    .nav-buttons button:hover, .submit-btn:hover {
+      background: #2c3e50;
+    }
+
+    .nav-buttons button:disabled, .submit-btn:disabled {
+      background: #95a5a6;
+      cursor: not-allowed;
+    }
+
+    .completion-message, .error-message {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .completion-message {
+      color: #27ae60;
+    }
+
+    .error-message {
+      color: #c0392b;
+    }
+
+    @media (max-width: 768px) {
+      .quiz-container {
+        padding: 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .question p {
+        font-size: 1rem;
+      }
+
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.6rem;
+      }
+
+      .nav-buttons button, .submit-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test – Engineering & Mechanical</h1>
+    <div class="score-board" id="scoreBoard">Score: 0/50</div>
+    <div id="quiz"></div>
+    <div class="page-info" id="pageInfo">Page 1 of 10</div>
+    <div class="progress-info" id="progressInfo">0/50 questions answered</div>
+    <div class="nav-buttons">
+      <button id="prevBtn" onclick="navigate(-1)" disabled>Previous Page</button>
+      <button id="submitBtn" class="submit-btn" onclick="submitQuiz()">Submit Quiz</button>
+      <button id="nextBtn" onclick="navigate(1)">Next Page</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { q: "Amortization means", options: ["liquidation of financial obligations", "liquidation of an industry", "commitment of financial obligations", "liquidation of financial obligation on installment basis"], answer: 3 },
+      { q: "Depreciation of fixed assets is:", options: ["a decrease in the asset’s value because of poor maintenance", "difference between the asset’s purchase price and the price of a similar new asset", "the amount by which its value is assumed to decrease because of the asset being used", "only a theoretical concept"], answer: 2 },
+      { q: "At break-even point (BEP):", options: ["There is neither profit nor loss", "The profit is very high", "The profit is very low", "The loss is very high"], answer: 0 },
+      { q: "In a four stroke engine, the working cycle is in", options: ["two revolutions of the crankshaft", "three revolutions of the crankshaft", "four revolutions of the crankshaft", "one revolution of the crankshaft"], answer: 0 },
+      { q: "Joule is the unit of", options: ["work", "power", "energy", "none of the above"], answer: 2 },
+      { q: "Identify the pair which has same dimensions:", options: ["force and power", "energy and work", "momentum and energy", "impulse and momentum"], answer: 1 },
+      { q: "According to law of conservation of energy", options: ["energy can neither be created nor destroyed", "energy can be transferred from one form to another", "Both A and B", "none of the above"], answer: 2 },
+      { q: "“To every action there is equal and opposite reaction”, this is", options: ["Newton’s first law of motion", "Newton’s third law of motion", "Newton’s second law of motion", "Law of momentum"], answer: 1 },
+      { q: "The force applied on a body of mass 100 kg to produce an acceleration of 5 m/s² is", options: ["20N", "95N", "100N", "500N"], answer: 3 },
+      { q: "For the maximum range of a particle, the angle of projection should be", options: ["30°", "45°", "60°", "90°"], answer: 1 },
+      { q: "One Newton is that force which produces an acceleration of", options: ["1 cm/s² in a mass of 1 gm", "1 m/s² in a mass of 1 kg", "1 m/s² in a mass of 9.81 kg", "1 m/s² in a mass of 1 gm"], answer: 1 },
+      { q: "Which of the following physical quantity is not a vector quantity?", options: ["Mass", "Momentum", "Impulse", "Acceleration"], answer: 0 },
+      { q: "A body will move only when", options: ["force of friction = applied force", "force of friction < applied force", "force of friction > applied force", "none of the above"], answer: 1 },
+      { q: "Following term is not a vector quantity", options: ["Speed", "Velocity", "Acceleration", "none of the above"], answer: 0 },
+      { q: "The center of gravity of a plane will not be at its geometrical center if it is a:", options: ["Circle", "Square", "Rectangle", "Right-angled triangle"], answer: 3 },
+      { q: "What is the total percent of reservation of posts that are to be fulfilled by open competition?", options: ["Forty five percent", "Fifty percent", "Forty percent", "none of the above"], answer: 0 },
+      { q: "Which is not a type of leave in Civil Service Act?", options: ["Sickness leave", "Study leave", "Entertainments leave", "Home leave"], answer: 2 },
+      { q: "The angle of hatching line is kept as:", options: ["30°", "45°", "60°", "75°"], answer: 1 },
+      { q: "When the axis is perpendicular to the horizontal plane:", options: ["the top view should be drawn first", "the front view should be drawn first", "the top and front view should be drawn at same time", "none of the above"], answer: 2 },
+      { q: "Projection of an object shown by three views is known by:", options: ["perspective", "isometric", "oblique", "orthographic"], answer: 3 },
+      { q: "Which of the following is a permanent joint?", options: ["Keys joints", "Spline joints", "Gear joints", "None of the above"], answer: 3 },
+      { q: "Which of the following is not an external combustion heat engine?", options: ["Steam engine", "Stirling engine", "Steam turbine", "Pelton turbine"], answer: 3 },
+      { q: "The engine in which the combustion of fuel takes place inside the engine cylinder is called?", options: ["Internal combustion engine", "External combustion engine", "Both A and B", "None of the above"], answer: 0 },
+      { q: "The compression ratio of diesel engine may have a range", options: ["8 to 10", "10 to 15", "16 to 20", "20 to 30"], answer: 2 },
+      { q: "Otto cycle is also known as:", options: ["constant pressure cycle", "constant volume cycle", "constant temperature cycle", "constant temperature and pressure cycle"], answer: 1 },
+      { q: "A diesel engine theoretically operates on", options: ["constant pressure cycle", "constant volume cycle", "constant temperature cycle", "mixed cycle"], answer: 0 },
+      { q: "According to Labour Act, no enterprise is allowed to employ a worker below the age of:", options: ["12 years", "14 years", "15 years", "16 years"], answer: 3 },
+      { q: "The thermal efficiency of a well-maintained boiler will be of the order", options: ["20%", "40%", "50%", "90%"], answer: 3 },
+      { q: "Which type of boiler can meet rapid changes of load?", options: ["Vertical fire tube type", "Horizontal fire tube type", "Horizontal water tube type", "Forced circulation type"], answer: 3 },
+      { q: "The specific heat at constant pressure C_p is related with the specific heat at constant volume C_v by:", options: ["C_p > C_v", "C_p < C_v", "C_p = C_v", "C_p / C_v = constant"], answer: 0 },
+      { q: "How much is 1 ton of refrigeration in SI unit?", options: ["3.0 kW", "210 kJ/min", "120 kJ/min", "10.0 kW"], answer: 1 },
+      { q: "Which one is correct?", options: ["1 HP = 746 Watt", "1 HP = 476 Watt", "1 HP = 647 Watt", "1 HP = 467 Watt"], answer: 0 },
+      { q: "1 kg/cm² of pressure is equivalent to", options: ["1000 meter of water volume", "100 meter of water volume", "10 meter of water volume", "1 meter of water volume"], answer: 2 },
+      { q: "The unit of compressibility in SI unit is", options: ["N/m²", "N·sec/m²", "N/m", "N·sec²/m"], answer: 1 },
+      { q: "A study of the transfer and conversion energy is:", options: ["Heat transfer", "Energy transfer", "Thermodynamics", "Fluid dynamics"], answer: 2 },
+      { q: "The absolute zero temperature is taken as:", options: ["-273°C", "273°C", "237°C", "-237°C"], answer: 0 },
+      { q: "The first law of thermodynamics deals with:", options: ["conservation of mass", "conservation of momentum", "conservation of energy", "conservation of pressure"], answer: 2 },
+      { q: "Which of the following strategies is considered the first line of defence for controlling occupational health and hazards?", options: ["Inspection & audits", "Engineering control", "Administrative control", "Personal protective equipment"], answer: 0 },
+      { q: "What is the minimum wage set by the government of Nepal effective from 17 July 2019?", options: ["9,700 Rupees a month", "10,500 Rupees a month", "12,050 Rupees a month", "13,450 Rupees a month"], answer: 1 },
+      { q: "Labour law is the:", options: ["administrative", "ruling", "precedents", "all of the above"], answer: 3 },
+      { q: "The International Labor Organization was founded in:", options: ["1919 AD", "1929 AD", "1946 AD", "1964 AD"], answer: 0 },
+      { q: "The impeller of a centrifugal pump may have:", options: ["volute casing", "volute casing with guide blades", "vortex casing", "any one of these"], answer: 3 },
+      { q: "Equation of a trajectory is written as", options: ["y = x tan α - (g x²)/(2u² cos² α)", "y = x cos α - (g x²)/(2u² tan² α)", "y = x² tan α - (2x²)/(g² cos² α)", "All of the above"], answer: 0 },
+      { q: "If the velocity of 1 m/sec is accelerated by 1 m/sec², then the velocity after 1 sec will be", options: ["4 m/sec", "3 m/sec", "2 m/sec", "1 m/sec"], answer: 2 },
+      { q: "The velocity ratio of a simple wheel and axle with D and d as the diameters of effort wheel and load axle is", options: ["D + d", "D – d", "D × d", "D / d"], answer: 3 },
+      { q: "A stationary object of 10 kg mass is acted upon by 20 N force for 5 seconds. The object will attain a final velocity of", options: ["1 m/s", "10 m/s", "20 m/s", "30 m/s"], answer: 1 },
+      { q: "The resultant of two forces P and Q (such that P > Q) acting along the same straight line but in opposite directions is given by", options: ["P + Q", "P - Q", "P / Q", "Q / P"], answer: 1 },
+      { q: "The change in internal energy of an ideal gas during an adiabatic process", options: ["mc_p ln(T_2/T_1)", "mc_v ln(T_2/T_1)", "mc_p (T_2 - T_1)", "mc_v (T_2 - T_1)"], answer: 3 },
+      { q: "Each of the expressions given below gives the efficiency of an Otto cycle except:", options: ["1 - Lowest temperature/Highest temperature", "1 - Temperature before compression/Temperature after compression", "1 - Temperature before expansion/Temperature after expansion", "1 - Heat rejected/Heat added"], answer: 0 },
+      { q: "General gas equation is", options: ["PV = nRT", "PV = mRT", "PV = KiRT", "PV = C"], answer: 1 }
+    ];
+
+    const quizEl = document.getElementById("quiz");
+    const scoreBoardEl = document.getElementById("scoreBoard");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    const pageInfoEl = document.getElementById("pageInfo");
+    const progressInfoEl = document.getElementById("progressInfo");
+    let currentPage = 0;
+    let score = 0;
+    let answered = new Array(questions.length).fill(null);
+    const questionsPerPage = 5;
+    const totalPages = Math.ceil(questions.length / questionsPerPage);
+    let quizSubmitted = false;
+
+    // Escape special characters
+    function escapeHTML(str) {
+      const htmlEntities = { '&': '&', '<': '<', '>': '>', '"': '"', "'": "'" };
+      return str.replace(/[&<>"']/g, match => htmlEntities[match]);
+    }
+
+    // Check if all questions are answered
+    function checkCompletion() {
+      return answered.every(ans => ans !== null);
+    }
+
+    // Update submit button state
+    function updateSubmitButton() {
+      submitBtn.disabled = checkCompletion() || quizSubmitted;
+    }
+
+    // Update progress info
+    function updateProgress() {
+      const answeredCount = answered.filter(ans => ans !== null).length;
+      progressInfoEl.textContent = `${answeredCount}/${questions.length} questions answered`;
+    }
+
+    // Show current page of questions
+    function showPage() {
+      if (quizSubmitted) return;
+      quizEl.innerHTML = '';
+      const startIndex = currentPage * questionsPerPage;
+      const endIndex = Math.min(startIndex + questionsPerPage, questions.length);
+
+      const sectionTitles = [
+        { index: 0, title: "General Engineering" },
+        { index: 15, title: "Civil Service and Technical Drawing" },
+        { index: 22, title: "Mechanical Engineering" },
+        { index: 37, title: "Occupational and Labor Laws" }
+      ];
+
+      // Render section titles and questions
+      for (let i = startIndex; i < endIndex; i++) {
+        // Find the section for the current question
+        const section = sectionTitles.find(s => i >= s.index && (s.index === sectionTitles[sectionTitles.length - 1].index || i < (sectionTitles.find(t => t.index > s.index)?.index || questions.length)));
+        if (i === startIndex && section) {
+          const sectionHtml = `<h2 class="section-title">${escapeHTML(section.title)}</h2>`;
+          quizEl.innerHTML += sectionHtml;
+        } else if (section && i === section.index) {
+          const sectionHtml = `<h2 class="section-title">${escapeHTML(section.title)}</h2>`;
+          quizEl.innerHTML += sectionHtml;
+        }
+
+        const q = questions[i];
+        const optionsHtml = q.options
+          .map((opt, j) => `<button data-index="${j}" onclick="checkAnswer(this, ${i}, ${j}, '${escapeHTML(opt)}')">${escapeHTML(opt)}</button>`)
+          .join('');
+
+        quizEl.innerHTML += `
+          <div class="question" data-index="${i}">
+            <p>Q${i + 1}. ${escapeHTML(q.q)}</p>
+            <div class="options">${optionsHtml}</div>
+          </div>
+        `;
+      }
+
+      // Disable buttons for answered questions
+      for (let i = startIndex; i < endIndex; i++) {
+        if (answered[i] !== null) {
+          const questionEl = quizEl.querySelector(`.question[data-index="${i}"]`);
+          const buttons = questionEl.querySelectorAll(".options button");
+          buttons.forEach(btn => {
+            const btnIndex = parseInt(btn.getAttribute("data-index"));
+            btn.disabled = true;
+            if (btnIndex === questions[i].answer) btn.classList.add("correct");
+            else if (answered[i] === btnIndex && btnIndex !== questions[i].answer) btn.classList.add("wrong");
+          });
+        }
+      }
+
+      // Update navigation buttons and page info
+      prevBtn.disabled = currentPage === 0 || quizSubmitted;
+      nextBtn.disabled = currentPage === totalPages - 1 || quizSubmitted;
+      pageInfoEl.textContent = `Page ${currentPage + 1} of ${totalPages}`;
+      updateSubmitButton();
+      updateProgress();
+    }
+
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      if (answered[questionIndex] !== null || quizSubmitted) return;
+      const q = questions[questionIndex];
+      const buttons = button.parentElement.querySelectorAll("button");
+
+      buttons.forEach(btn => {
+        const btnIndex = parseInt(btn.getAttribute("data-index"));
+        btn.disabled = true;
+        if (btnIndex === q.answer) btn.classList.add("correct");
+        if (btn === button && selected !== q.answer) btn.classList.add("wrong");
+      });
+
+      answered[questionIndex] = selected;
+      if (selected === q.answer) score++;
+      scoreBoardEl.textContent = `Score: ${score}/${questions.length}`;
+      updateSubmitButton();
+      updateProgress();
+    }
+
+    // Navigate pages
+    function navigate(direction) {
+      if (quizSubmitted) return;
+      currentPage += direction;
+      if (currentPage < 0) currentPage = 0;
+      if (currentPage >= totalPages) currentPage = totalPages - 1;
+      showPage();
+    }
+
+    // Submit quiz
+    function submitQuiz() {
+      if (quizSubmitted) return;
+      if (!checkCompletion()) {
+        quizEl.innerHTML = `<div class="error-message">Please answer all questions before submitting.</div>`;
+        setTimeout(showPage, 2000); // Revert to quiz after 2 seconds
+        return;
+      }
+      quizSubmitted = true;
+      quizEl.innerHTML = `<div class="completion-message">Quiz Completed! Your final score is ${score}/${questions.length}.</div>`;
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+      submitBtn.disabled = true;
+      pageInfoEl.textContent = '';
+      progressInfoEl.textContent = '';
+    }
+
+    // Initialize
+    showPage();
+  </script>
+</body>
+</html>
