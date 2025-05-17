@@ -83,161 +83,161 @@
   </div>
 
   <script>
-    const questions = [
-      // सामान्य ज्ञान र सार्वजनिक व्यवस्थापन (Questions 1-20)
-      { q: "नेपालमा समुन्द्र सतहबाट कति मिटरको उचाईमा हावामा पर्ने हावापातलाई ठण्डा हावापातमा राखिन्छ?", 
-        options: ["1200–1500 मिटर", "2000–2500 मिटर", "3000–4000 मिटर", "5000 मिटरभन्दा माथि"], 
-        answer: 2 },
-      { q: "निलम्बित वा भाग मानिने सरकारी सेवाबाट सम्बन्ध कायम गर्ने अनुशासनको के भनिन्छ?", 
-        options: ["डाँको अधिकार", "फुलवा अधिकार", "चाकडी अधिकार", "मापदण्ड"], 
-        answer: 1 },
-      { q: "तेस्रो पञ्चवर्षीय योजनाको अन्तरगत नेपाली नागरिकको प्रतिव्यक्ति कुल राष्ट्रिय आय कति पु¥याउने लक्ष्य राखिएको थियो?", 
-        options: ["४०५० अमेरिकी डलर", "३२५० अमेरिकी डलर", "४५०० अमेरिकी डलर", "३७५० अमेरिकी डलर"], 
-        answer: 2 },
-      { q: "कुन विकास सूचकांकले शिक्षाको तात्त्विक दरलाई राखेको छ?", 
-        options: ["९९९", "९६६", "३७", "३५"], 
-        answer: 1 },
-      { q: "Microscope का पिता भन्ने कसलाई चिनिन्छ?", 
-        options: ["एण्टोनी भेन ल्युवनहोक", "रॉबर्ट हुक", "अलेसजेन्डर ग्राहम बेल", "थोमस अल्वा एडिसन"], 
-        answer: 2 },
-      { q: "रोग लाग्नुअगाडि नै गरिने रोकथामको उपायलाई के भनिन्छ?", 
-        options: ["प्राथमिक रोकथाम", "माध्यमिक रोकथाम", "तृतीय रोकथाम", "प्रारम्भिक उपचार"], 
-        answer: 0 },
-      { q: "नेपालको संविधानको अनुसूची ८ अनुसार कृषिको प्रयोगशाला कार्यको अधिकार कुन तहमा राखिएको छ?", 
-        options: ["१०", "८", "२३", "१४"], 
-        answer: 0 },
-      { q: "विश्व खाद्य तथा कृषि संगठन (FAO) को प्रधान कार्यालय कुन देशमा रहेको छ?", 
-        options: ["फ्रान्स", "स्विट्जरल्याण्ड", "अमेरिका", "इटाली"], 
-        answer: 2 },
-      { q: "स्थायी समितिमा सहभागी हुने व्यवस्था कहाँ गरिएको छ?", 
-        options: ["राष्ट्र प्रमुखबाट", "परराष्ट्र (विदेश) मन्त्रीबाट", "निर्वाचन आयोगबाट", "परराष्ट्र सचिवबाट"], 
-        answer: 1 },
-      { q: "सन् २०२३ को लागि Nobel Peace Prize निम्नमध्ये कसलाई प्रदान गरिएको हो?", 
-        options: ["Drew Weissman", "Narges Mohammadi", "Jon Fosse", "Claudia Goldin"], 
-        answer: 1 },
-      { q: "कार्यालय श्रम साधन (Office Resources) अन्तर्गत तलको मध्ये कुन पर्दछ/पर्दैन?", 
-        options: ["बजेट", "कर्मचारी", "कानुन", "मापदण्ड सबै"], 
-        answer: 1 },
-      { q: "निजामती सेवा ऐन, २०४९ अनुसार कुनै निजामती कर्मचारीलाई आरोग्य प्रमाणपत्र बिनाको आधारमा अनिश्चितकालीन बिदा दिनु पर्ने व्यवस्था कहाँ छ?", 
-        options: ["तलब दिनु", "२ वर्षभन्दा ५ महिनासम्म बिदा थप्न सकिने", "सेवाबाट हटाउने", "सेवाबाट बर्खास्त गर्ने"], 
-        answer: 2 },
-      { q: "सङ्घीय मामिला तथा सामान्य प्रशासन मन्त्रालयको कार्यक्षेत्र तलका मध्ये कुन होईन?", 
-        options: ["सङ्ग र सत्तरी तह तथा प्रदेश र स्थानीय तहबीच समन्वय", "सेवासम्बन्धी कानुनी, नीति मापदण्ड", "विदेशी सरसामान र अन्तर्राष्ट्रिय सहयोगको कार्य", "निजामती सेवा व्यवस्थापन नीति, मापदण्ड"], 
-        answer: 0 },
-      { q: "नेपालको संविधानमा संघीयतन्त्रको निगमन पश्चात् राष्ट्रपति र उपराष्ट्रपतिका प्रति उत्तरदायित्व र जवाफदेहिता सुनिश्चित व्यवस्था गरिएको छ", 
-        options: ["संघीय संसदबाट", "राष्ट्रपतिबाट", "सर्वोच्च अदालतबाट", "मन्त्रीपरिषद्बाट"], 
-        answer: 1 },
-      { q: "नेपालमा चलनचल्तीमा भएको संवैधानिक सभा निर्वाचन कहिले भएको थियो?", 
-        options: ["वि.सं. २०६०", "वि.सं. २०६४", "वि.सं. २०६५", "वि.सं. २०६६"], 
-        answer: 2 },
-      { q: "कार्यालयमा प्राप्त छुट्टी पश्चात् पुनः उपस्थित रहने कार्यलाई के भनिन्छ?", 
-        options: ["दर्ता", "उपस्थिति", "टिप्पणी", "पत्र व्यवस्था"], 
-        answer: 2 },
-      { q: "निजामती सेवा नियमावली, २०५० अनुसार नेपाल इन्जिनियरिङ्ग सेवा अन्तर्गत कति उपसमूह गठन गरिएको छ?", 
-        options: ["८", "१२", "१५", "१६"], 
-        answer: 2 },
-      { q: "सुशासनको आयाम (Dimension) तलका मध्ये कुन होईन?", 
-        options: ["जवाफदेहिता", "पारदर्शिता", "उत्तरदायित्व", "सेवाग्राहीका लागि उत्कृष्टता"], 
-        answer: 1 },
-      { q: "जसबाट प्रेरणा बढाउन Hierarchy of Needs Theory को प्रतिपादन गर्ने को हुन्?", 
-        options: ["McGregor", "Abraham Maslow", "Frederick Herzberg", "Frederic Winslow Taylor"], 
-        answer: 1 },
-      { q: "नेपालको संविधान अनुसार नागरिकको कर्तव्य अन्तर्गत तलका कुन पर्दैन?", 
-        options: ["सामाजिक सदाचार कायम गर्नु", "राज्यले चाहेको बमोजिम अनिवार्य सेवा गर्नु", "विधिको शासनको पालना गर्नु", "सार्वजनिक सम्पत्तिको सुरक्षा र संरक्षण गर्नु"], 
-        answer: 1 },
+const questions = [
+  // सामान्य ज्ञान र सार्वजनिक व्यवस्थापन (Questions 1-20)
+  { q: "नेपालमा समुन्द्र सतहबाट कति मिटरको उचाईमा हावामा पर्ने हावापातलाई ठण्डा हावापातमा राखिन्छ?", 
+    options: ["1200–1500 मिटर", "2000–2500 मिटर", "3000–4000 मिटर", "5000 मिटरभन्दा माथि"], 
+    answer: 2 }, // Correct: 3000–4000 m is considered cold climate in Nepal.
+  { q: "निलम्बित वा भाग मानिने सरकारी सेवाबाट सम्बन्ध कायम गर्ने अनुशासनको के भनिन्छ?", 
+    options: ["डाँको अधिकार", "फुलवा अधिकार", "चाकडी अधिकार", "मापदण्ड"], 
+    answer: 0 }, // Correct: "डाँको अधिकार" refers to disciplinary action in this context.
+  { q: "तेस्रो पञ्चवर्षीय योजनाको अन्तरगत नेपाली नागरिकको प्रतिव्यक्ति कुल राष्ट्रिय आय कति पु¥याउने लक्ष्य राखिएको थियो?", 
+    options: ["४०५० अमेरिकी डलर", "३२५० अमेरिकी डलर", "४५०० अमेरिकी डलर", "३७५० अमेरिकी डलर"], 
+    answer: 1 }, // Correct: The Third Five-Year Plan (1965–1970) aimed for per capita income of $3250.
+  { q: "कुन विकास सूचकांकले शिक्षाको तात्त्विक दरलाई राखेको छ?", 
+    options: ["९९९", "९६६", "३७", "३५"], 
+    answer: 1 }, // Correct: Likely referring to Human Development Index (HDI) education index, often scaled (966 fits contextually).
+  { q: "Microscope का पिता भन्ने कसलाई चिनिन्छ?", 
+    options: ["एण्टोनी भेन ल्युवनहोक", "रॉबर्ट हुक", "अलेसजेन्डर ग्राहम बेल", "थोमस अल्वा एडिसन"], 
+    answer: 0 }, // Correct: Antonie van Leeuwenhoek is considered the "father of the microscope."
+  { q: "रोग लाग्नुअगाडि नै गरिने रोकथामको उपायलाई के भनिन्छ?", 
+    options: ["प्राथमिक रोकथाम", "माध्यमिक रोकथाम", "तृतीय रोकथाम", "प्रारम्भिक उपचार"], 
+    answer: 0 }, // Correct: Primary prevention is done before disease onset.
+  { q: "नेपालको संविधानको अनुसूची ८ अनुसार कृषिको प्रयोगशाला कार्यको अधिकार कुन तहमा राखिएको छ?", 
+    options: ["१०", "८", "२३", "१४"], 
+    answer: 1 }, // Correct: Schedule 8 of Nepal’s Constitution lists agricultural labs under local level (8).
+  { q: "विश्व खाद्य तथा कृषि संगठन (FAO) को प्रधान कार्यालय कुन देशमा रहेको छ?", 
+    options: ["फ्रान्स", "स्विट्जरल्याण्ड", "अमेरिका", "इटाली"], 
+    answer: 3 }, // Correct: FAO headquarters is in Italy (Rome).
+  { q: "स्थायी समितिमा सहभागी हुने व्यवस्था कहाँ गरिएको छ?", 
+    options: ["राष्ट्र प्रमुखबाट", "परराष्ट्र (विदेश) मन्त्रीबाट", "निर्वाचन आयोगबाट", "परराष्ट्र सचिवबाट"], 
+    answer: 1 }, // Correct: Foreign Minister typically participates in such committees.
+  { q: "सन् २०२३ को लागि Nobel Peace Prize निम्नमध्ये कसलाई प्रदान गरिएको हो?", 
+    options: ["Drew Weissman", "Narges Mohammadi", "Jon Fosse", "Claudia Goldin"], 
+    answer: 1 }, // Correct: Narges Mohammadi won the 2023 Nobel Peace Prize.
+  { q: "कार्यालय श्रम साधन (Office Resources) अन्तर्गत तलको मध्ये कुन पर्दछ/पर्दैन?", 
+    options: ["बजेट", "कर्मचारी", "कानुन", "मापदण्ड सबै"], 
+    answer: 1 }, // Correct: Employees are part of office resources; budget, law, standards are not direct resources.
+  { q: "निजामती सेवा ऐन, २०४९ अनुसार कुनै निजामती कर्मचारीलाई आरोग्य प्रमाणपत्र बिनाको आधारमा अनिश्चितकालीन बिदा दिनु पर्ने व्यवस्था कहाँ छ?", 
+    options: ["तलब दिनु", "२ वर्षभन्दा ५ महिनासम्म बिदा थप्न सकिने", "सेवाबाट हटाउने", "सेवाबाट बर्खास्त गर्ने"], 
+    answer: 2 }, // Correct: Civil Service Act allows removal if health certificate isn’t provided.
+  { q: "सङ्घीय मामिला तथा सामान्य प्रशासन मन्त्रालयको कार्यक्षेत्र तलका मध्ये कुन होईन?", 
+    options: ["सङ्ग र सत्तरी तह तथा प्रदेश र स्थानीय तहबीच समन्वय", "सेवासम्बन्धी कानुनी, नीति मापदण्ड", "विदेशी सरसामान र अन्तर्राष्ट्रिय सहयोगको कार्य", "निजामती सेवा व्यवस्थापन नीति, मापदण्ड"], 
+    answer: 2 }, // Correct: Foreign goods and international cooperation fall under other ministries (e.g., Foreign Affairs).
+  { q: "नेपालको संविधानमा संघीयतन्त्रको निगमन पश्चात् राष्ट्रपति र उपराष्ट्रपतिका प्रति उत्तरदायित्व र जवाफदेहिता सुनिश्चित व्यवस्था गरिएको छ", 
+    options: ["संघीय संसदबाट", "राष्ट्रपतिबाट", "सर्वोच्च अदालतबाट", "मन्त्रीपरिषद्बाट"], 
+    answer: 0 }, // Correct: Federal Parliament ensures accountability of the President and Vice-President.
+  { q: "नेपालमा चलनचल्तीमा भएको संवैधानिक सभा निर्वाचन कहिले भएको थियो?", 
+    options: ["वि.सं. २०६०", "वि.सं. २०६४", "वि.सं. २०६५", "वि.सं. २०६६"], 
+    answer: 1 }, // Correct: Constituent Assembly election was in 2064 BS (2008 AD).
+  { q: "कार्यालयमा प्राप्त छुट्टी पश्चात् पुनः उपस्थित रहने कार्यलाई के भनिन्छ?", 
+    options: ["दर्ता", "उपस्थिति", "टिप्पणी", "पत्र व्यवस्था"], 
+    answer: 1 }, // Correct: Returning after leave is called "उपस्थिति" (attendance).
+  { q: "निजामती सेवा नियमावली, २०५० अनुसार नेपाल इन्जिनियरिङ्ग सेवा अन्तर्गत कति उपसमूह गठन गरिएको छ?", 
+    options: ["८", "१२", "१५", "१६"], 
+    answer: 0 }, // Correct: Nepal Engineering Service has 8 subgroups under the 2050 Rules.
+  { q: "सुशासनको आयाम (Dimension) तलका मध्ये कुन होईन?", 
+    options: ["जवाफदेहिता", "पारदर्शिता", "उत्तरदायित्व", "सेवाग्राहीका लागि उत्कृष्टता"], 
+    answer: 3 }, // Correct: "Excellence for service recipients" is not a standard dimension of good governance.
+  { q: "जसबाट प्रेरणा बढाउन Hierarchy of Needs Theory को प्रतिपादन गर्ने को हुन्?", 
+    options: ["McGregor", "Abraham Maslow", "Frederick Herzberg", "Frederic Winslow Taylor"], 
+    answer: 1 }, // Correct: Abraham Maslow proposed the Hierarchy of Needs Theory.
+  { q: "नेपालको संविधान अनुसार नागरिकको कर्तव्य अन्तर्गत तलका कुन पर्दैन?", 
+    options: ["सामाजिक सदाचार कायम गर्नु", "राज्यले चाहेको बमोजिम अनिवार्य सेवा गर्नु", "विधिको शासनको पालना गर्नु", "सार्वजनिक सम्पत्तिको सुरक्षा र संरक्षण गर्नु"], 
+    answer: 1 }, // Correct: Mandatory service as per state demand is not a citizen’s duty under Nepal’s Constitution.
 
-      // सेवा सम्बन्धी तथ्य-ज्ञान (Questions 21-50)
-      { q: "Which of the following is not a drawing symbol?", 
-        options: ["Ø", "D", "R", "Ψ"], 
-        answer: 3 },
-      { q: "In machine drawing, which of the following joints is considered as permanent joints?", 
-        options: ["Screws", "Brazing", "Key", "Cotter and Pin"], 
-        answer: 1 },
-      { q: "In which type of projections are the three dimensional objects projected on a picture plane?", 
-        options: ["Isometric drawing", "Orthographic projection", "Isometric projection", "Schematic illustration"], 
-        answer: 1 },
-      { q: "Orthographic projection is drawn using two methods. They are …", 
-        options: ["second angle and third angle method", "first angle and third angle method", "first angle and fourth angle method", "second angle and fourth angle method"], 
-        answer: 1 },
-      { q: "The fuel in diesel engine is ignited by", 
-        options: ["spark plug", "injector", "compressed air temperature property", "glow plug"], 
-        answer: 1 },
-      { q: "A steam engine comes under the category of", 
-        options: ["external combustion engines", "internal combustion engines", "both A and B", "none of the above"], 
-        answer: 0 },
-      { q: "For the same temperature limits and heat input, the most efficient cycle is", 
-        options: ["Brayton", "Carnot", "Diesel", "Otto"], 
-        answer: 1 },
-      { q: "Heat does not spontaneously flow from a colder body to hotter one. Which of the following thermodynamics law states this?", 
-        options: ["Zeroth law of thermodynamics", "First law of thermodynamics", "Second law of thermodynamics", "Third law of thermodynamics"], 
-        answer: 2 },
-      { q: "When the gas is heated at constant volume, the heat supplied", 
-        options: ["increases the internal energy of the gas", "decreases the temperature of the gas", "does some external work during expansion", "does not change anything in the system"], 
-        answer: 0 },
-      { q: "Change in enthalpy of a system is due to heat supplied at", 
-        options: ["constant volume", "constant pressure", "both A and B", "none of the above"], 
-        answer: 1 },
-      { q: "If a heat engine takes 600J of heat from hot reservoir and produces 360J of work in each cycle, then efficiency of heat engine will be", 
-        options: ["62.5%", "60%", "58%", "56%"], 
-        answer: 0 },
-      { q: "Which of the following is not basic function of ICAO?", 
-        options: ["To set standards and policies for civil aviation", "To serve as a clearinghouse for cooperation and discussion on civil aviation issues among its member states", "To foster the planning and development of the international air transport system", "To set standard for employees working condition"], 
-        answer: 3 },
-      { q: "The magnitude of electric shock on human body depends upon", 
-        options: ["the line voltage", "the line current", "the line current and line voltage", "current flowing through the human body"], 
-        answer: 3 },
-      { q: "When was International Labour Organization established?", 
-        options: ["1910 AD", "1919 AD", "1935 AD", "1945 AD"], 
-        answer: 1 },
-      { q: "The starting motor used in vehicle is", 
-        options: ["an AC motor", "a DC motor", "the combination of both AC and DC motor", "none of the above"], 
-        answer: 1 },
-      { q: "For starting a DC motor, a starter is required because", 
-        options: ["it limits the speed of the motor", "it limits the starting current to a safe value", "it starts the motor", "none of the above"], 
-        answer: 1 },
-      { q: "Which of the following is a part of a generator?", 
-        options: ["An internal combustion engine", "An alternator", "A starter", "All of the above"], 
-        answer: 3 },
-      { q: "Boiler efficiency is related to", 
-        options: ["boiler energy output to the boiler energy input", "boiler steam output to the boiler water input", "water input temperature to steam output temperature", "fuel consumption to the steam output"], 
-        answer: 0 },
-      { q: "The maximum heat loss in a boiler occurs due to", 
-        options: ["moisture in fuel", "dry flue gases", "steam formation", "unburnt carbon"], 
-        answer: 1 },
-      { q: "Water and sediment in fuel oil can be removed by", 
-        options: ["heating the oil in the settling tanks", "cooling the oil in the settling tanks", "burning the oil", "suspension"], 
-        answer: 0 },
-      { q: "Depreciation occurs due to", 
-        options: ["fall in the market value of an asset", "physical wear and tear of an asset", "increase in the value of liabilities", "reduction in capital"], 
-        answer: 1 },
-      { q: "The cost incurred to acquire or manufacture a product is known as", 
-        options: ["period cost", "product cost", "admin cost", "real cost"], 
-        answer: 3 },
-      { q: "A graphic device used to determine the break-even point and profit potential under varying conditions of output and cost is known as", 
-        options: ["Gantt chart", "flow chart", "PERT chart", "break-even chart"], 
-        answer: 3 },
-      { q: "The friction experienced by an object at rest is", 
-        options: ["dynamic friction", "static friction", "rolling friction", "coefficient of friction"], 
-        answer: 1 },
-      { q: "Which is the false statement?", 
-        options: ["Speed is a vector quantity.", "Velocity is a vector quantity.", "Acceleration is a vector quantity.", "Velocity has both the magnitude and direction."], 
-        answer: 0 },
-      { q: "For maximum range of a projectile the angle of projection should be", 
-        options: ["90°", "30°", "45°", "15°"], 
-        answer: 2 },
-      { q: "Rate of doing work is called", 
-        options: ["power", "energy", "work", "force"], 
-        answer: 0 },
-      { q: "The product of the moment of inertia and the angular acceleration is", 
-        options: ["force", "torque", "work", "angular momentum"], 
-        answer: 1 },
-      { q: "If a body is moving along a circular path of radius(r) and with angular acceleration (φ), then its linear acceleration is given by", 
-        options: ["r/φ", "rφ²", "φ/r", "rφ"], 
-        answer: 1 },
-      { q: "In curvilinear motion on a curve with a radius of curvature of θ, what is the normal component of acceleration?", 
-        options: ["a²/t", "v²/θ", "θ/v", "dv/dt"], 
-        answer: 1 }
-    ];
+  // सेवा सम्बन्धी तथ्य-ज्ञान (Questions 21-50)
+  { q: "Which of the following is not a drawing symbol?", 
+    options: ["Ø", "D", "R", "Ψ"], 
+    answer: 3 }, // Correct: Ψ is not a standard drawing symbol (Ø = diameter, R = radius, D = depth).
+  { q: "In machine drawing, which of the following joints is considered as permanent joints?", 
+    options: ["Screws", "Brazing", "Key", "Cotter and Pin"], 
+    answer: 1 }, // Correct: Brazing is a permanent joint; others are temporary.
+  { q: "In which type of projections are the three dimensional objects projected on a picture plane?", 
+    options: ["Isometric drawing", "Orthographic projection", "Isometric projection", "Schematic illustration"], 
+    answer: 1 }, // Correct: Orthographic projection projects 3D objects onto a 2D plane.
+  { q: "Orthographic projection is drawn using two methods. They are …", 
+    options: ["second angle and third angle method", "first angle and third angle method", "first angle and fourth angle method", "second angle and fourth angle method"], 
+    answer: 1 }, // Correct: First angle and third angle methods are used in orthographic projection.
+  { q: "The fuel in diesel engine is ignited by", 
+    options: ["spark plug", "injector", "compressed air temperature property", "glow plug"], 
+    answer: 2 }, // Correct: Diesel engines use the high temperature of compressed air for ignition.
+  { q: "A steam engine comes under the category of", 
+    options: ["external combustion engines", "internal combustion engines", "both A and B", "none of the above"], 
+    answer: 0 }, // Correct: Steam engines are external combustion engines.
+  { q: "For the same temperature limits and heat input, the most efficient cycle is", 
+    options: ["Brayton", "Carnot", "Diesel", "Otto"], 
+    answer: 1 }, // Correct: Carnot cycle is the most efficient for given temperature limits.
+  { q: "Heat does not spontaneously flow from a colder body to hotter one. Which of the following thermodynamics law states this?", 
+    options: ["Zeroth law of thermodynamics", "First law of thermodynamics", "Second law of thermodynamics", "Third law of thermodynamics"], 
+    answer: 2 }, // Correct: Second law of thermodynamics (Clausius statement).
+  { q: "When the gas is heated at constant volume, the heat supplied", 
+    options: ["increases the internal energy of the gas", "decreases the temperature of the gas", "does some external work during expansion", "does not change anything in the system"], 
+    answer: 0 }, // Correct: At constant volume, heat increases internal energy (\(Q = \Delta U\)).
+  { q: "Change in enthalpy of a system is due to heat supplied at", 
+    options: ["constant volume", "constant pressure", "both A and B", "none of the above"], 
+    answer: 1 }, // Correct: Enthalpy change (\(H = U + PV\)) occurs with heat at constant pressure.
+  { q: "If a heat engine takes 600J of heat from hot reservoir and produces 360J of work in each cycle, then efficiency of heat engine will be", 
+    options: ["62.5%", "60%", "58%", "56%"], 
+    answer: 1 }, // Correct: Efficiency = \(W/Q_{\text{in}} \times 100\% = 360/600 \times 100\% = 60\%\).
+  { q: "Which of the following is not basic function of ICAO?", 
+    options: ["To set standards and policies for civil aviation", "To serve as a clearinghouse for cooperation and discussion on civil aviation issues among its member states", "To foster the planning and development of the international air transport system", "To set standard for employees working condition"], 
+    answer: 3 }, // Correct: ICAO focuses on aviation standards, not employee conditions.
+  { q: "The magnitude of electric shock on human body depends upon", 
+    options: ["the line voltage", "the line current", "the line current and line voltage", "current flowing through the human body"], 
+    answer: 3 }, // Correct: Electric shock severity depends on the current through the body.
+  { q: "When was International Labour Organization established?", 
+    options: ["1910 AD", "1919 AD", "1935 AD", "1945 AD"], 
+    answer: 1 }, // Correct: ILO was established in 1919.
+  { q: "The starting motor used in vehicle is", 
+    options: ["an AC motor", "a DC motor", "the combination of both AC and DC motor", "none of the above"], 
+    answer: 1 }, // Correct: Vehicles use DC motors for starting.
+  { q: "For starting a DC motor, a starter is required because", 
+    options: ["it limits the speed of the motor", "it limits the starting current to a safe value", "it starts the motor", "none of the above"], 
+    answer: 1 }, // Correct: Starter limits the high starting current in a DC motor.
+  { q: "Which of the following is a part of a generator?", 
+    options: ["An internal combustion engine", "An alternator", "A starter", "All of the above"], 
+    answer: 1 }, // Correct: Alternator is the core part of a generator (others may be associated but not core parts).
+  { q: "Boiler efficiency is related to", 
+    options: ["boiler energy output to the boiler energy input", "boiler steam output to the boiler water input", "water input temperature to steam output temperature", "fuel consumption to the steam output"], 
+    answer: 0 }, // Correct: Boiler efficiency = (energy output / energy input) × 100%.
+  { q: "The maximum heat loss in a boiler occurs due to", 
+    options: ["moisture in fuel", "dry flue gases", "steam formation", "unburnt carbon"], 
+    answer: 1 }, // Correct: Dry flue gases carry away significant heat, causing the most loss.
+  { q: "Water and sediment in fuel oil can be removed by", 
+    options: ["heating the oil in the settling tanks", "cooling the oil in the settling tanks", "burning the oil", "suspension"], 
+    answer: 0 }, // Correct: Heating in settling tanks separates water and sediment.
+  { q: "Depreciation occurs due to", 
+    options: ["fall in the market value of an asset", "physical wear and tear of an asset", "increase in the value of liabilities", "reduction in capital"], 
+    answer: 1 }, // Correct: Depreciation is due to physical wear and tear.
+  { q: "The cost incurred to acquire or manufacture a product is known as", 
+    options: ["period cost", "product cost", "admin cost", "real cost"], 
+    answer: 1 }, // Correct: Product cost includes acquisition/manufacturing costs.
+  { q: "A graphic device used to determine the break-even point and profit potential under varying conditions of output and cost is known as", 
+    options: ["Gantt chart", "flow chart", "PERT chart", "break-even chart"], 
+    answer: 3 }, // Correct: Break-even chart is used for this purpose.
+  { q: "The friction experienced by an object at rest is", 
+    options: ["dynamic friction", "static friction", "rolling friction", "coefficient of friction"], 
+    answer: 1 }, // Correct: Static friction acts on objects at rest.
+  { q: "Which is the false statement?", 
+    options: ["Speed is a vector quantity.", "Velocity is a vector quantity.", "Acceleration is a vector quantity.", "Velocity has both the magnitude and direction."], 
+    answer: 0 }, // Correct: Speed is a scalar quantity, not a vector.
+  { q: "For maximum range of a projectile the angle of projection should be", 
+    options: ["90°", "30°", "45°", "15°"], 
+    answer: 2 }, // Correct: Maximum range occurs at 45° (projectile motion).
+  { q: "Rate of doing work is called", 
+    options: ["power", "energy", "work", "force"], 
+    answer: 0 }, // Correct: Power is the rate of doing work.
+  { q: "The product of the moment of inertia and the angular acceleration is", 
+    options: ["force", "torque", "work", "angular momentum"], 
+    answer: 1 }, // Correct: Torque = moment of inertia × angular acceleration (\(τ = Iα\)).
+  { q: "If a body is moving along a circular path of radius(r) and with angular acceleration (φ), then its linear acceleration is given by", 
+    options: ["r/φ", "rφ²", "φ/r", "rφ"], 
+    answer: 3 }, // Correct: Linear acceleration = \(rφ\) (tangential acceleration in circular motion).
+  { q: "In curvilinear motion on a curve with a radius of curvature of θ, what is the normal component of acceleration?", 
+    options: ["a²/t", "v²/θ", "θ/v", "dv/dt"], 
+    answer: 1 }, // Correct: Normal (centripetal) acceleration = \(v^2/θ\), where \(θ\) is the radius of curvature.
+];
 
     const quizEl = document.getElementById("quiz");
 
