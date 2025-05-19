@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test – 50 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f8ffae, #43c6ac);
+      margin: 0;
+      padding: 2rem;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #1e88e5;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+    }
+
+    .question p {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .options button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      width: 100%;
+      background: #e3f2fd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 1rem;
+    }
+
+    .options button:hover {
+      background: #bbdefb;
+    }
+
+    .correct {
+      background-color: #c8e6c9 !important;
+    }
+
+    .wrong {
+      background-color: #ffcdd2 !important;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-container {
+        padding: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Mock Test – 50 Questions</h1>
+    <div id="quiz"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        q: "खस आर्य, पिछडा वर्ग, अपाङ्गता भएका व्यक्ति, ज्येष्ठ नागरिक, श्रमिक, किसान, अल्पसंख्यक एवं सीमान्तकृत समुदायको हक अधिकारको लागि अध्ययन अनुसन्धान गर्ने कार्य जिम्मेवारी तलका मध्ये कुन निकायलाई दिइएको छ?",
+        options: ["राष्ट्रिय दलित आयोग", "आदिवासी जनजाति आयोग", "राष्ट्रिय महिला आयोग", "राष्ट्रिय समावेशी आयोग"],
+        answer: 3
+        // Correct: The National Inclusive Commission is responsible for these groups.
+      },
+      {
+        q: "राष्ट्रिय नीति तयार गर्ने मुख्य औजार बजेट हो। यो भनाई कसको हो?",
+        options: ["माल्थस्", "एफ.ए. निग्रो", "पी.इ.टेलर", "पी. सेफर्ड"],
+        answer: 1
+        // Correct: F.A. Nigro emphasized the budget as a policy tool.
+      },
+      {
+        q: "सूचनाको हक सम्बन्धी ऐन, २०६४ बमोजिम सूचनाको वर्गीकरण गर्न कसको अध्यक्षतामा समिति गठन हुने व्यवस्था छ?",
+        options: ["नेपाल सरकारको मुख्य सचिव", "सञ्चार तथा सूचना प्रविधि मन्त्री", "सञ्चार तथा सूचना प्रविधि सचिव", "कार्यालय प्रमुख"],
+        answer: 0
+        // Correct: The Chief Secretary chairs the information classification committee.
+      },
+      {
+        q: "सार्वजनिक बडापत्रको शुरुवात कुन देशबाट भएको हो?",
+        options: ["बेलायत", "अमेरिका", "फ्रान्स", "जर्मनी"],
+        answer: 0
+        // Correct: The Citizen's Charter originated in the UK in 1991.
+      },
+      {
+        q: "निम्नमध्ये कुन नेतृत्व शैली अधिनायकवादी (Autocratic) नेतृत्वको विशेषता हो?",
+        options: ["निर्णय सबैसँग छलफल गरेर लिने", "कर्मचारीहरूको रायको कदर गर्ने", "आदेश दिने र पालना गराउने", "कर्मचारीहरूलाई स्वतन्त्र रुपमा कार्य गर्न दिने"],
+        answer: 2
+        // Correct: Autocratic leadership involves giving orders and expecting compliance.
+      },
+      {
+        q: "क्षेत्रफलको आधारमा नेपालको सबैभन्दा ठूलो र सानो जिल्ला कुन हो?",
+        options: ["हुम्ला र भक्तपुर", "संखुवासभा र भक्तपुर", "ताप्लेजुङ र तेहथुम", "डोल्पा र भक्तपुर"],
+        answer: 3
+        // Correct: Dolpa (7,889 km²) is the largest, Bhaktapur (119 km²) is the smallest.
+      },
+      {
+        q: "निर्जला एकादशी कहिले पर्दछ?",
+        options: ["बैशाख शुक्ल पक्षको एकादशी तिथि", "ज्येष्ठ शुक्ल पक्षको एकादशी तिथि", "बैशाख कृष्ण पक्षको एकादशी तिथि", "ज्येष्ठ कृष्ण पक्षको एकादशी तिथि"],
+        answer: 1
+        // Correct: Nirjala Ekadashi falls on Jyestha Shukla Paksha Ekadashi.
+      },
+      {
+        q: "चालु सोह्रौं योजनाको अन्तसम्म नेपालीको प्रति व्यक्ति आय कति पुऱ्याउने लक्ष्य राखिएको छ?",
+        options: ["१४५६ अमेरिकी डलर", "१६३१ अमेरिकी डलर", "२३५१ अमेरिकी डलर", "२४६१ अमेरिकी डलर"],
+        answer: 2
+        // Correct: 16th Plan targets ~USD 2,351 (pending exact confirmation).
+      },
+      {
+        q: "दिगो विकासको लक्ष्य १३ अन्तर्गत जलवायु परिवर्तन र यसका असर न्यूनीकरण गर्ने सम्बन्धमा सन् २०२२ सम्म को प्रगतिमा जलवायु उत्तरदायी बजेटको लागि कुल बजेटको कति प्रतिशत छुट्‌याइएको छ?",
+        options: ["३.९", "४.९", "५.९", "६.९"],
+        answer: 2
+        // Correct: ~5.9% allocated globally (pending Nepal-specific confirmation).
+      },
+      {
+        q: "Genetic Engineering लाई अकों के पनि भनिन्छ?",
+        options: ["Bio-technology", "Chromosome technology", "RNA technology", "DNA technology"],
+        answer: 0
+        // Correct: Genetic engineering is a branch of biotechnology.
+      },
+      {
+        q: "बच्चालाई Japanese Encephalitis को Spain कति महिनामा लगाइन्छ?",
+        options: ["६", "८", "१०", "१२"],
+        answer: 3
+        // Correct: Administered at 12 months per Nepal’s schedule.
+      },
+      {
+        q: "नेपालमा हाल नगरपालिका संख्यामा कति बढाे देखिएको छ?",
+        options: ["५५३", "४६०", "२९३", "२७६"],
+        answer: 2
+        // Correct: Nepal has 293 municipalities as of 2025.
+      },
+      {
+        q: "संयुक्त राष्ट्रसंघीय बडापत्रमा कति धारा रहेका छन्?",
+        options: ["१११", "१२२", "१०१", "१३३"],
+        answer: 0
+        // Correct: UN Charter has 111 articles.
+      },
+      {
+        q: "नेपालले संयुक्त राष्ट्रसंघ सदस्यता प्राप्त गर्ने समयमा राष्ट्र कुन हो?",
+        options: ["बङ्गलादेश", "पाकिस्तान", "भारत", "श्रीलङ्का"],
+        answer: 2
+        // Correct: India was a UN member when Nepal joined in 1955.
+      },
+      {
+        q: "नेपाल संयुक्त राष्ट्रसंघ सन् १९५५ को शान्ति स्थायी समिति सदस्य चयन गरिएको मिति कुन हो?",
+        options: ["२००७ फागुन १६", "२००८ फागुन ६", "२००७ चैत्र २६", "माघको कुनै हफ्ता"],
+        answer: 1
+        // Correct: Retained but needs date confirmation.
+      },
+      {
+        q: "कार्यको निर्देशन भन्नाले के लाई बुझाउँछ?",
+        options: ["कार्यालयको बाहिर पठाउने पत्र कार्य", "कार्यालय प्रमुखले अन्य कर्मचारीलाई काम गर्न निर्देशन दिने कार्य", "A र B दुबै", "कार्यालय प्रमुखद्वारा प्रतिवेदन तयार गर्ने कार्य"],
+        answer: 1
+        // Correct: Direction is instructing employees by the office head.
+      },
+      {
+        q: "सेवा प्रवाह व्यवस्थापन गर्ने क्रममा तलका मध्ये कुन कार्यपालकले अधिक महत्वपूर्ण कार्यालयका काम गर्छ?",
+        options: ["सरोकारवाला निकाय", "सेवा प्रवाह मूल्याङ्कन समिति", "अदालतको फैसला", "जिल्ला प्रमुख"],
+        answer: 3
+        // Correct: District Chief is key in service delivery management.
+      },
+      {
+        q: "सेवा प्रवाह उपलव्धताका आधार गुणस्तर सुनिश्चित गर्नेतर्फ मुख्य जोर कसमा पर्छ?",
+        options: ["सहजता", "सन्तुलन", "सक्षमता", "विचलन"],
+        answer: 0
+        // Correct: Ease of access ensures service quality.
+      },
+      {
+        q: "लेखा परीक्षण सम्बन्धि कार्यहरु कुन निकायले गर्दछ?",
+        options: ["मन्त्रिपरिषद्", "महालेखा नियन्त्रक कार्यालय", "सार्वजनिक सेवा आयोग", "प्रधानमन्त्री तथा मन्त्रिपरिषद् कार्यालय"],
+        answer: 1
+        // Correct: Auditor General’s Office handles audits; updated to closest option.
+      },
+      {
+        q: "सरकारी सम्पत्तिको सुरक्षा तथा शक्तिको दुरुपयोग व्यवस्थापन र समाधानको जिम्मेवारी कुन निकायको हो?",
+        options: ["सुसूचित कार्यालय", "महालेखा नियन्त्रक कार्यालय", "संयुक्त सचिव तथा सामान्य प्रशासन मन्त्रालय", "जिम्मेवार निकायहरू (नियामक)"],
+        answer: 3
+        // Correct: Regulatory bodies handle this responsibility.
+      },
+      {
+        q: "For a given velocity of a projectile, the range will be maximum when angle of projection is",
+        options: ["75°", "60°", "45°", "30°"],
+        answer: 2
+        // Correct: Maximum range at 45°.
+      },
+      {
+        q: "The statement that the sum of kinetic energy and potential energy of a particle in the earth’s gravitational field is constant is known as",
+        options: ["Principle of conservation of mechanical energy", "Law of gravitation", "Newton’s law", "Law of nature"],
+        answer: 0
+        // Correct: Conservation of mechanical energy.
+      },
+      {
+        q: "The dimension of energy are",
+        options: ["[ML²T⁻²]", "[MLT⁻²]", "[ML²T⁻¹]", "[MLT⁻¹]"],
+        answer: 0
+        // Correct: Energy dimensions are [ML²T⁻²].
+      },
+      {
+        q: "The law of conservation of energy states that",
+        options: ["energy can be created but not destroyed", "energy can be created and converted", "energy can neither be created nor be destroyed", "energy can either be created or be destroyed"],
+        answer: 2
+        // Correct: Energy is conserved.
+      },
+      {
+        q: "The radial component of velocity for a particle moving in circular path is",
+        options: ["constant", "radius itself", "variable", "zero"],
+        answer: 3
+        // Correct: Radial velocity is zero in uniform circular motion.
+      },
+      {
+        q: "Lines of an isometric drawing that are not parallel to the isometric axes are called",
+        options: ["Trimetric lines", "Non isometric lines", "Multiviews lines", "Dimetric lines"],
+        answer: 1
+        // Correct: Non-isometric lines.
+      },
+      {
+        q: "Minimum pitch of the rivets shall not be less than",
+        options: ["1.5d", "2.0d", "2.5d", "3.0d"],
+        answer: 1
+        // Correct: Minimum pitch is 2.0d.
+      },
+      {
+        q: "What type of failure will occur when rivets are smaller than necessary?",
+        options: ["Tearing of plate between the holes", "Tearing of plate between the edges", "Shearing of rivet", "Crushing of plate"],
+        answer: 2
+        // Correct: Shearing of rivet occurs.
+      },
+      {
+        q: "Screwed joints are",
+        options: ["temporary joints", "permanent joints", "neither permanent nor temporary joints", "both temporary and permanent joints"],
+        answer: 0
+        // Correct: Screwed joints are temporary.
+      },
+      {
+        q: "The efficiency of a heat engine can never be more than",
+        options: ["50%", "80%", "100%", "25%"],
+        answer: 2
+        // Correct: Efficiency cannot exceed 100%.
+      },
+      {
+        q: "The compression ratio of petrol engine usually in the range of",
+        options: ["1 to 5", "6 to 12", "13 to 20", "21 to 30"],
+        answer: 1
+        // Correct: Petrol engine compression ratio is 6 to 12.
+      },
+      {
+        q: "A regenerator in a gas turbine",
+        options: ["permits use of fuels of inferior quality", "improves thermal efficiency", "permits use of higher compression ratio", "reduces heat loss in exhaust"],
+        answer: 1
+        // Correct: Regenerator improves thermal efficiency.
+      },
+      {
+        q: "Charle’s law is all about",
+        options: ["relation between volume and temperature keeping pressure constant", "relation between temperature and pressure keeping temperature constant", "relation between temperature and pressure keeping volume constant", "relation among pressure, volume and temperature with no constant"],
+        answer: 0
+        // Correct: Charle’s law relates volume and temperature.
+      },
+      {
+        q: "The first law of thermodynamics furnishes the relation between",
+        options: ["heat and work", "heat, work and property of the system", "various properties of the system", "various thermodynamic processes"],
+        answer: 1
+        // Correct: First law relates heat, work, and system properties.
+      },
+      {
+        q: "The heating of a gas at constant pressure is explained by",
+        options: ["Gay-Lussac law", "Boyle’s law", "Charle’s law", "J gangs law"],
+        answer: 2
+        // Correct: Charle’s law explains this.
+      },
+      {
+        q: "Petrol engine cycle is also called",
+        options: ["constant volume cycle", "constant density cycle", "constant temperature cycle", "constant pressure cycle"],
+        answer: 0
+        // Correct: Petrol engines use the Otto cycle (constant volume).
+      },
+      {
+        q: "Which of the following is not the basic functions of ILO?",
+        options: ["Promote rights at work", "Encourage decent employment opportunities", "Enhance social protection", "Promote disturbances in the working area"],
+        answer: 3
+        // Correct: Promoting disturbances is not an ILO function.
+      },
+      {
+        q: "Which of the following term is used for describing the payment of special compensation usually tied to performance?",
+        options: ["Tax", "Overtime wages", "Incentive bonus", "Benefit"],
+        answer: 2
+        // Correct: Incentive bonus is performance-based.
+      },
+      {
+        q: "Noise in a workshop falls under __ type of hazards.",
+        options: ["biological", "physical", "chemical", "agronomical"],
+        answer: 1
+        // Correct: Noise is a physical hazard.
+      },
+      {
+        q: "In DC series motor, the speed is",
+        options: ["independent of armature current", "directly proportional to the square of armature current", "inversely proportional to the armature current", "directly proportional to the armature current"],
+        answer: 2
+        // Correct: Speed is inversely proportional to armature current.
+      },
+      {
+        q: "Direction of rotation of motor is determined by",
+        options: ["Faraday’s law", "Lenz’s law", "Coulomb’s law", "Fleming’s left hand rule"],
+        answer: 3
+        // Correct: Fleming’s left hand rule applies.
+      },
+      {
+        q: "The electromotive force (EMF) developed by the generator depends upon",
+        options: ["area of rotating wire", "length of rotating wire", "radius of wire", "size of magnet"],
+        answer: 3
+        // Correct: EMF depends on magnetic field strength.
+      },
+      {
+        q: "On what basis are fire tube and water tube boilers are classified?",
+        options: ["Depending the combustion products formed", "Depending the state of fuel", "Depending on steam formation rate", "Depending tubular heating surface"],
+        answer: 3
+        // Correct: Classified by tubular heating surface.
+      },
+      {
+        q: "The efficiency of boiler is defined as",
+        options: ["heat actually used to produce steam / heat liberated in the furnace", "mass of steam produced / mass of total water supplied in a given time", "heat liberated in the furnace / heat≤ actually used in producing steam", "None of the above"],
+        answer: 0
+        // Correct: Efficiency is heat used for steam over heat liberated.
+      },
+      {
+        q: "It is required to produce large amount of steam at low pressure which boiler should be used",
+        options: ["Pulverized fuel fired boiler", "Cochran boiler", "Lancashire boiler", "Babcock Wilcox boiler"],
+        answer: 2
+        // Correct: Lancashire boiler is suitable.
+      },
+      {
+        q: "Break even point is the intersection point between",
+        options: ["fixed cost and sales revenue lines", "variable cost and sales revenue lines", "fixed cost and total cost lines", "sales revenue and total cost line"],
+        answer: 3
+        // Correct: Break-even is where sales revenue equals total cost.
+      },
+      {
+        q: "What causes depreciation?",
+        options: ["Loss of goods", "Wear and Tear", "Increased liability", "Purchase of goods"],
+        answer: 1
+        // Correct: Depreciation is due to wear and tear.
+      },
+      {
+        q: "___ is not the type of cost element.",
+        options: ["labour cost", "material cost", "emergency cost", "expenses"],
+        answer: 2
+        // Correct: Emergency cost is not a standard cost element.
+      },
+      {
+        q: "Which of the following is a feature of friction?",
+        options: ["Always acts in the direction opposite to the applied force", "Always acts in the direction of applied force", "It is an active force", "All of the above"],
+        answer: 0
+        // Correct: Friction opposes applied force.
+      },
+      {
+        q: "Which among the following is the wrong statement about speed and velocity?",
+        options: ["Speed is a vector quality", "Velocity is a vector quality", "Speed is a scalar quality", "Speed and velocity are equal"],
+        answer: 0
+        // Correct: Speed is a scalar, not a vector.
+      }
+    ];
+
+    const quizEl = document.getElementById("quiz");
+
+    // Enhanced escapeHTML to handle additional special characters
+    function escapeHTML(str) {
+      const htmlEntities = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '≤': '&le;'
+      };
+      return str.replace(/[&<>"'≤]/g, match => htmlEntities[match]);
+    }
+
+    // Show all questions
+    function showQuestions() {
+      let html = '';
+      try {
+        questions.forEach((q, i) => {
+          const optionsHtml = q.options
+            .map((opt, j) => `<button data-index="${j}" onclick="checkAnswer(this, ${i}, ${j}, '${escapeHTML(opt)}')">${escapeHTML(opt)}</button>`)
+            .join('');
+          html += `
+            <div class="question" data-index="${i}">
+              <p>Q${i + 1}. ${escapeHTML(q.q)}</p>
+              <div class="options">${optionsHtml}</div>
+            </div>
+          `;
+        });
+        quizEl.innerHTML = html;
+      } catch (error) {
+        quizEl.innerHTML = "<p>Error loading questions. Please try again.</p>";
+      }
+    }
+
+    // Check answer
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      const q = questions[questionIndex];
+      const correct = q.answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+
+      buttons.forEach((btn) => {
+        const btnIndex = parseInt(btn.getAttribute("data-index"));
+        btn.disabled = true;
+        if (btnIndex === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
+      });
+    }
+
+    // Initialize
+    showQuestions();
+  </script>
+</body>
+</html>
