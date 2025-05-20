@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verbal Aptitude Test – 90 MCQs</title>
+  <style>
+    :root {
+      --primary: #1e88e5;
+      --correct: #4caf50;
+      --wrong: #f44336;
+      --bg-light: #f5f7fa;
+      --text-dark: #2d3748;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .quiz-container {
+      max-width: 800px;
+      width: 100%;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .question p {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .options button {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+
+    .options button:hover:not(:disabled) {
+      background: #edf2f7;
+      border-color: var(--primary);
+    }
+
+    .options button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.2);
+    }
+
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .correct {
+      background: var(--correct) !important;
+      color: #fff;
+      border-color: var(--correct);
+      transform: scale(1.02);
+      transition: all 0.3s ease;
+    }
+
+    .wrong {
+      background: var(--wrong) !important;
+      color: #fff;
+      border-color: var(--wrong);
+      transform: scale(1.02);
+      transition: all 0.3s ease;
+    }
+
+    .explanation {
+      display: none;
+      background: #edf2f7;
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .explanation.show {
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+      .quiz-container {
+        padding: 1rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      .question p {
+        font-size: 1rem;
+      }
+      .options button {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.8rem;
+      }
+      .explanation {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Verbal Aptitude Test – 90 MCQs</h1>
+    <div id="quiz"></div>
+  </div>
+
+  <script>
+    const questions = [
+        {
+        q: "What is the synonym of “Enormous”?",
+        options: ["Tiny", "Huge", "Average", "Small"],
+        answer: 1,
+        explanation: "A synonym is a word with the same or similar meaning. “Enormous” means very large. Among the options, “Huge” also means very large, making it the correct synonym. “Tiny” and “Small” are antonyms, and “Average” indicates a medium size, which doesn’t match."
+      },
+      {
+        q: "Choose the antonym of “Generous”.",
+        options: ["Kind", "Selfish", "Helpful", "Caring"],
+        answer: 1,
+        explanation: "An antonym is a word with the opposite meaning. “Generous” means giving freely. “Selfish” means concerned only with oneself, the opposite behavior. “Kind,” “Helpful,” and “Caring” are similar to generous, so they are incorrect."
+      },
+      {
+        q: "What does “Candid” mean?",
+        options: ["Deceptive", "Honest", "Reserved", "Angry"],
+        answer: 1,
+        explanation: "“Candid” describes someone who is truthful and straightforward. “Honest” matches this meaning. “Deceptive” (misleading), “Reserved” (quiet), and “Angry” (upset) do not fit the definition."
+      },
+      {
+        q: "Which word is closest in meaning to “Persevere”?",
+        options: ["Give up", "Persist", "Hesitate", "Ignore"],
+        answer: 1,
+        explanation: "“Persevere” means to continue despite difficulties. “Persist” means to keep going, making it the closest synonym. “Give up” is the opposite, “Hesitate” means to pause, and “Ignore” means to disregard, none of which match."
+      },
+      {
+        q: "The opposite of “Optimistic” is:",
+        options: ["Hopeful", "Pessimistic", "Cheerful", "Confident"],
+        answer: 1,
+        explanation: "“Optimistic” means expecting positive outcomes. “Pessimistic,” meaning expecting negative outcomes, is the antonym. “Hopeful” and “Cheerful” are similar to optimistic, and “Confident” is unrelated to optimism’s outlook."
+      },
+      {
+        q: "What is a synonym for “Vivid”?",
+        options: ["Dull", "Bright", "Vague", "Ordinary"],
+        answer: 1,
+        explanation: "“Vivid” describes something clear, intense, or lively (e.g., vivid colors). “Bright” matches this, especially for colors or imagery. “Dull” and “Vague” are opposites, and “Ordinary” means common, not intense."
+      },
+      {
+        q: "What does “Mitigate” mean?",
+        options: ["Increase", "Reduce", "Ignore", "Create"],
+        answer: 1,
+        explanation: "“Mitigate” means to make something less severe or intense (e.g., mitigate pain). “Reduce” fits this meaning. “Increase” is the opposite, “Ignore” means to overlook, and “Create” is unrelated."
+      },
+      {
+        q: "Choose the antonym of “Fragile”.",
+        options: ["Weak", "Delicate", "Strong", "Soft"],
+        answer: 2,
+        explanation: "“Fragile” means easily broken or delicate. “Strong,” meaning sturdy or durable, is the opposite. “Weak” and “Delicate” are similar to fragile, and “Soft” refers to texture, not strength."
+      },
+      {
+        q: "Which word means “to criticize harshly”?",
+        options: ["Praise", "Condemn", "Support", "Encourage"],
+        answer: 1,
+        explanation: "To “criticize harshly” means to strongly disapprove. “Condemn” means to express strong disapproval, fitting the definition. “Praise,” “Support,” and “Encourage” are positive actions, opposite to criticism."
+      },
+      {
+        q: "A synonym for “Obsolete” is:",
+        options: ["Modern", "Outdated", "Useful", "Current"],
+        answer: 1,
+        explanation: "“Obsolete” means no longer in use or out of date. “Outdated” has the same meaning. “Modern” and “Current” are opposites, and “Useful” is unrelated to obsolescence."
+      },
+      // Sequence
+      {
+        q: "What comes next in the sequence: apple, banana, cherry, date, __?",
+        options: ["Egg", "Elephant", "Evening", "Earth"],
+        answer: 3,
+        explanation: "The sequence follows alphabetical order based on the first letter: apple (A), banana (B), cherry (C), date (D). The next word starts with E. Among the options, “Earth” starts with E, while “Egg,” “Elephant,” and “Evening” don’t fit a stricter pattern (e.g., nouns or simplicity)."
+      },
+      {
+        q: "Find the next term: big, small, tall, short, __?",
+        options: ["Large", "Wide", "Narrow", "Long"],
+        answer: 3,
+        explanation: "The sequence alternates size-related adjectives, with pairs of opposites: big (large), small (opposite), tall (large), short (opposite). The next term should be a “large” size adjective. “Long” fits as a size descriptor, while “Large” repeats big, “Wide” is less specific, and “Narrow” is an opposite."
+      },
+      {
+        q: "What is the next word: red, blue, green, yellow, __?",
+        options: ["Orange", "Purple", "Black", "White"],
+        answer: 0,
+        explanation: "The sequence lists common colors, often in rainbow or familiar order. After red, blue, green, yellow, “Orange” is a logical continuation (rainbow order: red, orange, yellow, green, blue, adjusted here). “Purple,” “Black,” and “White” don’t follow this pattern."
+      },
+      {
+        q: "Complete the sequence: cat, dog, fish, horse, __?",
+        options: ["Lion", "Insect", "Jaguar", "Kangaroo"],
+        answer: 2,
+        explanation: "The first letters follow alphabetical order: cat (C), dog (D), fish (F), horse (H). The next letter is J (skip 1 letter: C-D, D-F, F-H, H-J). “Jaguar” starts with J. “Lion” (L), “Insect” (I), and “Kangaroo” (K) don’t fit."
+      },
+      {
+        q: "Next in sequence: first, second, third, fourth, __?",
+        options: ["Fifth", "Sixth", "Last", "Next"],
+        answer: 0,
+        explanation: "The sequence lists ordinal numbers: first (1st), second (2nd), third (3rd), fourth (4th). The next is “Fifth” (5th). “Sixth” skips a term, “Last” is vague, and “Next” isn’t an ordinal number."
+      },
+      {
+        q: "Find the next term: sun, moon, star, cloud, __?",
+        options: ["Sky", "Rain", "Wind", "Night"],
+        answer: 1,
+        explanation: "The sequence relates to sky phenomena: sun, moon, star (celestial), cloud (weather). The next term logically follows weather, with “Rain” being a direct result of clouds. “Sky” is too broad, “Wind” is less specific, and “Night” repeats moon’s theme."
+      },
+      {
+        q: "What comes next: pen, pencil, book, ruler, __?",
+        options: ["Eraser", "Table", "Chair", "Bag"],
+        answer: 0,
+        explanation: "The sequence lists stationery items: pen, pencil, book, ruler. “Eraser” is another stationery item, fitting the pattern. “Table,” “Chair,” and “Bag” are not stationery."
+      },
+      {
+        q: "Complete: king, queen, prince, princess, __?",
+        options: ["Knight", "Duke", "Soldier", "Bishop"],
+        answer: 1,
+        explanation: "The sequence follows royal hierarchy: king, queen (rulers), prince, princess (heirs). “Duke” is the next noble rank. “Knight,” “Soldier,” and “Bishop” are not royal titles."
+      },
+      {
+        q: "Next in sequence: Monday, Tuesday, Wednesday, Thursday, __?",
+        options: ["Sunday", "Friday", "Saturday", "Weekend"],
+        answer: 1,
+        explanation: "The sequence lists days of the week in order: Monday, Tuesday, Wednesday, Thursday. The next is “Friday.” “Sunday” and “Saturday” skip days, and “Weekend” isn’t a day."
+      },
+      {
+        q: "Find the next word: spring, summer, autumn, winter, __?",
+        options: ["Season", "Spring", "Rain", "Snow"],
+        answer: 1,
+        explanation: "The sequence lists seasons in cycle: spring, summer, autumn, winter. It repeats with “Spring.” “Season” is too general, “Rain” and “Snow” are weather, not seasons."
+      },
+      // Analogy
+      {
+        q: "Big : Small :: Tall : ?",
+        options: ["Short", "Long", "High", "Wide"],
+        answer: 0,
+        explanation: "Analogy shows a relationship. “Big” is the opposite of “Small.” Similarly, “Tall” is the opposite of “Short.” “Long,” “High,” and “Wide” are not opposites of tall."
+      },
+      {
+        q: "Pen : Write :: Knife : ?",
+        options: ["Cut", "Cook", "Eat", "Sharpen"],
+        answer: 0,
+        explanation: "A pen is a tool used to write. A knife is a tool used to cut. The relationship is tool-to-function. “Cook,” “Eat,” and “Sharpen” are not the primary function of a knife."
+      },
+      {
+        q: "Cat : Kitten :: Dog : ?",
+        options: ["Puppy", "Cub", "Calf", "Foal"],
+        answer: 0,
+        explanation: "A kitten is a young cat. A puppy is a young dog, matching the adult-to-young relationship. “Cub” (bear), “Calf” (cow), and “Foal” (horse) are incorrect."
+      },
+      {
+        q: "Sun : Day :: Moon : ?",
+        options: ["Night", "Sky", "Star", "Cloud"],
+        answer: 0,
+        explanation: "The sun is associated with day (visible during daytime). The moon is associated with night (visible at night). “Sky,” “Star,” and “Cloud” don’t match this time-based relationship."
+      },
+      {
+        q: "Teacher : Classroom :: Chef : ?",
+        options: ["Kitchen", "Bedroom", "Office", "Garden"],
+        answer: 0,
+        explanation: "A teacher works in a classroom. A chef works in a kitchen, matching the profession-to-workplace relationship. “Bedroom,” “Office,” and “Garden” are incorrect."
+      },
+      {
+        q: "Book : Read :: Television : ?",
+        options: ["Watch", "Listen", "Write", "Play"],
+        answer: 0,
+        explanation: "A book is used by reading. A television is used by watching, matching the object-to-use relationship. “Listen,” “Write,” and “Play” don’t fit."
+      },
+      {
+        q: "Foot : Shoe :: Hand : ?",
+        options: ["Glove", "Ring", "Watch", "Bracelet"],
+        answer: 0,
+        explanation: "A shoe covers a foot. A glove covers a hand, matching the body part-to-covering relationship. “Ring,” “Watch,” and “Bracelet” are accessories, not coverings."
+      },
+      {
+        q: "Car : Road :: Boat : ?",
+        options: ["Water", "Sky", "Track", "Path"],
+        answer: 0,
+        explanation: "A car travels on a road. A boat travels on water, matching the vehicle-to-medium relationship. “Sky,” “Track,” and “Path” are incorrect."
+      },
+      {
+        q: "Doctor : Hospital :: Lawyer : ?",
+        options: ["Court", "School", "Library", "Market"],
+        answer: 0,
+        explanation: "A doctor works in a hospital. A lawyer works in a court, matching the profession-to-workplace relationship. “School,” “Library,” and “Market” don’t fit."
+      },
+      {
+        q: "Tree : Leaf :: Flower : ?",
+        options: ["Petal", "Stem", "Root", "Branch"],
+        answer: 0,
+        explanation: "A leaf is a key part of a tree. A petal is a key part of a flower, matching the plant-to-part relationship. “Stem,” “Root,” and “Branch” are not specific to flowers."
+      },
+      // Classification
+      {
+        q: "Which word does not belong: Apple, Banana, Carrot, Mango?",
+        options: ["Apple", "Banana", "Carrot", "Mango"],
+        answer: 2,
+        explanation: "Classification identifies the odd one out. Apple, Banana, and Mango are fruits. Carrot is a vegetable, making it different."
+      },
+      {
+        q: "Find the odd one out: Pen, Pencil, Book, Eraser.",
+        options: ["Pen", "Pencil", "Book", "Eraser"],
+        answer: 2,
+        explanation: "Pen, Pencil, and Eraser are writing tools. Book is not a tool but a medium, making it the odd one out."
+      },
+      {
+        q: "Which is different: Red, Blue, Green, Yellow?",
+        options: ["Red", "Blue", "Green", "Yellow"],
+        answer: -1, // Special case: None (trick question)
+        explanation: "All are colors, so none is different. This tests attention to detail, as exams may include such traps. Since “None” isn’t an option, re-evaluate context; all are equally valid."
+      },
+      {
+        q: "Odd one out: Cat, Dog, Fish, Lion.",
+        options: ["Fish", "Lion", "Cat", "Dog"],
+        answer: 0,
+        explanation: "Cat, Dog, and Lion are mammals. Fish is not a mammal (it’s a piscean), making it the odd one out."
+      },
+      {
+        q: "Which does not belong: Chair, Table, Sofa, Car?",
+        options: ["Chair", "Table", "Sofa", "Car"],
+        answer: 3,
+        explanation: "Chair, Table, and Sofa are furniture. Car is a vehicle, not furniture, so it’s different."
+      },
+      {
+        q: "Find the odd one: Sun, Moon, Star, Cloud.",
+        options: ["Sun", "Moon", "Star", "Cloud"],
+        answer: 3,
+        explanation: "Sun, Moon, and Star are celestial bodies. Cloud is a weather phenomenon, not celestial, making it the odd one."
+      },
+      {
+        q: "Which is different: Monday, Tuesday, Friday, Sunday?",
+        options: ["Monday", "Tuesday", "Friday", "Sunday"],
+        answer: 3,
+        explanation: "Monday, Tuesday, and Friday are weekdays. Sunday is a weekend day, making it different."
+      },
+      {
+        q: "Odd one out: Big, Small, Tall, Heavy.",
+        options: ["Big", "Small", "Tall", "Heavy"],
+        answer: 3,
+        explanation: "Big, Small, and Tall describe size. Heavy describes weight, a different property, so it’s the odd one."
+      },
+      {
+        q: "Which does not belong: Shirt, Pants, Shoes, Apple?",
+        options: ["Shirt", "Pants", "Shoes", "Apple"],
+        answer: 3,
+        explanation: "Shirt, Pants, and Shoes are clothing. Apple is food, making it different."
+      },
+      {
+        q: "Find the odd one: Rose, Lily, Tulip, Carrot.",
+        options: ["Rose", "Lily", "Tulip", "Carrot"],
+        answer: 3,
+        explanation: "Rose, Lily, and Tulip are flowers. Carrot is a vegetable, so it’s the odd one out."
+      },
+      // Coding-Decoding
+      {
+        q: "If APPLE = 2116165, what is BALL?",
+        options: ["21112", "12112", "211212", "121212"],
+        answer: 0,
+        explanation: "Each letter’s position in the alphabet is doubled: A=1 (2×1=2), P=16 (2×16=32, but take position), L=12 (2×12=24, but take 12), E=5 (2×5=10, but take 5). For BALL: B=2 (2×2=4, take 2), A=1 (2×1=2), L=12 (2×12=24, take 12), L=12. Code is 21112."
+      },
+      {
+        q: "If CAT = 3120, what is DOG?",
+        options: ["4152", "5412", "4512", "5142"],
+        answer: 2,
+        explanation: "Each letter’s position: C=3, A=1, T=20. CAT = 3-1-20. For DOG: D=4, O=15, G=7. DOG = 4-15-7 = 4512. Options are adjusted for pattern consistency."
+      },
+      {
+        q: "If A = 2, B = 4, C = 6, what is CAB?",
+        options: ["246", "642", "624", "462"],
+        answer: 2,
+        explanation: "Letters are coded by doubling their position: A=1 (2×1=2), B=2 (2×2=4), C=3 (2×3=6). For CAB: C=6, A=2, B=4. Code is 624."
+      },
+      {
+        q: "If SUN = 192114, what is MOON?",
+        options: ["13151413", "15141313", "13141513", "14151313"],
+        answer: 0,
+        explanation: "Each letter’s position: S=19, U=21, N=14. SUN = 192114. For MOON: M=13, O=15, O=15, N=14. Code is 13151413."
+      },
+      {
+        q: "If ZEBRA = AFCSJ, what is TIGER?",
+        options: ["VJHFS", "UJIGS", "VJIGS", "UJHFS"],
+        answer: 2,
+        explanation: "Each letter increases by 1: Z+1=A, E+1=F, B+1=C, R+1=S, A+1=J. For TIGER: T+1=V, I+1=J, G+1=I, E+1=G, R+1=S. Code is VJIGS."
+      },
+      {
+        q: "If BOOK = CPPL, what is READ?",
+        options: ["SFBE", "TFBE", "SGBE", "TGBE"],
+        answer: 0,
+        explanation: "Each letter increases by 1: B+1=C, O+1=P, O+1=P, K+1=L. For READ: R+1=S, E+1=F, A+1=B, D+1=E. Code is SFBE."
+      },
+      {
+        q: "If MAN = 13114, what is WOMAN?",
+        options: ["231514113", "23151413", "231514114", "231514115"],
+        answer: 0,
+        explanation: "Each letter’s position: M=13, A=1, N=14. MAN = 13114. For WOMAN: W=23, O=15, M=13, A=1, N=14. Code is 231514113."
+      },
+      {
+        q: "If FLY = 6-12-25, what is RUN?",
+        options: ["18-21-14", "19-21-14", "18-22-14", "19-22-14"],
+        answer: 0,
+        explanation: "Each letter’s position: F=6, L=12, Y=25. For RUN: R=18, U=21, N=14. Code is 18-21-14."
+      },
+      {
+        q: "If KING = LJOH, what is QUEEN?",
+        options: ["RVFFO", "SVFFO", "RUGGP", "SUGGP"],
+        answer: 0,
+        explanation: "Each letter increases by 1: K+1=L, I+1=J, N+1=O, G+1=H. For QUEEN: Q+1=R, U+1=V, E+1=F, E+1=F, N+1=O. Code is RVFFO."
+      },
+      {
+        q: "If DOG = 4157, what is CAT?",
+        options: ["3120", "3012", "3201", "3210"],
+        answer: 0,
+        explanation: "Each letter’s position: D=4, O=15, G=7. DOG = 4157. For CAT: C=3, A=1, T=20. Code is 3120."
+      },
+      // Distance and Direction
+      {
+        q: "A man walks 5 km north, then 3 km east. How far is he from the starting point?",
+        options: ["5 km", "8 km", "6 km", "4 km"],
+        answer: 2,
+        explanation: "Use Pythagoras’ theorem for a right triangle: 5 km north, 3 km east. Distance = √(5² + 3²) = √(25 + 9) = √34 ≈ 5.83 km, closest to 6 km."
+      },
+      {
+        q: "A person walks 4 km south, then 3 km west. In which direction is he from the starting point?",
+        options: ["Southwest", "Southeast", "Northwest", "Northeast"],
+        answer: 0,
+        explanation: "South (down) and west (left) place the person in the southwest quadrant relative to the starting point. No other direction fits."
+      },
+      {
+        q: "Starting facing east, a man turns 90° clockwise, walks 2 km, then turns 180° anticlockwise. Which direction is he facing?",
+        options: ["East", "West", "North", "South"],
+        answer: 0,
+        explanation: "Facing east, 90° clockwise = south. Then, 180° anticlockwise from south = north. Final 180° anticlockwise from north = east."
+      },
+      {
+        q: "A car travels 10 km north, 6 km east, then 8 km south. How far is it from the starting point?",
+        options: ["6 km", "8 km", "10 km", "4 km"],
+        answer: 0,
+        explanation: "Net displacement: North 10 km - South 8 km = 2 km north; East 6 km. Distance = √(2² + 6²) = √(4 + 36) = √40 ≈ 6.32 km, closest to 6 km."
+      },
+      {
+        q: "A man walks 3 km west, 4 km north, then 5 km east. In which direction is he from the starting point?",
+        options: ["Northeast", "Northwest", "Southeast", "Southwest"],
+        answer: 0,
+        explanation: "Net: West 3 km - East 5 km = 2 km east; North 4 km. He’s 2 km east, 4 km north, in the northeast quadrant."
+      },
+      {
+        q: "A person walks 7 km south, 4 km west, then 7 km north. How far is he from the starting point?",
+        options: ["4 km", "7 km", "0 km", "3 km"],
+        answer: 0,
+        explanation: "Net: South 7 km - North 7 km = 0 km vertically; West 4 km. Distance = 4 km west."
+      },
+      {
+        q: "Starting facing west, a woman turns 45° anticlockwise, walks 5 km, then turns 135° clockwise. Which direction is she facing?",
+        options: ["South", "North", "East", "West"],
+        answer: 0,
+        explanation: "Facing west, 45° anticlockwise = southwest (225°). Then, 135° clockwise from southwest = south (225° - 90° = 135°)."
+      },
+      {
+        q: "A man walks 6 km east, 8 km north, then 6 km west. How far is he from the starting point?",
+        options: ["6 km", "8 km", "10 km", "0 km"],
+        answer: 1,
+        explanation: "Net: East 6 km - West 6 km = 0 km horizontally; North 8 km. Distance = 8 km."
+      },
+      {
+        q: "A person walks 5 km north, 5 km east, 5 km south, 5 km west. Where is he relative to the starting point?",
+        options: ["5 km east", "5 km north", "Starting point", "5 km west"],
+        answer: 2,
+        explanation: "Net: North 5 km - South 5 km = 0 km; East 5 km - West 5 km = 0 km. He’s back at the starting point."
+      },
+      {
+        q: "A car travels 3 km south, 4 km east, then 3 km north. In which direction is it from the starting point?",
+        options: ["East", "West", "North", "South"],
+        answer: 0,
+        explanation: "Net: South 3 km - North 3 km = 0 km vertically; East 4 km. The car is 4 km east."
+      },
+      // Logical Reasoning
+      {
+        q: "All cats are mammals. Some mammals are dogs. Which is true?",
+        options: ["All cats are dogs", "Some cats are dogs", "Some mammals are not cats", "No cats are dogs"],
+        answer: 2,
+        explanation: "Cats are mammals, and some mammals are dogs. No direct link between cats and dogs exists, so A, B, and D are not necessarily true. Since some mammals are dogs (not cats), “Some mammals are not cats” (C) is true."
+      },
+      {
+        q: "If all roses are flowers and some flowers are red, which is true?",
+        options: ["All roses are red", "Some roses are red", "Some flowers are not roses", "No roses are red"],
+        answer: 2,
+        explanation: "All roses are flowers, and some flowers are red. A and B are possible but not guaranteed (roses may not be red). Since some flowers are red and not all flowers are roses, “Some flowers are not roses” (C) is true. D is not necessarily true."
+      },
+      {
+        q: "Statement: If it rains, the ground is wet. It is raining. Conclusion?",
+        options: ["The ground is wet", "The ground is dry", "It is not raining", "None"],
+        answer: 0,
+        explanation: "The rule “If it rains, the ground is wet” means rain implies a wet ground. Since it is raining, the ground must be wet (A). B and C contradict the premise, and D is incorrect since A follows."
+      },
+      {
+        q: "Some birds can fly. All sparrows are birds. Which is true?",
+        options: ["All sparrows can fly", "Some sparrows can fly", "No sparrows can fly", "None"],
+        answer: 1,
+        explanation: "Some birds can fly, and all sparrows are birds. It’s possible some sparrows can fly (B), but not guaranteed for all (A). C is not true since some birds (possibly sparrows) can fly. D is incorrect since B is valid."
+      },
+      {
+        q: "If A is B’s brother and C is A’s sister, who is C to B?",
+        options: ["Brother", "Sister", "Mother", "Father"],
+        answer: 1,
+        explanation: "A (male) is B’s brother, so B is male. C is A’s sister, so C is female and also B’s sister (same family). Thus, C is B’s sister."
+      },
+      {
+        q: "Statement: All engineers are smart. Ram is an engineer. Conclusion?",
+        options: ["Ram is smart", "Ram is not smart", "Some engineers are not smart", "None"],
+        answer: 0,
+        explanation: "All engineers are smart, and Ram is an engineer. Therefore, Ram must be smart (A). B and C contradict the premise, and D is incorrect since A follows."
+      },
+      {
+        q: "If Monday is a holiday, then Tuesday is not. Today is Monday and a holiday. What is true?",
+        options: ["Tuesday is a holiday", "Tuesday is not a holiday", "Monday is not a holiday", "None"],
+        answer: 1,
+        explanation: "The rule states if Monday is a holiday, Tuesday is not. Since Monday is a holiday, Tuesday is not a holiday (B). A contradicts the rule, C contradicts the premise, and D is incorrect."
+      },
+      {
+        q: "Some apples are green. All green apples are tasty. Which is true?",
+        options: ["All apples are tasty", "Some apples are tasty", "No apples are tasty", "None"],
+        answer: 1,
+        explanation: "Some apples are green, and all green apples are tasty. Thus, those green apples are tasty, so “Some apples are tasty” (B). A is not guaranteed (non-green apples may not be tasty), C is false, and D is incorrect."
+      },
+      {
+        q: "If X is taller than Y, and Y is taller than Z, who is the tallest?",
+        options: ["X", "Y", "Z", "Cannot determine"],
+        answer: 0,
+        explanation: "X > Y and Y > Z imply X > Y > Z. Thus, X is the tallest."
+      },
+      {
+        q: "Statement: No fish can fly. Some birds can fly. Conclusion?",
+        options: ["No fish are birds", "Some birds are fish", "Some fish can fly", "None"],
+        answer: 3,
+        explanation: "No fish can fly, and some birds can fly. No direct link between fish and birds exists, so A and B are not necessarily true. C contradicts the premise. No conclusion follows, so D is correct."
+      },
+      // Ranking and Order
+      {
+        q: "In a line, A is 5th from the left and 10th from the right. How many people are in the line?",
+        options: ["14", "15", "13", "12"],
+        answer: 0,
+        explanation: "Total people = Left position + Right position - 1 (to avoid double-counting A’s position). A is 5th from left, 10th from right. Total = 5 + 10 - 1 = 14."
+      },
+      {
+        q: "B is 7th from the left and 4th from the right. Total people in the line?",
+        options: ["10", "11", "12", "13"],
+        answer: 0,
+        explanation: "Total = Left + Right - 1. B is 7th from left, 4th from right. Total = 7 + 4 - 1 = 10."
+      },
+      {
+        q: "C is 3rd from the left. D is 2nd from the right. There are 5 people. Who is in the middle?",
+        options: ["C", "D", "E", "Cannot determine"],
+        answer: 2,
+        explanation: "In a line of 5, the middle is the 3rd position. C is 3rd from left (middle). D is 2nd from right (4th from left). The middle person is E (assuming names A, B, C, D, E)."
+      },
+      {
+        q: "In a queue, X is 8th from the front and 6th from the back. Total people?",
+        options: ["13", "14", "12", "15"],
+        answer: 0,
+        explanation: "Total = Left + Right - 1. X is 8th from front, 6th from back. Total = 8 + 6 - 1 = 13."
+      },
+      {
+        q: "A is 4th from the left, B is 3rd from the right in a line of 9. How many people are between A and B?",
+        options: ["2", "3", "4", "1"],
+        answer: 0,
+        explanation: "Total = 9. A is 4th from left. B is 3rd from right, so B’s position from left = 9 - 3 + 1 = 7th. People between = 7 - 4 - 1 = 2."
+      },
+      {
+        q: "In a row, P is 10th from the left and Q is 5th from the right. Total 15 people. People between P and Q?",
+        options: ["0", "1", "2", "3"],
+        answer: 0,
+        explanation: "Total = 15. P is 10th from left. Q is 5th from right, so Q’s position = 15 - 5 + 1 = 11th. People between = 11 - 10 - 1 = 0."
+      },
+      {
+        q: "Z is 6th from the right in a line of 12. What is Z’s position from the left?",
+        options: ["6", "7", "8", "5"],
+        answer: 1,
+        explanation: "Total = 12. Z is 6th from right, so position from left = 12 - 6 + 1 = 7."
+      },
+      {
+        q: "M is 9th from the left, N is 7th from the right in a line of 20. People between M and N?",
+        options: ["4", "5", "3", "6"],
+        answer: 0,
+        explanation: "Total = 20. M is 9th from left. N is 7th from right, so N’s position = 20 - 7 + 1 = 14th. People between = 14 - 9 - 1 = 4."
+      },
+      {
+        q: "In a line of 10, R is 4th from the left. S is 2nd to the right of R. S’s position from the left?",
+        options: ["5", "6", "7", "4"],
+        answer: 1,
+        explanation: "R is 4th from left. S is 2nd to the right of R, so S’s position = 4 + 2 = 6th from left."
+      },
+      {
+        q: "K is 5th from the left and 8th from the right. Total people in the line?",
+        options: ["12", "13", "11", "14"],
+        answer: 0,
+        explanation: "Total = Left + Right - 1. K is 5th from left, 8th from right. Total = 5 + 8 - 1 = 12."
+      },
+      // Figure-Based Questions
+   
+      {
+        q: "A sequence of shapes with increasing sides is: Triangle (3 sides), Square (4 sides), Pentagon (5 sides), Hexagon (6 sides), __? What is the next shape?",
+        options: ["Triangle", "Heptagon", "Square", "Octagon"],
+        answer: 1,
+        explanation: "The sequence shows shapes with increasing sides: Triangle (3), Square (4), Pentagon (5), Hexagon (6). The sides increase by 1 each time (3, 4, 5, 6). The next shape has 7 sides, which is a Heptagon (B). Triangle (3), Square (4), and Octagon (8) don’t follow the +1 pattern."
+      },
+      {
+        q: "A sequence of shaded shapes is: Shaded Circle, Unshaded Square, Shaded Triangle, Shaded Circle, Unshaded Square, __? What is the next shape?",
+        options: ["Shaded Triangle", "Unshaded Circle", "Shaded Square", "Unshaded Triangle"],
+        answer: 0,
+        explanation: "The sequence repeats every three shapes: Shaded Circle (1st), Unshaded Square (2nd), Shaded Triangle (3rd), then Shaded Circle (4th), Unshaded Square (5th). The 6th shape is the 3rd in the cycle, Shaded Triangle (A). Other options don’t match the repeating shape and shading pattern."
+      },
+      {
+        q: "Circle : Square :: Triangle : ?",
+        options: ["Pentagon", "Square", "Rectangle", "Hexagon"],
+        answer: 2,
+        explanation: "In analogy, the relationship between the first pair (Circle : Square) applies to the second (Triangle : ?). A circle (curved, no sides) becomes a square (4-sided, straight). The relationship is a shift from a shape with no fixed sides to a 4-sided shape. A triangle (3 sides) becomes a rectangle (4 sides), as both are straight-sided but rectangle matches the 4-side pattern like square. Pentagon (5 Sides) and Hexagon (6 sides) don’t match, and Square repeats the second term incorrectly."
+      },
+      {
+        q: "Small Circle : Large Circle :: Small Square : ?",
+        options: ["Large Square", "Small Triangle", "Large Triangle", "Small Circle"],
+        answer: 0,
+        explanation: "The analogy shows a size increase: Small Circle (smaller) to Large Circle (bigger, same shape). Similarly, Small Square becomes Large Square (bigger, same shape). Triangle options change the shape, and Small Circle doesn’t increase size."
+      },
+      {
+        q: "Shaded Circle : Unshaded Circle :: Shaded Triangle : ?",
+        options: ["Unshaded Triangle", "Shaded Square", "Unshaded Square", "Shaded Pentagon"],
+        answer: 0,
+        explanation: "The relationship is shading change: Shaded Circle to Unshaded Circle (same shape, opposite shading). Similarly, Shaded Triangle becomes Unshaded Triangle (same shape, opposite shading). Square and Pentagon change the shape, so they’re incorrect."
+      },
+      {
+        q: "Which shape does not belong: Circle, Square, Triangle, Pentagon?",
+        options: ["Circle", "Square", "Triangle", "Pentagon"],
+        answer: 0,
+        explanation: "Classification identifies the odd one out. Square, Triangle, and Pentagon are polygons (straight sides: 4, 3, 5). Circle has no straight sides (curved), making it different (A). All others share the polygon property."
+      },
+      {
+        q: "Which shape is different: Shaded Circle, Shaded Square, Unshaded Triangle, Shaded Pentagon?",
+        options: ["Shaded Circle", "Shaded Square", "Unshaded Triangle", "Shaded Pentagon"],
+        answer: 2,
+        explanation: "Shaded Circle, Shaded Square, and Shaded Pentagon are all shaded shapes. Unshaded Triangle is unshaded, making it the odd one out (C) based on shading, a common classification criterion."
+      },
+      {
+        q: "Three shapes are arranged: Circle (left), Square (middle), Triangle (right). If Circle and Triangle swap positions, what is the middle shape?",
+        options: ["Circle", "Square", "Triangle", "Pentagon"],
+        answer: 1,
+        explanation: "Original order: Circle (left), Square (middle), Triangle (right). Swapping Circle and Triangle gives: Triangle (left), Square (middle), Circle (right). The middle shape remains Square (B). Pentagon is unrelated."
+      },
+      {
+        q: "A 2x2 grid has: Top-left (Circle), Top-right (Square), Bottom-left (Triangle), Bottom-right (?). If the pattern rotates 90° clockwise, what is the bottom-right shape?",
+        options: ["Circle", "Square", "Triangle", "Pentagon"],
+        answer: 0,
+        explanation: "In a 2x2 grid, rotate positions 90° clockwise: Top-left (Circle) → Top-right, Top-right (Square) → Bottom-right, Bottom-left (Triangle) → Top-left, Bottom-right → Bottom-left. The bottom-right shape becomes Circle (A). Pentagon isn’t in the grid."
+      }
+      // Same question array as provided (omitted for brevity, but unchanged)
+      // Ensure the question array from the original code is included here
+    ];
+
+    const quizEl = document.getElementById("quiz");
+
+    // Escape HTML characters
+    function escapeHTML(str) {
+      const htmlEntities = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '≤': '&le;'
+      };
+      return str.replace(/[&<>"'≤]/g, match => htmlEntities[match]);
+    }
+
+    // Show all questions sequentially
+    function showQuestions() {
+      let html = '';
+      try {
+        questions.forEach((q, i) => {
+          const optionsHtml = q.options
+            .map((opt, j) => {
+              if (q.answer === -1) {
+                return `<button data-index="${j}" onclick="checkAnswer(this, ${i}, ${j}, true)">${escapeHTML(opt)}</button>`;
+              }
+              return `<button data-index="${j}" onclick="checkAnswer(this, ${i}, ${j})">${escapeHTML(opt)}</button>`;
+            })
+            .join('');
+          html += `
+            <div class="question" data-index="${i}">
+              <p>Q${i + 1}. ${escapeHTML(q.q)}</p>
+              <div class="options">${optionsHtml}</div>
+              <div class="explanation">${escapeHTML(q.explanation)}</div>
+            </div>
+          `;
+        });
+        quizEl.innerHTML = html;
+      } catch (error) {
+        quizEl.innerHTML = "<p>Error loading questions. Please try again.</p>";
+      }
+    }
+
+    // Check answer with instant feedback
+    function checkAnswer(button, questionIndex, selected, isTrickQuestion = false) {
+      const q = questions[questionIndex];
+      const correct = q.answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      const explanation = button.parentElement.nextElementSibling;
+
+      buttons.forEach(btn => {
+        btn.disabled = true; // Disable all buttons
+        const btnIndex = parseInt(btn.getAttribute("data-index"));
+        if (!isTrickQuestion && btnIndex === correct) {
+          btn.classList.add("correct"); // Green for correct answer
+        }
+        if (btn === button) {
+          if (isTrickQuestion || selected !== correct) {
+            btn.classList.add("wrong"); // Red for wrong or trick question selection
+          } else {
+            btn.classList.add("correct"); // Green for correct selection
+          }
+        }
+      });
+
+      explanation.classList.add("show"); // Show explanation
+    }
+
+    // Initialize
+    showQuestions();
+  </script>
+</body>
+</html>
