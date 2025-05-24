@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>नेपाली व्याकरण मॉक टेस्ट</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .progress-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 20px;
+            background-color: #28a745;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+
+        .topic-section {
+            margin-bottom: 15px;
+        }
+
+        .topic-section h2 {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0;
+            font-size: 1.5em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topic-section h2::after {
+            content: '▼';
+            transition: transform 0.3s;
+        }
+
+        .topic-section h2.collapsed::after {
+            transform: rotate(180deg);
+        }
+
+        .question-container {
+            display: none;
+            padding: 10px;
+        }
+
+        .question {
+            margin: 15px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .question p {
+            margin: 0 0 10px;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .option {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        .option label {
+            cursor: pointer;
+            font-size: 1em;
+            padding: 5px;
+            border-radius: 4px;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .option input:checked + label.correct {
+            background-color: #d4edda;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .option input:checked + label.incorrect {
+            background-color: #f8d7da;
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            font-size: 0.95em;
+        }
+
+        .feedback .correct-answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .prev-btn, .next-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .prev-btn:hover, .next-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
+            color: white;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .reset-btn {
+            background-color: #dc3545;
+            color: white;
+            width: 100%;
+        }
+
+        .reset-btn:hover {
+            background-color: #c82333;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            display: none;
+        }
+
+        .result .correct {
+            color: #28a745;
+            font-weight: 500;
+        }
+
+        .result .incorrect {
+            color: #dc3545;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .topic-section h2 {
+                font-size: 1.2em;
+            }
+
+            .question p {
+                font-size: 1em;
+            }
+
+            .option label {
+                font-size: 0.9em;
+            }
+
+            .feedback {
+                font-size: 0.85em;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>नेपाली व्याकरण मॉक टेस्ट</h1>
+        <div class="progress-container">
+            <div class="progress-bar"><div class="progress" id="progress"></div></div>
+            <div class="timer" id="timer">समय: ००:००</div>
+        </div>
+        <form id="quizForm">
+            <div id="paginatedQuestions"></div>
+            <div class="pagination">
+                <button type="button" class="prev-btn" onclick="changePage(-1)" disabled>अघिल्लो</button>
+                <button type="button" class="next-btn" onclick="changePage(1)">पछिल्लो</button>
+            </div>
+            <button type="submit" class="submit-btn">जवाफ पेश गर्नुहोस्</button>
+            <button type="button" class="reset-btn" onclick="resetQuiz()">टेस्ट रिसेट गर्नुहोस्</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const questions = {
+            ukti: [
+                { 
+                    id: 1, 
+                    text: "निम्न मध्ये कुन वाक्य प्रत्यक्ष कथन हो?", 
+                    options: [
+                        "रामचन्द्रले लडका साँच्चै सुन्दर रहेको कुरा गरे।",
+                        "रामचन्द्रले भने, \"लडका त साँच्चै सुन्दर राज्य रहेछ।\"",
+                        "गौरवले श्यामको मृत्युमा दुख व्यक्त गर्यो।",
+                        "कूपीले खुट्टा दुखेको कुरा बताई।"
+                    ], 
+                    correct: "रामचन्द्रले भने, \"लडका त साँच्चै सुन्दर राज्य रहेछ।\"",
+                    explanation: "प्रत्यक्ष कथनमा कथयिताको भनाइ जस्ताको तस्तै उद्धरण चिह्नभित्र राखिन्छ। वाक्य B मा रामचन्द्रको भनाइ जस्ताको तस्तै छ, जबकि अन्य विकल्पहरू अप्रत्यक्ष कथन हुन्।<br><strong>सुझाव:</strong> प्रत्यक्ष कथनमा उद्धरण चिह्न (\" \") र कथयिता अंश (जस्तै \"रामचन्द्रले भने\") खोज्नुहोस्।"
+                },
+                { 
+                    id: 2, 
+                    text: "निम्न प्रत्यक्ष कथनलाई अप्रत्यक्ष कथनमा परिवर्तन गर्नुहोस्: गौरवले भन्यो, \"बिचारा! श्यामको मृत्यु भयो।\"", 
+                    options: [
+                        "गौरवले श्यामको मृत्युमा दुख व्यक्त गर्यो।",
+                        "गौरवले भने, श्यामको मृत्यु भयो।",
+                        "गौरवले श्याम बिचारा भएको कुरा बतायो।",
+                        "गौरवले श्यामको मृत्यु भएको कुरा सोध्यो।"
+                    ], 
+                    correct: "गौरवले श्यामको मृत्युमा दुख व्यक्त गर्यो।",
+                    explanation: "अप्रत्यक्ष कथनमा उद्धरण चिह्न हट्छ र भनाइलाई कथयिताको शैलीमा प्रस्तुत गरिन्छ, यहाँ गौरवको दुख व्यक्त गरिएको छ। अन्य विकल्पहरू गलत छन् किनभने तिनले अर्थ परिवर्तन गर्छन् वा प्रत्यक्ष कथनकै रूपमा छन्।<br><strong>सुझाव:</strong> अप्रत्यक्ष कथनमा क्रिया (जस्तै भन्यो → व्यक्त गर्यो) र संयोजक (जस्तै भनेर) प्रयोग हुन्छ।"
+                },
+                { 
+                    id: 3, 
+                    text: "निम्न अप्रत्यक्ष कथनलाई प्रत्यक्ष कथनमा परिवर्तन गर्नुहोस्: कूपाले मेरो नाम सोधी।", 
+                    options: [
+                        "कूपाले भनी, \"मेरो नाम के हो?\"",
+                        "कूपाले सोधी, \"तिम्रो नाम के हो?\"",
+                        "कूपाले भने, \"नाम के हो?\"",
+                        "कूपाले सोध्यो, \"यो नाम कसको हो?\""
+                    ], 
+                    correct: "कूपाले सोधी, \"तिम्रो नाम के हो?\"",
+                    explanation: "अप्रत्यक्ष कथनमा कूपाले नाम सोधेको छ, जुन प्रत्यक्ष कथनमा प्रश्नवाचक वाक्य \"तिम्रो नाम के हो?\" हुन्छ। अन्य विकल्पहरूले गलत प्रश्न वा अर्थ प्रस्तुत गर्छन्।<br><strong>सुझाव:</strong> अप्रत्यक्षबाट प्रत्यक्ष बनाउँदा सर्वनाम (मेरो → तिम्रो) र क्रिया (सोधी → सोध्यो) परिवर्तन हुन्छ।"
+                },
+                { 
+                    id: 4, 
+                    text: "अप्रत्यक्ष कथनमा कथयिता अंशको क्रिया कसरी परिवर्तन गर्न सकिन्छ?", 
+                    options: [
+                        "भन्यो → गायो",
+                        "भन्यो → व्यक्त गर्नु, बताउनु, अनुरोध गर्नु",
+                        "भन्यो → लेख्यो",
+                        "भन्यो → पढ्यो"
+                    ], 
+                    correct: "भन्यो → व्यक्त गर्नु, बताउनु, अनुरोध गर्नु",
+                    explanation: "अप्रत्यक्ष कथनमा कथयिता अंशको क्रिया (जस्तै भन्यो) लाई वाक्यको भावअनुसार व्यक्त गर्नु, बताउनु, अनुरोध गर्नु आदि बनाउन सकिन्छ। अन्य विकल्पहरू अर्थसँग मेल खाँदैनन्।<br><strong>सुझाव:</strong> क्रिया परिवर्तन गर्दा वाक्यको भाव र सन्दर्भ विचार गर्नुहोस्।"
+                }
+            ],
+            vakya_vishleshan: [
+                { 
+                    id: 1, 
+                    text: "निम्न संयुक्त वाक्यलाई विश्लेषण गरी कुन स्वतन्त्र वाक्य सही छ? \"आजभोलि खेतालाहरू बिहान आठ बजे आएर बाह्र बजेसम्म मात्र काम गर्छन् अनि फूल हिंड्छन्।\"", 
+                    options: [
+                        "खेतालाहरू बिहान काम गर्छन्।",
+                        "खेतालाहरू बाह्र बजे फूल हिंड्छन्।",
+                        "खेतालाहरू राति आउँछन्।",
+                        "खेतालाहरू काम गर्दैनन्।"
+                    ], 
+                    correct: "खेतालाहरू बाह्र बजे फूल हिंड्छन्।",
+                    explanation: "वाक्य विश्लेषणमा संयुक्त वाक्यलाई स्वतन्त्र वाक्यमा टुक्र्याइन्छ। यहाँ \"खेतालाहरू बाह्र बजे फूल हिंड्छन्\" एउटा सही स्वतन्त्र वाक्य हो। अन्य विकल्पहरू गलत छन् किनभने तिनले मूल अर्थ परिवर्तन गर्छन्।<br><strong>सुझाव:</strong> विश्लेषण गर्दा संयोजक (अनि) लाई हटाएर प्रत्येक वाक्यको पूर्ण अर्थ जाँच्नुहोस्।"
+                },
+                { 
+                    id: 2, 
+                    text: "निम्न मिश्र वाक्यलाई विश्लेषण गर्दा कुन स्वतन्त्र वाक्य प्राप्त हुन्छ? \"जब जब संक्र पर्छ तब भ्यागुता कराउँछ तब रात छिपिन्छ।\"", 
+                    options: [
+                        "भ्यागुता राति कराउँछ।",
+                        "संक्र पर्छ।",
+                        "रात बिहान हुन्छ।",
+                        "भ्यागुता संक्रमा गाउँछ।"
+                    ], 
+                    correct: "संक्र पर्छ।",
+                    explanation: "मिश्र वाक्यलाई विश्लेषण गर्दा \"संक्र पर्छ\" एउटा स्वतन्त्र वाक्य हो। अन्य विकल्पहरू पूर्ण स्वतन्त्र वाक्य होइनन् वा अर्थ परिवर्तन गर्छन्।<br><strong>सुझाव:</strong> मिश्र वाक्यमा सापेक्ष संयोजक (जब, तब) हटाएर स्वतन्त्र वाक्य पहिचान गर्नुहोस्।"
+                },
+                { 
+                    id: 3, 
+                    text: "निम्न सरल वाक्यलाई विश्लेषण गर्दा कुन स्वतन्त्र वाक्य सही छ? \"पोखराबाट चढेको बसमा बसेका यात्रुहरू काठमाडौंको धार्मिक स्थलको परिकल्पनामा भुसुक्कै निदाएछन्।\"", 
+                    options: [
+                        "यात्रुहरू काठमाडौं हिंडेछन्।",
+                        "यात्रुहरू पोखरामा निदाएछन्।",
+                        "यात्रुहरू बसमा चढेनन्।",
+                        "यात्रुहरू धार्मिक स्थल गए।"
+                    ], 
+                    correct: "यात्रुहरू काठमाडौं हिंडेछन्।",
+                    explanation: "सरल वाक्यलाई छोटा स्वतन्त्र वाक्यमा टुक्र्याउँदा \"यात्रुहरू काठमाडौं हिंडेछन्\" सही छ। अन्य विकल्पहरू गलत छन् किनभने तिनले मूल वाक्यको अर्थ परिवर्तन गर्छन्।<br><strong>सुझाव:</strong> सरल वाक्य विश्लेषण गर्दा मुख्य क्रिया र कर्तालाई आधार बनाउनुहोस्।"
+                },
+                { 
+                    id: 4, 
+                    text: "वाक्य विश्लेषण र संश्लेषण केमा विपरीत हुन्छन्?", 
+                    options: [
+                        "वाक्य जोड्ने र तोड्ने",
+                        "वाक्य लेख्ने र पढ्ने",
+                        "वाक्य बनाउने र हटाउने",
+                        "वाक्य बुझ्ने र बोल्ने"
+                    ], 
+                    correct: "वाक्य जोड्ने र तोड्ने",
+                    explanation: "वाक्य विश्लेषणले संयुक्त वाक्यलाई स्वतन्त्र वाक्यमा तोड्छ, जबकि संश्लेषणले स्वतन्त्र वाक्यलाई जोड्छ। अन्य विकल्पहरू गलत छन्।<br><strong>सुझाव:</strong> विश्लेषण र संश्लेषणलाई विपरीत ध्रुवीय शब्दको रूपमा बुझ्नुहोस्।"
+                }
+            ],
+            vakya_sanshleshan: [
+                { 
+                    id: 1, 
+                    text: "निम्न स्वतन्त्र वाक्यहरूलाई मिश्र वाक्यमा संश्लेषण गर्नुहोस्: \"असार लाग्यो। पानी बरर पन्यो। हिलो भयो। किसानले खेत रोपे।\"", 
+                    options: [
+                        "असार लागेर पानी पन्यो र हिलो भएर किसानले खेत रोपे।",
+                        "जब असार लागेर पानी पन्यो तब हिलो भएर किसानले खेत रोपे।",
+                        "किसानले असारमा खेत रोपे र पानी पन्यो।",
+                        "हिलो भएर असारमा किसानले खेत रोपे।"
+                    ], 
+                    correct: "जब असार लागेर पानी पन्यो तब हिलो भएर किसानले खेत रोपे।",
+                    explanation: "मिश्र वाक्यमा सापेक्ष संयोजक (जब, तब) प्रयोग हुन्छ। विकल्प B ले सही मिश्र वाक्य बनाउँछ। अन्य विकल्पहरू संयुक्त वाक्य हुन् वा अर्थ परिवर्तन गर्छन्।<br><strong>सुझाव:</strong> मिश्र वाक्यमा सापेक्ष संयोजक प्रयोग गरेर वाक्यहरू जोड्नुहोस्।"
+                },
+                { 
+                    id: 2, 
+                    text: "निम्न स्वतन्त्र वाक्यहरूलाई संयुक्त वाक्यमा संश्लेषण गर्नुहोस्: \"केटाकेटीले बिहान योग गरे। साथीहरूलाई बोलाए। साथीहरूले आधा घण्टा नाचे। उनीहरू सबै स्वस्थ छन्।\"", 
+                    options: [
+                        "केटाकेटीले बिहान योग गरे र साथीहरूलाई बोलाए, साथीहरूले आधा घण्टा नाचे अनि सबै स्वस्थ छन्।",
+                        "जब केटाकेटीले योग गरे तब साथीहरूले नाचे।",
+                        "केटाकेटीले योग गरेर स्वस्थ भए।",
+                        "साथीहरूले नाचे किनभने केटाकेटीले बोलाए।"
+                    ], 
+                    correct: "केटाकेटीले बिहान योग गरे र साथीहरूलाई बोलाए, साथीहरूले आधा घण्टा नाचे अनि सबै स्वस्थ छन्।",
+                    explanation: "संयुक्त वाक्यमा निरपेक्ष संयोजक (र, अनि) प्रयोग हुन्छ। विकल्प A ले सबै वाक्यलाई सही जोड्छ। अन्य विकल्पहरू मिश्र वाक्य हुन् वा अर्थ परिवर्तन गर्छन्।<br><strong>सुझाव:</strong> संयुक्त वाक्यमा र, अनि, तर जस्ता संयोजक प्रयोग गर्नुहोस्।"
+                },
+                { 
+                    id: 3, 
+                    text: "निम्न सरल वाक्यलाई मिश्र वाक्यमा संश्लेषण गर्नुहोस्: \"मानिस सामाजिक प्राणी हो। ऊ समाजमा बस्छ। उसले समाजको निम्ति काम गर्छ।\"", 
+                    options: [
+                        "मानिस सामाजिक प्राणी हो र समाजमा बसेर काम गर्छ।",
+                        "जो मानिस सामाजिक प्राणी हो त्यो समाजमा बसेर समाजको निम्ति काम गर्छ।",
+                        "मानिस समाजमा बस्छ किनभने ऊ सामाजिक प्राणी हो।",
+                        "मानिसले समाजको काम गर्छ र ऊ सामाजिक प्राणी हो।"
+                    ], 
+                    correct: "जो मानिस सामाजिक प्राणी हो त्यो समाजमा बसेर समाजको निम्ति काम गर्छ।",
+                    explanation: "मिश्र वाक्यमा सापेक्ष संयोजक (जो, त्यो) प्रयोग हुन्छ। विकल्प B ले सही मिश्र वाक्य बनाउँछ। अन्य विकल्पहरू संयुक्त वाक्य हुन्।<br><strong>सुझाव:</strong> मिश्र वाक्य बनाउँदा सापेक्ष संयोजक प्रयोग गर्नुहोस्।"
+                },
+                { 
+                    id: 4, 
+                    text: "निम्न वाक्यहरूको संश्लेषण गर्दा कुन संयुक्त वाक्य सही छ? \"भाइले किताब किन्यो। ऊ जाने भयो। भाइ फेल हुन्थ्यो। आजकल प्रथम हुन थाल्यो।\"", 
+                    options: [
+                        "भाइले किताब किन्यो र जाने भयो, फेल हुन्थ्यो तर आजकल प्रथम हुन थाल्यो।",
+                        "जब भाइले किताब किन्यो तब ऊ प्रथम भयो।",
+                        "भाइ फेल भएकोले किताब किन्यो।",
+                        "भाइले किताब किनेर प्रथम भयो।"
+                    ], 
+                    correct: "भाइले किताब किन्यो र जाने भयो, फेल हुन्थ्यो तर आजकल प्रथम हुन थाल्यो।",
+                    explanation: "संयुक्त वाक्यमा निरपेक्ष संयोजक (र, तर) प्रयोग हुन्छ। विकल्प A ले सबै वाक्यलाई सही जोड्छ। अन्य विकल्पहरू मिश्र वाक्य हुन् वा अर्थ परिवर्तन गर्छन्।<br><strong>सुझाव:</strong> संयुक्त वाक्यमा संयोजकले वाक्यको तार्किक क्रम कायम राख्छ।"
+                }
+            ],
+            ukhan_tukka: [
+                { 
+                    id: 1, 
+                    text: "उखान \"हुने बिरुवाको चिल्लो पात\" को अर्थ के हो?", 
+                    options: [
+                        "पात चिल्लो भए बिरुवा राम्रो हुन्छ।",
+                        "गुणी मान्छेको लक्षण सानैदेखि राम्रो हुन्छ।",
+                        "बिरुवा सानो भए पनि चिल्लो हुन्छ।",
+                        "राम्रो बिरुवाले फल दिन्छ।"
+                    ], 
+                    correct: "गुणी मान्छेको लक्षण सानैदेखि राम्रो हुन्छ।",
+                    explanation: "यो उखानको अर्थ हो कि प्रतिभावान व्यक्तिको गुण सानैदेखि देखिन्छ, जस्तै हरिको उदाहरण। अन्य विकल्पहरू गलत छन् किनभने तिनले उखानको व्यंग्यात्मक अर्थ बुझाउँदैनन्।<br><strong>सुझाव:</strong> उखानको सांकेतिक अर्थ बुझ्न उदाहरण वाक्य पढ्नुहोस्।"
+                },
+                { 
+                    id: 2, 
+                    text: "निम्न टुक्काको अर्थ के हो? \"आलु खाएर पेडाको धाक\"", 
+                    options: [
+                        "आलु खाएर बलियो हुनु",
+                        "कमजोर भएर पनि फुर्ती देखाउनु",
+                        "पेडा खान मन लाग्नु",
+                        "आलु र पेडा सँगै खानु"
+                    ], 
+                    correct: "कमजोर भएर पनि फुर्ती देखाउनु",
+                    explanation: "यो टुक्काले कमजोर वा साधारण व्यक्तिले ठूलो कुरा गरेको अवस्थालाई व्यंग्य गर्छ। अन्य विकल्पहरूले गलत अर्थ दिन्छन्।<br><strong>सुझाव:</strong> टुक्काले सामान्यतया व्यंग्यात्मक वा हास्यपूर्ण अर्थ बोक्छ।"
+                },
+                { 
+                    id: 3, 
+                    text: "कुन उखानको अर्थ \"पढ्न नजान्नु\" हो?", 
+                    options: [
+                        "कालो अक्षर भैंसी बराबर",
+                        "लगनपछिको पोतेको के काम?",
+                        "इन्द्रको अगाडि स्वर्गको बयान",
+                        "मेरो गोरुको बाह्र टक्का"
+                    ], 
+                    correct: "कालो अक्षर भैंसी बराबर",
+                    explanation: "\"कालो अक्षर भैंसी बराबर\" ले अनपढ व्यक्तिका लागि लिखित कुरा बेकार भएको बुझाउँछ। अन्य उखानहरूले फरक अर्थ राख्छन्।<br><strong>सुझाव:</strong> उखानको अर्थ बुझ्न यसको सन्दर्भ र उदाहरण वाक्य हेर्नुहोस्।"
+                },
+                { 
+                    id: 4, 
+                    text: "टुक्का \"रिसले चुर हुनु\" को सही अर्थ के हो?", 
+                    options: [
+                        "रिसले जल्नु",
+                        "साह्रै रिसाउनु",
+                        "रिसले चुप लाग्नु",
+                        "रिसले हाँस्नु"
+                    ], 
+                    correct: "साह्रै रिसाउनु",
+                    explanation: "\"रिसले चुर हुनु\" ले अत्यधिक रिसाउनुलाई जनाउँछ, जस्तै आमाको उदाहरण। अन्य विकल्पहरू गलत छन्।<br><strong>सुझाव:</strong> टुक्काको भावात्मक अर्थ बुझ्न यसको प्रयोग भएको वाक्य पढ्नुहोस्।"
+                }
+            ]
+        };
+
+        let currentPage = 0;
+        const questionsPerPage = 10;
+        let timerInterval;
+        let seconds = 0;
+
+        // Combine all questions for pagination
+        const allQuestions = [
+            ...questions.ukti.map(q => ({ ...q, section: 'उक्ति' })),
+            ...questions.vakya_vishleshan.map(q => ({ ...q, section: 'वाक्य विश्लेषण' })),
+            ...questions.vakya_sanshleshan.map(q => ({ ...q, section: 'वाक्य संश्लेषण' })),
+            ...questions.ukhan_tukka.map(q => ({ ...q, section: 'उखान र टुक्का' }))
+        ];
+
+        function renderQuestions() {
+            const paginatedDiv = document.getElementById('paginatedQuestions');
+            paginatedDiv.innerHTML = '';
+            const start = currentPage * questionsPerPage;
+            const end = start + questionsPerPage;
+            const pageQuestions = allQuestions.slice(start, end);
+
+            const groupedBySection = pageQuestions.reduce((acc, q) => {
+                if (!acc[q.section]) {
+                    acc[q.section] = [];
+                }
+                acc[q.section].push(q);
+                return acc;
+            }, {});
+
+            Object.keys(groupedBySection).forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'topic-section';
+                sectionDiv.innerHTML = `<h2 onclick="toggleSection(this)">${section}</h2><div class="question-container">`;
+                groupedBySection[section].forEach(q => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `
+                        <p>${q.id}. ${q.text}</p>
+                        ${q.options.map((option, index) => `
+                            <div class="option">
+                                <input type="radio" name="q${q.id}-${q.section}" value="${option}" id="q${q.id}o${index}-${q.section}" onchange="showFeedback(${q.id}, '${q.section}', '${option}', '${q.correct}', \`${q.explanation}\`)">
+                                <label for="q${q.id}o${index}-${q.section}" class="${option === q.correct ? 'correct' : 'incorrect'}">${option}</label>
+                            </div>
+                        `).join('')}
+                        <div class="feedback" id="feedback-${q.id}-${q.section}" style="display: none;"></div>
+                    `;
+                    sectionDiv.querySelector('.question-container').appendChild(questionDiv);
+                });
+                paginatedDiv.appendChild(sectionDiv);
+            });
+
+            updatePaginationButtons();
+            updateProgress();
+        }
+
+        function showFeedback(id, section, selected, correct, explanation) {
+            const feedbackDiv = document.getElementById(`feedback-${id}-${section}`);
+            feedbackDiv.style.display = 'block';
+            feedbackDiv.innerHTML = `
+                <p class="correct-answer">सही जवाफ: ${correct}</p>
+                <p>${explanation}</p>
+            `;
+            updateProgress();
+        }
+
+        function toggleSection(header) {
+            const container = header.nextElementSibling;
+            container.style.display = container.style.display === 'none' ? 'block' : 'none';
+            header.classList.toggle('collapsed');
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            renderQuestions();
+        }
+
+        function updatePaginationButtons() {
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = (currentPage + 1) * questionsPerPage >= allQuestions.length;
+        }
+
+        function updateProgress() {
+            const answered = allQuestions.filter(q => document.querySelector(`input[name="q${q.id}-${q.section}"]:checked`)).length;
+            const progressPercent = (answered / allQuestions.length) * 100;
+            document.getElementById('progress').style.width = `${progressPercent}%`;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                const minutes = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                document.getElementById('timer').textContent = `समय: ${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizForm').reset();
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('result').style.display = 'none';
+            currentPage = 0;
+            seconds = 0;
+            clearInterval(timerInterval);
+            document.getElementById('timer').textContent = 'समय: ००:००';
+            startTimer();
+            renderQuestions();
+            updateProgress();
+            document.querySelectorAll('.feedback').forEach(div => div.style.display = 'none');
+        }
+
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            clearInterval(timerInterval);
+            let score = 0;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+            resultDiv.style.display = 'block';
+
+            allQuestions.forEach(q => {
+                const selected = document.querySelector(`input[name="q${q.id}-${q.section}"]:checked`);
+                const isCorrect = selected && selected.value === q.correct;
+                if (isCorrect) score++;
+                const questionResult = document.createElement('div');
+                questionResult.className = isCorrect ? 'correct' : 'incorrect';
+                questionResult.innerHTML = `प्रश्न ${q.id} (${q.section}): ${q.text}<br>तपाईंको जवाफ: ${selected ? selected.value : 'कुनै छैन'}<br>सही जवाफ: ${q.correct}<br>व्याख्या: ${q.explanation}`;
+                resultDiv.appendChild(questionResult);
+            });
+
+            resultDiv.insertAdjacentHTML('afterbegin', `<h3>स्कोर: ${score}/${allQuestions.length} (${((score / allQuestions.length) * 100).toFixed(2)}%)</h3>`);
+        });
+
+        document.getElementById('quizForm').addEventListener('change', updateProgress);
+
+        // Initialize
+        renderQuestions();
+        startTimer();
+    </script>
+</body>
+</html>
