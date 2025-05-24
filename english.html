@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Grammar Mock Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .progress-container {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 20px;
+            background-color: #28a745;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+
+        .topic-section {
+            margin-bottom: 15px;
+        }
+
+        .topic-section h2 {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0;
+            font-size: 1.5em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topic-section h2::after {
+            content: '▼';
+            transition: transform 0.3s;
+        }
+
+        .topic-section h2.collapsed::after {
+            transform: rotate(180deg);
+        }
+
+        .question-container {
+            display: none;
+            padding: 10px;
+        }
+
+        .question {
+            margin: 15px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .question p {
+            margin: 0 0 10px;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .option {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        .option label {
+            cursor: pointer;
+            font-size: 1em;
+            padding: 5px;
+            border-radius: 4px;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .option input:checked + label.correct {
+            background-color: #d4edda;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .option input:checked + label.incorrect {
+            background-color: #f8d7da;
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            font-size: 0.95em;
+        }
+
+        .feedback .correct-answer {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .prev-btn, .next-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .prev-btn:hover, .next-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
+            color: white;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        .reset-btn {
+            background-color: #dc3545;
+            color: white;
+            width: 100%;
+        }
+
+        .reset-btn:hover {
+            background-color: #c82333;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            display: none;
+        }
+
+        .result .correct {
+            color: #28a745;
+            font-weight: 500;
+        }
+
+        .result .incorrect {
+            color: #dc3545;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .topic-section h2 {
+                font-size: 1.2em;
+            }
+
+            .question p {
+                font-size: 1em;
+            }
+
+            .option label {
+                font-size: 0.9em;
+            }
+
+            .feedback {
+                font-size: 0.85em;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>English Grammar Mock Test</h1>
+        <div class="progress-container">
+            <div class="progress-bar"><div class="progress" id="progress"></div></div>
+            <div class="timer" id="timer">Time: 00:00</div>
+        </div>
+        <form id="quizForm">
+            <div id="paginatedQuestions"></div>
+            <div class="pagination">
+                <button type="button" class="prev-btn" onclick="changePage(-1)" disabled>Previous</button>
+                <button type="button" class="next-btn" onclick="changePage(1)">Next</button>
+            </div>
+            <button type="submit" class="submit-btn">Submit Answers</button>
+            <button type="button" class="reset-btn" onclick="resetQuiz()">Reset Quiz</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const questions = {
+            grammar: [
+                { 
+                    id: 1, 
+                    text: "The set of rules and examples dealing with the syntax and word structures of a language is called", 
+                    options: ["Interrupting Phrase", "Sentence", "Grammar", "Idiom"], 
+                    correct: "Grammar",
+                    explanation: "Grammar refers to the rules governing the structure and use of words in a language, including syntax and morphology. An interrupting phrase disrupts sentence flow, a sentence is a complete thought, and an idiom is a non-literal expression.<br><strong>Tip:</strong> Remember that grammar is the foundation of language structure, distinct from stylistic elements like idioms."
+                },
+                { 
+                    id: 2, 
+                    text: "A set expression of two or more words that means something other than the literal meanings of its individual words is called", 
+                    options: ["Interrupting Phrase", "Sentence", "Grammar", "Idiom"], 
+                    correct: "Idiom",
+                    explanation: "An idiom is a phrase with a figurative meaning different from its literal words (e.g., 'kick the bucket'). An interrupting phrase adds extra information, a sentence conveys a complete idea, and grammar is the rule system.<br><strong>Tip:</strong> To identify idioms, look for phrases that don’t make sense literally but are commonly understood."
+                },
+                { 
+                    id: 3, 
+                    text: "A word which is a person, place, thing or idea is called", 
+                    options: ["Adverb", "Pronoun", "Noun", "Adjective"], 
+                    correct: "Noun",
+                    explanation: "A noun names a person (e.g., John), place (e.g., Paris), thing (e.g., book), or idea (e.g., freedom). Adverbs modify verbs, pronouns replace nouns, and adjectives describe nouns.<br><strong>Tip:</strong> Nouns are often the subject or object in a sentence, answering 'who' or 'what'."
+                },
+                { 
+                    id: 4, 
+                    text: "Mount Everest is grammatically called", 
+                    options: ["Adverb", "Pronoun", "Noun", "Adjective"], 
+                    correct: "Noun",
+                    explanation: "Mount Everest is a proper noun, naming a specific place. Adverbs describe actions, pronouns substitute nouns, and adjectives describe nouns.<br><strong>Tip:</strong> Proper nouns, like names of places or people, are always capitalized."
+                },
+                { 
+                    id: 5, 
+                    text: "Book, horse, Aslam, strength, car, Empire State Building, China, house and child are all in grammar", 
+                    options: ["Adverbs", "Pronouns", "Nouns", "Adjectives"], 
+                    correct: "Nouns",
+                    explanation: "All listed words are nouns, representing things (book, car), people (Aslam, child), places (China, Empire State Building), or ideas (strength). Adverbs modify actions, pronouns replace nouns, and adjectives describe nouns.<br><strong>Tip:</strong> To test if a word is a noun, see if it can be made plural or possessive (e.g., books, China’s)."
+                },
+                { 
+                    id: 6, 
+                    text: "A word that is used to take the place of a noun is called", 
+                    options: ["Adverb", "Pronoun", "Noun", "Adjective"], 
+                    correct: "Pronoun",
+                    explanation: "A pronoun (e.g., he, it, they) replaces a noun to avoid repetition. Adverbs modify verbs, nouns name entities, and adjectives describe nouns.<br><strong>Tip:</strong> Pronouns often refer back to a noun mentioned earlier, like 'she' for 'Mary'."
+                },
+                { 
+                    id: 7, 
+                    text: "I, they, their, ourselves, itself, your, my, nobody, who, which, her, we are all in grammar called", 
+                    options: ["Adverbs", "Pronouns", "Nouns", "Adjectives"], 
+                    correct: "Pronouns",
+                    explanation: "These words are pronouns, replacing nouns (e.g., 'I' for a person, 'which' for a thing). Adverbs describe actions, nouns name entities, and adjectives describe nouns.<br><strong>Tip:</strong> Memorize common pronouns (I, you, he, she, it, we, they) to spot them easily."
+                },
+                { 
+                    id: 8, 
+                    text: "A word that is used to describe a noun or pronoun is called", 
+                    options: ["Conjunction", "Pronoun", "Adjective", "Adjective"], 
+                    correct: "Adjective",
+                    explanation: "An adjective (e.g., big, happy) describes a noun or pronoun, adding detail (e.g., 'big house'). Conjunctions connect clauses, pronouns replace nouns.<br><strong>Tip:</strong> Adjectives answer questions like 'what kind?', 'how many?', or 'which one?'."
+                },
+                { 
+                    id: 9, 
+                    text: "A noun (such as courage or freedom) that names an idea, event, quality, or concept is called", 
+                    options: ["Abstract Noun", "Common noun", "Mass noun", "Concrete noun"], 
+                    correct: "Abstract Noun",
+                    explanation: "Abstract nouns (e.g., courage, freedom) name intangible concepts. Common nouns are general (e.g., dog), mass nouns are uncountable (e.g., water), and concrete nouns are tangible (e.g., table).<br><strong>Tip:</strong> If you can’t touch or see it, it’s likely an abstract noun."
+                },
+                { 
+                    id: 10, 
+                    text: "The verb form or voice in which the subject of the sentence performs or causes the action expressed by the verb", 
+                    options: ["comparative", "superlative", "Active Voice", "Passive Voice"], 
+                    correct: "Active Voice",
+                    explanation: "In active voice, the subject performs the action (e.g., 'She writes a letter'). Comparative and superlative are adjective forms, and passive voice has the subject receiving the action.<br><strong>Tip:</strong> Look for the subject doing the action to identify active voice."
+                },
+                { 
+                    id: 11, 
+                    text: "A verb form in which the subject receives the verb's action is called", 
+                    options: ["comparative", "superlative", "Active Voice", "Passive Voice"], 
+                    correct: "Passive Voice",
+                    explanation: "In passive voice, the subject receives the action (e.g., 'The letter was written'). Comparative and superlative describe adjectives, and active voice has the subject performing the action.<br><strong>Tip:</strong> Passive voice often uses forms of 'to be' plus a past participle."
+                },
+                { 
+                    id: 12, 
+                    text: "Which of the followings are adjective forms?", 
+                    options: ["positive", "comparative", "superlative", "All of these"], 
+                    correct: "All of these",
+                    explanation: "Adjectives have three forms: positive (e.g., big), comparative (e.g., bigger), and superlative (e.g., biggest). All options are correct.<br><strong>Tip:</strong> Comparative uses '-er' or 'more,' and superlative uses '-est' or 'most'."
+                },
+                { 
+                    id: 13, 
+                    text: "A noun, noun phrase, or series of nouns used to identify or rename another noun, noun phrase, or pronoun is called", 
+                    options: ["Appositive", "Active Voice", "Passive Voice", "Article"], 
+                    correct: "Appositive",
+                    explanation: "An appositive renames a noun (e.g., 'My friend, a doctor, is kind'). Active and passive voice are verb forms, and articles (a, an, the) precede nouns.<br><strong>Tip:</strong> Appositives are often set off by commas and provide extra information."
+                },
+                { 
+                    id: 14, 
+                    text: "A type of determiner that precedes a noun: for example a, an, or the is called", 
+                    options: ["Appositive", "Active Voice", "Passive Voice", "Article"], 
+                    correct: "Article",
+                    explanation: "Articles (a, an, the) are determiners that introduce nouns. Appositives rename nouns, and active/passive voice are verb forms.<br><strong>Tip:</strong> 'The' is definite, while 'a' and 'an' are indefinite articles."
+                },
+                { 
+                    id: 15, 
+                    text: "A verb that determines the mood or tense of another verb in a verb phrase", 
+                    options: ["helping verb", "Auxiliary", "lexical verb", "Both a & b"], 
+                    correct: "Both a & b",
+                    explanation: "Helping verbs (auxiliary verbs, e.g., is, have) assist main verbs to express tense or mood. Lexical verbs carry the main meaning.<br><strong>Tip:</strong> Common auxiliaries include be, have, do, and modals like can, will."
+                },
+                { 
+                    id: 16, 
+                    text: "Auxiliary is also known as a", 
+                    options: ["helping verb", "lexical verb", "Adjective verb", "None of these"], 
+                    correct: "helping verb",
+                    explanation: "Auxiliary verbs, also called helping verbs, support main verbs (e.g., 'She is running'). Lexical verbs carry meaning, and 'adjective verb' is not a term.<br><strong>Tip:</strong> Spot auxiliaries by checking for verbs like be, have, or do before the main verb."
+                },
+                { 
+                    id: 17, 
+                    text: "You are paying less attention to your studies than you used to do.", 
+                    options: ["Noun", "Verb", "Adverb", "Adjective"], 
+                    correct: "Adverb",
+                    explanation: "'Less' modifies the verb 'paying,' indicating degree, making it an adverb. Nouns name entities, verbs show actions, and adjectives describe nouns.<br><strong>Tip:</strong> Adverbs often end in '-ly' or modify verbs, answering 'how' or 'to what extent'."
+                },
+                { 
+                    id: 18, 
+                    text: "The Population of Pakistan is less than that of China.", 
+                    options: ["Adverb", "Adjective", "Noun", "Verb"], 
+                    correct: "Adjective",
+                    explanation: "'Less' describes the noun 'population,' comparing quantities, making it an adjective. Adverbs modify verbs, nouns name entities, and verbs show actions.<br><strong>Tip:</strong> In comparisons, 'less' is often an adjective when describing nouns."
+                },
+                { 
+                    id: 19, 
+                    text: "He want five thousand dollars to buy a car. He won't be satisfied with less.", 
+                    options: ["Adjective", "Adverb", "Noun", "Pronoun"], 
+                    correct: "Adjective",
+                    explanation: "'Less' describes the implied noun 'amount,' indicating quantity, making it an adjective. Adverbs modify verbs, nouns name entities, and pronouns replace nouns.<br><strong>Tip:</strong> Check what 'less' describes; if it’s a noun, it’s an adjective."
+                },
+                { 
+                    id: 20, 
+                    text: "They are men of like build and stature.", 
+                    options: ["Adverb", "Adjective", "Verb", "Pronoun"], 
+                    correct: "Adjective",
+                    explanation: "'Like' describes the nouns 'build' and 'stature,' making it an adjective. Adverbs modify verbs, verbs show actions, and pronouns replace nouns.<br><strong>Tip:</strong> Adjectives often precede nouns or follow linking verbs like 'are'."
+                },
+                { 
+                    id: 21, 
+                    text: "There is little danger in going there.", 
+                    options: ["Pronoun", "Adverb", "Adjective", "Verb"], 
+                    correct: "Adjective",
+                    explanation: "'Little' describes the noun 'danger,' indicating quantity, making it an adjective. Pronouns replace nouns, adverbs modify verbs, and verbs show actions.<br><strong>Tip:</strong> 'Little' as an adjective means 'small amount'; as an adverb, it means 'not much'."
+                },
+                { 
+                    id: 22, 
+                    text: "More of us die in bed than out of it.", 
+                    options: ["Verb", "Pronoun", "Adverb", "Adverb"], 
+                    correct: "Adverb",
+                    explanation: "'More' modifies the verb 'die,' comparing frequency, making it an adverb. Verbs show actions, pronouns replace nouns.<br><strong>Tip:</strong> In comparisons, 'more' is an adverb when modifying verbs or adjectives."
+                },
+                { 
+                    id: 23, 
+                    text: "A word that indicates an action, being or state of being is called", 
+                    options: ["Preposition", "Adjective", "Verb", "Adjective"], 
+                    correct: "Verb",
+                    explanation: "A verb expresses actions (e.g., run), being (e.g., is), or states (e.g., seem). Prepositions show relationships, adjectives describe nouns.<br><strong>Tip:</strong> Verbs are the 'action' or 'state' words in a sentence, often changing with tense."
+                }
+            ],
+            punctuation: [
+                { 
+                    id: 1, 
+                    text: "The library staff has ordered books, video cassettes, and other learning materials for their library. Which Punctuation is used in this sentence?", 
+                    options: ["period", "comma", "question mark", "exclamation mark"], 
+                    correct: "comma",
+                    explanation: "Commas separate items in a list (books, video cassettes, and other learning materials). Periods end sentences, question marks end questions, and exclamation marks show emphasis.<br><strong>Tip:</strong> In a list, use commas between items, with 'and' before the last item."
+                },
+                { 
+                    id: 2, 
+                    text: "The question mark is used at the end of a", 
+                    options: ["Question", "Every Sentence", "Last word", "None of these"], 
+                    correct: "Question",
+                    explanation: "A question mark ends a sentence that asks something (e.g., 'What time is it?'). Periods end declarative sentences, and not every sentence uses a question mark.<br><strong>Tip:</strong> If the sentence expects an answer, it’s likely a question."
+                },
+                { 
+                    id: 3, 
+                    text: "To separate two independent clauses. One or both of the clauses are short and the ideas expressed are usually very similar, which punctuation is used?", 
+                    options: ["question mark", "exclamation mark", "colon", "semi colon"], 
+                    correct: "semi colon",
+                    explanation: "A semicolon separates two related independent clauses without a conjunction (e.g., 'She loves books; he prefers movies'). Colons introduce lists or explanations.<br><strong>Tip:</strong> Use a semicolon when clauses could stand alone but are closely related."
+                },
+                { 
+                    id: 4, 
+                    text: "Which mark is used for Semicolon?", 
+                    options: ["?", "!", ";", ":"], 
+                    correct: ";",
+                    explanation: "The semicolon is represented by ';'. '?' is a question mark, '!' is an exclamation mark, and ':' is a colon.<br><strong>Tip:</strong> Memorize punctuation symbols; semicolons look like a comma with a period above it."
+                },
+                { 
+                    id: 5, 
+                    text: "Which mark is used for colon?", 
+                    options: ["?", "!", ";", ":"], 
+                    correct: ":",
+                    explanation: "The colon is represented by ':'. '?' is a question mark, '!' is an exclamation mark, and ';' is a semicolon.<br><strong>Tip:</strong> Colons introduce lists or explanations and consist of two dots."
+                },
+                { 
+                    id: 6, 
+                    text: "A colon can be used for purpose of:", 
+                    options: ["To provide additional details", "To provide explanation", "Both a & b", "None of these"], 
+                    correct: "Both a & b",
+                    explanation: "A colon introduces details or explanations (e.g., 'She bought: apples, oranges'). It’s not used for questions or exclamations.<br><strong>Tip:</strong> Use a colon after a complete sentence to introduce related information."
+                }
+            ],
+            voice: [
+                { 
+                    id: 1, 
+                    text: "The child chose the hat.", 
+                    options: ["A hat was chosen by the child.", "The hat was chosen by the child.", "The cap was chosen by the child.", "The hat wasn't chosen by the child."], 
+                    correct: "The hat was chosen by the child.",
+                    explanation: "In passive voice, the object ('the hat') becomes the subject, and the verb uses 'was' + past participle ('chosen'). 'A hat' is less specific, 'cap' is incorrect, and the negative form doesn’t match.<br><strong>Tip:</strong> Match the exact noun from the active sentence in the passive form."
+                },
+                { 
+                    id: 2, 
+                    text: "I have eaten a burger.", 
+                    options: ["A burger has been eaten by me.", "A chocolate has been eaten by me.", "A burger was being eaten by me.", "An ice cream has been eaten by me."], 
+                    correct: "A burger has been eaten by me.",
+                    explanation: "The present perfect passive uses 'has been' + past participle ('eaten'). The object ('a burger') becomes the subject. Other options change the object or tense.<br><strong>Tip:</strong> Ensure the tense and object remain consistent in passive conversions."
+                },
+                { 
+                    id: 3, 
+                    text: "We have cycled five miles.", 
+                    options: ["Five miles have been cycled by us.", "Five miles have been walked by us.", "Five miles have been run by us.", "Five miles have been cycled by you."], 
+                    correct: "Five miles have been cycled by us.",
+                    explanation: "The passive form uses 'have been' + past participle ('cycled'), with 'five miles' as the subject. Other options change the verb or pronoun.<br><strong>Tip:</strong> The original verb and subject pronoun guide the passive structure."
+                },
+                { 
+                    id: 4, 
+                    text: "The workers will weave the carpet.", 
+                    options: ["A carpet will be woven by the workers.", "The rug will be woven by the workers.", "The carpet will be woven by the workers.", "The carpet won't be woven by the workers."], 
+                    correct: "The carpet will be woven by the workers.",
+                    explanation: "Future passive uses 'will be' + past participle ('woven'). 'The carpet' matches the original object. 'A carpet' is less specific, 'rug' is incorrect.<br><strong>Tip:</strong> Use the exact object from the active sentence for precision."
+                },
+                { 
+                    id: 5, 
+                    text: "The dealer has sold the car.", 
+                    options: ["A car has been sold by the dealer.", "The car has been sold by the dealer.", "The van has been sold by the dealer.", "The cars have been sold by the dealer."], 
+                    correct: "The car has been sold by the dealer.",
+                    explanation: "Present perfect passive uses 'has been' + past participle ('sold'). 'The car' is the specific object. Other options change the object or number.<br><strong>Tip:</strong> Maintain singular/plural consistency in passive voice."
+                },
+                { 
+                    id: 6, 
+                    text: "The dog splashed the water.", 
+                    options: ["The water was splashed by the dog.", "Some water was splashed by the dog.", "The liquid was splashed by the dog.", "The water wasn't splashed by the dog."], 
+                    correct: "The water was splashed by the dog.",
+                    explanation: "Past passive uses 'was' + past participle ('splashed'). 'The water' is the exact object. 'Some water' is vague, 'liquid' is incorrect.<br><strong>Tip:</strong> Stick to the original noun for accuracy in passive voice."
+                },
+                { 
+                    id: 7, 
+                    text: "The baker made the bread.", 
+                    options: ["The bread was made by the baker.", "The cash was made by the baker.", "The cash was made by the baker.", "The bread was completed by the baker."], 
+                    correct: "The bread was made by the baker.",
+                    explanation: "Past passive uses 'was' + past participle ('made'). 'The bread' is the object. 'Cash' is incorrect, and 'completed' doesn’t fit.<br><strong>Tip:</strong> The past participle must match the original verb."
+                },
+                { 
+                    id: 8, 
+                    text: "\"Don't touch it,\" she said to him.", 
+                    options: ["He told him not to touch it.", "She told him not to touch it.", "She told him not to touch it.", "She told him not to handle it."], 
+                    correct: "She told him not to touch it.",
+                    explanation: "The passive form of an imperative retains the speaker and verb ('she told him not to touch'). Other options change the speaker or verb.<br><strong>Tip:</strong> For imperatives, the passive keeps the command structure."
+                },
+                { 
+                    id: 9, 
+                    text: "\"Don't do that again,\" he said to me.", 
+                    options: ["He told me not to do that again.", "He said it to me not to do that again.", "He told me not to do that once more.", "He told me not to do that another time."], 
+                    correct: "He told me not to do that again.",
+                    explanation: "The passive retains the speaker ('he') and verb ('do'). Other options alter phrasing or meaning.<br><strong>Tip:</strong> Keep the exact command in reported speech for accuracy."
+                },
+                { 
+                    id: 10, 
+                    text: "Somebody hit me.", 
+                    options: ["I was hit by somebody.", "I was strike by somebody.", "I was punched by somebody.", "I was slapped by somebody."], 
+                    correct: "I was hit by somebody.",
+                    explanation: "Past passive uses 'was' + past participle ('hit'). 'I' becomes the subject. Other options use incorrect verbs.<br><strong>Tip:</strong> Use the same verb in the passive form unless specified otherwise."
+                },
+                { id: 11, text: "We stopped the bus.", options: ["The means of transportation was stopped by us.", "The bus was stopped by us.", "The motor vehicle was stopped by us.", "The car was stopped by us."], correct: "The bus was stopped by us.", explanation: "Past passive uses 'was' + past participle ('stopped'). 'The bus' is the specific object. Other options are less precise or incorrect.<br><strong>Tip:</strong> Use the exact object noun in the passive form." },
+                { id: 12, text: "A thief stole my car.", options: ["My car was stolen by a thief.", "My automobile was stolen by a thief.", "My auto was stolen by a thief.", "My vehicle was stolen by a thief."], correct: "My car was stolen by a thief.", explanation: "Past passive uses 'was' + past participle ('stolen'). 'My car' is the exact object. Other options are synonyms but less precise.<br><strong>Tip:</strong> Stick to the original noun for clarity." },
+                { id: 13, text: "They didn't let him go.", options: ["He was not let leave by them.", "He was not let go away by them.", "He was not let go by them.", "He was not let go off by them."], correct: "He was not let go by them.", explanation: "Negative passive uses 'was not' + past participle ('let go'). Other options use incorrect phrasing.<br><strong>Tip:</strong> 'Let go' is a phrasal verb; keep it intact in passive." },
+                { id: 14, text: "She didn't win the prize.", options: ["The prize was not won by her.", "The award was not won by her.", "The reward was not won by her.", "The trophy was not won by her."], correct: "The prize was not won by her.", explanation: "Negative past passive uses 'was not' + past participle ('won'). 'The prize' is the exact object.<br><strong>Tip:</strong> Match the original object noun in negative passives." },
+                { id: 15, text: "The children can understand the poem.", options: ["A poem can be understood by the children.", "The poem can be understood by the children.", "The song can be understood by the children.", "The poem could be understood by the children."], correct: "The poem can be understood by the children.", explanation: "Modal passive uses 'can be' + past participle ('understood'). 'The poem' is specific. Other options change the object or modal.<br><strong>Tip:</strong> Modals like 'can' stay in the passive form." },
+                { id: 16, text: "The postman has delivered the letter.", options: ["A letter has been delivered by the postman.", "The correspondence has been delivered by the postman.", "The letter has been delivered by the postman.", "The letter have been delivered by the postman."], correct: "The letter has been delivered by the postman.", explanation: "Present perfect passive uses 'has been' + past participle ('delivered'). 'The letter' is specific. Other options are less precise or grammatically incorrect.<br><strong>Tip:</strong> Ensure subject-verb agreement in passive." },
+                { id: 17, text: "The bird took the seeds.", options: ["The seed was taken by the bird.", "The seeds were taken by the duck.", "The seeds were taken by the bird.", "The seeds were thrown by the bird."], correct: "The seeds were taken by the bird.", explanation: "Past passive uses 'were' + past participle ('taken'). 'The seeds' matches the plural object. Other options change the subject or verb.<br><strong>Tip:</strong> Plural objects use 'were' in past passive." },
+                { id: 18, text: "The guest has drunk the cider.", options: ["The cider has been drunk by the guest.", "The juice has been drunk by the guest.", "The cider has been intoxicated by the guest.", "The cider has been drunk by the visitor."], correct: "The cider has been drunk by the guest.", explanation: "Present perfect passive uses 'has been' + past participle ('drunk'). 'The cider' is specific. Other options change the object or use incorrect verbs.<br><strong>Tip:</strong> 'Drunk' is the past participle of 'drink'." },
+                { id: 19, text: "The secretary opens the mail.", options: ["The letter is opened by the secretary.", "The mail is opened by the secretary.", "The mail is open by the secretary.", "The mail is opened by the desk."], correct: "The mail is opened by the secretary.", explanation: "Present passive uses 'is' + past participle ('opened'). 'The mail' is the exact object. Other options are incorrect or vague.<br><strong>Tip:</strong> Use the original object for accuracy." },
+                { id: 20, text: "The cooks have measured the ingredients.", options: ["The ingredients have been measured by the cooks.", "The ingredient has been measured by the cooks.", "The ingredients have been deliberated by the cooks.", "The ingredients have been measured by the chefs."], correct: "The ingredients have been measured by the cooks.", explanation: "Present perfect passive uses 'have been' + past participle ('measured'). 'The ingredients' is plural. Other options change number or verb.<br><strong>Tip:</strong> Match plural forms in passive." },
+                { id: 21, text: "Did he send the letter?", options: ["Was the correspondence sent by him?", "Was the letter sent by him?", "Was the communication sent by him?", "Was the note sent by him?"], correct: "Was the letter sent by him?", explanation: "Past passive question uses 'was' + past participle ('sent'). 'The letter' is specific.<br><strong>Tip:</strong> In questions, the passive structure mirrors the active." },
+                { id: 22, text: "He must fill in the form.", options: ["The form must be filled in by her.", "The form must be filled in by them.", "The form must be filled in by him.", "The form must be filled in by his mother."], correct: "The form must be filled in by him.", explanation: "Modal passive uses 'must be' + past participle ('filled'). 'Him' matches 'he'. Other options change the subject.<br><strong>Tip:</strong> Keep the same subject in modal passives." },
+                { id: 23, text: "They need not buy bread.", options: ["Bread need not be bought by them.", "Bread need not be bought by her.", "Bread need not be bought by him.", "Bread need not be bought by his father."], correct: "Bread need not be bought by them.", explanation: "Modal negative passive uses 'need not be' + past participle ('bought'). 'Them' matches 'they'.<br><strong>Tip:</strong> Negative modals retain the same structure in passive." },
+                { id: 24, text: "\"Don't talk to me like that,\" he said.", options: ["He told her not to talk to him like that.", "He told her not to converse to him like that.", "He told her not to call her not to convert the", "He told her not to speak to him like that."], correct: "He told her not to talk to him like that.", explanation: "The imperative is reported with 'told' + infinitive ('not to talk'). Other options change the verb or are incorrect.<br><strong>Tip:</strong> Use the original verb in reported imperatives." },
+                { id: 25, text: "\"Don't repair the computer yourself,\" she warned him.", options: ["She warned him not to mend the computer himself.", "She warned him not to repair the computer himself.", "She warned him not to fix the computer himself.", "She warned him not to revamp the computer himself."], correct: "She warned him not to repair the computer himself.", explanation: "The imperative uses 'warned' + 'not to repair'. Other options change the verb.<br><strong>Tip:</strong> Keep the exact verb from the command." },
+                { id: 26, text: "The tourists have fed the ducks.", options: ["A duck has been fed by the tourists.", "The ducks have been fed by the tourists.", "The birds have been fed by the tourists.", "The ducks have not been fed by the tourists."], correct: "The ducks have been fed by the tourists.", explanation: "Present perfect passive uses 'have been' + past participle ('fed'). 'The ducks' is plural.<br><strong>Tip:</strong> Plural objects use 'have been' in present perfect passive." },
+                { id: 27, text: "We set the table.", options: ["The table is set by us.", "The bench is set by us.", "The board is set by us.", "The desk is set by us."], correct: "The table is set by us.", explanation: "Present passive uses 'is' + past participle ('set'). 'The table' is specific.<br><strong>Tip:</strong> Use the exact object noun in present passive." },
+                { id: 28, text: "She pays a lot of money.", options: ["A lot of cash is paid by her.", "A lot of money is paid by her.", "A lot of currency is paid by her.", "A lot of change is paid by her."], correct: "A lot of money is paid by her.", explanation: "Present passive uses 'is' + past participle ('paid'). 'A lot of money' is exact.<br><strong>Tip:</strong> Match the original object phrase." },
+                { id: 29, text: "I draw a picture.", options: ["A picture is drawn by me.", "An image is drawn by me.", "A depiction is drawn by me.", "A portrait is drawn by me."], correct: "A picture is drawn by me.", explanation: "Present passive uses 'is' + past participle ('drawn'). 'A picture' is exact.<br><strong>Tip:</strong> Use the same noun unless specified." },
+                { id: 30, text: "He doesn't open the book.", options: ["The volume is not opened by him.", "The book is not opened by him.", "The tome is not opened by him.", "The manuscript is not opened by him."], correct: "The book is not opened by him.", explanation: "Negative present passive uses 'is not' + past participle ('opened'). 'The book' is exact.<br><strong>Tip:</strong> Negatives follow the same passive structure." },
+                { id: 31, text: "Have they noticed us?", options: ["Have we been noticed by them?", "Have we been seen by them?", "Have we been noticed by others?", "Has she been noticed by them?"], correct: "Have we been noticed by them?", explanation: "Present perfect passive question uses 'have been' + past participle ('noticed'). 'We' matches 'us'.<br><strong>Tip:</strong> Match pronouns in passive questions." },
+                { id: 32, text: "They didn't make their beds.", options: ["Their beds were not complete by them.", "Their beds were not made by them.", "Their beds were not completed by them.", "Their beds were not ended by them."], correct: "Their beds were not made by them.", explanation: "Negative past passive uses 'were not' + past participle ('made'). 'Their beds' is exact.<br><strong>Tip:</strong> Use the correct past participle." },
+                { id: 33, text: "I did not tell them.", options: ["They were not told by me.", "They were not told by you.", "They were not told by them.", "They were not told by him."], correct: "They were not told by me.", explanation: "Negative past passive uses 'were not' + past participle ('told'). 'Me' matches 'I'.<br><strong>Tip:</strong> The agent in passive matches the active subject." },
+                { id: 34, text: "You do not write the letter.", options: ["The letter is not written by you.", "This correspondence was not written by you.", "The communication is not written by you.", "The dispatch is not written by you."], correct: "The letter is not written by you.", explanation: "Negative present passive uses 'is not' + past participle ('written'). 'The letter' is exact.<br><strong>Tip:</strong> Keep the tense consistent in negatives." },
+                { id: 35, text: "Does your mum pick you up?", options: ["Are you picked up by your mum?", "Are you chosen up by your mum?", "Are you selected up by your mum?", "Are you pulled out up by your mum?"], correct: "Are you picked up by your mum?", explanation: "Present passive question uses 'are' + past participle ('picked up'). 'You' is the object.<br><strong>Tip:</strong> Phrasal verbs stay intact in passive." },
+                { id: 36, text: "Does the police catch the thief?", options: ["Is the robber caught by the police?", "Is the thief caught by the police?", "Is the burglar caught by the police?", "Is the shoplifter caught by the police?"], correct: "Is the thief caught by the police?", explanation: "Present passive question uses 'is' + past participle ('caught'). 'The thief' is exact.<br><strong>Tip:</strong> Use the exact object noun in questions." },
+                { id: 37, text: "I have opened the present.", options: ["The gift has been opened by me.", "The present has been opened by me.", "The present has been opened by her.", "The present has been opened by him."], correct: "The present has been opened by me.", explanation: "Present perfect passive uses 'has been' + past participle ('opened'). 'The present' is exact.<br><strong>Tip:</strong> Match the agent to the active subject." },
+                { id: 38, text: "They have not read the book.", options: ["The tome has not been read by them.", "The book has not been examined by them.", "The book has not been read by them.", "The book has not been read by me."], correct: "The book has not been read by them.", explanation: "Negative present perfect passive uses 'has not been' + past participle ('read'). 'The book' is exact.<br><strong>Tip:</strong> Negatives retain the same structure." },
+                { id: 39, text: "Everyone heard the news.", options: ["Some news was heard by everyone.", "The news was heard by everyone.", "The information was heard by everyone.", "The news wasn't heard by everyone."], correct: "The news was heard by everyone.", explanation: "Past passive uses 'was' + past participle ('heard'). 'The news' is exact.<br><strong>Tip:</strong> Use the specific object noun." },
+                { id: 40, text: "The manager paid the bill.", options: ["Some bill was paid by the manager.", "The invoice was paid by the manager.", "The bill was paid by the manager.", "The bill was salaried by the manager."], correct: "The bill was paid by the manager.", explanation: "Past passive uses 'was' + past participle ('paid'). 'The bill' is exact.<br><strong>Tip:</strong> Avoid synonyms unless specified." },
+                { id: 41, text: "A doctor wrote the book.", options: ["The book was written by a doctor.", "A book was written by a doctor.", "The volume was written by a doctor.", "The book was printed by a doctor."], correct: "The book was written by a doctor.", explanation: "Past passive uses 'was' + past participle ('written'). 'The book' is exact.<br><strong>Tip:</strong> Match the exact object noun." },
+                { id: 42, text: "The girl is riding the horse.", options: ["The horse is being ridden by the girl.", "The horse is ridden by the girl.", "The horse was being ridden by a girl.", "The horse is being ridden by the boy."], correct: "The horse is being ridden by the girl.", explanation: "Present continuous passive uses 'is being' + past participle ('ridden'). 'The girl' is the agent.<br><strong>Tip:</strong> Continuous passives use 'being'." },
+                { id: 43, text: "You have not sent the parcel.", options: ["The parcel has not been sent by you.", "The package has not been sent by you.", "The parcel has not been sent by me.", "The parcel has not been given by you."], correct: "The parcel has not been sent by you.", explanation: "Negative present perfect passive uses 'has not been' + past participle ('sent'). 'The parcel' is exact.<br><strong>Tip:</strong> Use the original verb and noun." },
+                { id: 44, text: "The mother asked her daughter, \"Where have you been?\"", options: ["The mother asked her daughter where she has been.", "The mother asked her daughter where she had been.", "The mother asked her daughter where she was.", "The mother told her daughter where she had been."], correct: "The mother asked her daughter where she had been.", explanation: "Reported questions use past perfect ('had been') for present perfect questions. 'Told' is incorrect.<br><strong>Tip:</strong> Shift tenses back in reported speech." },
+                { id: 45, text: "\"Do not hurt yourselves, boys,\" she said.", options: ["She told the boys that not to hurt themselves.", "She told to boys not to hurt themselves.", "She said the boys not to hurt themselves.", "She told the boys not to hurt themselves."], correct: "She told the boys not to hurt themselves.", explanation: "Imperative reported speech uses 'told' + infinitive ('not to hurt'). Other options are grammatically incorrect.<br><strong>Tip:</strong> Use 'told' for commands in reported speech." },
+                { id: 46, text: "She said, \"Be careful, Babur\".", options: ["She told Babur that be careful.", "She told Babur that to be careful.", "She told Babur to be careful.", "She tells Babur to be careful."], correct: "She told Babur to be careful.", explanation: "Imperative reported speech uses 'told' + infinitive ('to be'). Other options are incorrect.<br><strong>Tip:</strong> Commands use 'to' in reported form." },
+                { id: 47, text: "She says, \"I will get myself a drink\".", options: ["She said that she will get herself a drink.", "She says that she will get herself a drink.", "She says that she will get herself a drink.", "She says if she will get herself a drink."], correct: "She says that she will get herself a drink.", explanation: "Present tense reported speech retains 'says' and 'will'. Other options change tense or structure.<br><strong>Tip:</strong> Present tense quotes keep the same tense in reported speech." },
+                { id: 48, text: "He said, \"I cannot drive them home\".", options: ["He said that he could not drive them home.", "He said that he cannot drive them home.", "He said that he could not driven them home.", "He said that he could not drive them home."], correct: "He said that he could not drive them home.", explanation: "Past reported speech shifts 'cannot' to 'could not'. 'Driven' is incorrect.<br><strong>Tip:</strong> Modals shift back in reported speech (can → could)." },
+                { id: 49, text: "He asked, \"What is the time?\"", options: ["He wanted to know what was the time.", "He wanted to know what was the time.", "He wanted to know what was the time.", "He wanted to know what was the time."], correct: "He wanted to know what was the time.", explanation: "Reported questions use 'wanted to know' and invert word order ('what was the time').<br><strong>Tip:</strong> Remove question marks in reported questions." },
+                { id: 50, text: "She asked me, \"When will we meet again?\"", options: ["She asked me when we will meet again.", "She asked me when she would meet again.", "She asked me that when we would meet again.", "She asked me when we would meet again."], correct: "She asked me when we would meet again.", explanation: "Reported questions shift 'will' to 'would'. 'That' is unnecessary.<br><strong>Tip:</strong> Future tenses shift to conditional in reported speech." },
+                { id: 51, text: "She asked him, \"Are you crazy?\"", options: ["She asked him if she was crazy.", "She asked him if he is crazy.", "She asked him if he was crazy.", "She asked him that if he was crazy."], correct: "She asked him if he was crazy.", explanation: "Reported yes/no questions use 'if' and shift 'are' to 'was'. Other options change pronouns or structure.<br><strong>Tip:</strong> Use 'if' for yes/no questions in reported speech." },
+                { id: 52, text: "He asked, \"Where did they live?\"", options: ["He wanted to know where they have lived.", "He wanted to know where they had lived.", "He wanted to know that where they had lived.", "He wanted to know if they had lived."], correct: "He wanted to know where they had lived.", explanation: "Reported questions shift 'did' to 'had lived'. 'That' is unnecessary.<br><strong>Tip:</strong> Past tense questions shift further back in reported speech." },
+                { id: 53, text: "She asked me, \"Can you meet me at the station?\"", options: ["She asked me if I can meet her at the station.", "She asked me if she could meet me at the station.", "She told me if I could meet her at the station.", "She asked me if I could meet her at the station."], correct: "She asked me if I could meet her at the station.", explanation: "Reported questions shift 'can' to 'could' and use 'if'. 'Told' is incorrect.<br><strong>Tip:</strong> Modals shift in reported questions (can → could)." },
+                { id: 54, text: "He said, \"Meet me at the cinema\".", options: ["He asked me to meet her at the cinema.", "He asked me to meet him at the cinema.", "He asked me to meet him in the cinema.", "He asked me to met him at the cinema."], correct: "He asked me to meet him at the cinema.", explanation: "Imperative reported speech uses 'asked' + infinitive ('to meet'). 'Her' and 'in' are incorrect.<br><strong>Tip:</strong> Use 'asked' for polite commands." },
+                { id: 55, text: "She said, \"I was very tired\".", options: ["She said that she was very tired.", "She said that she has been very tired.", "She said that she had been very tired.", "She said that she was very tired."], correct: "She said that she had been very tired.", explanation: "Past reported speech shifts 'was' to 'had been'. Other options retain incorrect tenses.<br><strong>Tip:</strong> Past tenses shift back one step in reported speech." },
+                { id: 56, text: "The teacher asked, \"Who knows the answer?\"", options: ["The teacher wanted to know who knew the answer.", "The teacher wanted to know who knew the answer.", "The teacher wanted to know who knew the answer.", "The teacher wanted to know who knew the answer."], correct: "The teacher wanted to know who knew the answer.", explanation: "Reported questions use 'wanted to know' and shift 'knows' to 'knew'.<br><strong>Tip:</strong> 'Who' questions keep the same structure in reported form." },
+                { id: 57, text: "Her father said to her, \"Go to your room\".", options: ["Her father told her go to her room.", "Her father told her to go to her room.", "Her father told her to go to her room.", "Her father told her to go to room."], correct: "Her father told her to go to her room.", explanation: "Imperative reported speech uses 'told' + infinitive ('to go'). Other options are incorrect.<br><strong>Tip:</strong> Commands use 'to' in reported speech." },
+                { id: 58, text: "She told us, \"Take off your shoes\".", options: ["She told us to take off our shoes.", "He told us to take off our shoes.", "She said us to take off our shoes.", "She told himself to take off our shoes."], correct: "She told us to take off our shoes.", explanation: "Imperative reported speech uses 'told' + infinitive ('to take'). Other options change the speaker or are incorrect.<br><strong>Tip:</strong> Match the speaker in reported commands." },
+                { id: 59, text: "She told him, \"Mind your own business\".", options: ["He told him to mind his own business.", "She said him to mind his own business.", "She told her to mind his own business.", "She told him to mind his own business."], correct: "She told him to mind his own business.", explanation: "Imperative reported speech uses 'told' + infinitive ('to mind'). Other options change the speaker.<br><strong>Tip:</strong> Keep the exact command in reported form." },
+                { id: 60, text: "She said to him, \"Don't touch it\".", options: ["She told him not to touch it.", "He told him not to touch it.", "She said him not to touch it.", "She told her not to touch it."], correct: "She told him not to touch it.", explanation: "Negative imperative reported speech uses 'told' + 'not to touch'. Other options change the speaker.<br><strong>Tip:</strong> Negative commands use 'not to' in reported speech." },
+                { id: 61, text: "\"Don't do that again,\" he said to me.", options: ["She told me not to do that again.", "He asked me not to do that again.", "He told me not to do that again.", "He told her not to do that again."], correct: "He told me not to do that again.", explanation: "Negative imperative reported speech uses 'told' + 'not to do'. Other options change the speaker or verb.<br><strong>Tip:</strong> Match the speaker and verb exactly." },
+                { id: 62, text: "She says, \"Ali, do you prefer tea or coffee?\"", options: ["She asks Ali if he prefers tea or coffee.", "She asked Ali if he prefers tea or coffee.", "She asks Ali if he prefers tea or coffee.", "She asks Ali if he preferred tea or coffee."], correct: "She asks Ali if he prefers tea or coffee.", explanation: "Present tense reported questions use 'asks' and 'if' for yes/no questions. Other options change tense.<br><strong>Tip:</strong> Present tense questions stay present in reported speech." },
+                { id: 63, text: "She asked me, \"How do you know that?\"", options: ["She asked me how I know that.", "She asked me how she knew that.", "She asked me how I knew that.", "She asked me how I knew that."], correct: "She asked me how I knew that.", explanation: "Reported questions shift 'know' to 'knew'. Other options change pronouns or tense.<br><strong>Tip:</strong> 'How' questions keep the same structure but shift tense." },
+                { id: 64, text: "She said to us, \"Hurry up\".", options: ["He told us to hurry up.", "She told us to hurry up.", "She told her to hurry up.", "She told us hurry up."], correct: "She told us to hurry up.", explanation: "Imperative reported speech uses 'told' + infinitive ('to hurry'). Other options change the speaker or are incorrect.<br><strong>Tip:</strong> Use 'to' for commands in reported speech." },
+                { id: 65, text: "He advised us, \"Do not be late\".", options: ["He advised us not to late.", "He advised not to be late.", "He advised us not to be late.", "He advised us not to be late."], correct: "He advised us not to be late.", explanation: "Negative imperative reported speech uses 'advised' + 'not to be'. Other options are incorrect.<br><strong>Tip:</strong> 'Advise' follows the same structure as 'tell' for commands." }
+            ]
+        };
+
+        let currentPage = 0;
+        const questionsPerPage = 10;
+        let timerInterval;
+        let seconds = 0;
+
+        // Combine all questions for pagination
+        const allQuestions = [
+            ...questions.grammar.map(q => ({ ...q, section: 'Grammar' })),
+            ...questions.punctuation.map(q => ({ ...q, section: 'Punctuation' })),
+            ...questions.voice.map(q => ({ ...q, section: 'Active and Passive Voice' }))
+        ];
+
+        function renderQuestions() {
+            const paginatedDiv = document.getElementById('paginatedQuestions');
+            paginatedDiv.innerHTML = '';
+            const start = currentPage * questionsPerPage;
+            const end = start + questionsPerPage;
+            const pageQuestions = allQuestions.slice(start, end);
+
+            const groupedBySection = pageQuestions.reduce((acc, q) => {
+                if (!acc[q.section]) {
+                    acc[q.section] = [];
+                }
+                acc[q.section].push(q);
+                return acc;
+            }, {});
+
+            Object.keys(groupedBySection).forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'topic-section';
+                sectionDiv.innerHTML = `<h2 onclick="toggleSection(this)">${section}</h2><div class="question-container">`;
+                groupedBySection[section].forEach(q => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    questionDiv.innerHTML = `
+                        <p>${q.id}. ${q.text}</p>
+                        ${q.options.map((option, index) => `
+                            <div class="option">
+                                <input type="radio" name="q${q.id}-${q.section}" value="${option}" id="q${q.id}o${index}-${q.section}" onchange="showFeedback(${q.id}, '${q.section}', '${option}', '${q.correct}', \`${q.explanation}\`)">
+                                <label for="q${q.id}o${index}-${q.section}" class="${option === q.correct ? 'correct' : 'incorrect'}">${option}</label>
+                            </div>
+                        `).join('')}
+                        <div class="feedback" id="feedback-${q.id}-${q.section}" style="display: none;"></div>
+                    `;
+                    sectionDiv.querySelector('.question-container').appendChild(questionDiv);
+                });
+                paginatedDiv.appendChild(sectionDiv);
+            });
+
+            updatePaginationButtons();
+            updateProgress();
+        }
+
+        function showFeedback(id, section, selected, correct, explanation) {
+            const feedbackDiv = document.getElementById(`feedback-${id}-${section}`);
+            feedbackDiv.style.display = 'block';
+            feedbackDiv.innerHTML = `
+                <p class="correct-answer">Correct Answer: ${correct}</p>
+                <p>${explanation}</p>
+            `;
+            updateProgress();
+        }
+
+        function toggleSection(header) {
+            const container = header.nextElementSibling;
+            container.style.display = container.style.display === 'none' ? 'block' : 'none';
+            header.classList.toggle('collapsed');
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            renderQuestions();
+        }
+
+        function updatePaginationButtons() {
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            prevBtn.disabled = currentPage === 0;
+            nextBtn.disabled = (currentPage + 1) * questionsPerPage >= allQuestions.length;
+        }
+
+        function updateProgress() {
+            const answered = allQuestions.filter(q => document.querySelector(`input[name="q${q.id}-${q.section}"]:checked`)).length;
+            const progressPercent = (answered / allQuestions.length) * 100;
+            document.getElementById('progress').style.width = `${progressPercent}%`;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                const minutes = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                document.getElementById('timer').textContent = `Time: ${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizForm').reset();
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('result').style.display = 'none';
+            currentPage = 0;
+            seconds = 0;
+            clearInterval(timerInterval);
+            document.getElementById('timer').textContent = 'Time: 00:00';
+            startTimer();
+            renderQuestions();
+            updateProgress();
+            document.querySelectorAll('.feedback').forEach(div => div.style.display = 'none');
+        }
+
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            clearInterval(timerInterval);
+            let score = 0;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+            resultDiv.style.display = 'block';
+
+            allQuestions.forEach(q => {
+                const selected = document.querySelector(`input[name="q${q.id}-${q.section}"]:checked`);
+                const isCorrect = selected && selected.value === q.correct;
+                if (isCorrect) score++;
+                const questionResult = document.createElement('div');
+                questionResult.className = isCorrect ? 'correct' : 'incorrect';
+                questionResult.innerHTML = `Q${q.id} (${q.section}): ${q.text}<br>Your answer: ${selected ? selected.value : 'None'}<br>Correct answer: ${q.correct}<br>Explanation: ${q.explanation}`;
+                resultDiv.appendChild(questionResult);
+            });
+
+            resultDiv.insertAdjacentHTML('afterbegin', `<h3>Score: ${score}/${allQuestions.length} (${((score / allQuestions.length) * 100).toFixed(2)}%)</h3>`);
+        });
+
+        // Initialize
+        renderQuestions();
+        startTimer();
+    </script>
+</body>
+</html>
