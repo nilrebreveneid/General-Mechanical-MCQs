@@ -3,83 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📝 Nepal Admin & Rights Quiz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Nepal Admin & Rights Quiz</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            background: #f8edeb;
-            color: #2d3436;
-            min-height: 100vh;
+            background: #f5f5f5;
+            color: #333;
             display: flex;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        .wave-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(180deg, #ff6b6b 0%, #4ecdc4 100%);
-            opacity: 0.2;
-        }
-
-        .wave-bg::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.3" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,138.7C672,128,768,160,864,186.7C960,213,1056,235,1152,213.3C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
-            animation: wave 10s linear infinite;
-        }
-
-        @keyframes wave {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            min-height: 100vh;
         }
 
         .sidebar {
-            width: 250px;
-            background: #2d3436;
-            color: #dfe6e9;
+            width: 200px;
+            background: #333;
+            color: #fff;
+            padding: 20px;
             height: 100vh;
             position: fixed;
-            left: 0;
-            top: 0;
-            padding: 20px;
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-
-        .sidebar.collapsed {
-            transform: translateX(-250px);
-        }
-
-        .sidebar-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: #ff6b6b;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1001;
         }
 
         .sidebar h2 {
-            font-size: 1.5em;
-            margin-bottom: 20px;
+            font-size: 1.3em;
+            margin-bottom: 15px;
         }
 
         .sidebar ul {
@@ -94,310 +45,128 @@
         }
 
         .sidebar li:hover, .sidebar li.active {
-            background: #ff6b6b;
-        }
-
-        .progress-circle {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .progress-circle svg {
-            width: 80px;
-            height: 80px;
-        }
-
-        .progress-circle circle {
-            fill: none;
-            stroke: #4ecdc4;
-            stroke-width: 10;
-            stroke-dasharray: 283;
-            stroke-dashoffset: 283;
-            transition: stroke-dashoffset 0.3s ease;
-        }
-
-        .progress-circle text {
-            fill: #2d3436;
-            font-size: 1em;
+            background: #007bff;
         }
 
         .main-content {
-            margin-left: 250px;
+            margin-left: 200px;
             padding: 20px;
-            width: calc(100% - 250px);
-            transition: all 0.3s ease;
-        }
-
-        .main-content.full {
-            margin-left: 0;
-            width: 100%;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            width: calc(100% - 200px);
         }
 
         .header h1 {
-            font-size: 2em;
-            color: #2d3436;
-        }
-
-        .theme-toggle {
-            background: #4ecdc4;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        body.dark {
-            background: #2d3436;
-            color: #dfe6e9;
-        }
-
-        body.dark .main-content {
-            background: #2d3436;
-        }
-
-        body.dark .question-card {
-            background: #636e72;
-            color: #dfe6e9;
-        }
-
-        body.dark .option {
-            background: #b2bec3;
-            color: #2d3436;
-        }
-
-        body.dark .option:hover {
-            background: #dfe6e9;
-        }
-
-        .question-carousel {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
+            font-size: 1.8em;
+            margin-bottom: 20px;
         }
 
         .question-card {
             background: #fff;
-            border-radius: 15px;
+            border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transform: scale(1);
-            transition: transform 0.3s ease;
-            position: relative;
-            min-height: 300px;
-        }
-
-        .question-card.active {
-            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .question-text {
-            font-size: 1.3em;
-            margin-bottom: 20px;
+            font-size: 1.2em;
+            margin-bottom: 15px;
         }
 
         .options {
             display: grid;
-            grid-template-columns: 1fr;
             gap: 10px;
         }
 
         .option {
-            background: #f8edeb;
-            padding: 15px;
-            border-radius: 10px;
+            background: #e0e0e0;
+            padding: 12px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.1em;
-            border: 2px solid #4ecdc4;
+            border: 1px solid #ccc;
         }
 
         .option:hover {
-            background: #4ecdc4;
-            color: #fff;
+            background: #d0d0d0;
         }
 
         .option.correct {
-            background: #55efc4 !important;
-            border-color: #00b894 !important;
+            background: #28a745;
+            color: #fff;
+            border-color: #28a745;
         }
 
         .option.wrong {
-            background: #ff7675 !important;
-            border-color: #d63031 !important;
+            background: #dc3545;
+            color: #fff;
+            border-color: #dc3545;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #333;
         }
 
         .carousel-nav {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .nav-btn {
-            background: #ff6b6b;
+            background: #007bff;
             color: #fff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 1em;
         }
 
         .nav-btn:disabled {
-            background: #b2bec3;
+            background: #ccc;
             cursor: not-allowed;
         }
 
-        .timer {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1em;
-            color: #ff6b6b;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        body.dark .modal-content {
-            background: #636e72;
-            color: #dfe6e9;
-        }
-
-        .modal-content h3 {
-            margin-bottom: 10px;
-        }
-
-        .modal-content p {
-            margin-bottom: 10px;
-        }
-
-        .modal-content .lang {
-            margin-bottom: 10px;
-        }
-
-        .close-btn {
-            background: #ff6b6b;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            float: right;
-        }
-
         .submit-btn, .reset-btn {
-            display: block;
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             margin: 10px 0;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 1em;
         }
 
         .submit-btn {
-            background: #4ecdc4;
+            background: #28a745;
             color: #fff;
         }
 
         .reset-btn {
-            background: #ff7675;
+            background: #dc3545;
             color: #fff;
-        }
-
-        .accordion {
-            margin-top: 20px;
-        }
-
-        .accordion-header {
-            background: #4ecdc4;
-            color: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.2em;
-        }
-
-        .accordion-content {
-            display: none;
-            margin-top: 10px;
-        }
-
-        .accordion-content embed {
-            width: 100%;
-            height: 600px;
-            border-radius: 10px;
         }
 
         @media (max-width: 768px) {
             .sidebar {
-                width: 200px;
+                width: 180px;
             }
 
             .main-content {
-                margin-left: 200px;
-                width: calc(100% - 200px);
-            }
-
-            .main-content.full {
-                margin-left: 0;
-                width: 100%;
-            }
-
-            .question-card {
-                padding: 15px;
+                margin-left: 180px;
+                width: calc(100% - 180px);
             }
 
             .question-text {
                 font-size: 1.1em;
-            }
-
-            .option {
-                font-size: 1em;
-            }
-
-            .accordion-content embed {
-                height: 400px;
             }
         }
 
         @media (max-width: 480px) {
             .sidebar {
                 width: 100%;
-                transform: translateX(-100%);
-            }
-
-            .sidebar.collapsed {
-                transform: translateX(0);
+                position: static;
             }
 
             .main-content {
@@ -408,68 +177,37 @@
             .header h1 {
                 font-size: 1.5em;
             }
-
-            .question-card {
-                min-height: 250px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="wave-bg"></div>
-    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-    <div class="sidebar collapsed">
+    <div class="sidebar">
         <h2>Topics</h2>
         <ul>
             <li class="active" onclick="selectTopic('Office Procedures')">Office Procedures</li>
             <li onclick="selectTopic('Human Rights')">Human Rights</li>
             <li onclick="selectTopic('Constitutional Rights')">Constitutional Rights</li>
         </ul>
-        <div class="progress-circle">
-            <svg>
-                <circle cx="40" cy="40" r="35"></circle>
-                <text x="50%" y="50%" text-anchor="middle" dy=".3em">0%</text>
-            </svg>
-        </div>
     </div>
-    <div class="main-content full">
+    <div class="main-content">
         <div class="header">
-            <h1>📝 Nepal Admin & Rights Quiz</h1>
-            <button class="theme-toggle" onclick="toggleTheme()">Toggle Dark Mode</button>
+            <h1>Nepal Admin & Rights Quiz</h1>
         </div>
-        <div class="question-carousel">
-            <div class="question-card">
-                <div class="timer" id="timer">30s</div>
-                <div class="question-text"></div>
-                <div class="options"></div>
-            </div>
-            <div class="carousel-nav">
-                <button class="nav-btn prev-btn" onclick="changeQuestion(-1)" disabled>Previous</button>
-                <button class="nav-btn next-btn" onclick="changeQuestion(1)">Next</button>
-            </div>
+        <div class="question-card">
+            <div class="question-text"></div>
+            <div class="options"></div>
+            <div class="feedback" id="feedback"></div>
+        </div>
+        <div class="carousel-nav">
+            <button class="nav-btn prev-btn" onclick="changeQuestion(-1)" disabled>Previous</button>
+            <button class="nav-btn next-btn" onclick="changeQuestion(1)">Next</button>
         </div>
         <button class="submit-btn" onclick="submitQuiz()">Submit Quiz</button>
         <button class="reset-btn" onclick="resetQuiz()">Reset Quiz</button>
-        <div class="accordion">
-            <div class="accordion-header" onclick="toggleAccordion()">View Document</div>
-            <div class="accordion-content">
-                <embed src="public.pdf" type="application/pdf" />
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="feedback-modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">Close</button>
-            <h3 id="modal-title"></h3>
-            <p id="modal-explanation-en"></p>
-            <p id="modal-explanation-np"></p>
-            <p id="modal-tip"></p>
-        </div>
     </div>
 
     <script>
         const questions = [
-            // Office Procedures (27 MCQs)
             { id: 1, section: "Office Procedures", text: "कार्यालय सञ्चालनका लागि आवश्यक पर्ने कार्य तथा औपचारिक कियाकलापहरूको व्यवस्थित विधि तथा चरणलाई के भनिन्छ?", options: ["कार्यालय व्यवस्थापन", "पत्र व्यवहार", "कार्यालय कार्यविधि", "चलानी"], correct: "कार्यालय कार्यविधि", explanation: { en: "Office procedures refer to systematic methods for formal activities, distinct from management or correspondence.", np: "कार्यालय कार्यविधि भनेको औपचारिक कार्यहरूको व्यवस्थित विधि हो, जुन व्यवस्थापन वा पत्र व्यवहारभन्दा फरक छ।" }, tip: "Focus on 'systematic methods' (व्यवस्थित विधि)." },
             { id: 2, section: "Office Procedures", text: "तलका मध्ये कुन कार्यालय कार्यविधिका कार्य होइन?", options: ["पत्रव्यवहार", "दर्ता र चलानी", "वित्तीय निर्णय", "परिपत्र र तोक आदेश"], correct: "वित्तीय निर्णय", explanation: { en: "Financial decisions are part of financial management, not office procedures.", np: "वित्तीय निर्णय वित्तीय व्यवस्थापनको हिस्सा हो, कार्यालय कार्यविधिको होइन।" }, tip: "Exclude finance tasks (वित्तीय कार्य)." },
             { id: 3, section: "Office Procedures", text: "कार्यालय कार्यविधि सञ्चालन गर्दा एउटा आदर्श चिठीपत्रमा हुनुपर्ने गुणहरू तलकामध्ये कुन हो?", options: ["सरल भाषा र संक्षिप्तता", "पूर्णता र स्पष्टता", "मौलिकता र विनम्रता", "माथिका सबै"], correct: "माथिका सबै", explanation: { en: "An ideal letter is simple, clear, complete, original, and polite.", np: "आदर्श चिठी सरल, स्पष्ट, पूर्ण, मौलिक र विनम्र हुनुपर्छ।" }, tip: "Balance clarity and professionalism (स्पष्टता र व्यावसायिकता)." },
@@ -497,7 +235,6 @@
             { id: 25, section: "Office Procedures", text: "कार्यालयमा पत्रव्यवहार गर्दा ध्यान दिनुपर्ने कुराहरू तलका मध्ये कुन हो/हुन्?", options: ["पत्र चलानी गर्दा सम्बन्धित दस्तखत छ कि छैन जाँच गर्नुपर्छ", "पठाउने कार्यालयको नाम र ठेगाना, विषय", "आदेश अनुसारको गोप्य, जरुरी लगायत छ कि छैन जाँच गर्नुपर्छ", "माथिका सबै"], correct: "माथिका सबै", explanation: { en: "Verify signatures, sender details, and priority.", np: "दस्तखत, पठाउने विवरण र प्राथमिकता जाँच गर्नुपर्छ।" }, tip: "Verify details (विवरण)." },
             { id: 26, section: "Office Procedures", text: "चिठीको प्राथमिकता निर्धारण गर्दा तलका मध्ये कुन-कुन पर्छ?", options: ["साधारण", "अति जरुरी", "जरुरी", "माथिका सबै"], correct: "माथिका सबै", explanation: { en: "Priorities include ordinary, urgent, and very urgent.", np: "प्राथमिकतामा साधारण, जरुरी र अति जरुरी पर्छ।" }, tip: "Guide urgency (जरुरी)." },
             { id: 27, section: "Office Procedures", text: "कार्यालयमा पत्रव्यवहार गर्दा तलका मध्ये कुन कुरामा ध्यान दिनुपर्छ?", options: ["स्पष्ट र सरल भाषा प्रयोग गर्नुपर्छ", "कार्यालयको छाप र हस्ताक्षर हुनुपर्छ", "पत्रको गोप्यता र जरुरी स्तर स्पष्ट हुनुपर्छ", "माथिका सबै"], correct: "माथिका सबै", explanation: { en: "Use clear language, seals, and clear priority.", np: "स्पष्ट भाषा, छाप र प्राथमिकता स्तर आवश्यक छ।" }, tip: "Clarity and formality (स्पष्टता)." },
-            // Human Rights, Good Governance, and Right to Information (10 MCQs)
             { id: 1, section: "Human Rights", text: "विश्वको पहिलो मानव अधिकार बडापत्र सन् १२१५ जुन १५ मा म्याग्नाकार्टा बेलायतमा जारी भएको थियो भने सर्वप्रथम संयुक्त राष्ट्रसंघको प्रयासमा विश्वव्यापी मानव अधिकार घोषणापत्र कहिले जारी भएको थियो?", options: ["सन् १९४५ डिसेम्बर १", "सन् १९४८ डिसेम्बर १०", "सन् १९५६ डिसेम्बर १", "सन् १९६६ डिसेम्बर १०"], correct: "सन् १९४८ डिसेम्बर १०", explanation: { en: "UDHR was adopted by the UN on December 10, 1948.", np: "विश्वव्यापी मानव अधिकार घोषणापत्र सन् १९४८ डिसेम्बर १० मा अंगीकार भएको थियो।" }, tip: "Recall 1948 for UDHR." },
             { id: 2, section: "Human Rights", text: "विश्वव्यापीरूपमा मानव अधिकार सम्बन्धी कार्य गर्न संस्था Amnesty International को स्थापना सन् १९६१ मा भएको हो भने उक्त संस्थाको स्थापना गर्ने बेलायती कानूनविद को हुन्?", options: ["ए.भी. डाइसी", "पिटर बेन्सन", "जुल कोनेसन", "जोन आस्थिन"], correct: "पिटर बेन्सन", explanation: { en: "Peter Benenson founded Amnesty in 1961.", np: "पिटर बेन्सनले सन् १९६१ मा एम्नेस्टी स्थापना गरे।" }, tip: "Benenson for Amnesty (1961)." },
             { id: 3, section: "Human Rights", text: "नेपालमा सूचनाको हक सम्बन्धी तलका भनाइहरूमध्ये कुन भनाइ ठिक छ? १) सूचनाको हक व्यक्ति र नागरिकलाई दुवैलाई प्राप्त छ। २) सूचनाको हक नागरिकलाई मात्र प्राप्त छ।", options: ["१ मात्र ठिक", "२ मात्र ठिक", "दुवै ठिक", "दुवै बेठिक"], correct: "२ मात्र ठिक", explanation: { en: "Right to information is for citizens only.", np: "सूचनाको हक नागरिकलाई मात्र प्राप्त छ।" }, tip: "Citizen-specific (नागरिक)." },
@@ -508,7 +245,6 @@
             { id: 8, section: "Human Rights", text: "राष्ट्रिय सूचना आयोगको स्थापना कहिले भएको हो?", options: ["वि.सं. २०६४ वैशाख २२", "वि.सं. २०६४ असोज २२", "वि.सं. २०६५ वैशाख २२", "वि.सं. २०६५ असोज २२"], correct: "वि.सं. २०६४ वैशाख २२", explanation: { en: "Established on Baisakh 22, 2064 BS (2007).", np: "वि.सं. २०६४ वैशाख २२ मा स्थापना भएको।" }, tip: "2064 BS (2007)." },
             { id: 9, section: "Human Rights", text: "नेपालमा सुशासनको सन्दर्भमा विकास भएका नवीनतम विधिहरू कुन कुन हुन्?", options: ["सामाजिक परीक्षण", "सार्वजनिक परीक्षण", "सार्वजनिक सुनुवाइ", "माथिका सबै"], correct: "माथिका सबै", explanation: { en: "Includes social audits, public audits, and hearings.", np: "सामाजिक परीक्षण, सार्वजनिक परीक्षण र सुनुवाइ समावेश छ।" }, tip: "Public engagement (जनसहभागिता)." },
             { id: 10, section: "Human Rights", text: "नेपालमा पहिलो पटक सूचनाको हक नेपाल अधिराज्यको संविधान, २०४७ को कुन धारामा उल्लेख थियो?", options: ["धारा १६", "धारा २७", "धारा ३७", "धारा २९"], correct: "धारा १६", explanation: { en: "Article 16 of the 1990 Constitution.", np: "२०४७ को संविधानको धारा १६ मा।" }, tip: "Article 16 (धारा १६)." },
-            // Constitutional Rights (8 MCQs)
             { id: 1, section: "Constitutional Rights", text: "नेपालको संविधान (२०७२) अनुसार संघ, प्रदेश र स्थानीय तहको अधिकारको साझा सूचीमा तलका मध्ये कुन पर्छ?", options: ["शिक्षा र खेलकुद", "आधारभूत, माध्यमिक र उच्च शिक्षा", "शिक्षा, प्राविधिक तथा व्यावसायिक तालिम र उच्च शिक्षा", "शिक्षा, खेलकुद र पत्रपत्रिका"], correct: "शिक्षा र खेलकुद", explanation: { en: "Education and sports are concurrent powers.", np: "शिक्षा र खेलकुद साझा अधिकारमा पर्छ।" }, tip: "Shared powers (साझा)." },
             { id: 2, section: "Constitutional Rights", text: "दलित विद्यार्थीलाई प्राथमिकतासहित उच्च शिक्षासम्म कानुनबमोजिम छात्रवृत्तिसहित निःशुल्क शिक्षाको व्यवस्था गरिने छ। यो हक कुन मौलिक हकमा उल्लेख छ?", options: ["शिक्षा सम्बन्धी हक", "दलितको हक", "बालबालिकाको हक", "सामाजिक न्यायको हक"], correct: "दलितको हक", explanation: { en: "Free education for Dalits under Dalit rights.", np: "दलितको हकअन्तर्गत निःशुल्क शिक्षा।" }, tip: "Dalit-specific (दलित)." },
             { id: 3, section: "Constitutional Rights", text: "कुनै पनि व्यक्तिलाई पक्राउ भएको कारणसहितको सूचना नदिई कुनै ठाउँमा राखिने छैन। यो हक कुन मौलिक हकअन्तर्गत पर्छ?", options: ["न्याय सम्बन्धी हक", "निवारक नजरबन्दविरुद्धको हक", "अपराध पीडितको हक", "यातनाविरुद्धको हक"], correct: "न्याय सम्बन्धी हक", explanation: { en: "Informed arrest under justice rights.", np: "न्याय सम्बन्धी हकअन्तर्गत सूचना।" }, tip: "Justice for fairness (न्याय)." },
@@ -521,14 +257,8 @@
 
         let currentQuestion = 0;
         let score = 0;
-        let timerInterval;
-        let secondsLeft = 30;
-        const totalQuestions = questions.length;
         let answeredQuestions = new Set();
         let currentTopic = 'Office Procedures';
-
-        const correctSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-266.mp3');
-        const wrongSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-error-2562.mp3');
 
         function renderQuestion() {
             const filteredQuestions = questions.filter(q => q.section === currentTopic);
@@ -537,34 +267,27 @@
             const q = filteredQuestions[currentQuestion];
             const questionCard = document.querySelector('.question-card');
             questionCard.innerHTML = `
-                <div class="timer" id="timer">${secondsLeft}s</div>
                 <div class="question-text">${q.id}. ${q.text}</div>
                 <div class="options">
                     ${q.options.map((option, index) => `<div class="option" data-index="${index}" data-id="${q.id}" data-section="${q.section}" role="button" tabindex="0">${option}</div>`).join('')}
                 </div>
+                <div class="feedback" id="feedback"></div>
             `;
-            questionCard.classList.add('active');
             document.querySelectorAll('.option').forEach(opt => {
                 opt.addEventListener('click', handleAnswer);
                 opt.addEventListener('keydown', e => e.key === 'Enter' && handleAnswer(e));
             });
             updateNavigation();
-            updateProgress();
-            startTimer();
+            document.getElementById('feedback').textContent = '';
         }
 
         function handleAnswer(e) {
-            clearInterval(timerInterval);
             const selectedIndex = parseInt(e.target.dataset.index);
             const id = parseInt(e.target.dataset.id);
             const section = e.target.dataset.section;
             const q = questions.find(q => q.id === id && q.section === section);
             const correctIndex = q.options.indexOf(q.correct);
-            const modal = document.getElementById('feedback-modal');
-            const modalTitle = document.getElementById('modal-title');
-            const modalExplanationEn = document.getElementById('modal-explanation-en');
-            const modalExplanationNp = document.getElementById('modal-explanation-np');
-            const modalTip = document.getElementById('modal-tip');
+            const feedback = document.getElementById('feedback');
 
             document.querySelectorAll(`.option[data-id="${id}"][data-section="${section}"]`).forEach(opt => {
                 opt.style.pointerEvents = 'none';
@@ -572,33 +295,13 @@
                 if (parseInt(opt.dataset.index) === selectedIndex && selectedIndex !== correctIndex) opt.classList.add('wrong');
             });
 
-            modalTitle.textContent = selectedIndex === correctIndex ? 'Correct!' : 'Incorrect';
-            modalExplanationEn.textContent = `English: ${q.explanation.en}`;
-            modalExplanationNp.textContent = `Nepali: ${q.explanation.np}`;
-            modalTip.textContent = `Tip: ${q.tip}`;
-            modal.style.display = 'flex';
+            feedback.textContent = selectedIndex === correctIndex 
+                ? `Correct! ${q.explanation.en} (${q.explanation.np}) Tip: ${q.tip}`
+                : `Incorrect. Correct answer: ${q.correct}. ${q.explanation.en} (${q.explanation.np}) Tip: ${q.tip}`;
 
-            if (selectedIndex === correctIndex) {
-                score++;
-                correctSound.play();
-            } else {
-                wrongSound.play();
-            }
+            if (selectedIndex === correctIndex) score++;
             answeredQuestions.add(`${id}-${section}`);
-            updateProgress();
-        }
-
-        function startTimer() {
-            secondsLeft = 30;
-            document.getElementById('timer').textContent = `${secondsLeft}s`;
-            timerInterval = setInterval(() => {
-                secondsLeft--;
-                document.getElementById('timer').textContent = `${secondsLeft}s`;
-                if (secondsLeft <= 0) {
-                    clearInterval(timerInterval);
-                    moveToNextQuestion();
-                }
-            }, 1000);
+            setTimeout(moveToNextQuestion, 1000);
         }
 
         function moveToNextQuestion() {
@@ -617,14 +320,6 @@
             document.querySelector('.next-btn').disabled = currentQuestion === filteredQuestions.length - 1;
         }
 
-        function updateProgress() {
-            const progressPercent = (answeredQuestions.size / totalQuestions) * 100;
-            const circle = document.querySelector('.progress-circle circle');
-            const text = document.querySelector('.progress-circle text');
-            circle.style.strokeDashoffset = 283 - (283 * progressPercent) / 100;
-            text.textContent = `${Math.round(progressPercent)}%`;
-        }
-
         function selectTopic(topic) {
             currentTopic = topic;
             currentQuestion = 0;
@@ -634,53 +329,19 @@
         }
 
         function changeQuestion(direction) {
-            clearInterval(timerInterval);
             currentQuestion += direction;
             renderQuestion();
         }
 
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            const mainContent = document.querySelector('.main-content');
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('full');
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('dark');
-        }
-
-        function closeModal() {
-            document.getElementById('feedback-modal').style.display = 'none';
-            moveToNextQuestion();
-        }
-
         function submitQuiz() {
-            clearInterval(timerInterval);
-            const modal = document.getElementById('feedback-modal');
-            const modalContent = document.querySelector('.modal-content');
-            modalContent.innerHTML = `
-                <h3>Quiz Completed!</h3>
-                <p>Score: ${score}/${totalQuestions}</p>
-                <p>Percentage: ${(score / totalQuestions * 100).toFixed(2)}%</p>
-                ${questions.map(q => {
-                    const selectedOption = document.querySelector(`.option[data-id="${q.id}"][data-section="${q.section}"].correct`) || document.querySelector(`.option[data-id="${q.id}"][data-section="${q.section}"].wrong`);
-                    const selectedText = selectedOption ? selectedOption.textContent : 'None';
-                    const isCorrect = selectedOption && selectedOption.classList.contains('correct');
-                    return `
-                        <div class="${isCorrect ? 'correct' : 'incorrect'}">
-                            Q${q.id} (${q.section}): ${q.text}<br>
-                            Your answer: ${selectedText}<br>
-                            Correct answer: ${q.correct}<br>
-                            Explanation (EN): ${q.explanation.en}<br>
-                            Explanation (NP): ${q.explanation.np}<br>
-                            Tip: ${q.tip}
-                        </div>
-                    `;
-                }).join('')}
-                <button class="close-btn" onclick="closeModal()">Close</button>
+            const questionCard = document.querySelector('.question-card');
+            questionCard.innerHTML = `
+                <div class="question-text">Quiz Completed!</div>
+                <div class="feedback">
+                    Score: ${score}/${questions.length}<br>
+                    Percentage: ${(score / questions.length * 100).toFixed(2)}%
+                </div>
             `;
-            modal.style.display = 'flex';
             document.querySelector('.carousel-nav').style.display = 'none';
             document.querySelector('.submit-btn').style.display = 'none';
         }
@@ -689,30 +350,10 @@
             score = 0;
             currentQuestion = 0;
             answeredQuestions.clear();
-            clearInterval(timerInterval);
             document.querySelector('.carousel-nav').style.display = 'flex';
             document.querySelector('.submit-btn').style.display = 'block';
-            document.getElementById('feedback-modal').style.display = 'none';
-            updateProgress();
             renderQuestion();
         }
-
-        function toggleAccordion() {
-            const content = document.querySelector('.accordion-content');
-            content.style.display = content.style.display === 'none' ? 'block' : 'none';
-        }
-
-        // Touch Support
-        let touchStartX = 0;
-        let touchEndX = 0;
-        document.querySelector('.question-carousel').addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        document.querySelector('.question-carousel').addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            if (touchStartX - touchEndX > 50) changeQuestion(1);
-            if (touchEndX - touchStartX > 50) changeQuestion(-1);
-        });
 
         renderQuestion();
     </script>
