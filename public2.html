@@ -251,7 +251,7 @@
             { id: 4, section: "Constitutional Rights", text: "कसैलाई पनि निजको इच्छाविरुद्ध काममा लगाइनेछैन। यो प्रावधान कुन मौलिक हकअन्तर्गत छ?", options: ["स्वतन्त्रताको हक", "सम्मानपूर्वक बाँच्ने हक", "शोषणविरुद्धको हक", "न्याय सम्बन्धी हक"], correct: "शोषणविरुद्धको हक", explanation: { en: "Against forced labor under exploitation rights.", np: "शोषणविरुद्धको हकअन्तर्गत।" }, tip: "Exploitation (शोषण)." },
             { id: 5, section: "Constitutional Rights", text: "संविधानबमोजिम कसलाई आधारभूत शिक्षामा पहुँचको हक हुनेछ?", options: ["प्रत्येक व्यक्तिलाई", "प्रत्येक नागरिकलाई", "प्रत्येक बालकलाई", "सबै नेपालीलाई"], correct: "प्रत्येक नागरिकलाई", explanation: { en: "Basic education for every citizen.", np: "प्रत्येक नागरिकलाई आधारभूत शिक्षा।" }, tip: "Citizen-focused (नागरिक)." },
             { id: 6, section: "Constitutional Rights", text: "सम्मानपूर्वक बाँच्ने हक कसलाई प्राप्त छ?", options: ["प्रत्येक व्यक्तिलाई", "प्रत्येक नागरिकलाई", "प्रत्येक नेपाली नागरिकलाई", "प्रत्येक नेपालीलाई"], correct: "प्रत्येक नागरिकलाई", explanation: { en: "Dignity for every citizen.", np: "प्रत्येक नागरिकलाई सम्मानपूर्वक बाँच्ने हक।" }, tip: "Citizen’s right (नागरिक)." },
-            { id: 7, section: "Constitutional Rights", text: "सम्पत्ति तथा पारिवारिक मामिलामा दम्पतीको समान हक हुने व्यवस्था कुन हकले गरेको छ?", options: ["समानताको हक", "महिलाको हक", "सम्पत्तिको हक", "न्याय सम्बन्धी हक"], correct: "महिलाको हक", explanation: { en: "Equal rights under women’s rights.", np: "महिलाको हकअन्तर्गत समान हक।" }, tip: "Women’s rights (महिला)." },
+            { id: 7, section: "Constitutional Rights", text: "सम्पत्ति तथा पारिवारिक मामिलामा दम्पतीको समान हक हुने व्यवस्था कुन হकले गरेको छ?", options: ["समानताको हक", "महिलाको हक", "सम्पत्तिको हक", "न्याय सम्बन्धी हक"], correct: "महिलाको हक", explanation: { en: "Equal rights under women’s rights.", np: "महिलाको हकअन्तर्गत समान हक।" }, tip: "Women’s rights (महिला)." },
             { id: 8, section: "Constitutional Rights", text: "नेपालको संविधान अनुसार कुन तहसम्मको शिक्षा अनिवार्य र निःशुल्क हुने व्यवस्था छ?", options: ["प्राथमिक शिक्षा", "आधारभूत शिक्षा", "माध्यमिक शिक्षा", "विद्यालय शिक्षा"], correct: "आधारभूत शिक्षा", explanation: { en: "Basic education is mandatory and free.", np: "आधारभूत शिक्षा अनिवार्य र निःशुल्क छ।" }, tip: "Basic education (आधारभूत)." }
         ];
 
@@ -301,7 +301,7 @@
 
             if (selectedIndex === correctIndex) score++;
             answeredQuestions.add(`${id}-${section}`);
-            setTimeout(moveToNextQuestion, 1000);
+            setTimeout(moveToNextQuestion, 2000);
         }
 
         function moveToNextQuestion() {
