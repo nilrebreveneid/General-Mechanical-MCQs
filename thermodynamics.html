@@ -4,391 +4,247 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thermodynamics MCQ Quiz</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-      padding: 2rem;
-      background: linear-gradient(to right, #f8ffae, #43c6ac);
-      color: #333;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background: #e6fffa;
+      scroll-behavior: smooth;
     }
-
-    h1 {
-      text-align: center;
-      color: #1e88e5;
-      margin-bottom: 0.5rem;
-    }
-
-    h2 {
-      text-align: center;
-      color: #d81b60;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-    }
-
     .quiz-container {
-      max-width: 900px;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      margin-bottom: 2rem;
+      background: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
     }
-
-    .progress-bar {
-      width: 100%;
-      height: 10px;
-      background: #eee;
-      border-radius: 5px;
-      margin-bottom: 1rem;
-      overflow: hidden;
+    .question-card {
+      border: 1px solid #e2e8f0;
+      transition: transform 0.2s ease-in-out;
     }
-
-    .progress {
-      height: 100%;
-      background: #42a5f5;
-      transition: width 0.3s;
+    .question-card:hover {
+      transform: translateY(-2px);
     }
-
-    #timer {
-      text-align: right;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      color: #d81b60;
-    }
-
-    .question {
-      margin-bottom: 1.5rem;
-      animation: fadeIn 0.5s;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 1rem;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .question p {
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: #444;
-    }
-
     .options button {
-      display: block;
-      margin: 0.5rem 0;
-      padding: 0.75rem 1rem;
-      width: 100%;
-      background: #e3f2fd;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 1rem;
-      text-align: left;
+      transition: background-color 0.2s ease-in-out;
     }
-
-    .options button:hover {
-      background: #bbdefb;
-      transform: translateX(5px);
+    .options button:hover:not(:disabled) {
+      background-color: #bee3f8;
     }
-
-    .options button:focus {
-      outline: 2px solid #1e88e5;
-      outline-offset: 2px;
+    .explanation {
+      background: #f0fff4;
+      border-left: 4px solid #48bb78;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 4px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
     }
-
-    .options button.correct {
-      background-color: #c8e6c9 !important;
-      animation: pulse 0.5s;
+    .explanation.show {
+      opacity: 1;
+      transform: translateY(0);
     }
-
-    .options button.wrong {
-      background-color: #ffcdd2 !important;
-      animation: shake 0.3s;
+    .pagination-button {
+      transition: all 0.2s ease-in-out;
     }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+    .pagination-button:hover:not(:disabled) {
+      background-color: #2b6cb0;
+      transform: translateY(-1px);
     }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-
-    #score, #results {
-      text-align: center;
-      font-size: 1.2rem;
-      margin-top: 2rem;
-      font-weight: bold;
-    }
-
-    .results-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-
-    .results-table th, .results-table td {
-      border: 1px solid #ddd;
-      padding: 0.5rem;
-      text-align: left;
-    }
-
-    .results-table th {
-      background: #f5f5f5;
-    }
-
-    .submit-button, .restart-button {
-      background: #42a5f5;
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 1rem;
-      display: block;
-      width: 100%;
-      text-align: center;
-      transition: background 0.3s;
-    }
-
-    .submit-button:hover, .restart-button:hover {
-      background: #1e88e5;
-    }
-
-    .submit-button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .quiz-container {
         padding: 1rem;
       }
-      .options button {
-        font-size: 0.9rem;
-        padding: 0.5rem;
+      .pagination-button {
+        padding: 0.5rem 1rem;
       }
+    }
+    .progress-container {
+      position: relative;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .progress {
+      height: 100%;
+      background: #14b8a6;
+      border-radius: 9999px;
+      transition: width 0.4s ease-in-out;
     }
   </style>
 </head>
-<body>
-  <h1>Thermodynamics MCQ Quiz</h1>
-  <h2>4 MCQs Will Come in Exam</h2>
-  <div class="quiz-container">
-    <div id="timer">Time: 00:00</div>
-    <div class="progress-bar">
+<body class="flex flex-col items-center p-4 min-h-screen">
+  <h1 class="text-3xl font-bold text-teal-700 mb-6">Thermodynamics MCQ Quiz</h1>
+  <div class="quiz-container w-full max-w-4xl p-8">
+    <div class="progress-container mb-6">
       <div class="progress" id="progress"></div>
     </div>
-    <div id="quiz"></div>
-    <button class="submit-button" id="submit-button" disabled>Submit Quiz</button>
-    <div id="score"></div>
-    <div id="results" class="hidden">
-      <h2>Quiz Results</h2>
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th>Question</th>
-            <th>Your Answer</th>
-            <th>Correct Answer</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="results-body"></tbody>
-      </table>
+    <div id="quiz" role="region" aria-live="polite"></div>
+    <div class="flex justify-between mt-6 gap-4">
+      <button id="prev-page" class="pagination-button px-4 py-2 bg-teal-500 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed" aria-label="Previous page">Previous</button>
+      <button id="next-page" class="pagination-button px-4 py-2 bg-teal-500 text-white rounded disabled:bg-gray-400 disabled:cursor-not-allowed" aria-label="Next page">Next</button>
+    </div>
+    <button class="submit-button w-full bg-teal-500 text-white py-3 rounded hover:bg-teal-600 mt-6 disabled:bg-gray-400 disabled:cursor-not-allowed" id="submit-button" disabled>Submit Quiz</button>
+    <div id="score" class="text-center text-lg font-bold mt-6 text-teal-700"></div>
+    <div id="results" class="hidden mt-6">
+      <h2 class="text-xl font-semibold text-center text-teal-600 mb-4">Quiz Results</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-sm">
+          <thead>
+            <tr class="bg-teal-100">
+              <th class="border p-3">Question</th>
+              <th class="border p-3">Your Answer</th>
+              <th class="border p-3">Correct Answer</th>
+              <th class="border p-3">Status</th>
+              <th class="border p-3">Explanation</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
     </div>
   </div>
-  <button class="restart-button hidden" id="restart-button">Restart Quiz</button>
-
-  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
-  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+  <button class="restart-button w-full max-w-4xl bg-teal-500 text-white py-3 rounded hover:bg-teal-600 mt-6 hidden" id="restart-button" aria-label="Restart quiz">Restart Quiz</button>
 
   <script>
     const thermoQuestions = [
-      { q: "The unit of temperature is based on:", options: ["Boiling point of mercury", "Triple point of water"], answer: 1 },
-      { q: "Absolute zero temperature is taken as:", options: ["237°C", "273°C"], answer: 1 },
-      { q: "Essential condition for heat transfer is:", options: ["Difference in conductivity", "Difference in temperature"], answer: 1 },
-      { q: "A constant volume air thermometer works on:", options: ["Archimedes’ principle", "Charles’ Law"], answer: 1 },
-      { q: "The greater the temperature difference:", options: ["lower is the heat transfer rate", "higher is the heat transfer rate"], answer: 1 },
-      { q: "The calorific value of gaseous fuel is expressed in:", options: ["kcal/min", "kcal/m³"], answer: 1 },
-      { q: "When expansion/compression follows PVⁿ = constant, it is:", options: ["Hyperbolic process", "Polytropic process"], answer: 1 },
-      { q: "Change in enthalpy equals heat supplied at:", options: ["Constant temperature", "Constant pressure"], answer: 1 },
-      { q: "The value of Cp/Cv for air is:", options: ["1.2", "1.4"], answer: 1 },
-      { q: "Isothermal and adiabatic processes are identical at:", options: ["Saturation temperature", "Critical temperature"], answer: 1 },
-      { q: "The property of a working substance that increases or decreases as heat is supplied or removed:", options: ["External energy", "Internal energy"], answer: 1 },
-      { q: "A gas behaves as an ideal gas at:", options: ["Very high pressure", "Low pressure"], answer: 1 },
-      { q: "The efficiency of the Joule cycle is:", options: ["Greater than Carnot cycle", "Less than Carnot cycle"], answer: 1 },
-      { q: "In water cooling, water in the jacket obtains heat due to:", options: ["Radiation", "All of the above"], answer: 1 },
-      { q: "Heat engine attains 100% thermal efficiency: it violates —", options: ["First law of thermodynamics", "Second law of thermodynamics"], answer: 1 },
-      { q: "Suction, compression, expansion, and exhaust strokes take place in:", options: ["Steam engine", "Diesel engine"], answer: 1 },
-      { q: "Which power plant engine is rarely used in civil aircraft?", options: ["None of the above", "Turbo propeller engine"], answer: 1 },
-      { q: "Second law of thermodynamics defines:", options: ["Entropy", "Work"], answer: 0 },
-      { q: "Internal energy and enthalpy of ideal gas are the function of:", options: ["Pressure only", "Temperature only"], answer: 1 },
-      { q: "When a process undergoes a complete cycle, the change of entropy is:", options: ["Positive", "Zero value"], answer: 1 },
-      { q: "The specific heat of air at constant volume is equal to:", options: ["0.17", "0.21"], answer: 1 },
-      { q: "The change in enthalpy of an ideal gas during an adiabatic process is:", options: ["mCᵥ(T₂ − T₁)", "mCₚ(T₂ − T₁)"], answer: 1 },
-      { q: "Heat transferred to a closed system during an isochoric process is equal to:", options: ["Change in internal energy", "Change in enthalpy"], answer: 1 },
-      { q: "Gas heated such that PV = const. Heat supplied is equal to:", options: ["Change in internal energy", "Product of pressure and volume"], answer: 1 },
-      { q: "Water at 48 kg/cm² and 160°C when exposed to atmosphere will:", options: ["Cool down", "Flash i.e. get converted into steam"], answer: 1 },
-      { q: "The device that converts heat energy into work during cyclic process is:", options: ["Heat pump", "Heat engine"], answer: 1 },
-      { q: "Work done in a free expansion process is:", options: ["Zero", "Positive"], answer: 0 },
-      { q: "Which coal has the highest calorific value?", options: ["Bituminous coal", "Anthracite coal"], answer: 1 },
-      { q: "In an isothermal process:", options: ["There is no change in enthalpy", "All of the above"], answer: 1 },
-      { q: "According to the 1st Law of Thermodynamics:", options: ["Mass and light are mutually convertible", "Heat and work are mutually convertible"], answer: 1 },
-      { q: "Which of the following parameter changes during an isothermal process?", options: ["Internal energy", "Temperature"], answer: 1 },
-      { q: "Which characteristic does not change in a reversible isothermal process?", options: ["Enthalpy", "Entropy"], answer: 1 },
-      { q: "For any natural process, the entropy change would be:", options: ["Negative", "Positive"], answer: 1 },
-      { q: "Which laws apply to behavior of perfect gas?", options: ["Boyle’s law", "Both Boyle’s law and Charles’s law"], answer: 1 },
-      { q: "Water at standard atmospheric conditions:", options: ["Is mostly liquid", "Behaves as an ideal gas"], answer: 1 },
-      { q: "Increase in entropy of a system means:", options: ["Increase in availability of energy", "Degradation of energy"], answer: 1 },
-      { q: "Step 2 in Carnot cycle is:", options: ["Isentropic expansion", "Isentropic compression"], answer: 1 },
-      { q: "Thermal power plants operate on which cycle?", options: ["Otto cycle", "Rankine cycle"], answer: 1 },
-      { q: "Carnot cycle has maximum efficiency for:", options: ["Irreversible engine", "Reversible engine"], answer: 1 },
-      { q: "General gas equation is:", options: ["PV = mRT", "PV = nRT"], answer: 1 },
-      { q: "In an isothermal process:", options: ["Pressure is constant", "Temperature is constant"], answer: 1 },
-      { q: "Change in enthalpy of a system is the heat supplied at:", options: ["Constant temperature", "Constant volume"], answer: 1 },
-      { q: "Energy can neither be created nor destroyed. This is:", options: ["3rd law of thermodynamics", "1st law of thermodynamics"], answer: 1 },
-      { q: "Water is a ____ fluid.", options: ["Real", "Ideal"], answer: 1 },
-      { q: "As octane number increases, knocking tendency of petrol engine:", options: ["Remains same", "Increases"], answer: 1 },
-      { q: "Bar is the unit of:", options: ["Power", "Pressure"], answer: 1 },
-      { q: "Which refrigerant has the highest latent heat?", options: ["Freon-12", "Ammonia"], answer: 1 },
-      { q: "Closeness of measured value to true value is:", options: ["Accuracy", "Precision"], answer: 1 },
-      { q: "Product of pressure and volume constant (PV = const):", options: ["Gas law", "Boyle’s law"], answer: 1 },
-      { q: "As temperature of I.C. engine increases, efficiency will:", options: ["Decrease", "Increase"], answer: 1 },
-      { q: "Nepal Vehicle Mass Emission Standard 2069 is equivalent to:", options: ["ISO 9001", "Euro III"], answer: 1 },
-      { q: "The unit of temperature is based on:", options: ["Boiling point of mercury", "Freezing point of water"], answer: 1 },
-      { q: "Absolute zero temperature is taken as:", options: ["237°C", "-273°C"], answer: 1 },
-      { q: "Essential condition for heat transfer:", options: ["Difference in resistance", "Difference in temperature"], answer: 1 },
-      { q: "Constant volume thermometer works on:", options: ["Pascal’s law", "Charles’ law"], answer: 1 },
-      { q: "The two basic types of internal combustion engines are:", options: ["Piston and reciprocating", "Reciprocating and rotary"], answer: 1 },
-      { q: "If hot and cold water are mixed, the entropy of the system will:", options: ["Decrease", "Increase"], answer: 1 },
-      { q: "The change in internal energy of an ideal gas during an adiabatic process is:", options: ["mCp ln(T₂ / T₁)", "mCv(T₂ − T₁)"], answer: 1 },
-      { q: "The heating and expanding of a gas is called:", options: ["Thermodynamic system", "Thermodynamic process"], answer: 1 },
-      { q: "In an irreversible process there is:", options: ["No loss of heat", "Loss of heat"], answer: 1 },
-      { q: "Equation of state gives relationship between:", options: ["Volume and temperature", "Pressure, volume, and temperature"], answer: 1 },
-      { q: "The constant volume cycle is also called:", options: ["Carnot cycle", "Otto cycle"], answer: 1 },
-      { q: "Specific fuel consumption is defined as:", options: ["Fuel consumption per BHP", "Fuel consumption per hour"], answer: 1 },
-      { q: "The expression which does not give the efficiency of Otto cycle is:", options: ["Temperature after compression", "Temperature before expansion"], answer: 1 },
-      { q: "Any process in which no heat can flow into or out of the system is called:", options: ["Isothermal process", "Adiabatic process"], answer: 1 },
-      { q: "First law of thermodynamics deals with:", options: ["Conservation of mass", "Conservation of energy"], answer: 1 },
-      { q: "Internal energy of a substance depends on:", options: ["Volume", "Temperature"], answer: 1 },
-      { q: "A thermodynamic system refers to:", options: ["Any defined region in space", "A prescribed and identifiable quantity of matter"], answer: 1 },
-      { q: "Enthalpy is defined as the sum of:", options: ["Volume and pressure", "Internal energy and the product of pressure and volume"], answer: 1 },
-      { q: "Heat transferred during an isobaric process is equal to:", options: ["Change in internal energy", "Change in enthalpy"], answer: 1 },
-      { q: "Which does not change during reversible adiabatic process?", options: ["Internal energy", "Entropy"], answer: 1 },
-      { q: "Most gases behave as ideal gases at:", options: ["High pressure and low temperature", "Low pressure and high temperature"], answer: 1 },
-      { q: "Which is not a property of thermodynamic system?", options: ["Heat", "Thermal conductivity"], answer: 1 },
-      { q: "Entropy is a property of the system because:", options: ["It depends on path", "It has same value at each equilibrium state"], answer: 1 },
-      { q: "Temperature of a gas is due to:", options: ["Its heating value", "Kinetic energy of molecules"], answer: 1 },
-      { q: "When expansion/compression occurs under PVⁿ = constant:", options: ["Adiabatic process", "Polytropic process"], answer: 1 },
-      { q: "Which of the following is not an external combustion engine?", options: ["Steam engine", "Pelton turbine"], answer: 1 },
-      { q: "The engine in which fuel combusts inside the cylinder is called:", options: ["Internal combustion engine", "Both A and B"], answer: 1 },
-      { q: "Compression ratio of diesel engine:", options: ["10 to 15", "16 to 20"], answer: 1 },
-      { q: "Otto cycle is also known as:", options: ["Constant pressure cycle", "Constant volume cycle"], answer: 1 },
-      { q: "Diesel engine operates on:", options: ["Constant volume cycle", "Constant pressure cycle"], answer: 1 },
-      { q: "Which of the following is not an internal combustion engine?", options: ["Diesel engine", "Gas turbine"], answer: 1 },
-      { q: "A reversible cycle means:", options: ["Irreversible cycle", "Reversible cycle"], answer: 1 },
-      { q: "Under what condition does enthalpy change equal heat supplied?", options: ["Constant volume", "Constant pressure"], answer: 1 },
-      { q: "The value of Cp/Cv for air is:", options: ["1.2", "1.4"], answer: 1 },
-      { q: "Isothermal and adiabatic processes are identical at:", options: ["Saturation temperature", "All of the above"], answer: 1 },
-      { q: "Gas laws are least valid for:", options: ["Mono-atomic gases", "Real gases"], answer: 1 },
-      { q: "As compared to real gas at high pressure, ideal gas occupies:", options: ["More volume", "Less volume"], answer: 1 },
-      { q: "Condensing steam engine is:", options: ["Slow speed engine", "Condensing steam engine"], answer: 1 },
-      { q: "Steam engines are:", options: ["Internal combustion engine", "External combustion engine"], answer: 1 },
-      { q: "Steam vs automotive engine:", options: ["Otto vs Rankine cycle", "I.C. vs external combustion"], answer: 1 },
-      { q: "All steam engines follow:", options: ["Zeroth law of thermodynamics", "Second law of thermodynamics"], answer: 1 },
-      { q: "Chemically correct air-fuel ratio is:", options: ["7:1", "15:1"], answer: 1 },
-      { q: "Heat cannot flow from cold to hot body by itself. This is:", options: ["Zeroth law", "Second law of thermodynamics"], answer: 1 },
-      { q: "Two constant volume + two adiabatic processes = ?", options: ["Joule cycle", "Otto cycle"], answer: 1 },
-      { q: "At TDC, volume above piston is:", options: ["Compression ratio", "Clearance volume"], answer: 1 },
-      { q: "Engine with 100% thermal efficiency violates:", options: ["First law", "Second law of thermodynamics"], answer: 1 },
-      { q: "Suction, compression, exhaust strokes happen in:", options: ["Diesel engine", "Petrol engine"], answer: 1 },
-      { q: "Second law of thermodynamics defines:", options: ["Heat", "Entropy"], answer: 1 },
-      { q: "Entropy after a complete cycle is:", options: ["Positive", "Zero"], answer: 1 },
-      { q: "Specific heat at constant volume is:", options: ["1.20", "1.00"], answer: 1 },
-      { q: "Heat during polytropic process is:", options: ["Product of pressure and volume", "Change in entropy"], answer: 1 },
-      { q: "No heat exchange, only work transfer:", options: ["Isothermal", "Adiabatic"], answer: 1 },
-      { q: "Study of energy transfer and conversion:", options: ["Heat transfer", "Thermodynamics"], answer: 1 },
-      { q: "Step 2 of Carnot cycle is:", options: ["Isothermal expansion", "Isentropic expansion"], answer: 1 },
-      { q: "In adiabatic process, which stays constant?", options: ["Temperature", "Total heat of system"], answer: 1 },
-      { q: "Entropy change between two points via any path is:", options: ["Different", "Same"], answer: 1 },
-      { q: "Absolute zero is taken as:", options: ["273°C", "-273°C"], answer: 1 },
-      { q: "Thermodynamic law for energy conservation is:", options: ["Conservation of mass", "Conservation of energy"], answer: 1 },
-      { q: "Ideal gas behavior is shown best at:", options: ["High pressure & temp", "Low pressure & high temperature"], answer: 1 },
-      { q: "Not a property of thermodynamic system:", options: ["Pressure", "Thermal conductivity"], answer: 1 },
-      { q: "Entropy is a property because:", options: ["Depends on path", "Has same value at equilibrium"], answer: 1 },
-      { q: "Temperature of gas comes from:", options: ["Its heating value", "Kinetic energy of molecules"], answer: 1 },
-      { q: "PVⁿ = constant process is:", options: ["Adiabatic", "Polytropic"], answer: 1 },
-      { q: "Internal energy depends on:", options: ["Volume", "Temperature"], answer: 1 },
-      { q: "Thermodynamic system is:", options: ["Region in space", "Defined quantity of matter"], answer: 1 },
-      { q: "Modes of heat transfer:", options: ["Conduction", "All of the above"], answer: 1 },
-      { q: "SI unit of compressibility:", options: ["Nsec²", "N/m²"], answer: 1 },
-      { q: "Correct about flow meters:", options: ["Orifice more accurate than nozzle", "Venturi meter more accurate"], answer: 1 },
-      { q: "Cycle used in gas turbines:", options: ["Otto", "Brayton"], answer: 1 },
-      { q: "Heat to raise 1kg by 1°C:", options: ["Heat treatment", "Specific heat capacity"], answer: 1 },
-      { q: "1st law of thermodynamics:", options: ["dQ = dU - dW", "dQ = dU + dW"], answer: 1 },
-      { q: "No heat flow, but work occurs:", options: ["Reversible", "Adiabatic"], answer: 1 },
-      { q: "Boyle’s Law is:", options: ["Charles’s law", "P ∝ 1/V"], answer: 1 },
-      { q: "Open thermodynamic system example:", options: ["Pressure cooker", "Centrifugal pump"], answer: 1 },
-      { q: "Compression ratio definition:", options: ["Swept volume / cylinder volume", "Volume before / after compression"], answer: 1 },
-      { q: "Gas constant (R) is:", options: ["Sum of Cp & Cv", "Difference of Cp & Cv"], answer: 1 }
+      { q: "The unit of temperature is based on:", options: ["Boiling point of mercury", "Triple point of water"], answer: 1, explanation: "The Kelvin scale is defined using the triple point of water." },
+      { q: "Absolute zero temperature is taken as:", options: ["237°C", "-273°C"], answer: 1, explanation: "Absolute zero is approximately -273.15°C, where molecular motion stops." },
+      { q: "Essential condition for heat transfer is:", options: ["Difference in conductivity", "Difference in temperature"], answer: 1, explanation: "Heat flows from higher to lower temperature." },
+      { q: "A constant volume air thermometer works on:", options: ["Archimedes’ principle", "Charles’ Law"], answer: 1, explanation: "Charles’ Law relates pressure to temperature at constant volume." },
+      { q: "The greater the temperature difference:", options: ["Lower is the heat transfer rate", "Higher is the heat transfer rate"], answer: 1, explanation: "Larger temperature differences increase heat transfer rate." },
+      { q: "The calorific value of gaseous fuel is expressed in:", options: ["kcal/min", "kcal/m³"], answer: 1, explanation: "Calorific value for gases is often in kcal/m³." },
+      { q: "When expansion/compression follows PVⁿ = constant, it is:", options: ["Hyperbolic process", "Polytropic process"], answer: 1, explanation: "PVⁿ = constant defines a polytropic process." },
+      { q: "Change in enthalpy equals heat supplied at:", options: ["Constant temperature", "Constant pressure"], answer: 1, explanation: "Enthalpy change equals heat at constant pressure." },
+      { q: "The value of Cp/Cv for air is:", options: ["1.2", "1.4"], answer: 1, explanation: "For air, Cp/Cv is approximately 1.4." },
+      { q: "Isothermal and adiabatic processes are identical at:", options: ["Saturation temperature", "Critical temperature"], answer: 1, explanation: "At critical temperature, processes may coincide." },
+      { q: "The property of a working substance that increases or decreases as heat is supplied or removed:", options: ["External energy", "Internal energy"], answer: 1, explanation: "Internal energy changes with heat addition/removal." },
+      { q: "A gas behaves as an ideal gas at:", options: ["Very high pressure", "Low pressure"], answer: 1, explanation: "Ideal gas behavior is best at low pressure." },
+      { q: "The efficiency of the Joule cycle is:", options: ["Greater than Carnot cycle", "Less than Carnot cycle"], answer: 1, explanation: "Joule cycle is less efficient than Carnot." },
+      { q: "In water cooling, water in the jacket obtains heat due to:", options: ["Radiation", "All of the above"], answer: 1, explanation: "Heat transfer includes conduction, convection, and radiation." },
+      { q: "Heat engine attains 100% thermal efficiency: it violates:", options: ["First law of thermodynamics", "Second law of thermodynamics"], answer: 1, explanation: "100% efficiency violates the second law." },
+      { q: "Suction, compression, expansion, and exhaust strokes take place in:", options: ["Steam engine", "Diesel engine"], answer: 1, explanation: "Diesel engines have these strokes." },
+      { q: "Which power plant engine is rarely used in civil aircraft?", options: ["None of the above", "Turbo propeller engine"], answer: 1, explanation: "Turbo props are less common in civil aircraft." },
+      { q: "Second law of thermodynamics defines:", options: ["Work", "Entropy"], answer: 1, explanation: "The second law introduces entropy." },
+      { q: "Internal energy and enthalpy of ideal gas are the function of:", options: ["Pressure only", "Temperature only"], answer: 1, explanation: "For ideal gases, U and H depend on temperature." },
+      { q: "When a process undergoes a complete cycle, the change of entropy is:", options: ["Positive", "Zero"], answer: 1, explanation: "Entropy change is zero for a reversible cycle." },
+      { q: "The specific heat of air at constant volume is equal to:", options: ["0.17", "0.21"], answer: 0, explanation: "Specific heat at constant volume for air is approximately 0.17 kcal/kg·K." },
+      { q: "The change in enthalpy of an ideal gas during an adiabatic process is:", options: ["mCᵥ(T₂ − T₁)", "mCₚ(T₂ − T₁)"], answer: 1, explanation: "Enthalpy change in adiabatic process is mCₚ(T₂ − T₁)." },
+      { q: "Heat transferred to a closed system during an isochoric process is equal to:", options: ["Change in enthalpy", "Change in internal energy"], answer: 1, explanation: "Heat equals change in internal energy at constant volume." },
+      { q: "Gas heated such that PV = const, heat supplied is equal to:", options: ["Change in internal energy", "Product of pressure and volume"], answer: 0, explanation: "For PV = constant, heat equals internal energy change." },
+      { q: "Water at 48 kg/cm² and 160°C when exposed to atmosphere will:", options: ["Cool down", "Flash i.e. get converted into steam"], answer: 1, explanation: "High-pressure water flashes to steam at atmospheric pressure." },
+      { q: "The device that converts heat energy into work during cyclic process is:", options: ["Heat pump", "Heat engine"], answer: 1, explanation: "Heat engines convert heat to work." },
+      { q: "Work done in a free expansion process is:", options: ["Positive", "Zero"], answer: 1, explanation: "No work is done in free expansion." },
+      { q: "Which coal has the highest calorific value?", options: ["Bituminous coal", "Anthracite coal"], answer: 1, explanation: "Anthracite has the highest calorific value." },
+      { q: "In an isothermal process:", options: ["There is no change in enthalpy", "All of the above"], answer: 0, explanation: "Enthalpy is constant in an isothermal process for ideal gases." },
+      { q: "According to the 1st Law of Thermodynamics:", options: ["Mass and light are mutually convertible", "Heat and work are mutually convertible"], answer: 1, explanation: "First law states heat and work are convertible." },
+      { q: "Which parameter changes during an isothermal process?", options: ["Pressure or volume", "Temperature"], answer: 0, explanation: "Temperature is constant; pressure and volume change." },
+      { q: "Which characteristic does not change in a reversible isothermal process?", options: ["Enthalpy", "Entropy"], answer: 0, explanation: "Enthalpy is constant in reversible isothermal processes." },
+      { q: "For any natural process, the entropy change would be:", options: ["Negative", "Positive"], answer: 1, explanation: "Entropy increases in natural processes." },
+      { q: "Which laws apply to behavior of perfect gas?", options: ["Boyle’s law", "Both Boyle’s law and Charles’s law"], answer: 1, explanation: "Both laws apply to ideal gases." },
+      { q: "Water at standard atmospheric conditions:", options: ["Is mostly liquid", "Behaves as an ideal gas"], answer: 0, explanation: "Water is liquid at standard conditions." },
+      { q: "Increase in entropy of a system means:", options: ["Increase in availability of energy", "Degradation of energy"], answer: 1, explanation: "Entropy increase indicates energy degradation." },
+      { q: "Step 2 in Carnot cycle is:", options: ["Isentropic expansion", "Isothermal expansion"], answer: 1, explanation: "Step 2 is isothermal expansion." },
+      { q: "Thermal power plants operate on which cycle?", options: ["Otto cycle", "Rankine cycle"], answer: 1, explanation: "Thermal plants use the Rankine cycle." },
+      { q: "Carnot cycle has maximum efficiency for:", options: ["Irreversible engine", "Reversible engine"], answer: 1, explanation: "Carnot cycle is most efficient for reversible engines." },
+      { q: "General gas equation is:", options: ["PV = mRT", "PV = nRT"], answer: 1, explanation: "The ideal gas law is PV = nRT." },
+      { q: "Change in enthalpy of a system is the heat supplied at:", options: ["Constant temperature", "Constant pressure"], answer: 1, explanation: "Enthalpy change equals heat at constant pressure." },
+      { q: "Energy can neither be created nor destroyed. This is:", options: ["3rd law of thermodynamics", "1st law of thermodynamics"], answer: 1, explanation: "First law is conservation of energy." },
+      { q: "Water is a ____ fluid.", options: ["Real", "Ideal"], answer: 0, explanation: "Water is a real fluid with complex behavior." },
+      { q: "As octane number increases, knocking tendency of petrol engine:", options: ["Remains same", "Decreases"], answer: 1, explanation: "Higher octane reduces knocking." },
+      { q: "Bar is the unit of:", options: ["Power", "Pressure"], answer: 1, explanation: "Bar measures pressure." },
+      { q: "Which refrigerant has the highest latent heat?", options: ["Freon-12", "Ammonia"], answer: 1, explanation: "Ammonia has high latent heat." },
+      { q: "Closeness of measured value to true value is:", options: ["Accuracy", "Precision"], answer: 0, explanation: "Accuracy measures closeness to true value." },
+      { q: "Product of pressure and volume constant (PV = const):", options: ["Gas law", "Boyle’s law"], answer: 1, explanation: "Boyle’s law states PV = constant." },
+      { q: "As temperature of I.C. engine increases, efficiency will:", options: ["Decrease", "Increase"], answer: 1, explanation: "Higher temperatures can improve efficiency." },
+      { q: "Nepal Vehicle Mass Emission Standard 2069 is equivalent to:", options: ["ISO 9001", "Euro III"], answer: 1, explanation: "Nepal’s standard aligns with Euro III." },
+      { q: "The two basic types of internal combustion engines are:", options: ["Piston and reciprocating", "Reciprocating and rotary"], answer: 1, explanation: "IC engines are reciprocating or rotary." },
+      { q: "If hot and cold water are mixed, the entropy of the system will:", options: ["Decrease", "Increase"], answer: 1, explanation: "Mixing increases entropy." },
+      { q: "The change in internal energy of an ideal gas during an adiabatic process is:", options: ["mCp ln(T₂ / T₁)", "mCv(T₂ − T₁)"], answer: 1, explanation: "Internal energy change is mCv(T₂ − T₁)." },
+      { q: "The heating and expanding of a gas is called:", options: ["Thermodynamic system", "Thermodynamic process"], answer: 1, explanation: "This describes a thermodynamic process." },
+      { q: "In an irreversible process there is:", options: ["No loss of heat", "Loss of heat"], answer: 1, explanation: "Irreversible processes involve losses." },
+      { q: "Equation of state gives relationship between:", options: ["Volume and temperature", "Pressure, volume, and temperature"], answer: 1, explanation: "Equation of state relates P, V, T." },
+      { q: "The constant volume cycle is also called:", options: ["Carnot cycle", "Otto cycle"], answer: 1, explanation: "Otto cycle is constant volume." },
+      { q: "Specific fuel consumption is defined as:", options: ["Fuel consumption per BHP", "Fuel consumption per hour"], answer: 0, explanation: "SFC is fuel per unit power." },
+      { q: "The expression which does not give the efficiency of Otto cycle is:", options: ["Temperature after compression", "Temperature before expansion"], answer: 0, explanation: "Efficiency depends on compression ratio." },
+      { q: "Any process in which no heat can flow into or out of the system is called:", options: ["Isothermal process", "Adiabatic process"], answer: 1, explanation: "Adiabatic processes have no heat transfer." },
+      { q: "First law of thermodynamics deals with:", options: ["Conservation of mass", "Conservation of energy"], answer: 1, explanation: "First law is energy conservation." },
+      { q: "Internal energy of a substance depends on:", options: ["Volume", "Temperature"], answer: 1, explanation: "Internal energy depends on temperature for ideal gases." },
+      { q: "A thermodynamic system refers to:", options: ["Any defined region in space", "A prescribed and identifiable quantity of matter"], answer: 1, explanation: "A system is a defined quantity of matter." },
+      { q: "Enthalpy is defined as the sum of:", options: ["Volume and pressure", "Internal energy and the product of pressure and volume"], answer: 1, explanation: "Enthalpy is U + PV." },
+      { q: "Heat transferred during an isobaric process is equal to:", options: ["Change in internal energy", "Change in enthalpy"], answer: 1, explanation: "Heat equals enthalpy change at constant pressure." },
+      { q: "Which does not change during reversible adiabatic process?", options: ["Internal energy", "Entropy"], answer: 1, explanation: "Entropy is constant in reversible adiabatic processes." },
+      { q: "Most gases behave as ideal gases at:", options: ["High pressure and low temperature", "Low pressure and high temperature"], answer: 1, explanation: "Ideal gas behavior occurs at low pressure, high temperature." },
+      { q: "Which is not a property of thermodynamic system?", options: ["Heat", "Thermal conductivity"], answer: 1, explanation: "Thermal conductivity is not a state property." },
+      { q: "Entropy is a property of the system because:", options: ["It depends on path", "It has same value at each equilibrium state"], answer: 1, explanation: "Entropy is a state function." },
+      { q: "Temperature of a gas is due to:", options: ["Its heating value", "Kinetic energy of molecules"], answer: 1, explanation: "Temperature reflects molecular kinetic energy." },
+      { q: "When expansion/compression occurs under PVⁿ = constant:", options: ["Adiabatic process", "Polytropic process"], answer: 1, explanation: "PVⁿ = constant is polytropic." },
+      { q: "Which of the following is not an external combustion engine?", options: ["Steam engine", "Pelton turbine"], answer: 1, explanation: "Pelton turbine is not an engine." },
+      { q: "The engine in which fuel combusts inside the cylinder is called:", options: ["Internal combustion engine", "Both A and B"], answer: 0, explanation: "IC engines burn fuel internally." },
+      { q: "Compression ratio of diesel engine:", options: ["10 to 15", "16 to 20"], answer: 1, explanation: "Diesel engines have higher compression ratios." },
+      { q: "Otto cycle is also known as:", options: ["Constant pressure cycle", "Constant volume cycle"], answer: 1, explanation: "Otto cycle is constant volume." },
+      { q: "Diesel engine operates on:", options: ["Constant volume cycle", "Constant pressure cycle"], answer: 1, explanation: "Diesel cycle is constant pressure." },
+      { q: "Which of the following is not an internal combustion engine?", options: ["Diesel engine", "Gas turbine"], answer: 0, explanation: "Both are internal combustion engines." },
+      { q: "A reversible cycle means:", options: ["Irreversible cycle", "Reversible cycle"], answer: 1, explanation: "Reversible cycles return to initial state without losses." },
+      { q: "Under what condition does enthalpy change equal heat supplied?", options: ["Constant volume", "Constant pressure"], answer: 1, explanation: "Enthalpy change equals heat at constant pressure." },
+      { q: "Gas laws are least valid for:", options: ["Mono-atomic gases", "Real gases"], answer: 1, explanation: "Real gases deviate from ideal gas laws." },
+      { q: "As compared to real gas at high pressure, ideal gas occupies:", options: ["More volume", "Less volume"], answer: 0, explanation: "Ideal gases occupy more volume at high pressure." },
+      { q: "Condensing steam engine is:", options: ["Slow speed engine", "Condensing steam engine"], answer: 1, explanation: "Condensing steam engines use condensers." },
+      { q: "Steam engines are:", options: ["Internal combustion engine", "External combustion engine"], answer: 1, explanation: "Steam engines are external combustion." },
+      { q: "Steam vs automotive engine:", options: ["Otto vs Rankine cycle", "I.C. vs external combustion"], answer: 1, explanation: "Steam is external; automotive is internal." },
+      { q: "All steam engines follow:", options: ["Zeroth law of thermodynamics", "Second law of thermodynamics"], answer: 1, explanation: "Steam engines obey the second law." },
+      { q: "Chemically correct air-fuel ratio is:", options: ["7:1", "15:1"], answer: 1, explanation: "Stoichiometric ratio is around 15:1 for petrol." },
+      { q: "Heat cannot flow from cold to hot body by itself. This is:", options: ["Zeroth law", "Second law of thermodynamics"], answer: 1, explanation: "Second law governs heat flow direction." },
+      { q: "Two constant volume + two adiabatic processes = ?", options: ["Joule cycle", "Otto cycle"], answer: 1, explanation: "Otto cycle includes these processes." },
+      { q: "At TDC, volume above piston is:", options: ["Compression ratio", "Clearance volume"], answer: 1, explanation: "TDC volume is clearance volume." },
+      { q: "Suction, compression, exhaust strokes happen in:", options: ["Diesel engine", "Petrol engine"], answer: 1, explanation: "Both engines have these strokes." },
+      { q: "Heat during polytropic process is:", options: ["Product of pressure and volume", "Change in entropy"], answer: 0, explanation: "Heat depends on process specifics." },
+      { q: "No heat exchange, only work transfer:", options: ["Isothermal", "Adiabatic"], answer: 1, explanation: "Adiabatic processes involve no heat transfer." },
+      { q: "Study of energy transfer and conversion:", options: ["Heat transfer", "Thermodynamics"], answer: 1, explanation: "Thermodynamics studies energy transfer." },
+      { q: "In adiabatic process, which stays constant:", options: ["Temperature", "Total heat of system"], answer: 1, explanation: "Heat is constant in adiabatic processes." },
+      { q: "Entropy change between two points via any path is:", options: ["Different", "Same"], answer: 1, explanation: "Entropy is a state function." },
+      { q: "Ideal gas behavior is shown best at:", options: ["High pressure & temp", "Low pressure & high temperature"], answer: 1, explanation: "Ideal gases behave best at low pressure, high temperature." },
+      { q: "Not a property of thermodynamic system:", options: ["Pressure", "Thermal conductivity"], answer: 1, explanation: "Thermal conductivity is not a state property." },
+      { q: "Entropy is a property because:", options: ["Depends on path", "Has same value at equilibrium"], answer: 1, explanation: "Entropy is a state function." },
+      { q: "Temperature of gas comes from:", options: ["Its heating value", "Kinetic energy of molecules"], answer: 1, explanation: "Temperature reflects molecular kinetic energy." },
+      { q: "PVⁿ = constant process is:", options: ["Adiabatic", "Polytropic"], answer: 1, explanation: "PVⁿ = constant is polytropic." },
+      { q: "Internal energy depends on:", options: ["Volume", "Temperature"], answer: 1, explanation: "Internal energy depends on temperature for ideal gases." },
+      { q: "Thermodynamic system is:", options: ["Region in space", "Defined quantity of matter"], answer: 1, explanation: "A system is a defined quantity of matter." },
+      { q: "Modes of heat transfer:", options: ["Conduction", "All of the above"], answer: 1, explanation: "Heat transfer includes conduction, convection, radiation." },
+      { q: "SI unit of compressibility:", options: ["Nsec²", "N/m²"], answer: 1, explanation: "Compressibility relates to pressure (N/m²)." },
+      { q: "Correct about flow meters:", options: ["Orifice more accurate than nozzle", "Venturi meter more accurate"], answer: 1, explanation: "Venturi meters are more accurate." },
+      { q: "Cycle used in gas turbines:", options: ["Otto", "Brayton"], answer: 1, explanation: "Gas turbines use the Brayton cycle." },
+      { q: "Heat to raise 1kg by 1°C:", options: ["Heat treatment", "Specific heat capacity"], answer: 1, explanation: "Specific heat capacity is heat per kg per °C." },
+      { q: "1st law of thermodynamics:", options: ["dQ = dU - dW", "dQ = dU + dW"], answer: 1, explanation: "First law is dQ = dU + dW." },
+      { q: "No heat flow, but work occurs:", options: ["Reversible", "Adiabatic"], answer: 1, explanation: "Adiabatic processes involve work, no heat." },
+      { q: "Boyle’s Law is:", options: ["Charles’s law", "P ∝ 1/V"], answer: 1, explanation: "Boyle’s law states P ∝ 1/V." },
+      { q: "Open thermodynamic system example:", options: ["Pressure cooker", "Centrifugal pump"], answer: 1, explanation: "Centrifugal pumps are open systems." },
+      { q: "Compression ratio definition:", options: ["Swept volume / cylinder volume", "Volume before / after compression"], answer: 1, explanation: "Compression ratio is total volume / clearance volume." },
+      { q: "Gas constant (R) is:", options: ["Sum of Cp & Cv", "Difference of Cp & Cv"], answer: 1, explanation: "R = Cp - Cv for ideal gases." }
     ];
 
     let score = 0;
     let userAnswers = Array(thermoQuestions.length).fill(null);
-    let timerSeconds = 0;
-    let timerInterval;
+    let currentPage = 0;
+    let currentQuestion = 0;
+    const questionsPerPage = 10;
+    let shuffledQuestions = [];
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
     const resultsEl = document.getElementById("results");
     const resultsBody = document.getElementById("results-body");
     const progressEl = document.getElementById("progress");
-    const timerEl = document.getElementById("timer");
     const submitButton = document.getElementById("submit-button");
     const restartButton = document.getElementById("restart-button");
-    const correctSound = document.getElementById("correct-sound");
-    const wrongSound = document.getElementById("wrong-sound");
+    const prevPageButton = document.getElementById("prev-page");
+    const nextPageButton = document.getElementById("next-page");
 
-    // Load progress from localStorage
-    function loadProgress() {
-      const saved = localStorage.getItem("thermodynamicsMCQProgress");
-      if (saved) {
-        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        score = savedScore || 0;
-        userAnswers = savedAnswers && savedAnswers.length === thermoQuestions.length ? savedAnswers : Array(thermoQuestions.length).fill(null);
-        timerSeconds = savedTime || 0;
-      } else {
-        score = 0;
-        userAnswers = Array(thermoQuestions.length).fill(null);
-        timerSeconds = 0;
-      }
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
     }
 
-    // Save progress to localStorage
-    function saveProgress() {
-      localStorage.setItem("thermodynamicsMCQProgress", JSON.stringify({
-        score,
-        answers: userAnswers,
-        time: timerSeconds
-      }));
-    }
-
-    // Shuffle options
     function shuffleOptions(questions) {
       return questions.map(q => {
         const correct = q.options[q.answer];
@@ -396,26 +252,12 @@
         return {
           q: q.q,
           options: shuffled,
-          answer: shuffled.indexOf(correct)
+          answer: shuffled.indexOf(correct),
+          explanation: q.explanation
         };
       });
     }
 
-    // Start timer
-    function startTimer() {
-      const minutes = Math.floor(timerSeconds / 60);
-      const seconds = timerSeconds % 60;
-      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      
-      timerInterval = setInterval(() => {
-        timerSeconds++;
-        const minutes = Math.floor(timerSeconds / 60);
-        const seconds = timerSeconds % 60;
-        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      }, 1000);
-    }
-
-    // Update progress bar
     function updateProgress() {
       const answered = userAnswers.filter(answer => answer !== null).length;
       const percentage = (answered / thermoQuestions.length) * 100;
@@ -423,105 +265,167 @@
       checkAllAnswered();
     }
 
-    // Show all questions
-    function showQuestions() {
-      let html = '';
-      for (let i = 0; i < thermoQuestions.length; i++) {
-        const q = shuffledQuestions[i];
-        const options = q.options
-          .map((opt, j) => `<button aria-label="Option ${opt}" onclick="checkAnswer(this, ${i}, ${j}, '${opt.replace(/'/g, "\\'")}')">${opt}</button>`)
-          .join('');
-        html += `
-          <div class="question" data-index="${i}">
-            <p>${i + 1}. ${q.q}</p>
+    function showPage(pageIndex) {
+      currentPage = pageIndex;
+      quizEl.innerHTML = '';
+      const startIndex = pageIndex * questionsPerPage;
+      const endIndex = Math.min(startIndex + questionsPerPage, shuffledQuestions.length);
+      const pageQuestions = shuffledQuestions.slice(startIndex, endIndex);
+
+      pageQuestions.forEach((q, i) => {
+        const globalIndex = startIndex + i;
+        const isAnswered = userAnswers[globalIndex] !== null;
+        const selectedAnswer = userAnswers[globalIndex];
+        const correctAnswer = q.options[q.answer];
+        const options = q.options.map((opt, j) => {
+          let buttonClass = 'w-full p-3 rounded mb-2 text-left text-sm font-medium transition-colors duration-200';
+          if (isAnswered) {
+            buttonClass += opt === correctAnswer ? ' bg-green-500 text-white' :
+                          opt === selectedAnswer ? ' bg-red-500 text-white' :
+                          ' bg-gray-200';
+          } else {
+            buttonClass += ' bg-blue-100 hover:bg-blue-200';
+          }
+          return `<button aria-label="Option ${escapeHtml(opt)}" onclick="checkAnswer(this, ${globalIndex}, ${j}, '${escapeHtml(opt)}')" class="${buttonClass}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+        }).join('');
+
+        quizEl.innerHTML += `
+          <div class="question-card p-4 rounded-lg mb-6" id="question-${globalIndex}">
+            <p class="font-medium text-teal-800 mb-3">${globalIndex + 1}. ${escapeHtml(q.q)}</p>
             <div class="options">${options}</div>
+            <div class="explanation ${isAnswered ? 'show' : ''} text-sm text-gray-700">${isAnswered ? escapeHtml(q.explanation || 'No explanation available.') : ''}</div>
           </div>
         `;
-      }
-      quizEl.innerHTML = html;
+      });
+
+      prevPageButton.disabled = currentPage === 0;
+      nextPageButton.disabled = endIndex >= shuffledQuestions.length;
       updateProgress();
+      window.scrollTo({ top: quizEl.offsetTop, behavior: 'smooth' });
     }
 
-    // Check answer
     function checkAnswer(button, questionIndex, selected, selectedText) {
+      if (userAnswers[questionIndex] !== null) return;
       const q = shuffledQuestions[questionIndex];
       const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
+      const explanationEl = button.parentElement.nextElementSibling;
+
       buttons.forEach((btn) => {
         btn.disabled = true;
-        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
-        if (btn === button && selected !== correct) btn.classList.add("wrong");
+        if (q.options.indexOf(btn.innerText) === correct) {
+          btn.classList.remove("bg-blue-100", "hover:bg-blue-200");
+          btn.classList.add("bg-green-500", "text-white");
+        }
+        if (btn === button && selected !== correct) {
+          btn.classList.remove("bg-blue-100", "hover:bg-blue-200");
+          btn.classList.add("bg-red-500", "text-white");
+        }
       });
 
       userAnswers[questionIndex] = selectedText;
-      if (selected === correct) {
-        score++;
-        correctSound.play().catch(() => console.log("Audio playback failed"));
-      } else {
-        wrongSound.play().catch(() => console.log("Audio playback failed"));
-      }
+      if (selected === correct) score++;
 
-      saveProgress();
+      explanationEl.textContent = q.explanation || "No explanation available.";
+      explanationEl.classList.add("show");
+
       updateProgress();
+      currentQuestion = questionIndex + 1;
+
+      const currentPageEndIndex = (currentPage + 1) * questionsPerPage - 1;
+      if (currentQuestion <= currentPageEndIndex && currentQuestion < shuffledQuestions.length) {
+        setTimeout(() => {
+          showPage(currentPage);
+          document.getElementById(`question-${currentQuestion}`).scrollIntoView({ behavior: 'smooth' });
+        }, 1000);
+      } else if (currentQuestion < shuffledQuestions.length) {
+        setTimeout(() => {
+          showPage(currentPage + 1);
+          currentQuestion = currentPage * questionsPerPage;
+          document.getElementById(`question-${currentQuestion}`).scrollIntoView({ behavior: 'smooth' });
+        }, 1000);
+      }
     }
 
-    // Check if all questions are answered to enable submit button
     function checkAllAnswered() {
       const allAnswered = userAnswers.every(answer => answer !== null);
       submitButton.disabled = !allAnswered;
+      submitButton.classList.toggle('hover:bg-teal-600', allAnswered);
     }
 
-    // End quiz and show results
     function endQuiz() {
-      clearInterval(timerInterval);
       quizEl.innerHTML = "";
       submitButton.classList.add("hidden");
+      prevPageButton.classList.add("hidden");
+      nextPageButton.classList.add("hidden");
       scoreEl.innerHTML = `Your score: ${score} / ${thermoQuestions.length} (${((score / thermoQuestions.length) * 100).toFixed(2)}%)`;
       resultsEl.classList.remove("hidden");
       restartButton.classList.remove("hidden");
 
       resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
-        const userAnswer = userAnswers[i] === null ? "Not attempted" : userAnswers[i];
-        const correctAnswer = q.options[q.answer];
+        const userAnswer = userAnswers[i] === null ? "Not attempted" : escapeHtml(userAnswers[i]);
+        const correctAnswer = escapeHtml(q.options[q.answer]);
         const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
                       userAnswers[i] === null ? "Not attempted" : "Wrong";
         return `
-          <tr>
-            <td>${i + 1}. ${q.q}</td>
-            <td>${userAnswer}</td>
-            <td>${correctAnswer}</td>
-            <td class="${status.toLowerCase()}">${status}</td>
+          <tr class="${status.toLowerCase()}">
+            <td class="border p-3">${i + 1}. ${escapeHtml(q.q)}</td>
+            <td class="border p-3">${userAnswer}</td>
+            <td class="border p-3">${correctAnswer}</td>
+            <td class="border p-3 ${status === 'Correct' ? 'text-green-600' : status === 'Wrong' ? 'text-red-600' : 'text-gray-600'}">${status}</td>
+            <td class="border p-3">${escapeHtml(q.explanation || 'No explanation available.')}</td>
           </tr>
         `;
       }).join('');
-
-      // Clear localStorage
-      localStorage.removeItem("thermodynamicsMCQProgress");
+      window.scrollTo({ top: resultsEl.offsetTop, behavior: 'smooth' });
     }
 
-    // Restart quiz
     function restartQuiz() {
       score = 0;
       userAnswers = Array(thermoQuestions.length).fill(null);
-      timerSeconds = 0;
+      currentPage = 0;
+      currentQuestion = 0;
       shuffledQuestions = shuffleOptions(thermoQuestions);
       resultsEl.classList.add("hidden");
       restartButton.classList.add("hidden");
       submitButton.classList.remove("hidden");
+      prevPageButton.classList.remove("hidden");
+      nextPageButton.classList.remove("hidden");
       scoreEl.innerHTML = "";
-      startTimer();
-      showQuestions();
+      showPage(0);
     }
 
     // Initialize
-    let shuffledQuestions = shuffleOptions(thermoQuestions);
-    loadProgress();
-    startTimer();
-    showQuestions();
+    shuffledQuestions = shuffleOptions(thermoQuestions);
+    showPage(0);
 
-    // Add event listeners
+    prevPageButton.addEventListener("click", () => {
+      if (currentPage > 0) {
+        showPage(currentPage - 1);
+        currentQuestion = currentPage * questionsPerPage;
+      }
+    });
+
+    nextPageButton.addEventListener("click", () => {
+      if ((currentPage + 1) * questionsPerPage < shuffledQuestions.length) {
+        showPage(currentPage + 1);
+        currentQuestion = currentPage * questionsPerPage;
+      }
+    });
+
     submitButton.addEventListener("click", endQuiz);
     restartButton.addEventListener("click", restartQuiz);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' && !prevPageButton.disabled) {
+        prevPageButton.click();
+      } else if (e.key === 'ArrowRight' && !nextPageButton.disabled) {
+        nextPageButton.click();
+      } else if (e.key === 'Enter' && !submitButton.disabled) {
+        submitButton.click();
+      }
+    });
   </script>
 </body>
 </html>
