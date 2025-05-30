@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mock Test – 50 Questions</title>
+  <title>लोक सेवा आयोग – Mock Test (50 Questions)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -171,6 +171,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +188,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -200,6 +213,7 @@
             <th>Your Answer</th>
             <th>Correct Answer</th>
             <th>Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -211,59 +225,314 @@
   <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
 
   <script>
-const questions = [
-  { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Coplanar force", "Moment", "Friction", "Tension"], answer: 1 },
-  { q: "The maximum frictional force experienced when a body just begins to slide is:", options: ["Dynamic friction", "Static friction", "Rolling friction", "Kinetic friction"], answer: 1 },
-  { q: "Which of the following is not a vector quantity?", options: ["Acceleration", "Work", "Velocity", "Force"], answer: 1 },
-  { q: "Watt is SI unit of:", options: ["Distance", "Power", "Torque", "Force"], answer: 1 },
-  { q: "The C.G. of a triangle lies at the point of intersections of:", options: ["Bisectors of angles", "Medians", "Altitudes", "Perpendicular bisectors"], answer: 1 },
-  { q: "Which of the following is not a projectile?", options: ["Ball thrown upwards", "A bullet fired from the gun", "A rocket fired into space", "Cricket ball in air"], answer: 2 },
-  { q: "The acceleration of a body sliding down an inclined surface is:", options: ["g cos θ", "g sin θ", "g", "0"], answer: 1 },
-  { q: "SI Unit of force is:", options: ["Dyne", "Newton", "Joule", "Watt"], answer: 1 },
-  { q: "Which law states Energy can neither be created nor destroyed:", options: ["Newton’s first law", "First law of thermodynamics", "Hooke’s law", "Boyle’s law"], answer: 1 },
-  { q: "Velocity is defined as:", options: ["Distance covered per unit time", "Displacement covered per unit time", "Speed x Time", "Force / Mass"], answer: 1 },
-  { q: "Centre of gravity of solid cone lies at:", options: ["One third of its height", "One fourth of its height", "One fifth of its height", "Base"], answer: 1 },
-  { q: "In actual machines mechanical advantage is:", options: ["Less than velocity ratio", "Equal to velocity ratio", "More than velocity ratio", "None"], answer: 0 },
-  { q: "The point through which the whole weight of the body acts is known as:", options: ["Center of gravity", "Moment of inertia", "Centroid", "Point load"], answer: 0 },
-  { q: "Joule is the unit of:", options: ["Heat", "Energy", "Power", "Force"], answer: 1 },
-  { q: "Energy can neither be created nor destroyed. This is:", options: ["First law of thermodynamics", "Second law", "Zeroth law", "Boyle’s law"], answer: 0 },
-  { q: "Maximum range of a projectile is at:", options: ["30°", "45°", "60°", "90°"], answer: 1 },
-  { q: "In SI system, the unit of force is:", options: ["Dyne", "Newton", "Pascal", "Watt"], answer: 1 },
-  { q: "The heat required to raise temperature of 1g water by 1°C is:", options: ["1 Joule", "4.2 Joule", "1 Calorie", "100 Calorie"], answer: 2 },
-  { q: "Work done per unit charge is:", options: ["Current", "Voltage", "Power", "Resistance"], answer: 1 },
-  { q: "Symbol of capacitor is:", options: ["--||--", "--^--", "--o--", "--|--"], answer: 0 },
-  { q: "Center of gravity of triangle lies at:", options: ["Intersection of bisectors of angles", "Concurrence of the medians", "Centroid", "Base"], answer: 1 },
-  { q: "If wire A is more elastic than B:", options: ["B is stronger", "A is more elastic", "B is brittle", "A is heavier"], answer: 1 },
-  { q: "Stress is directly proportional to strain within elastic limit:", options: ["Hooke’s law", "Boyle’s law", "Newton’s law", "Faraday’s law"], answer: 0 },
-  { q: "Which is not a type of fit?", options: ["Transition", "Interference", "Clearance", "Tolerance"], answer: 3 },
-  { q: "Which view shows height and width?", options: ["Front view", "Top view", "Side view", "Isometric view"], answer: 0 },
-  { q: "Which line is thick and dark?", options: ["Object line", "Center line", "Hidden line", "Dimension line"], answer: 0 },
-  { q: "What type of projection uses 30° angle?", options: ["Isometric", "Orthographic", "Oblique", "Perspective"], answer: 0 },
-  { q: "Symbol for surface roughness is:", options: ["Check mark", "Wavy line", "Triangle", "Circle"], answer: 0 },
-  { q: "A gear which has teeth parallel to axis:", options: ["Bevel", "Spur", "Helical", "Worm"], answer: 1 },
-  { q: "Electric motor converts:", options: ["Mechanical to Electrical", "Electrical to Mechanical", "Heat to Electrical", "Chemical to Mechanical"], answer: 1 },
-  { q: "Which is NOT a DC motor type?", options: ["Shunt", "Compound", "Synchronous", "Series"], answer: 2 },
-  { q: "Which device stores electrical energy?", options: ["Resistor", "Inductor", "Capacitor", "Diode"], answer: 2 },
-  { q: "Which part holds water in boiler?", options: ["Drum", "Chimney", "Economizer", "Superheater"], answer: 0 },
-  { q: "Steam boiler is a:", options: ["Closed vessel", "Open vessel", "Heat exchanger", "None"], answer: 0 },
-  { q: "Which part removes ash?", options: ["Dust collector", "Blower", "Grate", "Chimney"], answer: 0 },
-  { q: "Which is NOT a boiler mount?", options: ["Safety valve", "Pressure gauge", "Superheater", "Water level indicator"], answer: 2 },
-  { q: "Purpose of superheater:", options: ["Reduce steam temp", "Dry steam", "Cool flue gas", "Store steam"], answer: 1 },
-  { q: "Which cycle used in IC engine?", options: ["Otto", "Carnot", "Rankine", "Brayton"], answer: 0 },
-  { q: "Fuel used in petrol engine:", options: ["Petrol", "Diesel", "Kerosene", "Gas"], answer: 0 },
-  { q: "Two-stroke engine completes cycle in:", options: ["2 strokes", "4 strokes", "1 stroke", "3 strokes"], answer: 0 },
-  { q: "In 4-stroke engine, working stroke is:", options: ["1st", "2nd", "3rd", "4th"], answer: 2 },
-  { q: "Efficiency of diesel engine is:", options: ["More than petrol", "Less than petrol", "Equal", "None"], answer: 0 },
-  { q: "Break-even point is:", options: ["No profit no loss", "Maximum loss", "Maximum profit", "None"], answer: 0 },
-  { q: "Fixed cost means:", options: ["Varies with output", "Doesn’t change", "Same as variable", "Zero cost"], answer: 1 },
-  { q: "Which is NOT a type of cost?", options: ["Fixed", "Variable", "Profit", "Total"], answer: 2 },
-  { q: "Overhead cost includes:", options: ["Wages", "Electricity", "Raw material", "Tools"], answer: 1 },
-  { q: "Purpose of estimating:", options: ["Calculate cost", "Improve quality", "Increase time", "Delay project"], answer: 0 },
-  { q: "Which is NOT a managerial function?", options: ["Planning", "Welding", "Organizing", "Controlling"], answer: 1 },
-  { q: "Which is part of 5Ms?", options: ["Machine", "Money", "Market", "Marketing"], answer: 0 },
-  { q: "Main principle of management:", options: ["Discipline", "Demand", "Design", "Discount"], answer: 0 },
-  { q: "Which is NOT an advantage of planning?", options: ["Direction", "Uncertainty", "Coordination", "Control"], answer: 1 }
-];
+    const questions = [
+      { 
+        q: "An attempt to turn a key into a lock manifests in the application of:", 
+        options: ["Coplanar force", "Moment", "Friction", "Tension"], 
+        answer: 1,
+        explanation: "Turning a key applies a moment (or torque), a rotational force caused by applying force at a distance from the pivot (lock’s axis). Coplanar force refers to forces in the same plane, friction opposes motion, and tension is a pulling force, none of which describe the rotational effect."
+      },
+      { 
+        q: "The maximum frictional force experienced when a body just begins to slide is:", 
+        options: ["Dynamic friction", "Static friction", "Rolling friction", "Kinetic friction"], 
+        answer: 1,
+        explanation: "Static friction is the maximum frictional force that prevents a body from sliding just before motion begins. Dynamic and kinetic friction apply during motion, and rolling friction is for rolling objects, which is lower than static friction."
+      },
+      { 
+        q: "Which of the following is not a vector quantity?", 
+        options: ["Acceleration", "Work", "Velocity", "Force"], 
+        answer: 1,
+        explanation: "Work is a scalar quantity, as it has magnitude but no direction. Acceleration, velocity, and force are vector quantities, as they have both magnitude and direction."
+      },
+      { 
+        q: "Watt is SI unit of:", 
+        options: ["Distance", "Power", "Torque", "Force"], 
+        answer: 1,
+        explanation: "Watt is the SI unit of power, defined as one joule per second. Distance is measured in meters, torque in Newton-meters, and force in Newtons."
+      },
+      { 
+        q: "The C.G. of a triangle lies at the point of intersections of:", 
+        options: ["Bisectors of angles", "Medians", "Altitudes", "Perpendicular bisectors"], 
+        answer: 1,
+        explanation: "The center of gravity (CG) of a triangle is at the centroid, where the medians intersect. Medians connect vertices to the midpoints of opposite sides. Angle bisectors, altitudes, and perpendicular bisectors intersect at different points (incenter, orthocenter, circumcenter)."
+      },
+      { 
+        q: "Which of the following is not a projectile?", 
+        options: ["Ball thrown upwards", "A bullet fired from the gun", "A rocket fired into space", "Cricket ball in air"], 
+        answer: 2,
+        explanation: "A projectile follows a parabolic path under gravity without propulsion after launch. A ball, bullet, and cricket ball are projectiles. A rocket fired into space is propelled, so it’s not a projectile."
+      },
+      { 
+        q: "The acceleration of a body sliding down an inclined surface is:", 
+        options: ["g cos θ", "g sin θ", "g", "0"], 
+        answer: 1,
+        explanation: "For a frictionless inclined plane, the acceleration of a body sliding down is g sin θ, where g is gravitational acceleration and θ is the incline angle. The component g cos θ is perpendicular to the surface, g is for free fall, and 0 implies no motion."
+      },
+      { 
+        q: "SI Unit of force is:", 
+        options: ["Dyne", "Newton", "Joule", "Watt"], 
+        answer: 1,
+        explanation: "Newton is the SI unit of force, defined as the force required to accelerate a 1 kg mass by 1 m/s². Dyne is a CGS unit, Joule is energy, and Watt is power."
+      },
+      { 
+        q: "Which law states Energy can neither be created nor destroyed:", 
+        options: ["Newton’s first law", "First law of thermodynamics", "Hooke’s law", "Boyle’s law"], 
+        answer: 1,
+        explanation: "The first law of thermodynamics states that energy cannot be created or destroyed, only converted between forms. Newton’s first law is about inertia, Hooke’s law about elasticity, and Boyle’s law about gas pressure and volume."
+      },
+      { 
+        q: "Velocity is defined as:", 
+        options: ["Distance covered per unit time", "Displacement covered per unit time", "Speed x Time", "Force / Mass"], 
+        answer: 1,
+        explanation: "Velocity is a vector quantity defined as displacement (change in position) per unit time. Distance per unit time is speed (scalar), speed x time gives distance, and force/mass is acceleration."
+      },
+      { 
+        q: "Centre of gravity of solid cone lies at:", 
+        options: ["One third of its height", "One fourth of its height", "One fifth of its height", "Base"], 
+        answer: 1,
+        explanation: "The center of gravity of a solid cone lies along its axis at one-fourth of its height from the base (or three-fourths from the apex). The other options do not correspond to the cone’s CG location."
+      },
+      { 
+        q: "In actual machines mechanical advantage is:", 
+        options: ["Less than velocity ratio", "Equal to velocity ratio", "More than velocity ratio", "None"], 
+        answer: 0,
+        explanation: "Mechanical advantage (MA) is the ratio of output force to input force, while velocity ratio (VR) is the ratio of input to output displacement. In actual machines, due to losses (e.g., friction), MA is less than VR."
+      },
+      { 
+        q: "The point through which the whole weight of the body acts is known as:", 
+        options: ["Center of gravity", "Moment of inertia", "Centroid", "Point load"], 
+        answer: 0,
+        explanation: "The center of gravity is the point where the entire weight of a body acts. Moment of inertia is about mass distribution, centroid is a geometric center, and point load is a concentrated force."
+      },
+      { 
+        q: "Joule is the unit of:", 
+        options: ["Heat", "Energy", "Power", "Force"], 
+        answer: 1,
+        explanation: "Joule is the SI unit of energy, including work and heat (as forms of energy). Power is measured in watts, force in Newtons, and heat is not a distinct unit but measured in Joules."
+      },
+      { 
+        q: "Energy can neither be created nor destroyed. This is:", 
+        options: ["First law of thermodynamics", "Second law", "Zeroth law", "Boyle’s law"], 
+        answer: 0,
+        explanation: "The first law of thermodynamics (energy conservation) states that energy cannot be created or destroyed. The second law involves entropy, the zeroth law defines thermal equilibrium, and Boyle’s law relates gas pressure and volume."
+      },
+      { 
+        q: "Maximum range of a projectile is at:", 
+        options: ["30°", "45°", "60°", "90°"], 
+        answer: 1,
+        explanation: "The maximum range of a projectile on a horizontal plane occurs at a launch angle of 45°, as it balances horizontal and vertical components of velocity. Other angles result in shorter ranges."
+      },
+      { 
+        q: "In SI system, the unit of force is:", 
+        options: ["Dyne", "Newton", "Pascal", "Watt"], 
+        answer: 1,
+        explanation: "Newton is the SI unit of force. Dyne is a CGS unit, Pascal is for pressure, and Watt is for power."
+      },
+      { 
+        q: "The heat required to raise temperature of 1g water by 1°C is:", 
+        options: ["1 Joule", "4.2 Joule", "1 Calorie", "100 Calorie"], 
+        answer: 2,
+        explanation: "The heat required to raise 1g of water by 1°C is 1 calorie, which is approximately 4.184 Joules. Option '1 Calorie' is correct, as 1 Joule and 4.2 Joule are too low, and 100 Calorie is too high."
+      },
+      { 
+        q: "Work done per unit charge is:", 
+        options: ["Current", "Voltage", "Power", "Resistance"], 
+        answer: 1,
+        explanation: "Voltage (potential difference) is defined as work done per unit charge (V = W/Q). Current is charge flow rate, power is energy per unit time, and resistance opposes current flow."
+      },
+      { 
+        q: "Symbol of capacitor is:", 
+        options: ["--||--", "--^--", "--o--", "--|--"], 
+        answer: 0,
+        explanation: "The symbol for a capacitor is --||--, representing two parallel plates. Other symbols do not correspond to standard circuit components."
+      },
+      { 
+        q: "Center of gravity of triangle lies at:", 
+        options: ["Intersection of bisectors of angles", "Concurrence of the medians", "Centroid", "Base"], 
+        answer: 1,
+        explanation: "The center of gravity of a triangle is at the concurrence of the medians, also called the centroid. Angle bisectors meet at the incenter, and the base is not a specific point of intersection."
+      },
+      { 
+        q: "If wire A is more elastic than B:", 
+        options: ["B is stronger", "A is more elastic", "B is brittle", "A is heavier"], 
+        answer: 1,
+        explanation: "If wire A is more elastic than B, it means A can deform more under stress and return to its original shape, confirming 'A is more elastic.' The other options are unrelated to elasticity."
+      },
+      { 
+        q: "Stress is directly proportional to strain within elastic limit:", 
+        options: ["Hooke’s law", "Boyle’s law", "Newton’s law", "Faraday’s law"], 
+        answer: 0,
+        explanation: "Hooke’s law states that stress is directly proportional to strain within the elastic limit. Boyle’s law is about gases, Newton’s laws are about motion, and Faraday’s law is about electromagnetic induction."
+      },
+      { 
+        q: "Which is not a type of fit?", 
+        options: ["Transition", "Interference", "Clearance", "Tolerance"], 
+        answer: 3,
+        explanation: "Transition, interference, and clearance are types of fits describing how parts assemble. Tolerance is the allowable variation in dimensions, not a type of fit."
+      },
+      { 
+        q: "Which view shows height and width?", 
+        options: ["Front view", "Top view", "Side view", "Isometric view"], 
+        answer: 0,
+        explanation: "In orthographic projection, the front view shows the height and width of an object. The top view shows width and depth, the side view shows height and depth, and the isometric view is 3D."
+      },
+      { 
+        q: "Which line is thick and dark?", 
+        options: ["Object line", "Center line", "Hidden line", "Dimension line"], 
+        answer: 0,
+        explanation: "Object lines (visible edges) are thick and dark in technical drawings to represent the outline of an object. Center, hidden, and dimension lines are thinner or dashed."
+      },
+      { 
+        q: "What type of projection uses 30° angle?", 
+        options: ["Isometric", "Orthographic", "Oblique", "Perspective"], 
+        answer: 0,
+        explanation: "Isometric projection uses 30° angles for axes to create a 3D effect. Orthographic uses perpendicular projections, oblique uses arbitrary angles, and perspective mimics human vision."
+      },
+      { 
+        q: "Symbol for surface roughness is:", 
+        options: ["Check mark", "Wavy line", "Triangle", "Circle"], 
+        answer: 0,
+        explanation: "The symbol for surface roughness is a check mark (✓), often with additional lines to indicate roughness grade. Other options do not represent surface roughness."
+      },
+      { 
+        q: "A gear which has teeth parallel to axis:", 
+        options: ["Bevel", "Spur", "Helical", "Worm"], 
+        answer: 1,
+        explanation: "Spur gears have teeth parallel to the axis of rotation, enabling simple power transmission. Bevel gears have angled teeth, helical gears have slanted teeth, and worm gears have a screw-like structure."
+      },
+      { 
+        q: "Electric motor converts:", 
+        options: ["Mechanical to Electrical", "Electrical to Mechanical", "Heat to Electrical", "Chemical to Mechanical"], 
+        answer: 1,
+        explanation: "An electric motor converts electrical energy to mechanical energy through electromagnetic forces. The reverse is a generator, and the other options do not describe motor function."
+      },
+      { 
+        q: "Which is NOT a DC motor type?", 
+        options: ["Shunt", "Compound", "Synchronous", "Series"], 
+        answer: 2,
+        explanation: "Shunt, compound, and series are types of DC motors based on field winding connections. Synchronous motors are AC motors, as they operate at a constant speed synchronized with the AC supply."
+      },
+      { 
+        q: "Which device stores electrical energy?", 
+        options: ["Resistor", "Inductor", "Capacitor", "Diode"], 
+        answer: 2,
+        explanation: "A capacitor stores electrical energy in an electric field between its plates. Resistors dissipate energy, inductors store energy in a magnetic field, and diodes control current flow."
+      },
+      { 
+        q: "Which part holds water in boiler?", 
+        options: ["Drum", "Chimney", "Economizer", "Superheater"], 
+        answer: 0,
+        explanation: "The drum in a boiler holds water and steam, serving as a reservoir. The chimney expels gases, the economizer preheats water, and the superheater heats steam."
+      },
+      { 
+        q: "Steam boiler is a:", 
+        options: ["Closed vessel", "Open vessel", "Heat exchanger", "None"], 
+        answer: 0,
+        explanation: "A steam boiler is a closed vessel where water is heated to produce steam under pressure. An open vessel would not maintain pressure, and a heat exchanger is a different device."
+      },
+      { 
+        q: "Which part removes ash?", 
+        options: ["Dust collector", "Blower", "Grate", "Chimney"], 
+        answer: 0,
+        explanation: "A dust collector removes ash and particulates from flue gases. Blowers supply air, grates support fuel, and chimneys expel gases."
+      },
+      { 
+        q: "Which is NOT a boiler mount?", 
+        options: ["Safety valve", "Pressure gauge", "Superheater", "Water level indicator"], 
+        answer: 2,
+        explanation: "Boiler mounts are fittings like safety valves, pressure gauges, and water level indicators, essential for operation and safety. The superheater is an accessory that enhances steam quality, not a mount."
+      },
+      { 
+        q: "Purpose of superheater:", 
+        options: ["Reduce steam temp", "Dry steam", "Cool flue gas", "Store steam"], 
+        answer: 1,
+        explanation: "A superheater dries and heats steam above its saturation temperature, improving efficiency. It does not reduce temperature, cool gases, or store steam."
+      },
+      { 
+        q: "Which cycle used in IC engine?", 
+        options: ["Otto", "Carnot", "Rankine", "Brayton"], 
+        answer: 0,
+        explanation: "Internal combustion (IC) engines, like petrol engines, typically use the Otto cycle. Carnot is theoretical, Rankine is for steam, and Brayton is for gas turbines."
+      },
+      { 
+        q: "Fuel used in petrol engine:", 
+        options: ["Petrol", "Diesel", "Kerosene", "Gas"], 
+        answer: 0,
+        explanation: "Petrol engines use petrol (gasoline) as fuel. Diesel engines use diesel, and kerosene or gas are used in specific engines, not standard petrol engines."
+      },
+      { 
+        q: "Two-stroke engine completes cycle in:", 
+        options: ["2 strokes", "4 strokes", "1 stroke", "3 strokes"], 
+        answer: 0,
+        explanation: "A two-stroke engine completes its power cycle in two strokes (one crankshaft revolution), combining intake/compression and power/exhaust. Four-stroke engines require four strokes."
+      },
+      { 
+        q: "In 4-stroke engine, working stroke is:", 
+        options: ["1st", "2nd", "3rd", "4th"], 
+        answer: 2,
+        explanation: "In a four-stroke engine, the working (power) stroke is the third stroke, where the air-fuel mixture ignites, producing power. The sequence is intake, compression, power, exhaust."
+      },
+      { 
+        q: "Efficiency of diesel engine is:", 
+        options: ["More than petrol", "Less than petrol", "Equal", "None"], 
+        answer: 0,
+        explanation: "Diesel engines have higher thermal efficiency than petrol engines due to higher compression ratios, leading to better fuel economy. Efficiency is not equal or undefined."
+      },
+      { 
+        q: "Break-even point is:", 
+        options: ["No profit no loss", "Maximum loss", "Maximum profit", "None"], 
+        answer: 0,
+        explanation: "The break-even point is where total revenue equals total cost, resulting in no profit or loss. It is not associated with maximum profit or loss."
+      },
+      { 
+        q: "Fixed cost means:", 
+        options: ["Varies with output", "Doesn’t change", "Same as variable", "Zero cost"], 
+        answer: 1,
+        explanation: "Fixed costs remain constant regardless of production output (e.g., rent). Variable costs change with output, and fixed costs are not zero or the same as variable costs."
+      },
+      { 
+        q: "Which is NOT a type of cost?", 
+        options: ["Fixed", "Variable", "Profit", "Total"], 
+        answer: 2,
+        explanation: "Fixed, variable, and total costs are categories of costs in business. Profit is the revenue minus costs, not a type of cost."
+      },
+      { 
+        q: "Overhead cost includes:", 
+        options: ["Wages", "Electricity", "Raw material", "Tools"], 
+        answer: 1,
+        explanation: "Overhead costs are indirect costs like electricity, rent, or maintenance. Wages and raw materials are direct costs, and tools may be capital expenses."
+      },
+      { 
+        q: "Purpose of estimating:", 
+        options: ["Calculate cost", "Improve quality", "Increase time", "Delay project"], 
+        answer: 0,
+        explanation: "Estimating determines the expected cost of a project or product, aiding budgeting and planning. It does not directly improve quality, increase time, or delay projects."
+      },
+      { 
+        q: "Which is NOT a managerial function?", 
+        options: ["Planning", "Welding", "Organizing", "Controlling"], 
+        answer: 1,
+        explanation: "Managerial functions include planning, organizing, leading, and controlling. Welding is a technical task, not a managerial function."
+      },
+      { 
+        q: "Which is part of 5Ms?", 
+        options: ["Machine", "Money", "Market", "Marketing"], 
+        answer: 0,
+        explanation: "The 5Ms of management are Man, Machine, Material, Method, and Money. Market and marketing are not part of the 5Ms framework."
+      },
+      { 
+        q: "Main principle of management:", 
+        options: ["Discipline", "Demand", "Design", "Discount"], 
+        answer: 0,
+        explanation: "Discipline is a core principle of management (per Henri Fayol), ensuring order and compliance. Demand, design, and discount are not management principles."
+      },
+      { 
+        q: "Which is NOT an advantage of planning?", 
+        options: ["Direction", "Uncertainty", "Coordination", "Control"], 
+        answer: 1,
+        explanation: "Planning provides direction, coordination, and control, but uncertainty is a challenge it aims to reduce, not an advantage."
+      }
+    ];
 
     let currentPage = 0;
     let score = 0;
@@ -272,7 +541,7 @@ const questions = [
     let timerSeconds = 0;
     let timerInterval;
     const QUESTIONS_PER_PAGE = 5;
-    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+    const ANSWER_DELAY = 1500;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -288,10 +557,10 @@ const questions = [
       const saved = localStorage.getItem("quizProgress50");
       if (saved) {
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        currentPage = savedPage;
-        score = savedScore;
-        skipped = savedSkipped;
-        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        currentPage = savedPage || 0;
+        score = savedScore || 0;
+        skipped = savedSkipped || [];
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
       }
     }
@@ -321,6 +590,10 @@ const questions = [
 
     // Start timer
     function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -331,8 +604,19 @@ const questions = [
 
     // Update progress bar
     function updateProgress() {
-      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      const answeredOrSkipped = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answeredOrSkipped / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
+    }
+
+    // Escape special characters for JavaScript string
+    function escapeJsString(str) {
+      return str
+        .replace(/'/g, "\\'")
+        .replace(/\u2212/g, '-') // Mathematical minus to hyphen
+        .replace(/ᵥ/g, 'v')
+        .replace(/ₚ/g, 'p')
+        .replace(/\u2019/g, "'"); // Curly apostrophe to straight
     }
 
     // Show questions for the current page
@@ -344,12 +628,13 @@ const questions = [
         const q = shuffledQuestions[i];
         const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
         const options = shuffledOptions
-          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeJsString(opt.text)}')">${opt.text}</button>`)
           .join('');
         html += `
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -382,18 +667,33 @@ const questions = [
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(shuffledQuestions[questionIndex])) {
-        skipped.push(shuffledQuestions[questionIndex]);
+      if (!skipped.includes(questionIndex)) {
+        skipped.push(questionIndex);
         userAnswers[questionIndex] = "Skipped";
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
       checkNextButton();
     }
@@ -446,6 +746,7 @@ const questions = [
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
