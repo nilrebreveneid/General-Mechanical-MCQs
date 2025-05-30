@@ -1,82 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fluid mechanics & som</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f7fa;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        .quiz-container {
-            max-width: 900px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .question {
-            margin-bottom: 20px;
-        }
-
-        .question p {
-            font-weight: bold;
-            color: #444;
-        }
-
-        .options button {
-            display: block;
-            margin: 6px 0;
-            padding: 10px;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            cursor: pointer;
-            text-align: left;
-            width: 100%;
-            transition: background-color 0.3s;
-        }
-
-        .options button:hover {
-            background-color: #e0e0e0;
-        }
-
-        .options button.correct {
-            background-color: #c8f7c5;
-        }
-
-        .options button.wrong {
-            background-color: #f7c5c5;
-        }
-
-        .score {
-            font-size: 1.2em;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 30px;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>Fluid mechanic & som mcq</h1>
-    <div class="quiz-container" id="quiz"></div>
-    <div class="score" id="score"></div>
-
-    <script> 
-
-const questions = [
+<!-- 
   { q: "If the angle of contact of a drop of liquid is acute, then:", options: ["Cohesion is more than adhesion", "Cohesion is less than adhesion"], answer: 1 },
   { q: "The impeller of a centrifugal pump may have:", options: ["Vortex casing", "Any one of these"], answer: 1 },
   { q: "When two capillary tubes of different diameters are dipped vertically, the rise of the liquid is:", options: ["more in the tube of larger diameter", "more in the tube of smaller diameter"], answer: 1 },
@@ -133,58 +55,626 @@ const questions = [
   { q: "Torsion is a result of:", options: ["Twisting moment", "Axial force"], answer: 0 },
   { q: "The neutral axis in bending is:", options: ["The axis with zero stress", "The axis with maximum stress"], answer: 0 },
   { q: "The slenderness ratio is defined for:", options: ["Columns", "Beams"], answer: 0 }
-];
+ -->
 
-      
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
 
-        const quizContainer = document.getElementById('quiz');
-        const scoreContainer = document.getElementById('score');
-        let score = 0;
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluid Mechanics MCQ Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        questions.forEach((q, i) => {
-            const div = document.createElement('div');
-            div.classList.add('question');
-            div.innerHTML = `<p>${i + 1}. ${q.q}</p>`;
+    body {
+      font-family: 'Roboto', -apple-system, Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      color: #1a202c;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.6;
+    }
 
-            const optsDiv = document.createElement('div');
-            optsDiv.classList.add('options');
+    h1 {
+      text-align: center;
+      color: #2b6cb0;
+      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
 
-            const shuffled = shuffle(q.options.map((opt, index) => ({ text: opt, isCorrect: index === q.answer })));
+    h2 {
+      text-align: center;
+      color: #c53030;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
 
-            shuffled.forEach(({ text, isCorrect }) => {
-                const btn = document.createElement('button');
-                btn.textContent = text;
-                btn.onclick = () => {
-                    if (btn.classList.contains('correct') || btn.classList.contains('wrong')) return;
-                    if (isCorrect) {
-                        btn.classList.add('correct');
-                        score++;
-                    } else {
-                        btn.classList.add('wrong');
-                        optsDiv.querySelectorAll('button').forEach(b => {
-                            if (b.textContent === shuffled.find(o => o.isCorrect).text) {
-                                b.classList.add('correct');
-                            }
-                        });
-                    }
-                    if (i === questions.length - 1) {
-                        scoreContainer.textContent = `✅ Your Score: ${score} out of ${questions.length}`;
-                    }
-                };
-                optsDiv.appendChild(btn);
-            });
+    .quiz-container {
+      max-width: 1000px;
+      width: 100%;
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
 
-            div.appendChild(optsDiv);
-            quizContainer.appendChild(div);
+    .quiz-container:hover {
+      transform: translateY(-5px);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #edf2f7;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(to right, #4299e1, #3182ce);
+      border-radius: 6px;
+      transition: width 0.4s ease-in-out;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: #c53030;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .question {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      animation: fadeIn 0.5s ease-out;
+      transition: box-shadow 0.3s;
+    }
+
+    .question:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question p {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #2d3748;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .options button {
+      padding: 0.75rem 1.25rem;
+      width: 100%;
+      background: #ebf8ff;
+      border: 2px solid #bee3f8;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      text-align: left;
+      transition: all 0.3s ease;
+      color: #2d3748;
+    }
+
+    .options button:hover:not(:disabled) {
+      background: #bee3f8;
+      border-color: #90cdf4;
+      transform: translateX(4px);
+    }
+
+    .options button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+    }
+
+    .options button.correct {
+      background: #c6f6d5 !important;
+      border-color: #68d391 !important;
+      color: #22543d;
+      animation: pulse 0.5s;
+    }
+
+    .options button.wrong {
+      background: #fed7d7 !important;
+      border-color: #f56565 !important;
+      color: #742a2a;
+      animation: shake 0.3s;
+    }
+
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .explanation {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f0fff4;
+      border-left: 4px solid #48bb78;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      color: #2d3748;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+
+    .explanation.show {
+      opacity: 1;
+      max-height: 200px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    .pagination-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .pagination-button:hover:not(:disabled) {
+      background: #3182ce;
+    }
+
+    .pagination-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    .submit-button, .restart-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .submit-button:hover:not(:disabled), .restart-button:hover:not(:disabled) {
+      background: #3182ce;
+      transform: translateY(-2px);
+    }
+
+    .submit-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    #score, #results {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      font-weight: 700;
+      color: #2d3748;
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #e2e8f0;
+      padding: 1rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #edf2f7;
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .results-table td.correct { color: #2f855a; font-weight: 600; }
+    .results-table td.wrong { color: #c53030; font-weight: 600; }
+    .results-table td.not-attempted { color: #718096; }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      .quiz-container {
+        padding: 1.5rem;
+      }
+      .question p {
+        font-size: 1.1rem;
+      }
+      .options button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+      }
+      .results-table th, .results-table td {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+      .pagination-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      .submit-button, .restart-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Fluid Mechanics MCQ Quiz (30 Questions)</h1>
+  <h2>Test Your Knowledge</h2>
+  <div class="quiz-container">
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div id="quiz" role="region" aria-live="polite"></div>
+    <div class="pagination">
+      <button class="pagination-button" id="prev-page" disabled aria-label="Previous page">Previous</button>
+      <button class="pagination-button" id="next-page" aria-label="Next page">Next</button>
+    </div>
+    <button class="submit-button" id="submit-button" disabled aria-label="Submit quiz">Submit Quiz</button>
+    <div id="score"></div>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <div class="overflow-x-auto">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Your Answer</th>
+              <th>Correct Answer</th>
+              <th>Status</th>
+              <th>Explanation</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <button class="restart-button hidden" id="restart-button" aria-label="Restart quiz">Restart Quiz</button>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+
+  <script>
+    const questions = [
+      { q: "If the angle of contact of a liquid drop is acute, then:", options: ["Cohesion is more than adhesion", "Cohesion is less than adhesion"], answer: 1, explanation: "An acute contact angle (<90°) occurs when adhesion (attraction to the surface) exceeds cohesion (attraction within the liquid), causing the liquid to spread." },
+      { q: "The impeller of a centrifugal pump may have:", options: ["Volute casing", "Any one of these"], answer: 1, explanation: "Centrifugal pumps can use various casings like volute, vortex, or diffuser, so 'any one of these' is correct, assuming multiple casing types are implied." },
+      { q: "When two capillary tubes of different diameters are dipped vertically, the liquid rise is:", options: ["More in the tube of larger diameter", "More in the tube of smaller diameter"], answer: 1, explanation: "Capillary rise is inversely proportional to tube diameter (h = 2σcosθ/ρgr), so smaller tubes have higher rise due to greater surface tension effects." },
+      { q: "The amount of water vapor in air is known as:", options: ["Saturation point", "Humidity"], answer: 1, explanation: "Humidity measures the amount of water vapor in air, while the saturation point is the maximum vapor air can hold at a given temperature." },
+      { q: "1 kg/cm² of pressure is equivalent to:", options: ["10 meters of water column", "100 meters of water column"], answer: 0, explanation: "1 kg/cm² ≈ 98,066 Pa, equivalent to ~10 m of water column (ρgh, where ρ = 1000 kg/m³, g = 9.81 m/s²)." },
+      { q: "A piezometer is used to measure:", options: ["Total pressure", "Static pressure"], answer: 1, explanation: "A piezometer measures static pressure in a fluid at a specific point, not total pressure which includes dynamic components." },
+      { q: "The property by which molecules of different fluids are not attracted is:", options: ["Cohesion", "Adhesion"], answer: 0, explanation: "Cohesion is the attraction between like molecules within a fluid; adhesion is the attraction between unlike molecules." },
+      { q: "A venturimeter is used to measure:", options: ["Pressure", "Flow rate"], answer: 1, explanation: "A venturimeter measures flow rate by applying Bernoulli’s principle to the pressure drop across a constricted section." },
+      { q: "In flow through series pipes, which is true?", options: ["Head loss in each pipe is same", "Flow rate in each pipe is same"], answer: 1, explanation: "In series pipes, the flow rate is constant throughout, but head loss varies depending on pipe characteristics (e.g., diameter, length)." },
+      { q: "A pitot tube is used to measure:", options: ["Static pressure", "Velocity"], answer: 1, explanation: "A pitot tube measures fluid velocity by converting dynamic pressure into a measurable pressure difference." },
+      { q: "A fluid is a substance that can:", options: ["Resist shear stress", "Flow under applied force"], answer: 1, explanation: "Fluids cannot resist shear stress and flow under applied forces, distinguishing them from solids." },
+      { q: "The SI unit of viscosity is:", options: ["Pascal-second", "Newton-meter"], answer: 0, explanation: "Dynamic viscosity is measured in pascal-second (Pa·s), equivalent to kg/m·s, not Newton-meter which is for torque." },
+      { q: "Which device is used to measure fluid pressure?", options: ["Manometer", "Barometer"], answer: 0, explanation: "A manometer measures fluid pressure relative to atmospheric pressure; a barometer measures atmospheric pressure." },
+      { q: "The principle on which a venturimeter works is:", options: ["Bernoulli’s principle", "Pascal’s law"], answer: 0, explanation: "A venturimeter uses Bernoulli’s principle, relating pressure drop to velocity increase in a constricted flow." },
+      { q: "Pascal’s law states that pressure applied to a confined fluid is:", options: ["Transmitted equally in all directions", "Absorbed completely"], answer: 0, explanation: "Pascal’s law states that pressure in a confined fluid is transmitted undiminished in all directions." },
+      { q: "Turbulence in fluid flow occurs when the Reynolds number is:", options: ["Greater than 4000", "Less than 2000"], answer: 0, explanation: "Turbulent flow occurs at Reynolds numbers > 4000 in pipes; < 2000 indicates laminar flow." },
+      { q: "The upward force on a body submerged in a fluid is:", options: ["Buoyant force", "Drag force"], answer: 0, explanation: "Buoyant force is the upward force due to fluid displacement, per Archimedes’ principle." },
+      { q: "The continuity equation is based on conservation of:", options: ["Mass", "Energy"], answer: 0, explanation: "The continuity equation (A₁v₁ = A₂v₂) is derived from the conservation of mass in fluid flow." },
+      { q: "Bernoulli’s equation is applicable to:", options: ["Ideal incompressible fluid", "Compressible viscous fluid"], answer: 0, explanation: "Bernoulli’s equation applies to ideal, incompressible, inviscid fluids along a streamline." },
+      { q: "A device used to measure the velocity of fluid is:", options: ["Pitot tube", "Orifice meter"], answer: 0, explanation: "A pitot tube directly measures velocity via dynamic pressure; an orifice meter measures flow rate." },
+      { q: "Viscosity of water is ___ than that of oil:", options: ["Lower", "Higher"], answer: 0, explanation: "Water has lower viscosity (~0.001 Pa·s) compared to oil (~0.01–1 Pa·s), allowing easier flow." },
+      { q: "Surface tension is due to:", options: ["Cohesion", "Adhesion"], answer: 0, explanation: "Surface tension results from cohesive forces between liquid molecules at the surface, minimizing surface area." },
+      { q: "Which instrument measures very low pressure?", options: ["McLeod gauge", "Manometer"], answer: 0, explanation: "A McLeod gauge measures very low pressures (vacuum), while manometers are used for higher pressures." },
+      { q: "Capillary rise is higher in:", options: ["Narrow tubes", "Wider tubes"], answer: 0, explanation: "Capillary rise is higher in narrow tubes due to the inverse relationship with diameter (h ∝ 1/r)." },
+      { q: "Which component increases pressure in a hydraulic system?", options: ["Pump", "Valve"], answer: 0, explanation: "A pump generates pressure in a hydraulic system; valves control flow or pressure." },
+      { q: "Specific gravity is defined as:", options: ["Ratio of fluid density to water density", "Mass per unit volume"], answer: 0, explanation: "Specific gravity is the ratio of a fluid’s density to that of water (1000 kg/m³ at 4°C)." },
+      { q: "Flow where fluid layers slide smoothly is called:", options: ["Laminar flow", "Turbulent flow"], answer: 0, explanation: "Laminar flow involves smooth, parallel layers, unlike turbulent flow’s chaotic motion." },
+      { q: "Which is not a property of a fluid?", options: ["Elasticity", "Viscosity"], answer: 0, explanation: "Elasticity is a property of solids; fluids exhibit viscosity, density, and surface tension." },
+      { q: "Bulk modulus is related to:", options: ["Compressibility", "Viscosity"], answer: 0, explanation: "Bulk modulus measures a fluid’s resistance to compression, inversely related to compressibility." },
+      { q: "The velocity of fluid is maximum at:", options: ["Center of pipe", "Pipe wall"], answer: 0, explanation: "In laminar flow, velocity is maximum at the pipe’s center due to the parabolic velocity profile." }
+    ];
+
+    let score = 0;
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    let shuffledQuestions = [];
+    let currentPage = 0;
+    const questionsPerPage = 20;
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const submitButton = document.getElementById("submit-button");
+    const restartButton = document.getElementById("restart-button");
+    const prevPageButton = document.getElementById("prev-page");
+    const nextPageButton = document.getElementById("next-page");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function shuffleOptions(questions) {
+      return questions.map(q => {
+        const correct = q.options[q.answer];
+        const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+        return {
+          ...q,
+          options: shuffled,
+          answer: shuffled.indexOf(correct)
+        };
+      });
+    }
+
+    function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    function updateProgress() {
+      const answered = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answered / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+      checkAllAnswered();
+    }
+
+    function showPage(pageIndex) {
+      currentPage = pageIndex;
+      const startIndex = pageIndex * questionsPerPage;
+      const endIndex = Math.min(startIndex + questionsPerPage, shuffledQuestions.length);
+      const fragment = document.createDocumentFragment();
+      const pageQuestions = shuffledQuestions.slice(startIndex, endIndex);
+      pageQuestions.forEach((q, index) => {
+        const globalIndex = startIndex + index;
+        const isAnswered = userAnswers[globalIndex] !== null;
+        const selectedAnswer = userAnswers[globalIndex];
+        const correctAnswer = q.options[q.answer];
+        const options = q.options.map((opt, j) => {
+          let buttonClass = '';
+          if (isAnswered) {
+            buttonClass += opt === correctAnswer ? ' correct' :
+                          opt === selectedAnswer && selectedAnswer !== correctAnswer ? ' wrong' : '';
+          }
+          return `<button class="${buttonClass}" aria-label="Option ${escapeHtml(opt)}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+        }).join('');
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.dataset.index = globalIndex;
+        div.innerHTML = `
+          <p>${globalIndex + 1}. ${escapeHtml(q.q)}</p>
+          <div class="options">${options}</div>
+          <div class="explanation ${isAnswered ? 'show' : ''}" id="explanation-${globalIndex}">
+            ${isAnswered ? escapeHtml(q.explanation || 'No explanation available.') : ''}
+          </div>
+        `;
+        fragment.appendChild(div);
+      });
+      quizEl.innerHTML = '';
+      quizEl.appendChild(fragment);
+
+      quizEl.querySelectorAll('.options button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const questionDiv = e.target.closest('.question');
+          const questionIndex = parseInt(questionDiv.dataset.index);
+          const selected = Array.from(questionDiv.querySelectorAll('.options button')).indexOf(e.target);
+          const selectedText = e.target.textContent;
+          checkAnswer(e.target, questionIndex, selected, selectedText);
         });
-    </script>
-</body>
+      });
 
+      prevPageButton.disabled = currentPage === 0;
+      nextPageButton.disabled = endIndex === questions.length;
+      updateProgress();
+    }
+
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      if (userAnswers[questionIndex] !== null) return;
+      const q = shuffledQuestions[questionIndex];
+      const correct = q.answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      const explanationEl = document.getElementById(`explanation-${questionIndex}`);
+
+      buttons.forEach((btn, j) => {
+        btn.disabled = true;
+        if (j === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
+      });
+
+      userAnswers[questionIndex] = selectedText;
+      if (selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Correct sound playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Wrong sound playback failed"));
+      }
+
+      explanationEl.textContent = q.explanation || 'No explanation available.';
+      explanationEl.classList.add('show');
+      saveProgress();
+      updateProgress();
+    }
+
+    function checkAllAnswered() {
+      const allAnswered = userAnswers.every(answer => answer !== null);
+      submitButton.disabled = !allAnswered;
+    }
+
+    function endQuiz() {
+      clearInterval(timerInterval);
+      quizEl.innerHTML = '';
+      prevPageButton.classList.add("hidden");
+      nextPageButton.classList.add("hidden");
+      submitButton.classList.add("hidden");
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+      restartButton.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" : escapeHtml(userAnswers[i]);
+        const correctAnswer = escapeHtml(q.options[q.answer]);
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${escapeHtml(q.q)}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+            <td>${escapeHtml(q.explanation || 'No explanation available.')}</td>
+          </tr>
+        `;
+      }).join('');
+      localStorage.removeItem("fluidMechanicsMCQProgress");
+    }
+
+    function restartQuiz() {
+      score = 0;
+      userAnswers = Array(questions.length).fill(null);
+      timerSeconds = 0;
+      currentPage = 0;
+      shuffledQuestions = shuffleOptions(questions);
+      resultsEl.classList.add("hidden");
+      prevPageButton.classList.remove("hidden");
+      nextPageButton.classList.remove("hidden");
+      submitButton.classList.remove("hidden");
+      scoreEl.innerHTML = "";
+      clearInterval(timerInterval);
+      startTimer();
+      showPage(0);
+    }
+
+    function loadProgress() {
+      const saved = localStorage.getItem("fluidMechanicsMCQProgress");
+      if (saved) {
+        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        score = savedScore || 0;
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem("fluidMechanicsMCQProgress", JSON.stringify({
+        score,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
+
+    // Initialize
+    shuffledQuestions = shuffleOptions(questions);
+    loadProgress();
+    startTimer();
+    showPage(0);
+
+    // Event listeners
+    submitButton.addEventListener("click", endQuiz);
+    restartButton.addEventListener("click", restartQuiz);
+    prevPageButton.addEventListener("click", () => {
+      if (currentPage > 0) showPage(currentPage - 1);
+    });
+    nextPageButton.addEventListener("click", () => {
+      if ((currentPage + 1) * questionsPerPage < questions.length) showPage(currentPage + 1);
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !submitButton.disabled) {
+        submitButton.click();
+      } else if (e.key === 'ArrowLeft' && !prevPageButton.disabled) {
+        prevPageButton.click();
+      } else if (e.key === 'ArrowRight' && !nextPageButton.disabled) {
+        nextPageButton.click();
+      }
+    });
+  </script>
+</body>
 </html>
