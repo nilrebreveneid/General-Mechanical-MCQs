@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -171,6 +172,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +189,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -200,6 +214,7 @@
             <th>Your Answer</th>
             <th>Correct Answer</th>
             <th>Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -212,56 +227,306 @@
 
   <script>
     const questions = [
-      { q: "The second law of thermodynamics introduces the concept of:", options: ['Entropy', 'Enthalpy', 'Internal energy', 'Gibbs free energy'], answer: 0 },
-      { q: "The primary purpose of a governor in an engine is to:", options: ['Regulate speed', 'Increase torque', 'Reduce vibrations', 'Cool the system'], answer: 0 },
-      { q: "The SI unit of energy is:", options: ['Watt', 'Joule', 'Newton', 'Pascal'], answer: 1 },
-      { q: "In a four-stroke engine, the exhaust stroke occurs after:", options: ['Intake', 'Compression', 'Power', 'Ignition'], answer: 2 },
-      { q: "A cost that remains constant regardless of production level is:", options: ['Variable cost', 'Fixed cost', 'Marginal cost', 'Opportunity cost'], answer: 1 },
-      { q: "The centroid of a circle is located at its:", options: ['Edge', 'Center', 'Radius', 'Diameter'], answer: 1 },
-      { q: "A process where pressure remains constant is called:", options: ['Isothermal', 'Isobaric', 'Isochoric', 'Adiabatic'], answer: 1 },
-      { q: "The primary fuel for a Cochran boiler is typically:", options: ['Coal', 'Natural gas', 'Diesel', 'Wood'], answer: 0 },
-      { q: "In technical drawing, a section view is used to show:", options: ['External features', 'Internal details', '3D perspective', 'Scaled dimensions'], answer: 1 },
-      { q: "The device that converts electrical energy to mechanical energy is:", options: ['Generator', 'Motor', 'Transformer', 'Capacitor'], answer: 1 },
-      { q: "The efficiency of a heat engine is maximum when it operates between:", options: ['Same temperatures', 'Large temperature difference', 'Low pressures', 'High volumes'], answer: 1 },
-      { q: "The moment of inertia of an object depends on:", options: ['Mass distribution', 'Velocity', 'Temperature', 'Pressure'], answer: 0 },
-      { q: "The SI unit of torque is:", options: ['Newton-meter', 'Joule', 'Watt', 'Pascal'], answer: 0 },
-      { q: "In a diesel engine, ignition occurs due to:", options: ['Spark plug', 'Compression', 'Fuel injection', 'Glow plug'], answer: 1 },
-      { q: "The point where total revenue equals total cost is called:", options: ['Profit margin', 'Break-even point', 'Loss threshold', 'Revenue peak'], answer: 1 },
-      { q: "The center of gravity of a uniform rod lies at its:", options: ['One end', 'Midpoint', 'Quarter length', 'Entire length'], answer: 1 },
-      { q: "A thermodynamic process with constant temperature is:", options: ['Isobaric', 'Isochoric', 'Isothermal', 'Adiabatic'], answer: 2 },
-      { q: "The material commonly used for steam boiler tubes is:", options: ['Copper', 'Steel', 'Aluminum', 'Brass'], answer: 1 },
-      { q: "In engineering drawing, a hidden line represents:", options: ['Visible edge', 'Invisible edge', 'Centerline', 'Dimension line'], answer: 1 },
-      { q: "A device that regulates voltage in a circuit is:", options: ['Resistor', 'Capacitor', 'Transformer', 'Diode'], answer: 2 },
-      { q: "The work done in an isochoric process is:", options: ['Zero', 'Maximum', 'Negative', 'Constant'], answer: 0 },
-      { q: "The property that measures resistance to angular acceleration is:", options: ['Mass', 'Moment of inertia', 'Torque', 'Angular velocity'], answer: 1 },
-      { q: "The SI unit of electrical resistance is:", options: ['Ohm', 'Volt', 'Ampere', 'Coulomb'], answer: 0 },
-      { q: "In a two-stroke engine, power is produced in:", options: ['Every stroke', 'Every other stroke', 'Two strokes', 'Four strokes'], answer: 0 },
-      { q: "The cost of raw materials is considered a:", options: ['Fixed cost', 'Variable cost', 'Overhead cost', 'Sunk cost'], answer: 1 },
-      { q: "The center of gravity of a semicircle lies along its:", options: ['Base', 'Arc', 'Axis of symmetry', 'Perimeter'], answer: 2 },
-      { q: "A process where no work is done is typically:", options: ['Isobaric', 'Isochoric', 'Isothermal', 'Adiabatic'], answer: 1 },
-      { q: "The safety valve in a boiler is used to:", options: ['Release excess pressure', 'Control fuel flow', 'Regulate temperature', 'Increase steam flow'], answer: 0 },
-      { q: "In orthographic projection, the top view shows:", options: ['Height and width', 'Width and depth', 'Height and depth', 'All dimensions'], answer: 1 },
-      { q: "The device that stores energy in a magnetic field is:", options: ['Capacitor', 'Inductor', 'Resistor', 'Transistor'], answer: 1 },
-      { q: "The ideal gas law relates pressure, volume, and:", options: ['Mass', 'Temperature', 'Density', 'Viscosity'], answer: 1 },
-      { q: "The force that opposes relative motion between surfaces is:", options: ['Gravitational force', 'Frictional force', 'Magnetic force', 'Centrifugal force'], answer: 1 },
-      { q: "The SI unit of frequency is:", options: ['Hertz', 'Watt', 'Joule', 'Newton'], answer: 0 },
-      { q: "The compression ratio in an engine affects its:", options: ['Efficiency', 'Weight', 'Speed', 'Cooling'], answer: 0 },
-      { q: "The cost associated with factory utilities is an example of:", options: ['Direct cost', 'Variable cost', 'Overhead cost', 'Fixed cost'], answer: 2 },
-      { q: "The center of gravity of a cone lies along its:", options: ['Base', 'Apex', 'Axis', 'Slant height'], answer: 2 },
-      { q: "A process with constant entropy is called:", options: ['Isentropic', 'Isothermal', 'Isobaric', 'Isochoric'], answer: 0 },
-      { q: "The component in a boiler that superheats steam is:", options: ['Economizer', 'Superheater', 'Feed pump', 'Air preheater'], answer: 1 },
-      { q: "In technical drawing, an auxiliary view is used to show:", options: ['True shape of inclined surfaces', '3D perspective', 'Hidden edges', 'Overall dimensions'], answer: 0 },
-      { q: "The device that amplifies electrical signals is:", options: ['Diode', 'Capacitor', 'Transistor', 'Resistor'], answer: 2 },
-      { q: "The specific heat of a substance is measured at constant:", options: ['Volume or pressure', 'Mass or density', 'Temperature or volume', 'Pressure or entropy'], answer: 0 },
-      { q: "The force per unit area is defined as:", options: ['Stress', 'Strain', 'Torque', 'Power'], answer: 0 },
-      { q: "The SI unit of magnetic flux is:", options: ['Tesla', 'Weber', 'Gauss', 'Henry'], answer: 1 },
-      { q: "The stroke in a four-stroke engine where gases are compressed is:", options: ['Intake', 'Compression', 'Power', 'Exhaust'], answer: 1 },
-      { q: "The cost of depreciation is considered a:", options: ['Variable cost', 'Direct cost', 'Fixed cost', 'Marginal cost'], answer: 2 },
-      { q: "The center of gravity of a sphere is at its:", options: ['Surface', 'Center', 'Equator', 'Pole'], answer: 1 },
-      { q: "A process where no mass crosses the system boundary is:", options: ['Open system', 'Closed system', 'Isolated system', 'Adiabatic system'], answer: 1 },
-      { q: "The fusible plug in a boiler prevents:", options: ['Overheating', 'Low water level', 'Excess steam', 'Fuel wastage'], answer: 1 },
-      { q: "In engineering drawing, a centerline indicates:", options: ['Symmetry or axis', 'Hidden edge', 'Visible edge', 'Dimension'], answer: 0 },
-      { q: "The device that rectifies alternating current to direct current is:", options: ['Capacitor', 'Diode', 'Inductor', 'Transformer'], answer: 1 }
+      { 
+        q: "The second law of thermodynamics introduces the concept of:", 
+        options: ['Entropy', 'Enthalpy', 'Internal energy', 'Gibbs free energy'], 
+        answer: 0,
+        explanation: "The second law of thermodynamics introduces entropy, a measure of disorder or unavailable energy in a system. Enthalpy is heat content, internal energy is total energy, and Gibbs free energy relates to spontaneity, but they are not introduced by this law."
+      },
+      { 
+        q: "The primary purpose of a governor in an engine is to:", 
+        options: ['Regulate speed', 'Increase torque', 'Reduce vibrations', 'Cool the system'], 
+        answer: 0,
+        explanation: "A governor regulates engine speed by controlling fuel or power supply under varying loads. It doesn’t increase torque, reduce vibrations, or cool the system, which are handled by other components."
+      },
+      { 
+        q: "The SI unit of energy is:", 
+        options: ['Watt', 'Joule', 'Newton', 'Pascal'], 
+        answer: 1,
+        explanation: "Joule is the SI unit of energy, equivalent to one Newton-meter. Watt is power, Newton is force, and Pascal is pressure."
+      },
+      { 
+        q: "In a four-stroke engine, the exhaust stroke occurs after:", 
+        options: ['Intake', 'Compression', 'Power', 'Ignition'], 
+        answer: 2,
+        explanation: "In a four-stroke engine, the exhaust stroke follows the power stroke (intake, compression, power, exhaust), expelling burnt gases. Ignition is part of the power stroke, not a separate stroke."
+      },
+      { 
+        q: "A cost that remains constant regardless of production level is:", 
+        options: ['Variable cost', 'Fixed cost', 'Marginal cost', 'Opportunity cost'], 
+        answer: 1,
+        explanation: "Fixed costs (e.g., rent) remain constant regardless of production. Variable costs change with output, marginal cost is additional cost per unit, and opportunity cost is the cost of forgone alternatives."
+      },
+      { 
+        q: "The centroid of a circle is located at its:", 
+        options: ['Edge', 'Center', 'Radius', 'Diameter'], 
+        answer: 1,
+        explanation: "The centroid (geometric center) of a circle is at its center, where all diameters intersect. Edge, radius, and diameter are not points but features of the circle."
+      },
+      { 
+        q: "A process where pressure remains constant is called:", 
+        options: ['Isothermal', 'Isobaric', 'Isochoric', 'Adiabatic'], 
+        answer: 1,
+        explanation: "An isobaric process maintains constant pressure. Isothermal is constant temperature, isochoric is constant volume, and adiabatic involves no heat transfer."
+      },
+      { 
+        q: "The primary fuel for a Cochran boiler is typically:", 
+        options: ['Coal', 'Natural gas', 'Diesel', 'Wood'], 
+        answer: 0,
+        explanation: "Cochran boilers, being vertical fire-tube boilers, typically use coal as the primary fuel due to its compact design and historical use. Natural gas, diesel, and wood are less common for this type."
+      },
+      { 
+        q: "In technical drawing, a section view is used to show:", 
+        options: ['External features', 'Internal details', '3D perspective', 'Scaled dimensions'], 
+        answer: 1,
+        explanation: "A section view cuts through an object to reveal internal details. External features are shown in standard views, 3D perspective in isometric views, and scaled dimensions in dimensioned drawings."
+      },
+      { 
+        q: "The device that converts electrical energy to mechanical energy is:", 
+        options: ['Generator', 'Motor', 'Transformer', 'Capacitor'], 
+        answer: 1,
+        explanation: "An electric motor converts electrical energy to mechanical energy via electromagnetic forces. Generators convert mechanical to electrical energy, transformers adjust voltage, and capacitors store energy."
+      },
+      { 
+        q: "The efficiency of a heat engine is maximum when it operates between:", 
+        options: ['Same temperatures', 'Large temperature difference', 'Low pressures', 'High volumes'], 
+        answer: 1,
+        explanation: "Per the Carnot principle, a heat engine’s efficiency increases with a larger temperature difference between the hot and cold reservoirs. Same temperatures yield zero efficiency, and pressure/volume are secondary factors."
+      },
+      { 
+        q: "The moment of inertia of an object depends on:", 
+        options: ['Mass distribution', 'Velocity', 'Temperature', 'Pressure'], 
+        answer: 0,
+        explanation: "Moment of inertia depends on mass distribution relative to the axis of rotation. Velocity, temperature, and pressure do not directly affect it."
+      },
+      { 
+        q: "The SI unit of torque is:", 
+        options: ['Newton-meter', 'Joule', 'Watt', 'Pascal'], 
+        answer: 0,
+        explanation: "Torque is measured in Newton-meters, representing force times distance. Joule is energy, Watt is power, and Pascal is pressure."
+      },
+      { 
+        q: "In a diesel engine, ignition occurs due to:", 
+        options: ['Spark plug', 'Compression', 'Fuel injection', 'Glow plug'], 
+        answer: 1,
+        explanation: "Diesel engines ignite fuel via high compression, heating the air to ignite injected fuel. Spark plugs are for petrol engines, fuel injection is a process, and glow plugs assist cold starts."
+      },
+      { 
+        q: "The point where total revenue equals total cost is called:", 
+        options: ['Profit margin', 'Break-even point', 'Loss threshold', 'Revenue peak'], 
+        answer: 1,
+        explanation: "The break-even point is where total revenue equals total cost, resulting in no profit or loss. Profit margin is profit percentage, loss threshold is not standard, and revenue peak is unrelated."
+      },
+      { 
+        q: "The center of gravity of a uniform rod lies at its:", 
+        options: ['One end', 'Midpoint', 'Quarter length', 'Entire length'], 
+        answer: 1,
+        explanation: "The center of gravity of a uniform rod is at its midpoint due to symmetric mass distribution. Other options do not represent the balance point."
+      },
+      { 
+        q: "A thermodynamic process with constant temperature is:", 
+        options: ['Isobaric', 'Isochoric', 'Isothermal', 'Adiabatic'], 
+        answer: 2,
+        explanation: "An isothermal process maintains constant temperature. Isobaric is constant pressure, isochoric is constant volume, and adiabatic involves no heat transfer."
+      },
+      { 
+        q: "The material commonly used for steam boiler tubes is:", 
+        options: ['Copper', 'Steel', 'Aluminum', 'Brass'], 
+        answer: 1,
+        explanation: "Steel is commonly used for steam boiler tubes due to its strength and heat resistance. Copper and brass are less durable under high pressure, and aluminum has lower strength."
+      },
+      { 
+        q: "In engineering drawing, a hidden line represents:", 
+        options: ['Visible edge', 'Invisible edge', 'Centerline', 'Dimension line'], 
+        answer: 1,
+        explanation: "A hidden line (dashed) represents edges not directly visible. Visible edges use solid lines, centerlines indicate symmetry, and dimension lines show measurements."
+      },
+      { 
+        q: "A device that regulates voltage in a circuit is:", 
+        options: ['Resistor', 'Capacitor', 'Transformer', 'Diode'], 
+        answer: 2,
+        explanation: "A transformer regulates voltage by stepping it up or down in AC circuits. Resistors limit current, capacitors store energy, and diodes control current direction."
+      },
+      { 
+        q: "The work done in an isochoric process is:", 
+        options: ['Zero', 'Maximum', 'Negative', 'Constant'], 
+        answer: 0,
+        explanation: "In an isochoric process (constant volume), no work is done since work requires volume change (W = PΔV). Maximum, negative, or constant work are incorrect."
+      },
+      { 
+        q: "The property that measures resistance to angular acceleration is:", 
+        options: ['Mass', 'Moment of inertia', 'Torque', 'Angular velocity'], 
+        answer: 1,
+        explanation: "Moment of inertia measures resistance to angular acceleration, depending on mass distribution. Mass is for linear acceleration, torque causes rotation, and angular velocity is the rate of rotation."
+      },
+      { 
+        q: "The SI unit of electrical resistance is:", 
+        options: ['Ohm', 'Volt', 'Ampere', 'Coulomb'], 
+        answer: 0,
+        explanation: "Ohm is the SI unit of electrical resistance. Volt is potential difference, Ampere is current, and Coulomb is charge."
+      },
+      { 
+        q: "In a two-stroke engine, power is produced in:", 
+        options: ['Every stroke', 'Every other stroke', 'Two strokes', 'Four strokes'], 
+        answer: 0,
+        explanation: "In a two-stroke engine, power is produced every stroke (one power stroke per crankshaft revolution). ‘Every other stroke’ applies to four-stroke engines, and the others are incorrect."
+      },
+      { 
+        q: "The cost of raw materials is considered a:", 
+        options: ['Fixed cost', 'Variable cost', 'Overhead cost', 'Sunk cost'], 
+        answer: 1,
+        explanation: "Raw material costs are variable costs, changing with production volume. Fixed costs remain constant, overhead costs are indirect, and sunk costs are non-recoverable."
+      },
+      { 
+        q: "The center of gravity of a semicircle lies along its:", 
+        options: ['Base', 'Arc', 'Axis of symmetry', 'Perimeter'], 
+        answer: 2,
+        explanation: "The center of gravity of a semicircle lies along its axis of symmetry, at a distance of 4r/(3π) from the base. Base, arc, and perimeter are not precise locations."
+      },
+      { 
+        q: "A process where no work is done is typically:", 
+        options: ['Isobaric', 'Isochoric', 'Isothermal', 'Adiabatic'], 
+        answer: 1,
+        explanation: "In an isochoric process (constant volume), no work is done (W = PΔV = 0). Isobaric, isothermal, and adiabatic processes may involve work."
+      },
+      { 
+        q: "The safety valve in a boiler is used to:", 
+        options: ['Release excess pressure', 'Control fuel flow', 'Regulate temperature', 'Increase steam flow'], 
+        answer: 0,
+        explanation: "A safety valve releases excess pressure to prevent boiler explosions. It doesn’t control fuel, regulate temperature, or increase steam flow."
+      },
+      { 
+        q: "In orthographic projection, the top view shows:", 
+        options: ['Height and width', 'Width and depth', 'Height and depth', 'All dimensions'], 
+        answer: 1,
+        explanation: "In orthographic projection, the top view shows width and depth. Height and width are in the front view, height and depth in the side view, and all dimensions require multiple views."
+      },
+      { 
+        q: "The device that stores energy in a magnetic field is:", 
+        options: ['Capacitor', 'Inductor', 'Resistor', 'Transistor'], 
+        answer: 1,
+        explanation: "An inductor stores energy in a magnetic field when current flows through it. Capacitors store energy in an electric field, resistors dissipate energy, and transistors amplify signals."
+      },
+      { 
+        q: "The ideal gas law relates pressure, volume, and:", 
+        options: ['Mass', 'Temperature', 'Density', 'Viscosity'], 
+        answer: 1,
+        explanation: "The ideal gas law (PV = nRT) relates pressure, volume, and temperature. Mass is indirectly involved via moles, while density and viscosity are not directly related."
+      },
+      { 
+        q: "The force that opposes relative motion between surfaces is:", 
+        options: ['Gravitational force', 'Frictional force', 'Magnetic force', 'Centrifugal force'], 
+        answer: 1,
+        explanation: "Frictional force opposes relative motion between surfaces. Gravitational force attracts masses, magnetic force acts on magnetic materials, and centrifugal force is a pseudo-force."
+      },
+      { 
+        q: "The SI unit of frequency is:", 
+        options: ['Hertz', 'Watt', 'Joule', 'Newton'], 
+        answer: 0,
+        explanation: "Hertz is the SI unit of frequency, measuring cycles per second. Watt is power, Joule is energy, and Newton is force."
+      },
+      { 
+        q: "The compression ratio in an engine affects its:", 
+        options: ['Efficiency', 'Weight', 'Speed', 'Cooling'], 
+        answer: 0,
+        explanation: "The compression ratio affects an engine’s thermal efficiency, with higher ratios improving fuel economy. It doesn’t directly affect weight, speed, or cooling."
+      },
+      { 
+        q: "The cost associated with factory utilities is an example of:", 
+        options: ['Direct cost', 'Variable cost', 'Overhead cost', 'Fixed cost'], 
+        answer: 2,
+        explanation: "Factory utilities are overhead costs, indirect expenses supporting production. Direct costs are traceable (e.g., materials), variable costs change with output, and fixed costs remain constant."
+      },
+      { 
+        q: "The center of gravity of a cone lies along its:", 
+        options: ['Base', 'Apex', 'Axis', 'Slant height'], 
+        answer: 2,
+        explanation: "The center of gravity of a cone lies along its axis, at one-fourth of the height from the base. Base and apex are endpoints, and slant height is a surface feature."
+      },
+      { 
+        q: "A process with constant entropy is called:", 
+        options: ['Isentropic', 'Isothermal', 'Isobaric', 'Isochoric'], 
+        answer: 0,
+        explanation: "An isentropic process maintains constant entropy, often idealized in reversible adiabatic processes. Isothermal, isobaric, and isochoric processes involve constant temperature, pressure, and volume, respectively."
+      },
+      { 
+        q: "The component in a boiler that superheats steam is:", 
+        options: ['Economizer', 'Superheater', 'Feed pump', 'Air preheater'], 
+        answer: 1,
+        explanation: "The superheater heats steam above its saturation temperature, improving efficiency. Economizers preheat water, feed pumps supply water, and air preheaters heat combustion air."
+      },
+      { 
+        q: "In technical drawing, an auxiliary view is used to show:", 
+        options: ['True shape of inclined surfaces', '3D perspective', 'Hidden edges', 'Overall dimensions'], 
+        answer: 0,
+        explanation: "An auxiliary view shows the true shape of inclined surfaces not aligned with standard views. 3D perspective is for isometric views, hidden edges use dashed lines, and dimensions are shown in standard views."
+      },
+      { 
+        q: "The device that amplifies electrical signals is:", 
+        options: ['Diode', 'Capacitor', 'Transistor', 'Resistor'], 
+        answer: 2,
+        explanation: "A transistor amplifies electrical signals by controlling current flow. Diodes rectify current, capacitors store energy, and resistors limit current."
+      },
+      { 
+        q: "The specific heat of a substance is measured at constant:", 
+        options: ['Volume or pressure', 'Mass or density', 'Temperature or volume', 'Pressure or entropy'], 
+        answer: 0,
+        explanation: "Specific heat is measured at constant volume (C_v) or constant pressure (C_p). Mass, density, temperature, volume, or entropy are not the standard conditions."
+      },
+      { 
+        q: "The force per unit area is defined as:", 
+        options: ['Stress', 'Strain', 'Torque', 'Power'], 
+        answer: 0,
+        explanation: "Stress is force per unit area, either normal or shear. Strain is deformation, torque is rotational force, and power is energy per unit time."
+      },
+      { 
+        q: "The SI unit of magnetic flux is:", 
+        options: ['Tesla', 'Weber', 'Gauss', 'Henry'], 
+        answer: 1,
+        explanation: "Weber is the SI unit of magnetic flux. Tesla measures magnetic field strength, Gauss is a CGS unit, and Henry is inductance."
+      },
+      { 
+        q: "The stroke in a four-stroke engine where gases are compressed is:", 
+        options: ['Intake', 'Compression', 'Power', 'Exhaust'], 
+        answer: 1,
+        explanation: "The compression stroke (second stroke) in a four-stroke engine compresses the air-fuel mixture. Intake draws in the mixture, power is combustion, and exhaust expels gases."
+      },
+      { 
+        q: "The cost of depreciation is considered a:", 
+        options: ['Variable cost', 'Direct cost', 'Fixed cost', 'Marginal cost'], 
+        answer: 2,
+        explanation: "Depreciation is a fixed cost, allocated over time for asset wear, not varying with production. Variable costs change with output, direct costs are traceable, and marginal costs are per-unit increases."
+      },
+      { 
+        q: "The center of gravity of a sphere is at its:", 
+        options: ['Surface', 'Center', 'Equator', 'Pole'], 
+        answer: 1,
+        explanation: "The center of gravity of a sphere is at its center due to uniform mass distribution. Surface, equator, and pole are not central points."
+      },
+      { 
+        q: "A process where no mass crosses the system boundary is:", 
+        options: ['Open system', 'Closed system', 'Isolated system', 'Adiabatic system'], 
+        answer: 1,
+        explanation: "A closed system allows energy but no mass transfer across its boundary. Open systems allow both, isolated systems allow neither, and adiabatic systems prevent heat transfer."
+      },
+      { 
+        q: "The fusible plug in a boiler prevents:", 
+        options: ['Overheating', 'Low water level', 'Excess steam', 'Fuel wastage'], 
+        answer: 1,
+        explanation: "A fusible plug melts at high temperatures due to low water levels, releasing pressure to prevent boiler damage. It doesn’t directly address overheating, excess steam, or fuel wastage."
+      },
+      { 
+        q: "In engineering drawing, a centerline indicates:", 
+        options: ['Symmetry or axis', 'Hidden edge', 'Visible edge', 'Dimension'], 
+        answer: 0,
+        explanation: "A centerline indicates symmetry or an axis of rotation. Hidden edges use dashed lines, visible edges use solid lines, and dimensions are shown with dimension lines."
+      },
+      { 
+        q: "The device that rectifies alternating current to direct current is:", 
+        options: ['Capacitor', 'Diode', 'Inductor', 'Transformer'], 
+        answer: 1,
+        explanation: "A diode rectifies AC to DC by allowing current in one direction. Capacitors store energy, inductors store energy in magnetic fields, and transformers adjust AC voltage."
+      }
     ];
 
     let currentPage = 0;
@@ -284,7 +549,7 @@
 
     // Load progress from localStorage
     function loadProgress() {
-      const saved = localStorage.getItem("quizProgress");
+      const saved = localStorage.getItem("quizProgress3");
       if (saved) {
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
         currentPage = savedPage || 0;
@@ -292,18 +557,12 @@
         skipped = savedSkipped || [];
         userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
-      } else {
-        currentPage = 0;
-        score = 0;
-        skipped = [];
-        userAnswers = Array(questions.length).fill(null);
-        timerSeconds = 0;
       }
     }
 
     // Save progress to localStorage
     function saveProgress() {
-      localStorage.setItem("quizProgress", JSON.stringify({
+      localStorage.setItem("quizProgress3", JSON.stringify({
         currentPage,
         score,
         skipped,
@@ -370,6 +629,7 @@
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -402,8 +662,16 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
@@ -414,6 +682,13 @@
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
       checkNextButton();
     }
@@ -466,18 +741,17 @@
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
 
       // Clear localStorage
-      localStorage.removeItem("quizProgress");
+      localStorage.removeItem("quizProgress3");
     }
 
     // Initialize
-    console.log("Initial state:", { currentPage, score, skipped, userAnswers, timerSeconds });
     loadProgress();
-    console.log("After loadProgress:", { currentPage, score, skipped, userAnswers, timerSeconds });
     startTimer();
     showQuestions(currentPage);
   </script>
