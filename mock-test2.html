@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -171,6 +172,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +189,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -200,6 +214,7 @@
             <th>Your Answer</th>
             <th>Correct Answer</th>
             <th>Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -211,58 +226,309 @@
   <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
 
   <script>
-const questions = [
-  { q: "Velocity is defined as:", options: ["Distance covered per unit time", "Displacement covered per unit time", "Speed per second", "Distance per second"], answer: 1 },
-  { q: "SI Unit of force is:", options: ["Dyne", "Newton", "Joule", "Watt"], answer: 1 },
-  { q: "Watt is SI unit of:", options: ["Distance", "Power", "Torque", "Force"], answer: 1 },
-  { q: "Energy can neither be created nor destroyed. This is:", options: ["1st law of thermodynamics", "2nd law of thermodynamics", "Zeroth law", "Newton’s 3rd law"], answer: 0 },
-  { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Coplanar force", "Moment", "Torque", "Force"], answer: 2 },
-  { q: "The linear acceleration of a rotating body is:", options: ["a = α r²", "a = r × α", "a = ω²r", "a = r/α"], answer: 1 },
-  { q: "The maximum frictional force experienced when a body just begins to slide is:", options: ["Dynamic friction", "Static friction", "Kinetic friction", "Limiting friction"], answer: 3 },
-  { q: "The center of gravity of triangle lies at:", options: ["Intersection of angle bisectors", "Concurrence of the medians", "Centroid of base", "Circumcenter"], answer: 1 },
-  { q: "Projection of an object shown by three views is:", options: ["Isometric", "Orthographic", "Oblique", "Axonometric"], answer: 1 },
-  { q: "Hooke’s law states:", options: ["Stress is inversely proportional to strain", "Stress is directly proportional to strain", "Stress equals strain squared", "Stress equals strain cubed"], answer: 1 },
-  { q: "The breakeven point is the point where:", options: ["Fixed and variable cost lines intersect", "Profit begins", "Loss is maximum", "All costs are zero"], answer: 1 },
-  { q: "The radial component of velocity for a particle moving in a circular path is:", options: ["Zero", "Variable", "Constant", "Infinite"], answer: 0 },
-  { q: "A force is completely defined when we specify:", options: ["Point of application", "Direction", "Magnitude", "All of the above"], answer: 3 },
-  { q: "The purpose of transmission in an automobile is:", options: ["To control speed only", "To vary torque at road wheels", "To provide suspension", "To apply brakes"], answer: 2 },
-  { q: "In a couple, the lines of action of the forces are:", options: ["Parallel", "Perpendicular", "Converging", "Diverging"], answer: 0 },
-  { q: "What is Boyle’s law:", options: ["PV = Constant", "P/T = Constant", "V/T = Constant", "None"], answer: 0 },
-  { q: "Which of the following is not a scalar quantity:", options: ["Time", "Distance", "Acceleration", "Speed"], answer: 2 },
-  { q: "A rigid body is in a stable equilibrium if:", options: ["CG is raised by small displacement", "CG is lowered", "Moment is increased", "Inertia is increased"], answer: 0 },
-  { q: "Coefficient of friction depends upon:", options: ["Mass", "Area", "Nature of surfaces", "Weight"], answer: 2 },
-  { q: "In actual machines mechanical advantage is:", options: ["Less than velocity ratio", "More than velocity ratio", "Equal", "Zero"], answer: 0 },
-  { q: "Joule is the unit of:", options: ["Energy", "Power", "Force", "Torque"], answer: 0 },
-  { q: "Dyne is a unit of:", options: ["Force in CGS system", "Work", "Energy", "Momentum"], answer: 0 },
-  { q: "The motion of a wheel of a car is:", options: ["Purely translational", "Rotational", "Combined", "None"], answer: 2 },
-  { q: "Newton’s 2nd law of motion is:", options: ["F = ma", "F = mv", "F = m + a", "F = ma²"], answer: 0 },
-  { q: "The unit of pressure is:", options: ["Pascal", "Newton", "Watt", "Joule"], answer: 0 },
-  { q: "Fixed cost is:", options: ["Independent of production", "Varies with output", "Directly proportional to profit", "None"], answer: 0 },
-  { q: "The force of friction which exists when the body is in motion is:", options: ["Static", "Dynamic", "Rolling", "Kinetic"], answer: 3 },
-  { q: "To every action there is equal and opposite reaction is:", options: ["Newton’s 3rd law", "1st law", "2nd law", "Law of inertia"], answer: 0 },
-  { q: "The purpose of governor in IC engine is:", options: ["To maintain speed", "Reduce fuel", "Change gear", "None"], answer: 0 },
-  { q: "In four stroke engine, power stroke occurs in:", options: ["Every 2nd stroke", "Every stroke", "First stroke", "3rd stroke"], answer: 3 },
-  { q: "Which is not a vector quantity:", options: ["Speed", "Velocity", "Acceleration", "Momentum"], answer: 0 },
-  { q: "Unit of work is:", options: ["Joule", "Watt", "Newton", "Pascal"], answer: 0 },
-  { q: "C.G. of cone lies at:", options: ["1/4 height", "1/3 height", "Mid height", "Top"], answer: 0 },
-  { q: "Which of these is a permanent joint:", options: ["Weld", "Nut & bolt", "Key", "Spline"], answer: 0 },
-  { q: "Which of these is NOT a type of fit:", options: ["Clearance", "Interference", "Transition", "Loose"], answer: 3 },
-  { q: "Which valve is larger in IC engine:", options: ["Inlet", "Exhaust", "Equal", "None"], answer: 0 },
-  { q: "Which gas is commonly used in boilers:", options: ["LPG", "CNG", "CO2", "Steam"], answer: 0 },
-  { q: "Purpose of fusible plug in boiler:", options: ["Avoid explosion", "Generate pressure", "Circulate steam", "Check level"], answer: 0 },
-  { q: "Centrifugal pump works on principle of:", options: ["Centrifugal force", "Bernoulli’s", "Pascal’s", "Archimedes"], answer: 0 },
-  { q: "Steam pressure is measured using:", options: ["Bourdon gauge", "Thermometer", "U tube", "Manometer"], answer: 0 },
-  { q: "Steam trap is used for:", options: ["Remove condensate", "Generate heat", "Store steam", "Boost pressure"], answer: 0 },
-  { q: "Work done =:", options: ["Force × Distance", "Mass × Acceleration", "Pressure × Area", "Power × Time"], answer: 0 },
-  { q: "Speed ratio of belt drive is:", options: ["Driver/Driven", "Driven/Driver", "Driven × Driver", "Driver + Driven"], answer: 1 },
-  { q: "Gear used for non-parallel shafts:", options: ["Bevel gear", "Spur gear", "Helical", "Worm"], answer: 0 },
-  { q: "S.I. unit of density:", options: ["kg/m³", "g/cm³", "N/m²", "kg/m"], answer: 0 },
-  { q: "Thermocouple is used for:", options: ["Temperature measurement", "Pressure", "Flow", "Level"], answer: 0 },
-  { q: "Work done in adiabatic process is:", options: ["PdV", "Zero", "dQ", "VdP"], answer: 0 },
-  { q: "Which one is heat engine:", options: ["IC engine", "Pump", "Motor", "Compressor"], answer: 0 },
-  { q: "Heat is transferred by:", options: ["Conduction", "Convection", "Radiation", "All of the above"], answer: 3 },
-  { q: "Which view shows interior details:", options: ["Sectional view", "Front view", "Top view", "Side view"], answer: 0 }
-];
+    const questions = [
+      { 
+        q: "Velocity is defined as:", 
+        options: ["Distance covered per unit time", "Displacement covered per unit time", "Speed per second", "Distance per second"], 
+        answer: 1,
+        explanation: "Velocity is a vector quantity defined as displacement (change in position) per unit time. Distance per unit time is speed (scalar), speed per second is acceleration, and distance per second is not a standard definition."
+      },
+      { 
+        q: "SI Unit of force is:", 
+        options: ["Dyne", "Newton", "Joule", "Watt"], 
+        answer: 1,
+        explanation: "Newton is the SI unit of force, defined as the force required to accelerate a 1 kg mass by 1 m/s². Dyne is a CGS unit, Joule is energy, and Watt is power."
+      },
+      { 
+        q: "Watt is SI unit of:", 
+        options: ["Distance", "Power", "Torque", "Force"], 
+        answer: 1,
+        explanation: "Watt is the SI unit of power, defined as one joule per second. Distance is measured in meters, torque in Newton-meters, and force in Newtons."
+      },
+      { 
+        q: "Energy can neither be created nor destroyed. This is:", 
+        options: ["1st law of thermodynamics", "2nd law of thermodynamics", "Zeroth law", "Newton’s 3rd law"], 
+        answer: 0,
+        explanation: "The first law of thermodynamics states that energy cannot be created or destroyed, only converted between forms. The second law involves entropy, the zeroth law defines thermal equilibrium, and Newton’s third law is about action-reaction."
+      },
+      { 
+        q: "An attempt to turn a key into a lock manifests in the application of:", 
+        options: ["Coplanar force", "Moment", "Torque", "Force"], 
+        answer: 2,
+        explanation: "Turning a key applies torque, a rotational force (also called moment) caused by force at a distance from the pivot. Coplanar force is unrelated, moment is synonymous, and force alone doesn’t specify rotation."
+      },
+      { 
+        q: "The linear acceleration of a rotating body is:", 
+        options: ["a = α r²", "a = r × α", "a = ω²r", "a = r/α"], 
+        answer: 1,
+        explanation: "Linear (tangential) acceleration of a rotating body is a = r × α, where r is the radius and α is angular acceleration. a = ω²r is centripetal acceleration, and the others are incorrect."
+      },
+      { 
+        q: "The maximum frictional force experienced when a body just begins to slide is:", 
+        options: ["Dynamic friction", "Static friction", "Kinetic friction", "Limiting friction"], 
+        answer: 3,
+        explanation: "Limiting friction is the maximum static frictional force just before a body begins to slide. Static friction is the general term, kinetic/dynamic friction applies during motion."
+      },
+      { 
+        q: "The center of gravity of triangle lies at:", 
+        options: ["Intersection of angle bisectors", "Concurrence of the medians", "Centroid of base", "Circumcenter"], 
+        answer: 1,
+        explanation: "The center of gravity of a triangle is at the concurrence of the medians (centroid). Angle bisectors meet at the incenter, circumcenter is for the circumcircle, and centroid of base is not a standard term."
+      },
+      { 
+        q: "Projection of an object shown by three views is:", 
+        options: ["Isometric", "Orthographic", "Oblique", "Axonometric"], 
+        answer: 1,
+        explanation: "Orthographic projection shows an object in three views (front, top, side) using parallel projections. Isometric and axonometric are 3D, and oblique uses angled projections."
+      },
+      { 
+        q: "Hooke’s law states:", 
+        options: ["Stress is inversely proportional to strain", "Stress is directly proportional to strain", 
+                  "Stress equals strain squared", "Stress equals strain cubed"], 
+        answer: 1,
+        explanation: "Hooke’s law states that stress is directly proportional to strain within the elastic limit. The other options misrepresent this relationship."
+      },
+      { 
+        q: "The breakeven point is the point where:", 
+        options: ["Fixed and variable cost lines intersect", "Profit begins", "Loss is maximum", "All costs are zero"], 
+        answer: 1,
+        explanation: "The breakeven point is where total revenue equals total costs (fixed plus variable), marking the start of profit. Costs are not zero, losses aren’t maximized, and cost lines don’t intersect."
+      },
+      { 
+        q: "The radial component of velocity for a particle moving in a circular path is:", 
+        options: ["Zero", "Variable", "Constant", "Infinite"], 
+        answer: 0,
+        explanation: "In uniform circular motion, the radial (centripetal) component of velocity is zero, as velocity is tangential. The other options do not apply to uniform circular motion."
+      },
+      { 
+        q: "A force is completely defined when we specify:", 
+        options: ["Point of application", "Direction", "Magnitude", "All of the above"], 
+        answer: 3,
+        explanation: "A force is fully defined by its magnitude, direction, and point of application (including line of action). All parameters are necessary."
+      },
+      { 
+        q: "The purpose of transmission in an automobile is:", 
+        options: ["To control speed only", "To vary torque at road wheels", "To provide suspension", "To apply brakes"], 
+        answer: 2,
+        explanation: "The transmission varies torque and speed at the road wheels, enabling efficient power transfer. It doesn’t control suspension or brakes, and torque variation is broader than speed control alone."
+      },
+      { 
+        q: "In a couple, the lines of action of the forces are:", 
+        options: ["Parallel", "Perpendicular", "Converging", "Diverging"], 
+        answer: 0,
+        explanation: "A couple consists of two equal, opposite forces with parallel lines of action, producing rotation. Perpendicular, converging, or diverging forces do not form a couple."
+      },
+      { 
+        q: "What is Boyle’s law:", 
+        options: ["PV = Constant", "P/T = Constant", "V/T = Constant", "None"], 
+        answer: 0,
+        explanation: "Boyle’s law states that for a fixed amount of gas at constant temperature, pressure (P) times volume (V) is constant (PV = constant). The other options represent different gas laws."
+      },
+      { 
+        q: "Which of the following is not a scalar quantity:", 
+        options: ["Time", "Distance", "Acceleration", "Speed"], 
+        answer: 2,
+        explanation: "Acceleration is a vector quantity with magnitude and direction. Time, distance, and speed are scalars, having only magnitude."
+      },
+      { 
+        q: "A rigid body is in a stable equilibrium if:", 
+        options: ["CG is raised by small displacement", "CG is lowered", "Moment is increased", "Inertia is increased"], 
+        answer: 0,
+        explanation: "A body is in stable equilibrium if a small displacement raises its center of gravity (CG), causing it to return to its original position. Lowering CG indicates instability, and moment/inertia changes are unrelated."
+      },
+      { 
+        q: "Coefficient of friction depends upon:", 
+        options: ["Mass", "Area", "Nature of surfaces", "Weight"], 
+        answer: 2,
+        explanation: "The coefficient of friction depends on the nature of the surfaces in contact (material and roughness). Mass and weight affect frictional force, not the coefficient, and area is irrelevant for dry friction."
+      },
+      { 
+        q: "In actual machines mechanical advantage is:", 
+        options: ["Less than velocity ratio", "More than velocity ratio", "Equal", "Zero"], 
+        answer: 0,
+        explanation: "Mechanical advantage (MA) is less than velocity ratio (VR) in actual machines due to losses like friction. MA equals VR only in ideal machines, and it’s never zero or greater."
+      },
+      { 
+        q: "Joule is the unit of:", 
+        options: ["Energy", "Power", "Force", "Torque"], 
+        answer: 0,
+        explanation: "Joule is the SI unit of energy, including work and heat. Power is in watts, force in Newtons, and torque in Newton-meters."
+      },
+      { 
+        q: "Dyne is a unit of:", 
+        options: ["Force in CGS system", "Work", "Energy", "Momentum"], 
+        answer: 0,
+        explanation: "Dyne is the CGS unit of force, causing a 1-gram mass to accelerate at 1 cm/s². Work and energy are in ergs, and momentum is in gram-cm/s in CGS."
+      },
+      { 
+        q: "The motion of a wheel of a car is:", 
+        options: ["Purely translational", "Rotational", "Combined", "None"], 
+        answer: 2,
+        explanation: "A car wheel undergoes combined translational (moving forward) and rotational (spinning) motion. Purely translational or rotational alone does not describe rolling."
+      },
+      { 
+        q: "Newton’s 2nd law of motion is:", 
+        options: ["F = ma", "F = mv", "F = m + a", "F = ma²"], 
+        answer: 0,
+        explanation: "Newton’s second law states that force (F) equals mass (m) times acceleration (a), or F = ma. The other options misrepresent this relationship."
+      },
+      { 
+        q: "The unit of pressure is:", 
+        options: ["Pascal", "Newton", "Watt", "Joule"], 
+        answer: 0,
+        explanation: "Pascal is the SI unit of pressure, defined as one Newton per square meter. Newton is force, Watt is power, and Joule is energy."
+      },
+      { 
+        q: "Fixed cost is:", 
+        options: ["Independent of production", "Varies with output", "Directly proportional to profit", "None"], 
+        answer: 0,
+        explanation: "Fixed costs (e.g., rent) remain constant regardless of production output. Variable costs change with output, and costs aren’t directly tied to profit."
+      },
+      { 
+        q: "The force of friction which exists when the body is in motion is:", 
+        options: ["Static", "Dynamic", "Rolling", "Kinetic"], 
+        answer: 3,
+        explanation: "Kinetic (or dynamic) friction acts when a body is in motion. Static friction applies before motion, and rolling friction is specific to rolling objects."
+      },
+      { 
+        q: "To every action there is equal and opposite reaction is:", 
+        options: ["Newton’s 3rd law", "1st law", "2nd law", "Law of inertia"], 
+        answer: 0,
+        explanation: "Newton’s third law states that for every action, there is an equal and opposite reaction. The first law is inertia, the second is F = ma, and ‘law of inertia’ refers to the first."
+      },
+      { 
+        q: "The purpose of governor in IC engine is:", 
+        options: ["To maintain speed", "Reduce fuel", "Change gear", "None"], 
+        answer: 0,
+        explanation: "A governor in an IC engine maintains constant speed by regulating fuel supply under varying loads. It doesn’t reduce fuel, change gears, or have no function."
+      },
+      { 
+        q: "In four stroke engine, power stroke occurs in:", 
+        options: ["Every 2nd stroke", "Every stroke", "First stroke", "3rd stroke"], 
+        answer: 3,
+        explanation: "In a four-stroke engine, the power stroke is the third stroke (intake, compression, power, exhaust), where combustion drives the piston. It occurs once every two crankshaft revolutions."
+      },
+      { 
+        q: "Which is not a vector quantity:", 
+        options: ["Speed", "Velocity", "Acceleration", "Momentum"], 
+        answer: 0,
+        explanation: "Speed is a scalar quantity with only magnitude. Velocity, acceleration, and momentum are vectors, having both magnitude and direction."
+      },
+      { 
+        q: "Unit of work is:", 
+        options: ["Joule", "Watt", "Newton", "Pascal"], 
+        answer: 0,
+        explanation: "Joule is the SI unit of work (and energy), defined as one Newton-meter. Watt is power, Newton is force, and Pascal is pressure."
+      },
+      { 
+        q: "C.G. of cone lies at:", 
+        options: ["1/4 height", "1/3 height", "Mid height", "Top"], 
+        answer: 0,
+        explanation: "The center of gravity of a solid cone lies at one-fourth of its height from the base along the axis. The other options do not match this location."
+      },
+      { 
+        q: "Which of these is a permanent joint:", 
+        options: ["Weld", "Nut & bolt", "Key", "Spline"], 
+        answer: 0,
+        explanation: "A weld is a permanent joint, fusing materials together. Nut and bolt, key, and spline are detachable or semi-permanent joints."
+      },
+      { 
+        q: "Which of these is NOT a type of fit:", 
+        options: ["Clearance", "Interference", "Transition", "Loose"], 
+        answer: 3,
+        explanation: "Clearance, interference, and transition are types of fits in engineering. 'Loose' is not a standard fit type, though it may describe a clearance fit informally."
+      },
+      { 
+        q: "Which valve is larger in IC engine:", 
+        options: ["Inlet", "Exhaust", "Equal", "None"], 
+        answer: 0,
+        explanation: "The inlet valve in an IC engine is typically larger to allow more air-fuel mixture intake, improving efficiency. Exhaust valves are smaller, and sizes aren’t equal."
+      },
+      { 
+        q: "Which gas is commonly used in boilers:", 
+        options: ["LPG", "CNG", "CO2", "Steam"], 
+        answer: 0,
+        explanation: "LPG (liquefied petroleum gas) is commonly used as a fuel in boilers. CNG is less common, CO2 is a byproduct, and steam is the output, not a fuel."
+      },
+      { 
+        q: "Purpose of fusible plug in boiler:", 
+        options: ["Avoid explosion", "Generate pressure", "Circulate steam", "Check level"], 
+        answer: 0,
+        explanation: "A fusible plug melts at high temperatures to release pressure, preventing boiler explosions. It doesn’t generate pressure, circulate steam, or check levels."
+      },
+      { 
+        q: "Centrifugal pump works on principle of:", 
+        options: ["Centrifugal force", "Bernoulli’s", "Pascal’s", "Archimedes"], 
+        answer: 0,
+        explanation: "A centrifugal pump uses centrifugal force to impart kinetic energy to the fluid, increasing its velocity and pressure. The other principles apply to different systems."
+      },
+      { 
+        q: "Steam pressure is measured using:", 
+        options: ["Bourdon gauge", "Thermometer", "U tube", "Manometer"], 
+        answer: 0,
+        explanation: "A Bourdon gauge measures steam pressure in boilers. Thermometers measure temperature, U-tubes and manometers are used for low-pressure or differential measurements."
+      },
+      { 
+        q: "Steam trap is used for:", 
+        options: ["Remove condensate", "Generate heat", "Store steam", "Boost pressure"], 
+        answer: 0,
+        explanation: "A steam trap removes condensate (liquid water) from steam systems to maintain efficiency. It doesn’t generate heat, store steam, or boost pressure."
+      },
+      { 
+        q: "Work done =:", 
+        options: ["Force × Distance", "Mass × Acceleration", "Pressure × Area", "Power × Time"], 
+        answer: 0,
+        explanation: "Work done is force times distance in the direction of the force (W = F × d). Mass × acceleration is force, pressure × area is force, and power × time is energy."
+      },
+      { 
+        q: "Speed ratio of belt drive is:", 
+        options: ["Driver/Driven", "Driven/Driver", "Driven × Driver", "Driver + Driven"], 
+        answer: 1,
+        explanation: "The speed ratio of a belt drive is the speed of the driven pulley divided by the driver pulley’s speed (Driven/Driver). The other options are incorrect."
+      },
+      { 
+        q: "Gear used for non-parallel shafts:", 
+        options: ["Bevel gear", "Spur gear", "Helical", "Worm"], 
+        answer: 0,
+        explanation: "Bevel gears are used for non-parallel, intersecting shafts. Spur and helical gears are for parallel shafts, and worm gears are for non-parallel, non-intersecting shafts."
+      },
+      { 
+        q: "S.I. unit of density:", 
+        options: ["kg/m³", "g/cm³", "N/m²", "kg/m"], 
+        answer: 0,
+        explanation: "The SI unit of density is kg/m³. g/cm³ is a CGS unit, N/m² is pressure, and kg/m is not a density unit."
+      },
+      { 
+        q: "Thermocouple is used for:", 
+        options: ["Temperature measurement", "Pressure", "Flow", "Level"], 
+        answer: 0,
+        explanation: "A thermocouple measures temperature by generating a voltage based on temperature differences. It doesn’t measure pressure, flow, or level."
+      },
+      { 
+        q: "Work done in adiabatic process is:", 
+        options: ["PdV", "Zero", "dQ", "VdP"], 
+        answer: 0,
+        explanation: "In an adiabatic process, work done is given by ∫PdV, as no heat is exchanged (dQ = 0). Zero work is incorrect, dQ is heat, and VdP is not standard."
+      },
+      { 
+        q: "Which one is heat engine:", 
+        options: ["IC engine", "Pump", "Motor", "Compressor"], 
+        answer: 0,
+        explanation: "An internal combustion (IC) engine is a heat engine, converting heat from fuel combustion into mechanical work. Pumps, motors, and compressors are not heat engines."
+      },
+      { 
+        q: "Heat is transferred by:", 
+        options: ["Conduction", "Convection", "Radiation", "All of the above"], 
+        answer: 3,
+        explanation: "Heat is transferred by conduction (through solids), convection (through fluids), and radiation (through electromagnetic waves). All methods apply."
+      },
+      { 
+        q: "Which view shows interior details:", 
+        options: ["Sectional view", "Front view", "Top view", "Side view"], 
+        answer: 0,
+        explanation: "A sectional view cuts through an object to show interior details. Front, top, and side views show external surfaces only."
+      }
+    ];
 
     let currentPage = 0;
     let score = 0;
@@ -271,7 +537,7 @@ const questions = [
     let timerSeconds = 0;
     let timerInterval;
     const QUESTIONS_PER_PAGE = 5;
-    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+    const ANSWER_DELAY = 1500;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -287,10 +553,10 @@ const questions = [
       const saved = localStorage.getItem("quizProgress2");
       if (saved) {
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        currentPage = savedPage;
-        score = savedScore;
-        skipped = savedSkipped;
-        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        currentPage = savedPage || 0;
+        score = savedScore || 0;
+        skipped = savedSkipped || [];
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
       }
     }
@@ -320,6 +586,10 @@ const questions = [
 
     // Start timer
     function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -330,8 +600,19 @@ const questions = [
 
     // Update progress bar
     function updateProgress() {
-      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      const answeredOrSkipped = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answeredOrSkipped / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
+    }
+
+    // Escape special characters for JavaScript string
+    function escapeJsString(str) {
+      return str
+        .replace(/'/g, "\\'")
+        .replace(/\u2212/g, '-') // Mathematical minus to hyphen
+        .replace(/ᵥ/g, 'v')
+        .replace(/ₚ/g, 'p')
+        .replace(/\u2019/g, "'"); // Curly apostrophe to straight
     }
 
     // Show questions for the current page
@@ -343,12 +624,13 @@ const questions = [
         const q = shuffledQuestions[i];
         const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
         const options = shuffledOptions
-          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeJsString(opt.text)}')">${opt.text}</button>`)
           .join('');
         html += `
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -381,18 +663,33 @@ const questions = [
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(shuffledQuestions[questionIndex])) {
-        skipped.push(shuffledQuestions[questionIndex]);
+      if (!skipped.includes(questionIndex)) {
+        skipped.push(questionIndex);
         userAnswers[questionIndex] = "Skipped";
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
       checkNextButton();
     }
@@ -445,6 +742,7 @@ const questions = [
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
