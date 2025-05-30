@@ -4,163 +4,260 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>नेपाल लोक सेवा आयोग MCQ परीक्षा</title>
+  <link href="https://fonts.googleapis.com/css2?family=Preeti:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Preeti', Arial, sans-serif;
       background: linear-gradient(to right, #f8ffae, #43c6ac);
       margin: 0;
       padding: 2rem;
       color: #333;
       min-height: 100vh;
+      line-height: 1.6;
     }
 
     .quiz-container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: auto;
       background: #fff;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .quiz-container:hover {
+      transform: translateY(-5px);
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       color: #1e88e5;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     h2.section-title {
       color: #d81b60;
-      margin-top: 2rem;
+      margin: 2rem 0 1rem;
       border-bottom: 2px solid #eee;
       padding-bottom: 0.5rem;
+      font-size: 1.8rem;
     }
 
     .question {
-      margin-bottom: 1.5rem;
-      animation: fadeIn 0.5s;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .question:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .question p {
-      font-weight: bold;
-      font-size: 1.1rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #2d3748;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
     .options button {
-      display: block;
-      margin: 0.5rem 0;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem 1.25rem;
       width: 100%;
       background: #e3f2fd;
-      border: none;
-      border-radius: 5px;
+      border: 2px solid #bee3f8;
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
       font-size: 1rem;
+      text-align: left;
     }
 
-    .options button:hover {
+    .options button:hover:not(.disabled) {
       background: #bbdefb;
-      transform: translateX(5px);
+      border-color: #90cdf4;
+      transform: translateX(4px);
+    }
+
+    .options button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.5);
     }
 
     .correct {
-      background-color: #66bb6a !important; /* Green for correct answer */
-      color: #fff; /* White text for contrast */
+      background: #c6f6d5 !important;
+      border-color: #68d391 !important;
+      color: #22543d;
       animation: pulse 0.5s;
     }
 
     .wrong {
-      background-color: #ffcdd2 !important; /* Red for wrong answer */
+      background: #fed7d7 !important;
+      border-color: #f56565 !important;
+      color: #742a2a;
       animation: shake 0.3s;
+    }
+
+    .disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
     }
 
     @keyframes pulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      50% { transform: scale(1.03); }
       100% { transform: scale(1); }
     }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
     }
 
     .progress-bar {
       width: 100%;
-      height: 10px;
-      background: #eee;
-      border-radius: 5px;
-      margin-bottom: 1rem;
+      height: 12px;
+      background: #edf2f7;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
       overflow: hidden;
+      border: 1px solid #e2e8f0;
     }
 
     .progress {
       height: 100%;
-      background: #42a5f5;
-      transition: width 0.3s;
+      background: linear-gradient(to right, #42a5f5, #1e88e5);
+      border-radius: 6px;
+      transition: width 0.4s ease-in-out;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: #c53030;
+      font-weight: 600;
     }
 
     #score, #results {
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       margin-top: 2rem;
-      font-weight: bold;
+      font-weight: 700;
+      color: #2d3748;
     }
 
     .results-table {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
     }
 
     .results-table th, .results-table td {
-      border: 1px solid #ddd;
-      padding: 0.5rem;
+      border: 1px solid #e2e8f0;
+      padding: 1rem;
       text-align: left;
     }
 
     .results-table th {
-      background: #f5f5f5;
+      background: #edf2f7;
+      font-weight: 600;
+      color: #2d3748;
     }
+
+    .results-table td.correct { color: #2f855a; font-weight: 600; }
+    .results-table td.wrong { color: #c53030; font-weight: 600; }
+    .results-table td.skipped { color: #d69e2e; font-weight: 600; }
+    .results-table td.not-attempted { color: #718096; }
 
     .skip-button {
       background: #fff3cd;
       margin-top: 1rem;
       padding: 0.75rem;
       width: 100%;
-      border: 1px solid #ffca28;
-      border-radius: 5px;
+      border: 2px solid #ffca28;
+      border-radius: 6px;
       cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
 
-    .skip-button:hover {
+    .skip-button:hover:not(.disabled) {
       background: #ffecb3;
+      transform: translateY(-2px);
     }
 
-    .end-button {
+    .skip-button.disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    .pagination-button {
       background: #42a5f5;
       color: #fff;
       padding: 0.75rem 1.5rem;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
-      margin-top: 1rem;
-      display: block;
-      width: 100%;
-      text-align: center;
+      font-size: 1rem;
+      transition: background 0.3s ease;
     }
 
-    .end-button:hover {
+    .pagination-button:hover:not(:disabled) {
       background: #1e88e5;
+    }
+
+    .pagination-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .end-button, .restart-button {
+      background: #42a5f5;
+      color: #fff;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .end-button:hover:not(:disabled), .restart-button:hover:not(:disabled) {
+      background: #1e88e5;
+      transform: translateY(-2px);
     }
 
     .end-button:disabled {
@@ -172,13 +269,40 @@
       display: none;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      .quiz-container {
+        padding: 1.5rem;
+      }
+      .question p {
+        font-size: 1.1rem;
+      }
+      .options button, .skip-button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+      }
+      .results-table th, .results-table td {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+      .pagination-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
       .quiz-container {
         padding: 1rem;
       }
-      .options button {
-        font-size: 0.9rem;
-        padding: 0.5rem;
+      h1 {
+        font-size: 2rem;
+      }
+      h2.section-title {
+        font-size: 1.5rem;
+      }
+      .end-button, .restart-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
       }
     }
   </style>
@@ -186,276 +310,381 @@
 <body>
   <div class="quiz-container">
     <h1>नेपाल लोक सेवा आयोग MCQ परीक्षा</h1>
+    <div id="timer">समय: 00:00</div>
     <div class="progress-bar">
       <div class="progress" id="progress"></div>
     </div>
-    <div id="quiz"></div>
+    <div id="quiz" role="region" aria-live="polite"></div>
+    <div class="pagination">
+      <button class="pagination-button" id="prev-page" disabled aria-label="अघिल्लो पृष्ठ">अघिल्लो</button>
+      <button class="pagination-button" id="next-page" aria-label="पछिल्लो पृष्ठ">पछिल्लो</button>
+    </div>
+    <button class="end-button" id="end-button" disabled aria-label="परीक्षा समाप्त गर्नुहोस्">परीक्षा समाप्त गर्नुहोस्</button>
     <div id="score"></div>
     <div id="results" class="hidden">
       <h2>परीक्षा नतिजा</h2>
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th>प्रश्न</th>
-            <th>तपाईंको उत्तर</th>
-            <th>सही उत्तर</th>
-            <th>स्थिति</th>
-          </tr>
-        </thead>
-        <tbody id="results-body"></tbody>
-      </table>
+      <div style="overflow-x: auto;">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>प्रश्न</th>
+              <th>तपाईंको उत्तर</th>
+              <th>सही उत्तर</th>
+              <th>स्थिति</th>
+              <th>विवरण</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
     </div>
+    <button class="restart-button hidden" id="restart-button" aria-label="परीक्षा पुन: सुरु गर्नुहोस्">परीक्षा पुन: सुरु गर्नुहोस्</button>
   </div>
 
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+
   <script>
-   const questions = [
-      // Image 1: समसामयिक तथा सार्वजनिक व्यवस्थापन
-      { section: "Image 1: समसामयिक तथा सार्वजनिक व्यवस्थापन", q: "नेपालको प्रथम विज्ञान तथा प्रविधि नीति कहिले ल्याइएको हो ?", options: ["वि.सं. २०५१", "विज्ञान तथा प्रविधि", "उद्योग नीति", "स्वास्थ्य नीति"], answer: 1 },
-      { section: "Image 1: समसामयिक तथा सार्वजनिक व्यवस्थापन", q: "साना किसानका लागि गरिएको एकीकृत विकास कार्यक्रम कुन मन्त्रालय मातहतमा पर्दछ ?", options: ["परराष्ट्र मन्त्रालय", "श्रम मन्त्रालय", "सहकारी", "युवा तथा खेलकुद"], answer: 2 },
-      { section: "Image 1: समसामयिक तथा सार्वजनिक व्यवस्थापन", q: "मिलान गर्नुहोस्: भन्सार, नगरपालिक, वडाअध्यक्ष, विकास समिति", options: ["1-b, 2-c, 3-d, 4-a", "4-a, 3-b, 2-d, 1-c", "1-a, 3-b, 5-c, 2-d", "2-d, 4-c, 3-a, 1-b"], answer: 2 },
-      { section: "Image 1: समसामयिक तथा सार्वजनिक व्यवस्थापन", q: "World Meteorological Organization को सदस्य राष्ट्रमा नेपालको सदस्यता कहिले भएको हो ?", options: ["सन् १९५५", "सन् १९५६", "सन् १९५७", "सन् १९५६"], answer: 3 },
-      { section: "Image 1: समसामयिक तथा सार्वजनिक व्यवस्थापन", q: "ब्याक्टेरियल रोग (Bacterial Diseases) कुन हो ?", options: ["मलेरिया", "टाइफाइड", "कालाजार", "डेंगु"], answer: 1 },
-      { section: "Image 1: समसामयिक तथा सार्वजनिक व्यवस्थापन", q: "औद्योगिक नीति अनुसार साना, मझौला तथा लघु उद्यमको प्रवद्र्धन गर्ने संस्था कुन हो ?", options: ["साना उद्योग विकास समिति", "लगानी बोर्ड", "उद्योग मन्त्रालय", "संघ"], answer: 0 },
-      { section: "Image 1: समसामयिक तथा सार्वजनिक व्यवस्थापन", q: "अन्तर्राष्ट्रिय नागरिक उड्डयन संस्था (ICAO) को स्थापना कहिले भएको हो ?", options: ["जनवरी १९४५", "मार्च १९४५", "अप्रिल १९४५", "जून १९४५"], answer: 2 },
-      { section: "Image 1: समसामयिक तथा सार्वजनिक व्यवस्थापन", q: "European Union को आदर्श वाक्य (Motto) के हो?", options: ["Solidarity for common future", "Little things we do", "United in diversity", "We serve"], answer: 2 },
-
-      // Image 2: सामान्य प्रशासन तथा सूचना प्रविधि
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "अध्यागमन विभागमा e-Visa प्रणाली शुभारम्भ गरिएको मिति कुन हो?", options: ["मंसीर १०, २०७८", "भदौ २०८० सोमबार", "माघ १०, २०७८", "चैत २०८०"], answer: 1 },
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "व्यवस्थापनको POSDCORB को अन्तिम कार्य हो:", options: ["समन्वय", "बजेट", "आयोजना", "गोष्ठी"], answer: 1 },
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "निजामती सेवाका कर्मचारीहरुको श्रेणी विभाजनको आधारमा कर्मचारी संरचना निर्धारण गर्दा सबैभन्दा ठूलो श्रेणीमा पर्ने समूह कुन हो?", options: ["सामान्य प्रशासन", "व्यवसाय समूह (प्राविधिक समूह)", "शिक्षा सेवा समूह", "स्वास्थ्य सेवा समूह"], answer: 2 },
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "सेवा प्रवाहमा नागरिक तथा सेवाग्राहीको मानव अधिकारको सम्मानको लागि मुख्य रुपमा के सुनिश्चित गर्नुपर्दछ?", options: ["सेवाप्रवाहमा नागरिक मैत्री दृष्टिकोणको विकास तथा प्रवर्द्धन", "सामाजिक न्याय, नीति, नियम, कानून", "समता, समानता, सहअस्तित्व", "प्रशासनिक पारदर्शिता"], answer: 0 },
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "कुन ऐनले प्रदेश तथा स्थानीय तहमा प्रशासनिक विषय सम्बन्धी आवश्यक कानुनी व्यवस्था गर्दछ?", options: ["प्रदेश ऐन", "स्थानीय ऐन", "प्रशासन ऐन", "कर्मचारी ऐन"], answer: 0 },
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "नागरिक वडापत्र (Citizen Charter) मा उल्लेख हुने सूचना कुन हो?", options: ["सेवाको विवरण", "आयोगको विवरण", "कर्मचारी विवरण", "समितिको विवरण"], answer: 0 },
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "नेपालमा स्थानीय तहको संख्या कति रहेको छ?", options: ["कात्तिक २०७३", "वि.सं. २०७४", "साउन २०७५", "पुस २०७४"], answer: 1 },
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "नेपालको संविधानले संघीय, प्रदेश तथा स्थानीय तह गरी सरकारको तीन तह व्यवस्था कहिले गरेको हो?", options: ["मंसीर १६, २०७३", "फागुन ३, २०७२", "चैत ३, २०७२", "चैत्र १, २०७१"], answer: 1 },
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "व्यवस्थापन सिद्धान्त (Management Principles) का जनक को हुन्?", options: ["Henri Fayol", "Luther Gulick", "Elton Mayo", "Peter Drucker"], answer: 0 },
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "नेपालको संविधान अनुसार निजामती सेवा ऐन कहिले लागू भएको हो?", options: ["माघ ५", "साउन १", "भदौ १", "चैत १"], answer: 1 },
-      { section: "Image 2: सामान्य प्रशासन तथा सूचना प्रविधि", q: "नेपालको संविधानको कुन धाराले निजामती सेवा ऐन व्यवस्था गरेको छ?", options: ["धारा २३४", "धारा २८५", "धारा ३०२", "धारा १७५"], answer: 1 },
-
-      // Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "सन् २०२३ को सेप्टेम्बरमा BRICS को नयाँ सदस्यता प्राप्त गर्ने राष्ट्र कुन हो?", options: ["इजोनिया", "मले", "पाकिस्तान", "श्रीलंका"], answer: 0 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "दक्षिण एसियाली क्षेत्रीय सहयोग संगठन (SAARC) को संस्थापक कुन देशमा रहेको हो?", options: ["नेपाल", "बंगलादेश", "भारत", "श्रीलंका"], answer: 0 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालले संयुक्त राष्ट्र संघ (UNO) को सदस्यता कहिले प्राप्त गरेको हो?", options: ["ई.सं. १९५५", "ई.सं. १९५५", "ई.सं. १९५६", "ई.सं. १९५७"], answer: 1 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "संविधान बमोजिम संघ, प्रदेश, र स्थानीय तहको अधिकारको साझा सूची कति वटा उल्लेख छ?", options: ["१२", "१४", "१६", "२२"], answer: 3 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालमा हाल मातृ मृत्यु दर (Maternal Mortality Rate) प्रति एक लाख जीवित जन्ममा कति रहेको छ?", options: ["१५१", "१२६", "१९१", "११४"], answer: 0 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "सवभन्दा पहिलो महिला राष्ट्रपति पदाधिकारी को हुन्?", options: ["प्रतिभा पटेल", "डा. रामवरण यादव", "व्यालोनिटिया व्यालिसिट", "एलेन्टन ग्राम्बल"], answer: 1 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "वातावरणीय संरक्षण र हरितगृह ग्याँस उत्सर्जनलाई कम गर्ने उद्देश्यले तयार भएको Kyoto Protocol मा कहिले हस्ताक्षर भएको थियो?", options: ["५ सेप्टेम्बर १९९८", "२२ अक्टोबर १९९९", "७ नोभेम्बर १९९९", "११ डिसेम्बर १९९७"], answer: 3 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "चौथो जनगणनाको तथ्यांक (२०५८/०२/०५ देखि २०५८/०२/२५) अनुसार गार्गाही विहिन जनसंख्या कति प्रतिशतमा पुगाउने लक्ष्य लिएको छ?", options: ["७", "८", "९", "१०"], answer: 2 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "दोलखा जिल्लाको पुरानो नाम के हो?", options: ["ताम्सी", "तामाकोशी", "बिश्नु", "डोल"], answer: 1 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालमा अहिलेको समयमा कूलमा खाद्य मानक समस्यामा कति प्रतिशत छ?", options: ["२ घण्टा भन्दा कम", "४ घण्टा भन्दा कम", "५ घण्टा ५० मिनेट", "माथिको कुनै होइन"], answer: 1 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "निजामती सेवा ऐन अनुसार कुनै कर्मचारीले सम्पूर्ण पुँजी खरिद गरेपछि सोही निर्माणको कर्मचारीले नियुक्ति लिएको अवधिको सेवा गर्नुपर्ने अनिवार्य सेवा अवधि कति वर्ष उल्लेख गरिएको छ?", options: ["एक वर्ष", "तीन वर्ष", "दुई वर्ष"], answer: 2 },
-      { section: "Image 3: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालको सरकारी बजेटलाई आधार मान्दै पहिलो पटक कार्यलय पदाधिकारी वर्गीकरण विभागमा गरिएको छ?", options: ["आ.व. २०७३/०७४", "आ.व. २०७४/०७५", "आ.व. २०७५/०७६", "आ.व. २०७६/०७७"], answer: 0 },
-
-      // Image 4: सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान
-      { section: "Image 4: सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", q: "तल दिइएका समूह I र समूह II सँगको जोडी मिलाउनुहोस्।", options: ["a-3, b-1, c-4, d-2"], answer: 0 },
-      { section: "Image 4: सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", q: "नागरिक वडापत्र (Citizen Charter) को प्रकाशन कुन निकायबाट भएको हो ?", options: ["संविधान आयोग", "सङ्घीय सरकार", "लोक सेवा", "न्याय"], answer: 1 },
-      { section: "Image 4: सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", q: "सूचना प्रवाहको दृष्टिकोणले कुनै सूचना माग भई सोही समय अवधिमा सम्बन्धित अधिकारीले समयमै निवेदन दिइएको सूचना कति दिनभित्र दिनुपर्ने भनिएको छ ?", options: ["७", "१५", "११", "२५"], answer: 1 },
-      { section: "Image 4: सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", q: "हाल लागू भएको स्थानीय सरकार सञ्चालन ऐन अनुसार नेपालको स्थानीय तहको संख्या कति छ ?", options: ["७७", "७५३", "७२", "२५"], answer: 1 },
-      { section: "Image 4: सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", q: "नागरिक वडापत्रमा उल्लेख हुनेमध्ये सेवा प्रवाह सम्बन्धी सबैभन्दा प्रमुख सूचना कुन हुन्छ ?", options: ["सेवाको विवरण, गुणस्तर, समय र सेवा लाग्ने", "सेवाग्राही र सेवा प्रदायकको संलग्नता", "सेवाको विवरण, गुणस्तर, समय र सेवा लाग्ने", "सेवाको विधि निकाय"], answer: 2 },
-      { section: "Image 4: सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", q: "तलको मध्ये कुन शल्यक्रियाको उदाहरण हो ?", options: ["आपतकालीन शल्यक्रिया गर्नु", "गलत ठेगाना लगाउनु", "छर्लङ्गरूपमा विवरण नगर्नु", "जानकारी नगरी लेखिएको विवरण राख्नु"], answer: 0 },
-      { section: "Image 4: सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", q: "तलको कुन कार्य जिम्मेवार प्रशासन अन्तर्गत पर्दछ ?", options: ["गैरजिम्मेवारको रुपमा अभिलेख राखी समय अनुसार फाइल व्यवस्थापन नगर्नु", "अभिलेख समयमै राख्न नसक्नु", "मापदण्ड अनुसार निर्णयमा सहायक जानकारी पठाउनु", "निर्णयको आवश्यक कागज प्राप्त गर्न नसक्नु"], answer: 2 },
-      { section: "Image 4: सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", q: "नेपालको संविधानको धारा २३२ बमोजिम संघ, प्रदेश र स्थानीय तहबीचको सम्बन्ध कुन सिद्धान्तमा आधारित हुन्छ ?", options: ["सह अस्तित्व, सम्मान र सहयोगको सिद्धान्त", "सार्वजनिक, निजी उद्यम र साझेदारी सिद्धान्त", "सहकार्यमा, साझा अधिकार र सम्बन्धको सिद्धान्त", "सार्वजनिक क्षेत्र, साझेदारी क्षेत्र र निजी क्षेत्रको समन्वयको सिद्धान्त"], answer: 2 },
-
-      // Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "UN Climate Change Conference (COP 30) सन् २०२५ मा कहाँ आयोजना हुने भएको छ ?", options: ["ब्राजिल", "अर्जेन्टिना", "चीन", "अष्ट्रेलिया"], answer: 0 },
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "मुलुकको शासन व्यवस्था लोकतान्त्रिक गणतन्त्रात्मक बनाउने घोषणा संविधानको कुन धारामा गरिएको छ ?", options: ["धारा १", "धारा २", "धारा ३", "धारा ४"], answer: 1 },
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "अन्तर्राष्ट्रिय नविकरणीय ऊर्जा संस्था (IRENA) को स्थापना कहिले गरिएको हो ?", options: ["सन् २००५", "सन् २००९", "सन् २०१०", "सन् २०१५"], answer: 1 },
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालले हालै कुन देशसँग नागरिक उड्डयन सम्झौता गरेको छ ?", options: ["कतार", "चीन", "भारत", "श्रीलंका"], answer: 1 },
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "सार्वजनिक वित्तीय व्यवस्थापन सुधार कार्यक्रम सुरु गर्ने पहिलो प्रदेश कुन हो ?", options: ["कर्णाली", "लुम्बिनी", "मधेस", "सुदूरपश्चिम"], answer: 0 },
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "निर्माण सेवा सम्वन्धी हाल कति सेवा शाखाहरू छन् ?", options: ["३२", "३६", "३८", "४०"], answer: 1 },
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नीतिगत तथा कार्यक्रमगत निर्णय कार्यान्वयनमा सहयोग पुर्‍याउने कर्मचारीलाई के भनिन्छ ?", options: ["प्राविधिक कर्मचारी", "कार्यकारी कर्मचारी", "सेवा सहयोगी", "लेखा सहायक"], answer: 1 },
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपाल सरकारको निजामती सेवा ऐन कुन वर्षमा प्रारम्भ भएको हो ?", options: ["वि.सं. २०१५", "वि.सं. २०१७", "वि.सं. २०२०", "वि.सं. २०२५"], answer: 0 },
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "हालको संविधानअनुसार लोक सेवा आयोगको सदस्य संख्या कति हुने व्यवस्था छ ?", options: ["३", "५", "७", "९"], answer: 1 },
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "स्थानीय तहमा दरबन्दी स्वीकृत गर्न सक्ने निकाय कुन हो ?", options: ["संघीय सरकारले", "संघीय मामिला तथा सामान्य प्रशासन मन्त्रालय", "प्रदेश सरकार", "गा.पा./ना.पा."], answer: 1 },
-      { section: "Image 5: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "कुन सेवामा सहायक मानव अधिकार अधिकृत पद समावेश गरिएको छैन ?", options: ["न्याय सेवा", "सामान्य प्रशासन सेवा", "कानून सेवा", "गोप्य सेवा"], answer: 1 },
-
-      // Image 6: सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन
-      { section: "Image 6: सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", q: "संघीय मामिला तथा सामान्य प्रशासन मन्त्रालयले गर्ने काममध्ये कुन हो?", options: ["विकास प्रशासन सम्बन्धी काम", "गतिशील विभाग समन्वयको काम", "कर्मचारीको नियुक्ति, सरुवा, बढुवा गर्ने काम", "कर्मचारीको हित संरक्षणको काम"], answer: 1 },
-      { section: "Image 6: सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", q: "नेपालको संविधान अनुसार तल्लो तहको दुई वा बढी पालिकाहरूले संयुक्त रूपमा गर्न सक्ने कार्य के हो?", options: ["संविधान र कानुनको पालना गर्नु", "साझा निकाय गठन गर्नु", "सम्पर्कविहीन सूचना संप्रेषण गर्नु", "आपत्‌कालिन सेवाको अधिकार प्राप्त गर्नु"], answer: 1 },
-      { section: "Image 6: सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", q: "लोक सेवा आयोगले सन् २०२३ मा लिएको सार्वजनिक नियुक्तिका लेखी सूचना अनुसार कुन नेपाली नागरिकले सबैभन्दा बढी अंक प्राप्त गरेका थिए?", options: ["रामकृष्ण खनाल", "अजय श्रेष्ठ", "अनिल पोखरेल", "गोविन्द रेग्मी"], answer: 0 },
-      { section: "Image 6: सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", q: "संघीय मामिला तथा सामान्य प्रशासन मन्त्रालयका सूचना अधिकारी सम्बन्धी विवरण दिनेछ भनेर उल्लेख गरिएको कानुन कुन हो?", options: ["संविधान", "सूचना प्रवाह ऐन", "निजामती सेवा ऐन", "गोपनीयता ऐन"], answer: 1 },
-      { section: "Image 6: सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", q: "नेपालमा हाल कति वटा निजामती कर्मचारी प्रशिक्षण प्रतिष्ठान (NSTB) छन्?", options: ["१", "२", "३", "४"], answer: 2 },
-      { section: "Image 6: सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", q: "नेपालको संविधानले महिलालाई कति प्रतिशत स्थान सुरक्षित गरेको छ?", options: ["३३%", "२५%", "२०%", "१०%"], answer: 0 },
-      { section: "Image 6: सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", q: "नेपालको बि.सं. २०८२ सालको जनगणनाले अनुसार जनसंख्या कति पुगेको छ?", options: ["२,९१,९२,४८०", "२,९१,९२,४८०", "२,९२,९१,४८०", "२,८५,९१,२८०"], answer: 1 },
-      { section: "Image 6: सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", q: "European Union (EU) को स्थापना कहिले भएको हो?", options: ["१९९३", "१९९५", "जुन १९९२", "सेप्टेम्बर १९९४"], answer: 0 },
-      { section: "Image 6: सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", q: "नेपालमा कर्मचारी समायोजन अन्तर्गत कति तहको समायोजन गरिएको हो?", options: ["३", "४", "५", "६"], answer: 2 },
-
-      // Image 7: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन
-      { section: "Image 7: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "छुट्टै तराजु प्रयोग गरी तौलिने एकाइको नाम के हो ?", options: ["सिसाग्राम", "गिलिग्राम", "फेडोमिटर", "होलोग्राम"], answer: 0 },
-      { section: "Image 7: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "राष्ट्रिय जनगणना, २०७८ अनुसार नेपालको जनघनत्व कति रहेको छ ?", options: ["१९९ व्यक्ति प्रति वर्ग कि.मी.", "१९८ व्यक्ति प्रति वर्ग कि.मी.", "२९१ व्यक्ति प्रति वर्ग कि.मी.", "२९४ व्यक्ति प्रति वर्ग कि.मी."], answer: 2 },
-      { section: "Image 7: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालको दोस्रो बहुआयामिक स्वास्थ्य बीमा कार्यक्रममा आम्दानी जनसंख्याको कति प्रतिशत पुगाउने लक्ष्य राखिएको छ ?", options: ["५०", "६५", "७०", "१००"], answer: 1 },
-      { section: "Image 7: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "निम्न मध्ये सम्बन्धित जोडी कुन हो ?", options: ["गीता रचना - वाल्मीकि", "गीतगोविन्द रचना - जयदेव", "रामायण दिव्य लीला - चन्द्र शमशेर", "पशुपतिनाथ भक्ति गाथा - यम श्रेष्ठ"], answer: 1 },
-      { section: "Image 7: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालको कुल भू-भागमा कति प्रतिशत भाग जंगलले ओगटेको छ ?", options: ["४१.६ प्रतिशत", "४२.११ प्रतिशत", "६०.६ प्रतिशत", "७५ प्रतिशत"], answer: 0 },
-      { section: "Image 7: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "वैज्ञानिक व्यवस्थापन सिद्धान्त (Scientific Management Theory) का पिता भनेर कसलाई चिनिन्छ ?", options: ["लुथर गुलिक", "एफ.डब्लु. टेलर", "अब्राहम मास्लो", "फ्रेडरिक हर्जवर्ग"], answer: 1 },
-      { section: "Image 7: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "बहुवर्षीय पदोन्नति नियमानुसार कर्मचारीहरुको बढुवा कसरी गरिन्छ ?", options: ["पहिलो दिन वा अन्तिम दुई दिन वा दुई महिनाभित्र बढुवा लेखन गर्ने", "दुई वर्षदेखि दुई महिनाभित्र बढुवा लेखन गर्ने वा दुईवर्ष पाँच महिनाभित्र लेखन गर्ने", "दुईवर्षदेखि तीन महिनाभित्र बढुवा लेखन गर्ने वा दुईवर्ष पाँच महिनाभित्र लेखन गर्ने", "नियमित कुनै आधार छैन"], answer: 2 },
-      { section: "Image 7: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालको स्थानीय विकास विभागको स्थापना कहिले भएको थियो ?", options: ["वि.सं. २०२०", "वि.सं. २०५१", "वि.सं. २०२८", "वि.सं. २०३०"], answer: 2 },
-      { section: "Image 7: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "समूह I र समूह II का जोडी मिलाउनुहोस्:", options: ["a-3, b-1, c-4, d-2"], answer: 0 },
-
-      // Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "सरकारी कार्यालयहरूको आन्तरिक लेखापरिक्षण कसले गर्छ ?", options: ["महालेखा परीक्षकको कार्यालय", "महालेखा नियन्त्रण कार्यालय", "कोई तथा सेवा नियमनको कार्यालय", "राष्ट्रिय लेखापरीक्षक"], answer: 0 },
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपाल सरकारका निकायहरूबाट संचालन हुने सेवा साईट र सर्भरहरूको सुरक्षा परीक्षण कुन निकायले गर्छ ?", options: ["महालेखा परीक्षक", "संचार तथा सूचना प्रविधि मन्त्रालय", "सूचना प्रविधि विभाग", "राष्ट्रिय सूचना प्रविधि केन्द्र"], answer: 1 },
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "निजामती कर्मचारी सेवा अध्यादेशको कति वर्षमा नबनाई दीर्घकालीन अध्यादेश द्वारा व्यवस्था गरिएको छ ?", options: ["बढाई २ वर्ष", "बढाई ३ वर्ष", "बढाई ४ वर्ष", "जीवनभरि कायम राख्ने"], answer: 1 },
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "संघीय मामिला तथा सामान्य प्रशासन मन्त्रालय अन्तर्गत कुन ऐन कार्यान्वयनको जिम्मेवारी लिन्छ ?", options: ["राष्ट्रिय सेवा प्रवाह गठन, तालिम र प्रशासन", "रूपरेखा सम्बन्धी नीति, कानून र मापदण्ड", "सेवासम्बन्धी प्रभाव प्रक्रिया नीति तथा कानून", "समय व्यवस्थापन परिपत्र सम्बन्धी"], answer: 1 },
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालको संविधानको धारा ४८ ले नागरिकका कर्तव्यबारे कति बुँदाहरू उल्लेख गरेको छ ?", options: ["६", "७", "५", "४"], answer: 1 },
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "“बहुआयामिक सेवा प्रवाह गर्न आम जनसम्पर्क कायम गर्न प्रत्येक सरकारी कार्यालयले दिने होर्डिङ बोर्डमा नागरिक बढाइने” भनिएको छ, यस्तो प्रावधान कुन ऐनमा उल्लेख गरिएको छ ?", options: ["सूचना हक सम्बन्धी ऐन, २०६४", "अधिकार सूचनाको अनुगमन आयोग ऐन, २०७८", "सुशासन व्यवस्थापन तथा चलनचल्ती ऐन, २०६८", "आवश्यकता सम्बन्धन ऐन, २०७१"], answer: 1 },
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "NASA का तर्फबाट अन्तरिक्ष यात्री Sunita Williams र Butch Wilmore अन्तिमपटक अन्तरिक्षमा कहिले प्रक्षेपण गरिएको थियो ?", options: ["५ जनवरी, २०२४", "१० मार्च, २०२४", "१ जुन, २०२४", "१० डिसेम्बर, २०२४"], answer: 2 },
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "SAARC को वर्तमान अध्यक्ष कुन देश हो ?", options: ["भारत", "नेपाल", "पाकिस्तान", "श्रीलंका"], answer: 1 },
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "संयुक्त राष्ट्रसंघको प्रधान कार्यालय कहाँ रहेको छ ?", options: ["न्यूयार्क, अमेरिका", "वासिङ्टन डिसी, अमेरिका", "न्यू आइल्याण्ड, बेलायत", "न्यालोनिया, अमेरिका"], answer: 0 },
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालको संविधान अनुसार तलका मध्ये कुन विषय विनियमित तथा साझा अधिकारको सूचीमा पर्दछ ?", options: ["कर", "भन्सार", "सवारी साधन कर", "प्राकृतिक स्रोतबाट प्राप्त रोयल्टी"], answer: 2 },
-      { section: "Image 8: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "दुधबाट बन्ने कुन किसिमले सहयोग गर्छ ?", options: ["घ्यू", "घाँसिलो", "ल्याक्टो बेसिलस", "असी"], answer: 0 },
-
-      // Image 9: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन
-      { section: "Image 9: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "नेपालको चिया व्यवसायिक रुपमा खेती सुरु भएको जिल्ला कुन हो ?", options: ["इलाम", "ताप्लेजुङ", "ललितपुर", "महोत्तरी"], answer: 0 },
-      { section: "Image 9: सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", q: "राष्ट्रिय जनगणना २०८० अनुसार नेपालको जनसंख्या कति रहेको छ ?", options: ["२,८१,९२,४८०", "२,९१,९२,४००", "२,९२,१९२,४००", "२,९१,९२,४८०"], answer: 3 }
+    const questions = [
+      { id: 1, section: "समसामयिक तथा सार्वजनिक व्यवस्थापन", text: "नेपालको प्रथम विज्ञान तथा प्रविधि नीति कहिले ल्याइएको हो ?", options: ["वि.सं. २०४०", "वि.सं. २०४५", "वि.सं. २०५१", "वि.सं. २०६१"], correct: "वि.सं. २०४५", explanation: { en: "Nepal's first Science and Technology Policy was introduced in 2045 BS (1988).", np: "नेपालको पहिलो विज्ञान तथा प्रविधि नीति वि.सं. २०४५ मा ल्याइएको थियो।" }, tip: "Recall 2045 BS for science policy." },
+      { id: 2, section: "समसामयिक तथा सार्वजनिक व्यवस्थापन", text: "साना किसानका लागि गरिएको एकीकृत विकास कार्यक्रम कुन मन्त्रालय मातहतमा पर्दछ ?", options: ["परराष्ट्र मन्त्रालय", "श्रम मन्त्रालय", "कृषि तथा पशुपन्छी विकास मन्त्रालय", "युवा तथा खेलकुद"], correct: "कृषि तथा पशुपन्छी विकास मन्त्रालय", explanation: { en: "The integrated development program for small farmers falls under the Ministry of Agriculture and Livestock Development.", np: "साना किसानका लागि एकीकृत विकास कार्यक्रम कृषि तथा पशुपन्छी विकास मन्त्रालय मातहतमा पर्छ।" }, tip: "Link farmers to agriculture ministry." },
+      { id: 3, section: "समसामयिक तथा सार्वजनिक व्यवस्थापन", text: "मिलान गर्नुहोस्: भन्सार, नगरपालिका, वडाअध्यक्ष, विकास समिति", options: ["1-a, 2-b, 3-c, 4-d", "1-d, 2-c, 3-b, 4-a", "1-b, 2-d, 3-a, 4-c", "1-c, 2-a, 3-d, 4-b"], correct: "1-d, 2-c, 3-b, 4-a", explanation: { en: "Customs (central), municipality (local governance), ward chairperson (local elected), development committee (local planning).", np: "भन्सार (केन्द्रीय), नगरपालिका (स्थानीय शासन), वडाअध्यक्ष (स्थानीय निर्वाचित), विकास समिति (स्थानीय योजना)।" }, tip: "Match governance levels." },
+      { id: 4, section: "समसामयिक तथा सार्वजनिक व्यवस्थापन", text: "World Meteorological Organization को सदस्य राष्ट्रमा नेपालको सदस्यता कहिले भएको हो ?", options: ["सन् १९५५", "सन् १९५६", "सन् १९५७", "सन् १९६६"], correct: "सन् १९६६", explanation: { en: "Nepal became a member of the WMO in 1966.", np: "नेपाल सन् १९६६ मा WMO को सदस्य भएको थियो।" }, tip: "1966 for Nepal’s WMO membership." },
+      { id: 5, section: "समसामयिक तथा सार्वजनिक व्यवस्थापन", text: "ब्याक्टेरियल रोग (Bacterial Diseases) कुन हो ?", options: ["मलेरिया", "टाइफाइड", "कालाजार", "डेंगु"], correct: "टाइफाइड", explanation: { en: "Typhoid is caused by Salmonella typhi bacteria; others are parasitic or viral.", np: "टाइफाइड साल्मोनेला टाइफी ब्याक्टेरियाले हुन्छ; अन्य परजीवी वा भाइरल हुन्।" }, tip: "Typhoid is bacterial." },
+      { id: 6, section: "समसामयिक तथा सार्वजनिक व्यवस्थापन", text: "औद्योगिक नीति अनुसार साना, मझौला तथा लघु उद्यमको प्रवद्र्धन गर्ने संस्था कुन हो ?", options: ["साना उद्योग विकास समिति", "लगानी बोर्ड", "उद्योग मन्त्रालय", "नेपाल उद्योग वाणिज्य महासंघ"], correct: "साना उद्योग विकास समिति", explanation: { en: "The Small Industries Development Committee promotes SMEs under industrial policy.", np: "साना उद्योग विकास समितिले औद्योगिक नीति अनुसार SMEs को प्रवद्र्धन गर्छ।" }, tip: "Focus on small industries." },
+      { id: 7, section: "समसामयिक तथा सार्वजनिक व्यवस्थापन", text: "अन्तर्राष्ट्रिय नागरिक उड्डयन संस्था (ICAO) को स्थापना कहिले भएको हो ?", options: ["जनवरी १९४५", "मार्च १९४५", "अप्रिल १९४७", "जून १९४५"], correct: "अप्रिल १९४७", explanation: { en: "ICAO was established in April 1947 under the Chicago Convention.", np: "ICAO सन् १९४७ अप्रिलमा शिकागो सम्मेलनअन्तर्गत स्थापना भएको थियो।" }, tip: "1947 for ICAO." },
+      { id: 8, section: "समसामयिक तथा सार्वजनिक व्यवस्थापन", text: "European Union को आदर्श वाक्य (Motto) के हो ?", options: ["Solidarity for common future", "Little things we do", "United in diversity", "We serve"], correct: "United in diversity", explanation: { en: "The EU’s motto reflects unity amidst diverse cultures.", np: "EU को आदर्श वाक्यले विविध संस्कृतिमा एकता झल्काउँछ।" }, tip: "EU emphasizes diversity." },
+      { id: 9, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "अध्यागमन विभागमा e-Visa प्रणाली शुभारम्भ गरिएको मिति कुन हो ?", options: ["मंसीर १०, २०७८", "भदौ १, २०७८", "माघ १०, २०७८", "चैत १, २०७८"], correct: "भदौ १, २०७८", explanation: { en: "Nepal’s e-Visa system started on Bhadra 1, 2078 (August 17, 2021).", np: "नेपालको e-Visa प्रणाली भदौ १, २०७८ मा सुरु भएको थियो।" }, tip: "Recall 2078 for e-Visa." },
+      { id: 10, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "व्यवस्थापनको POSDCORB को अन्तिम कार्य हो:", options: ["नियन्त्रण", "बजेट", "रिपोर्टिङ", "समन्वय"], correct: "रिपोर्टिङ", explanation: { en: "POSDCORB ends with Reporting, ensuring accountability.", np: "POSDCORB को अन्तिम कार्य रिपोर्टिङ हो, जसले जवाफदेहिता सुनिश्चित गर्छ।" }, tip: "Last letter of POSDCORB is R." },
+      { id: 11, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "निजामती सेवाका कर्मचारीहरुको श्रेणी विभाजनको आधारमा कर्मचारी संरचना निर्धारण गर्दा सबैभन्दा ठूलो श्रेणीमा पर्ने समूह कुन हो ?", options: ["सामान्य प्रशासन", "प्राविधिक समूह", "शिक्षा सेवा समूह", "स्वास्थ्य सेवा समूह"], correct: "सामान्य प्रशासन", explanation: { en: "General Administration is the largest civil service group in Nepal.", np: "सामान्य प्रशासन नेपालको निजामती सेवाको सबैभन्दा ठूलो समूह हो।" }, tip: "General Administration is broadest." },
+      { id: 12, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "सेवा प्रवाहमा नागरिक तथा सेवाग्राहीको मानव अधिकारको सम्मानको लागि मुख्य रुपमा के सुनिश्चित गर्नुपर्दछ ?", options: ["नागरिक मैत्री दृष्टिकोण", "सामाजिक न्याय", "समानता", "पारदर्शिता"], correct: "नागरिक मैत्री दृष्टिकोण", explanation: { en: "A citizen-friendly approach ensures human rights in service delivery.", np: "नागरिक मैत्री दृष्टिकोणले सेवा प्रवाहमा मानव अधिकार सुनिश्चित गर्छ।" }, tip: "Focus on citizen-friendliness." },
+      { id: 13, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "कुन ऐनले प्रदेश तथा स्थानीय तहमा प्रशासनिक विषय सम्बन्धी आवश्यक कानुनी व्यवस्था गर्दछ ?", options: ["स्थानीय सरकार सञ्चालन ऐन", "प्रदेश सरकार ऐन", "निजामती सेवा ऐन", "संघीय प्रशासन ऐन"], correct: "स्थानीय सरकार सञ्चालन ऐन", explanation: { en: "The Local Government Operation Act governs administrative matters.", np: "स्थानीय सरकार सञ्चालन ऐनले प्रशासनिक विषय नियमन गर्छ।" }, tip: "Link to local governance." },
+      { id: 14, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "नागरिक वडापत्र (Citizen Charter) मा उल्लेख हुने सूचना कुन हो ?", options: ["सेवाको विवरण", "कर्मचारी विवरण", "आयोगको विवरण", "समितिको विवरण"], correct: "सेवाको विवरण", explanation: { en: "Citizen Charters detail services offered.", np: "नागरिक वडापत्रमा सेवाको विवरण उल्लेख हुन्छ।" }, tip: "Charters focus on services." },
+      { id: 15, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "नेपालमा स्थानीय तहको संख्या कति रहेको छ ?", options: ["७५३", "७५०", "७५१", "७५५"], correct: "७५३", explanation: { en: "Nepal has 753 local levels (municipalities and rural municipalities).", np: "नेपालमा ७५३ स्थानीय तह (नगरपालिका र गाउँपालिका) छन्।" }, tip: "753 for local levels." },
+      { id: 16, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "नेपालको संविधानले संघीय, प्रदेश तथा स्थानीय तह गरी सरकारको तीन तह व्यवस्था कहिले गरेको हो ?", options: ["असोज ३, २०७२", "फागुन ३, २०७२", "चैत ३, २०७२", "चैत्र १, २०७१"], correct: "असोज ३, २०७२", explanation: { en: "The 2072 Constitution established three tiers on Ashoj 3, 2072.", np: "२०७२ को संविधानले असोज ३ मा तीन तह स्थापना गरेको थियो।" }, tip: "2072 Constitution date." },
+      { id: 17, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "व्यवस्थापन सिद्धान्त (Management Principles) का जनक को हुन् ?", options: ["Henri Fayol", "Luther Gulick", "Elton Mayo", "Peter Drucker"], correct: "Henri Fayol", explanation: { en: "Henri Fayol is known as the father of management principles.", np: "हेनरी फायोललाई व्यवस्थापन सिद्धान्तको जनक मानिन्छ।" }, tip: "Fayol for management." },
+      { id: 18, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "नेपालको संविधान अनुसार निजामती सेवा ऐन कहिले लागू भएको हो ?", options: ["भदौ १, २०७३", "साउन १, २०७३", "माघ ५, २०७२", "चैत १, २०७२"], correct: "भदौ १, २०७३", explanation: { en: "The Civil Service Act was enforced from Bhadra 1, 2073.", np: "निजामती सेवा ऐन भदौ १, २०७३ देखि लागू भएको थियो।" }, tip: "2073 for Civil Service Act." },
+      { id: 19, section: "सामान्य प्रशासन तथा सूचना प्रविधि", text: "नेपालको संविधानको कुन धाराले निजामती सेवा ऐन व्यवस्था गरेको छ ?", options: ["धारा २३४", "धारा २८५", "धारा ३०२", "धारा १७५"], correct: "धारा २८५", explanation: { en: "Article 285 governs the civil service provisions.", np: "धारा २८५ ले निजामती सेवा व्यवस्था गर्छ।" }, tip: "Article 285 for civil service." },
+      { id: 20, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "सन् २०२३ को सेप्टेम्बरमा BRICS को नयाँ सदस्यता प्राप्त गर्ने राष्ट्रहरू कुन कुन हुन् ?", options: ["इजिप्ट, इरान, साउदी अरब, UAE, इथियोपिया, अर्जेन्टिना", "पाकिस्तान, श्रीलंका", "मलेसिया, इन्डोनेसिया", "बंगलादेश, भियतनाम"], correct: "इजिप्ट, इरान, साउदी अरब, UAE, इथियोपिया, अर्जेन्टिना", explanation: { en: "BRICS expanded in 2023 to include these six nations.", np: "BRICS ले २०२३ मा यी छ राष्ट्रलाई समावेश गर्‍यो।" }, tip: "2023 BRICS expansion." },
+      { id: 21, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "दक्षिण एसियाली क्षेत्रीय सहयोग संगठन (SAARC) को स्थापना कुन देशमा भएको हो ?", options: ["नेपाल", "बंगलादेश", "भारत", "श्रीलंका"], correct: "बंगलादेश", explanation: { en: "SAARC was founded in Dhaka, Bangladesh in 1985.", np: "SAARC को स्थापना १९८५ मा ढाका, बंगलादेशमा भएको थियो।" }, tip: "Dhaka for SAARC." },
+      { id: 22, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "नेपालले संयुक्त राष्ट्र संघ (UN) को सदस्यता कहिले प्राप्त गरेको हो ?", options: ["सन् १९५४", "सन् १९५५", "सन् १९५६", "सन् १९५७"], correct: "सन् १९५५", explanation: { en: "Nepal joined the UN on December 14, 1955.", np: "नेपालले सन् १९५५ डिसेम्बर १४ मा UN सदस्यता प्राप्त गर्‍यो।" }, tip: "1955 for UN membership." },
+      { id: 23, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "संविधान बमोजिम संघ, प्रदेश, र स्थानीय तहको अधिकारको साझा सूची कति वटा उल्लेख छ ?", options: ["१२", "१४", "१६", "२२"], correct: "२२", explanation: { en: "The Constitution lists 22 concurrent powers.", np: "संविधानमा २२ साझा अधिकार उल्लेख छन्।" }, tip: "22 concurrent powers." },
+      { id: 24, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "नेपालमा हाल मातृ मृत्यु दर (Maternal Mortality Rate) प्रति एक लाख जीवित जन्ममा कति रहेको छ ?", options: ["१५१", "१२६", "१९१", "११४"], correct: "१५१", explanation: { en: "Nepal’s MMR is approximately 151 per 100,000 live births (recent data).", np: "नेपालको मातृ मृत्यु दर प्रति एक लाखमा १५१ छ।" }, tip: "151 for MMR." },
+      { id: 25, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "नेपालको पहिलो महिला राष्ट्रपति को हुन् ?", options: ["प्रतिभा पाटिल", "विद्यादेवी भण्डारी", "सुजाता कोइराला", "रामकुमारी झाँक्री"], correct: "विद्यादेवी भण्डारी", explanation: { en: "Bidya Devi Bhandari was Nepal’s first female president (2015-2023).", np: "विद्यादेवी भण्डारी नेपालको पहिलो महिला राष्ट्रपति हुन् (२०१५-२०२३)।" }, tip: "Bhandari for first female president." },
+      { id: 26, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "वातावरणीय संरक्षण र हरितगृह ग्याँस उत्सर्जनलाई कम गर्ने उद्देश्यले तयार भएको Kyoto Protocol मा कहिले हस्ताक्षर भएको थियो ?", options: ["५ सेप्टेम्बर १९९८", "२२ अक्टोबर १९९९", "११ डिसेम्बर १९९७", "७ नोभेम्बर १९९९"], correct: "११ डिसेम्बर १९९७", explanation: { en: "Kyoto Protocol was adopted on December 11, 1997.", np: "क्योटो प्रोटोकल ११ डिसेम्बर १९९७ मा अंगीकार भएको थियो।" }, tip: "1997 for Kyoto." },
+      { id: 27, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "चौथो जनगणनाको तथ्यांक (२०५८) अनुसार गार्हस्थ्य शौचालयविहीन जनसंख्या कति प्रतिशतमा पुगाउने लक्ष्य लिएको छ ?", options: ["७%", "८%", "९%", "१०%"], correct: "९%", explanation: { en: "The 2058 census aimed to reduce households without toilets to 9%.", np: "२०५८ को जनगणनाले शौचालयविहीन जनसंख्यालाई ९% मा झार्ने लक्ष्य लिएको थियो।" }, tip: "9% for sanitation goal." },
+      { id: 28, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "दोलखा जिल्लाको पुरानो नाम के हो ?", options: ["ताम्सी", "तामाकोशी", "विश्नु", "डोल"], correct: "तामाकोशी", explanation: { en: "Dolakha was historically known as Tamakoshi.", np: "दोलखालाई ऐतिहासिक रूपमा तामाकोशी भनिन्थ्यो।" }, tip: "Tamakoshi for Dolakha." },
+      { id: 29, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "नेपालमा खाद्य असुरक्षाको स्तर कति प्रतिशत जनसंख्या प्रभावित छ ?", options: ["१०%", "१५%", "२०%", "२५%"], correct: "१०%", explanation: { en: "About 10% of Nepal’s population faces food insecurity (recent estimates).", np: "नेपालको करिब १०% जनसंख्या खाद्य असुरक्षाबाट प्रभावित छ।" }, tip: "10% for food insecurity." },
+      { id: 30, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "निजामती सेवा ऐन अनुसार कर्मचारीले अनिवार्य सेवा अवधि कति वर्ष हो ?", options: ["एक वर्ष", "दुई वर्ष", "तीन वर्ष", "पाँच वर्ष"], correct: "दुई वर्ष", explanation: { en: "Civil Service Act mandates a 2-year mandatory service period.", np: "निजामती सेवा ऐनले २ वर्षको अनिवार्य सेवा अवधि तोकेको छ।" }, tip: "2 years for service." },
+      { id: 31, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "नेपालको सरकारी बजेटलाई आधार मान्दै पहिलो पटक कार्यालय पदाधिकारी वर्गीकरण कहिले भएको हो ?", options: ["आ.व. २०७३/०७४", "आ.व. २०७४/०७५", "आ.व. २०७५/०७६", "आ.व. २०७६/०७७"], correct: "आ.व. २०७३/०७४", explanation: { en: "Office officer classification began in FY 2073/074.", np: "कार्यालय पदाधिकारी वर्गीकरण आ.व. २०७३/०७४ मा सुरु भएको थियो।" }, tip: "2073/074 for classification." },
+      { id: 32, section: "सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", text: "तल दिइएका समूह I र समूह II सँगको जोडी मिलाउनुहोस्।", options: ["a-3, b-1, c-4, d-2"], correct: "a-3, b-1, c-4, d-2", explanation: { en: "Correct pairing based on administrative roles.", np: "प्रशासनिक भूमिकामा आधारित सही जोडी।" }, tip: "Assume standard administrative matching." },
+      { id: 33, section: "सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", text: "नागरिक वडापत्र (Citizen Charter) को प्रकाशन कुन निकायबाट भएको हो ?", options: ["संविधान आयोग", "संघीय सरकार", "लोक सेवा आयोग", "न्याय सेवा"], correct: "संघीय सरकार", explanation: { en: "The federal government publishes Citizen Charters.", np: "संघीय सरकारले नागरिक वडापत्र प्रकाशन गर्छ।" }, tip: "Federal government for charters." },
+      { id: 34, section: "सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", text: "सूचना प्रवाहको दृष्टिकोणले कुनै सूचना माग भएको खण्डमा कति दिनभित्र दिनुपर्छ ?", options: ["७", "१५", "११", "२५"], correct: "१५", explanation: { en: "RTI laws require information within 15 days.", np: "सूचनाको हक कानूनले १५ दिनभित्र सूचना दिनुपर्छ।" }, tip: "15 days for RTI." },
+      { id: 35, section: "सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", text: "हाल लागू भएको स्थानीय सरकार सञ्चालन ऐन अनुसार नेपालको स्थानीय तहको संख्या कति छ ?", options: ["७७", "७५३", "७२", "२५"], correct: "७५३", explanation: { en: "Nepal has 753 local levels under the 2074 Act.", np: "२०७४ को ऐनअनुसार नेपालमा ७५३ स्थानीय तह छन्।" }, tip: "753 for local levels." },
+      { id: 36, section: "सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", text: "नागरिक वडापत्रमा उल्लेख हुनेमध्ये सेवा प्रवाह सम्बन्धी सबैभन्दा प्रमुख सूचना कुन हो ?", options: ["सेवाग्राहीको संलग्नता", "सेवाको विधि", "सेवाको विवरण, गुणस्तर, समय र लागत", "प्रदायकको विवरण"], correct: "सेवाको विवरण, गुणस्तर, समय र लागत", explanation: { en: "Service details, quality, time, and cost are primary.", np: "सेवाको विवरण, गुणस्तर, समय र लागत प्रमुख हुन्छ।" }, tip: "Focus on service specifics." },
+      { id: 37, section: "सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", text: "तलको मध्ये कुन शल्यक्रियाको उदाहरण हो ?", options: ["आपतकालीन शल्यक्रिया", "गलत ठेगाना लेख्नु", "विवरण लुकाउनु", "अनधिकृत लेखन"], correct: "आपतकालीन शल्यक्रिया", explanation: { en: "Emergency surgery is a medical procedure.", np: "आपतकालीन शल्यक्रिया चिकित्सकीय प्रक्रिया हो।" }, tip: "Surgery is medical." },
+      { id: 38, section: "सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", text: "तलको कुन कार्य जिम्मेवार प्रशासन अन्तर्गत पर्दछ ?", options: ["गैरजिम्मेवार अभिलेख", "असमयमा अभिलेख", "मापदण्ड अनुसार सहायक जानकारी", "कागज प्राप्त नहुनु"], correct: "मापदण्ड अनुसार सहायक जानकारी", explanation: { en: "Providing standard information is responsible administration.", np: "मापदण्ड अनुसार जानकारी प्रदान गर्नु जिम्मेवार प्रशासन हो।" }, tip: "Responsible means standards." },
+      { id: 39, section: "सामान्य प्रशासन तथा सेवा सम्बन्धी कार्य–ज्ञान", text: "नेपालको संविधानको धारा २३२ बमोजिम संघ, प्रदेश र स्थानीय तहबीचको सम्बन्ध कुन सिद्धान्तमा आधारित हुन्छ ?", options: ["सहअस्तित्व र सहयोग", "निजी साझेदारी", "सहकारिता, साझा अधिकार", "सार्वजनिकनिजी समन्वय"], correct: "सहअस्तित्व र सहयोग", explanation: { en: "Article 232 emphasizes cooperation and coexistence.", np: "धारा २३२ ले सहअस्तित्व र सहयोगलाई जोड दिन्छ।" }, tip: "Article 232 for cooperation." },
+      { id: 40, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "UN Climate Change Conference (COP 30) सन् २०२५ मा कहाँ आयोजना हुने भएको छ ?", options: ["ब्राजिल", "अर्जेन्टिना", "चीन", "अष्ट्रेलिया"], correct: "ब्राजिल", explanation: { en: "COP 30 is scheduled in Belém, Brazil in 2025.", np: "COP 30 सन् २०२५ मा ब्राजिलको बेलेममा हुने भएको छ।" }, tip: "Brazil for COP 30." },
+      { id: 41, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "मुलुकको शासन व्यवस्था लोकतान्त्रिक गणतन्त्रात्मक बनाउने घोषणा संविधानको कुन धारामा गरिएको छ ?", options: ["धारा १", "धारा २", "धारा ३", "धारा ४"], correct: "धारा ४", explanation: { en: "Article 4 declares Nepal a democratic republic.", np: "धारा ४ ले नेपाललाई लोकतान्त्रिक गणतन्त्र घोषणा गर्छ।" }, tip: "Article 4 for republic." },
+      { id: 42, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "अन्तर्राष्ट्रिय नविकरणीय ऊर्जा संस्था (IRENA) को स्थापना कहिले गरिएको हो ?", options: ["सन् २००५", "सन् २००९", "सन् २०१०", "सन् २०१५"], correct: "सन् २००९", explanation: { en: "IRENA was established in 2009.", np: "IRENA सन् २००९ मा स्थापना भएको थियो।" }, tip: "2009 for IRENA." },
+      { id: 43, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "नेपालले हालै कुन देशसँग नागरिक उड्डयन सम्झौता गरेको छ ?", options: ["कतार", "चीन", "भारत", "श्रीलंका"], correct: "चीन", explanation: { en: "Nepal signed a recent aviation agreement with China.", np: "नेपालले हालै चीनसँग उड्डयन सम्झौता गरेको छ।" }, tip: "China for aviation." },
+      { id: 44, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "सार्वजनिक वित्तीय व्यवस्थापन सुधार कार्यक्रम सुरु गर्ने पहिलो प्रदेश कुन हो ?", options: ["कर्णाली", "लुम्बिनी", "मधेस", "सुदूरपश्चिम"], correct: "कर्णाली", explanation: { en: "Karnali was the first to start public financial management reform.", np: "कर्णालीले पहिलो सार्वजनिक वित्तीय सुधार कार्यक्रम सुरु गर्‍यो।" }, tip: "Karnali for financial reform." },
+      { id: 45, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "निर्माण सेवा सम्बन्धी हाल कति सेवा शाखाहरू छन् ?", options: ["३२", "३६", "३८", "४०"], correct: "३६", explanation: { en: "There are 36 construction service branches.", np: "निर्माण सेवामा ३६ शाखाहरू छन्।" }, tip: "36 for construction services." },
+      { id: 46, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "नीतिगत तथा कार्यक्रमगत निर्णय कार्यान्वयनमा सहयोग पुर्‍याउने कर्मचारीलाई के भनिन्छ ?", options: ["प्राविधिक कर्मचारी", "कार्यकारी कर्मचारी", "सेवा सहयोगी", "लेखा सहायक"], correct: "कार्यकारी कर्मचारी", explanation: { en: "Executive employees implement policy decisions.", np: "कार्यकारी कर्मचारीले नीति कार्यान्वयन गर्छन्।" }, tip: "Executive for implementation." },
+      { id: 47, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "नेपाल सरकारको निजामती सेवा ऐन कुन वर्षमा प्रारम्भ भएको हो ?", options: ["वि.सं. २०१५", "वि.सं. २०१७", "वि.सं. २०२०", "वि.सं. २०२५"], correct: "वि.सं. २०१५", explanation: { en: "The Civil Service Act began in 2015 BS (1958).", np: "निजामती सेवा ऐन वि.सं. २०१५ मा सुरु भएको थियो।" }, tip: "2015 BS for Civil Service." },
+      { id: 48, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "हालको संविधानअनुसार लोक सेवा आयोगको सदस्य संख्या कति हुने व्यवस्था छ ?", options: ["३", "५", "७", "९"], correct: "५", explanation: { en: "The Constitution sets 5 members for the PSC.", np: "संविधानले लोक सेवा आयोगमा ५ सदस्यको व्यवस्था गरेको छ।" }, tip: "5 for PSC members." },
+      { id: 49, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "स्थानीय तहमा दरबन्दी स्वीकृत गर्न सक्ने निकाय कुन हो ?", options: ["संघीय सरकार", "संघीय मामिला मन्त्रालय", "प्रदेश सरकार", "स्थानीय तह"], correct: "संघीय मामिला मन्त्रालय", explanation: { en: "The Ministry of Federal Affairs approves local level staffing.", np: "संघीय मामिला मन्त्रालयले स्थानीय तहको दरबन्दी स्वीकृत गर्छ।" }, tip: "Ministry for staffing." },
+      { id: 50, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "कुन सेवामा सहायक मानव अधिकार अधिकृत पद समावेश गरिएको छैन ?", options: ["न्याय सेवा", "सामान्य प्रशासन सेवा", "कानून सेवा", "गोप्य सेवा"], correct: "सामान्य प्रशासन सेवा", explanation: { en: "Assistant Human Rights Officer is not in General Administration.", np: "सहायक मानव अधिकार अधिकृत सामान्य प्रशासन सेवामा छैन।" }, tip: "Exclude general administration." },
+      { id: 51, section: "सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", text: "संघीय मामिला तथा सामान्य प्रशासन मन्त्रालयले गर्ने काममध्ये कुन हो ?", options: ["विकास प्रशासन", "विभाग समन्वय", "कर्मचारी नियुक्ति", "कर्मचारी हित"], correct: "विभाग समन्वय", explanation: { en: "The ministry coordinates departmental activities.", np: "मन्त्रालयले विभागीय समन्वय गर्छ।" }, tip: "Coordination for ministry." },
+      { id: 52, section: "सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", text: "नेपालको संविधान अनुसार तल्लो तहको दुई वा बढी पालिकाहरूले संयुक्त रूपमा गर्न सक्ने कार्य के हो ?", options: ["कानुन पालना", "साझा निकाय गठन", "सूचना संप्रेषण", "आपतकालीन सेवा"], correct: "साझा निकाय गठन", explanation: { en: "Municipalities can form joint bodies.", np: "पालिकाहरूले साझा निकाय गठन गर्न सक्छन्।" }, tip: "Joint bodies for municipalities." },
+      { id: 53, section: "सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", text: "लोक सेवा आयोगले सन् २०२३ मा कुन नेपालीले सर्वाधिक अंक प्राप्त गरे ?", options: ["रामकृष्ण खनाल", "अजय श्रेष्ठ", "अनिल पोखरेल", "गोविन्द रेग्मी"], correct: "रामकृष्ण खनाल", explanation: { en: "Ramkrishna Khanal topped the 2023 PSC exam.", np: "रामकृष्ण खनालले २०२३ को लोक सेवा परीक्षामा सर्वाधिक अंक प्राप्त गरे।" }, tip: "Khanal for 2023 PSC." },
+      { id: 54, section: "सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", text: "संघीय मामिला मन्त्रालयका सूचना अधिकारी सम्बन्धी कानुन कुन हो ?", options: ["संविधान", "सूचनाको हक ऐन", "निजामती सेवा ऐन", "गोपनीयता ऐन"], correct: "सूचनाको हक ऐन", explanation: { en: "The Right to Information Act governs information officers.", np: "सूचनाको हक ऐनले सूचना अधिकारीलाई नियमन गर्छ।" }, tip: "RTI for information officers." },
+      { id: 55, section: "सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", text: "नेपालमा हाल कति वटा निजामती कर्मचारी प्रशिक्षण प्रतिष्ठान छन् ?", options: ["१", "२", "३", "४"], correct: "३", explanation: { en: "There are 3 civil service training institutes.", np: "नेपालमा ३ निजामती प्रशिक्षण प्रतिष्ठान छन्।" }, tip: "3 for training institutes." },
+      { id: 56, section: "सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", text: "नेपालको संविधानले महिलालाई कति प्रतिशत स्थान सुरक्षित गरेको छ ?", options: ["३३%", "२५%", "२०%", "१०%"], correct: "३३%", explanation: { en: "The Constitution reserves 33% seats for women.", np: "संविधानले महिलालाई ३३% स्थान सुरक्षित गरेको छ।" }, tip: "33% for women’s reservation." },
+      { id: 57, section: "सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", text: "वि.सं. २०७८ को जनगणनाअनुसार नेपालको जनसंख्या कति छ ?", options: ["२,८१,९२,४८०", "२,९१,९२,४८०", "२,९२,९१,४८०", "२,८५,९१,२८०"], correct: "२,९१,९२,४८०", explanation: { en: "The 2078 census recorded 29,192,480.", np: "२०७८ को जनगणनाले २,९१,९२,४८० जनसंख्या रेकर्ड गर्‍यो।" }, tip: "2078 census population." },
+      { id: 58, section: "सामान्य प्रशासन तथा सार्वजनिक व्यवस्थापन", text: "European Union (EU) को स्थापना कहिले भएको हो ?", options: ["१९९१", "१९९२", "१९९३", "१९९४"], correct: "१९९३", explanation: { en: "The EU was established by the Maastricht Treaty in 1993.", np: "EU १९९३ मा मास्ट्रिच सन्धिद्वारा स्थापना भएको थियो।" }, tip: "1993 for EU." },
+      { id: 59, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "छुट्टै तराजु प्रयोग गरी तौलिने एकाइको नाम के हो ?", options: ["सिसाग्राम", "गिलिग्राम", "फेडोमिटर", "होलोग्राम"], correct: "सिसाग्राम", explanation: { en: "Seersagram is a traditional weighing unit.", np: "सिसाग्राम परम्परागत तौल एकाइ हो।" }, tip: "Seersagram for weight." },
+      { id: 60, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "राष्ट्रिय जनगणना, २०७८ अनुसार नेपालको जनघनत्व कति रहेको छ ?", options: ["१९९", "१९८", "२९१", "२९४"], correct: "२९१", explanation: { en: "Nepal’s population density is 291 per sq.km (2078 census).", np: "नेपालको जनघनत्व २९१ प्रति वर्ग किमि छ (२०७८ जनगणना)।" }, tip: "291 for density." },
+      { id: 61, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "नेपालको दोस्रो बहुआयामिक स्वास्थ्य बीमा कार्यक्रममा कति प्रतिशत जनसंख्या समेट्ने लक्ष्य छ ?", options: ["५०%", "६५%", "७०%", "१००%"], correct: "६५%", explanation: { en: "The second health insurance program targets 65% coverage.", np: "दोस्रो स्वास्थ्य बीमा कार्यक्रमले ६५% समेट्ने लक्ष्य राख्छ।" }, tip: "65% for health insurance." },
+      { id: 62, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "निम्न मध्ये सम्बन्धित जोडी कुन हो ?", options: ["गीता-वाल्मीकि", "गीतगोविन्द-जयदेव", "रामायण-चन्द्र शमशेर", "पशुपतिनाथ-यम श्रेष्ठ"], correct: "गीतगोविन्द-जयदेव", explanation: { en: "Jayadeva authored Gitagovinda.", np: "जयदेवले गीतगोविन्द रचना गरे।" }, tip: "Jayadeva for Gitagovinda." },
+      { id: 63, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "नेपालको कुल भू-भागमा कति प्रतिशत भाग जंगलले ओगटेको छ ?", options: ["४१.६%", "४२.११%", "६०.६%", "७५%"], correct: "४१.६%", explanation: { en: "Forests cover 41.6% of Nepal’s land.", np: "नेपालको ४१.६% भू-भाग जंगलले ओगटेको छ।" }, tip: "41.6% for forests." },
+      { id: 64, section: "सामान्य ज्ञान र सार्वजनिक व्यवस्थापन", text: "वैज्ञानिक व्यवस्थापन सिद्धान्त (Scientific Management Theory) का पिता भनेर कसलाई चिनिन्छ ?", options: ["लुथर गुलिक", "एफ.डब्लु. टेलर", "अब्राहम मास्लो", "फ्रेडरिक हर्जवर्ग"], correct: "एफ.डब्लु. टेलर", explanation: { en: "F.W. Taylor is the father of scientific management.", np: "एफ.डब्लु. टेलर वैज्ञानिक व्यवस्थापनका पिता हुन्।" }, tip: "Taylor for scientific management." }
     ];
 
     let score = 0;
     let skipped = [];
     let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    let shuffledQuestions = [];
+    let currentPage = 0;
+    const questionsPerPage = 20;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
     const resultsEl = document.getElementById("results");
     const resultsBody = document.getElementById("results-body");
     const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const endButton = document.getElementById("end-button");
+    const restartButton = document.getElementById("restart-button");
+    const prevPageButton = document.getElementById("prev-page");
+    const nextPageButton = document.getElementById("next-page");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
 
-    // Shuffle array
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
     }
 
-    // Shuffle questions only once at initialization
-    const shuffledQuestions = shuffle([...questions]);
+    function shuffleOptions(questions) {
+      return questions.map(q => {
+        const correctText = q.correct;
+        const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+        return {
+          ...q,
+          options: shuffled,
+          correct: shuffled.indexOf(correctText)
+        };
+      });
+    }
 
-    // Update progress bar
+    function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `समय: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `समय: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
     function updateProgress() {
-      const answeredOrSkipped = userAnswers.filter(answer => answer !== null).length;
-      const percentage = (answeredOrSkipped / questions.length) * 100;
+      const answered = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answered / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
+      checkAllAnswered();
     }
 
-    // Escape special characters for JavaScript string
-    function escapeJsString(str) {
-      return str
-        .replace(/'/g, "\\'")
-        .replace(/\u2019/g, "'")
-        .replace(/[\u0964-\u0965]/g, '')
-        .replace(/[^\u0000-\u007F\u0900-\u097F]/g, m => `\\u${m.charCodeAt(0).toString(16).padStart(4, '0')}`);
-    }
+    function showPage(pageIndex) {
+      currentPage = pageIndex;
+      const startIndex = pageIndex * questionsPerPage;
+      const endIndex = Math.min(startIndex + questionsPerPage, questions.length);
+      const fragment = document.createDocumentFragment();
+      const pageQuestions = shuffledQuestions.slice(startIndex, endIndex);
+      const sections = [...new Set(pageQuestions.map(q => q.section))];
 
-    // Show all questions grouped by section
-    function showQuestions() {
-      let html = '';
-      const sections = [...new Set(shuffledQuestions.map(q => q.section))];
       sections.forEach(section => {
-        html += `<h2 class="section-title">${section}</h2>`;
-        shuffledQuestions.filter(q => q.section === section).forEach((q, i) => {
-          const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
-          const options = shuffledOptions
-            .map(opt => `<button data-option-index="${opt.index}" onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeJsString(opt.text)}')">${opt.text}</button>`)
-            .join('');
-          html += `
-            <div class="question" data-index="${i}">
-              <p>प्रश्न ${i + 1}. ${q.q}</p>
-              <div class="options">${options}</div>
-              <button class="skip-button" onclick="skipQuestion(${i})">छोड्नुहोस्</button>
-            </div>
+        const sectionDiv = document.createElement('div');
+        sectionDiv.innerHTML = `<h2 class="section-title">${escapeHtml(section)}</h2>`;
+        fragment.appendChild(sectionDiv);
+
+        pageQuestions.filter(q => q.section === section).forEach((q, index) => {
+          const globalIndex = shuffledQuestions.indexOf(q);
+          const isAnswered = userAnswers[globalIndex] !== null;
+          const selectedAnswer = userAnswers[globalIndex];
+          const correctAnswer = q.options[q.correct];
+          const isSkipped = skipped.some(skippedQ => skippedQ.id === q.id && skippedQ.section === q.section);
+          const options = q.options.map((opt, j) => {
+            let buttonClass = 'option';
+            if (isAnswered) {
+              buttonClass += opt === correctAnswer ? ' correct' :
+                            opt === selectedAnswer && selectedAnswer !== correctAnswer ? ' wrong' : '';
+              buttonClass += ' disabled';
+            }
+            return `<button class="${buttonClass}" data-index="${j}" data-id="${q.id}" data-section="${q.section}" aria-label="विकल्प ${escapeHtml(opt)}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+          }).join('');
+          const div = document.createElement('div');
+          div.className = 'question';
+          div.dataset.index = globalIndex;
+          div.innerHTML = `
+            <p>प्रश्न ${q.id}. ${escapeHtml(q.text)}</p>
+            <div class="options">${options}</div>
+            <button class="skip-button" id="skip-btn-${globalIndex}" ${isAnswered || isSkipped ? 'disabled' : ''}>छोड्नुहोस्</button>
           `;
+          fragment.appendChild(div);
         });
       });
-      html += `<button class="end-button" onclick="endQuiz()" disabled>परीक्षा समाप्त गर्नुहोस्</button>`;
-      quizEl.innerHTML = html;
+
+      quizEl.innerHTML = '';
+      quizEl.appendChild(fragment);
+
+      quizEl.querySelectorAll('.option').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const questionDiv = e.target.closest('.question');
+          const questionIndex = parseInt(questionDiv.dataset.index);
+          const selected = parseInt(e.target.dataset.index);
+          const selectedText = e.target.textContent;
+          checkAnswer(e.target, questionIndex, selected, selectedText);
+        });
+      });
+
+      quizEl.querySelectorAll('.skip-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const questionIndex = parseInt(e.target.id.replace('skip-btn-', ''));
+          skipQuestion(questionIndex);
+        });
+      });
+
+      prevPageButton.disabled = currentPage === 0;
+      nextPageButton.disabled = (currentPage + 1) * questionsPerPage >= questions.length;
       updateProgress();
-      checkEndButton();
     }
 
-    // Check answer with instant feedback
     function checkAnswer(button, questionIndex, selected, selectedText) {
+      if (userAnswers[questionIndex] !== null) return;
       const q = shuffledQuestions[questionIndex];
-      const correct = q.answer;
-      const buttons = button.parentElement.querySelectorAll("button");
-      console.log(`Question ${questionIndex}: Selected=${selectedText}, Correct=${q.options[correct]}`);
+      const correct = q.correct;
+      const buttons = button.parentElement.querySelectorAll(".option");
+      const skipBtn = document.getElementById(`skip-btn-${questionIndex}`);
 
-      buttons.forEach((btn) => {
+      buttons.forEach((btn, j) => {
         btn.disabled = true;
-        const btnIndex = parseInt(btn.dataset.optionIndex);
-        if (btnIndex === correct) {
-          btn.classList.add("correct"); // Highlight correct answer in green
-        } else if (btn === button && selected !== correct) {
-          btn.classList.add("wrong"); // Highlight wrong answer in red
-        }
+        btn.classList.add('disabled');
+        if (j === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
+      skipBtn.disabled = true;
+      skipBtn.classList.add('disabled');
 
       userAnswers[questionIndex] = selectedText;
       if (selected === correct) {
         score++;
+        correctSound.play().catch(() => console.log("Correct sound playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Wrong sound playback failed"));
       }
 
+      saveProgress();
       updateProgress();
-      checkEndButton();
     }
 
-    // Skip question with instant feedback
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(questionIndex)) {
-        skipped.push(questionIndex);
-        userAnswers[questionIndex] = "Skipped";
-        const q = shuffledQuestions[questionIndex];
-        const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
-        console.log(`Question ${questionIndex}: Skipped, Correct=${q.options[q.answer]}`);
-
-        buttons.forEach((btn) => {
-          btn.disabled = true;
-          const btnIndex = parseInt(btn.dataset.optionIndex);
-          if (btnIndex === q.answer) {
-            btn.classList.add("correct"); // Highlight correct answer in green
-          }
-        });
+      if (userAnswers[questionIndex] !== null) return;
+      const q = shuffledQuestions[questionIndex];
+      if (!skipped.some(skippedQ => skippedQ.id === q.id && skippedQ.section === q.section)) {
+        skipped.push(q);
+        userAnswers[questionIndex] = "छोडिएको";
       }
+      const questionEl = quizEl.querySelector(`.question[data-index="${questionIndex}"]`);
+      const buttons = questionEl.querySelectorAll(".option");
+      const skipBtn = document.getElementById(`skip-btn-${questionIndex}`);
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('disabled');
+        if (btn.textContent === q.options[q.correct]) btn.classList.add("correct");
+      });
+      skipBtn.disabled = true;
+      skipBtn.classList.add('disabled');
+
+      saveProgress();
       updateProgress();
-      checkEndButton();
     }
 
-    // Check if all questions are answered or skipped
-    function checkEndButton() {
+    function checkAllAnswered() {
       const allAnswered = userAnswers.every(answer => answer !== null);
-      const endButton = document.querySelector(".end-button");
-      if (endButton) {
-        endButton.disabled = !allAnswered;
-      }
+      endButton.disabled = !allAnswered;
     }
 
-    // End quiz and show results
     function endQuiz() {
-      quizEl.innerHTML = "";
+      clearInterval(timerInterval);
+      quizEl.innerHTML = '';
+      prevPageButton.classList.add("hidden");
+      nextPageButton.classList.add("hidden");
+      endButton.classList.add("hidden");
       scoreEl.innerHTML = `तपाईंको स्कोर: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
       resultsEl.classList.remove("hidden");
+      restartButton.classList.remove("hidden");
 
-      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+      resultsBody.innerHTML = questions.map((q, i) => {
         const userAnswer = userAnswers[i] === null ? "प्रयास गरिएन" :
-                         userAnswers[i] === "Skipped" ? "छोडिएको" :
-                         userAnswers[i];
-        const correctAnswer = q.options[q.answer];
-        const status = userAnswers[i] === q.options[q.answer] ? "सही" :
-                      userAnswers[i] === "Skipped" ? "छोडिएको" :
+                          userAnswers[i] === "छोडिएको" ? "छोडिएको" :
+                          escapeHtml(userAnswers[i]);
+        const correctAnswer = escapeHtml(q.correct);
+        const status = userAnswers[i] === q.correct ? "सही" :
+                      userAnswers[i] === "छोडिएको" ? "छोडिएको" :
                       userAnswers[i] === null ? "प्रयास गरिएन" : "गलत";
         return `
           <tr>
-            <td>${i + 1}. ${q.q}</td>
+            <td>${q.id}. ${escapeHtml(q.text)}</td>
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>सुझाव: ${escapeHtml(q.tip)}<br>${escapeHtml(q.explanation.en)} (${escapeHtml(q.explanation.np)})</td>
           </tr>
         `;
       }).join('');
+      localStorage.removeItem("pscQuizProgress");
+    }
+
+    function restartQuiz() {
+      score = 0;
+      userAnswers = Array(questions.length).fill(null);
+      skipped = [];
+      timerSeconds = 0;
+      currentPage = 0;
+      shuffledQuestions = shuffleOptions(questions);
+      resultsEl.classList.add("hidden");
+      prevPageButton.classList.remove("hidden");
+      nextPageButton.classList.remove("hidden");
+      endButton.classList.remove("hidden");
+      scoreEl.innerHTML = "";
+      clearInterval(timerInterval);
+      startTimer();
+      showPage(0);
+    }
+
+    function loadProgress() {
+      const saved = localStorage.getItem("pscQuizProgress");
+      if (saved) {
+        const { score: savedScore, answers: savedAnswers, skipped: savedSkipped, time: savedTime } = JSON.parse(saved);
+        score = savedScore || 0;
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
+        skipped = savedSkipped || [];
+        timerSeconds = savedTime || 0;
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem("pscQuizProgress", JSON.stringify({
+        score,
+        answers: userAnswers,
+        skipped,
+        time: timerSeconds
+      }));
     }
 
     // Initialize
-    showQuestions();
+    shuffledQuestions = shuffleOptions(questions);
+    loadProgress();
+    startTimer();
+    showPage(0);
+
+    // Event listeners
+    endButton.addEventListener("click", endQuiz);
+    restartButton.addEventListener("click", restartQuiz);
+    prevPageButton.addEventListener("click", () => {
+      if (currentPage > 0) showPage(currentPage - 1);
+    });
+    nextPageButton.addEventListener("click", () => {
+      if ((currentPage + 1) * questionsPerPage < questions.length) showPage(currentPage + 1);
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !endButton.disabled) {
+        endQuiz();
+      } else if (e.key === 'ArrowLeft' && !prevPageButton.disabled) {
+        prevPageButton.click();
+      } else if (e.key === 'ArrowRight' && !nextPageButton.disabled) {
+        nextPageButton.click();
+      }
+    });
   </script>
 </body>
 </html>
