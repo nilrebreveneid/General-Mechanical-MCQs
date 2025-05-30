@@ -171,6 +171,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +188,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -200,6 +213,7 @@
             <th>Your Answer</th>
             <th>Correct Answer</th>
             <th>Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -213,170 +227,320 @@
   <script>
     const questions = [
       // Applied Mechanics (13 MCQs)
-      { q: "An attempt to turn a key into a lock manifests in the application of:", 
+      { 
+        q: "An attempt to turn a key into a lock manifests in the application of:", 
         options: ["Coplanar force", "Moment", "Linear force", "Shear stress"], 
-        answer: 1 },
-      { q: "The maximum frictional force experienced when a body just begins to slide is:", 
+        answer: 1,
+        explanation: "Turning a key applies a moment (torque), a rotational force about an axis. Coplanar forces act in a plane, linear force is translational, and shear stress is material deformation."
+      },
+      { 
+        q: "The maximum frictional force experienced when a body just begins to slide is:", 
         options: ["Dynamic friction", "Static friction", "Kinetic friction", "Rolling friction"], 
-        answer: 1 },
-      { q: "Which of the following is not a vector quantity?", 
+        answer: 1,
+        explanation: "Static friction is the maximum frictional force just before sliding begins. Dynamic and kinetic friction occur during motion, and rolling friction is for rolling objects."
+      },
+      { 
+        q: "Which of the following is not a vector quantity?", 
         options: ["Acceleration", "Work", "Velocity", "Momentum"], 
-        answer: 1 },
-      { q: "The force which does not meet at one point but their lines of action lie on the same plane are:", 
+        answer: 1,
+        explanation: "Work is a scalar quantity, having only magnitude. Acceleration, velocity, and momentum are vectors, with both magnitude and direction."
+      },
+      { 
+        q: "The force which does not meet at one point but their lines of action lie on the same plane are:", 
         options: ["Non-coplanar non-concurrent", "Coplanar concurrent", "Coplanar non-concurrent", "Non-coplanar concurrent"], 
-        answer: 2 },
-      { q: "The linear acceleration of a rotating body is given by the relation:", 
+        answer: 2,
+        explanation: "Coplanar non-concurrent forces lie in the same plane but don’t meet at a point. Concurrent forces meet at a point, and non-coplanar forces are in different planes."
+      },
+      { 
+        q: "The linear acceleration of a rotating body is given by the relation:", 
         options: ["a = α r²", "a = r × α", "a = α / r", "a = r² / α"], 
-        answer: 1 },
-      { q: "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?", 
+        answer: 1,
+        explanation: "Linear acceleration (a) of a rotating body is a = r × α, where r is radius and α is angular acceleration. Other options are mathematically incorrect."
+      },
+      { 
+        q: "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?", 
         options: ["Acceleration", "Velocity", "Angular velocity", "Displacement"], 
-        answer: 2 },
-      { q: "Watt is SI unit of:", 
+        answer: 2,
+        explanation: "Equal distances in equal times in circular motion imply constant angular velocity. Acceleration and velocity vary due to direction changes, and displacement is not constant."
+      },
+      { 
+        q: "Watt is SI unit of:", 
         options: ["Distance", "Power", "Force", "Energy"], 
-        answer: 1 },
-      { q: "The C.G. of a triangle lies at the point of intersections of:", 
+        answer: 1,
+        explanation: "Watt is the SI unit of power, equal to one joule per second. Distance is meters, force is Newtons, and energy is joules."
+      },
+      { 
+        q: "The C.G. of a triangle lies at the point of intersections of:", 
         options: ["Bisectors of angles", "Medians", "Altitudes", "Perpendicular bisectors"], 
-        answer: 1 },
-      { q: "The acceleration of a body sliding down an inclined surface is:", 
+        answer: 1,
+        explanation: "The center of gravity (C.G.) of a triangle is at the centroid, where medians intersect. Bisectors meet at the incenter, altitudes at the orthocenter, and perpendicular bisectors at the circumcenter."
+      },
+      { 
+        q: "The acceleration of a body sliding down an inclined surface is:", 
         options: ["g sin θ", "g cos θ", "g tan θ", "g / sin θ"], 
-        answer: 0 },
-      { q: "SI Unit of force is:", 
+        answer: 0,
+        explanation: "Acceleration down an inclined plane is g sin θ, where g is gravity and θ is the angle. g cos θ is the normal force component, and others are incorrect."
+      },
+      { 
+        q: "SI Unit of force is:", 
         options: ["Dyne", "Newton", "Pound", "Kilogram"], 
-        answer: 1 },
-      { q: "The equation of trajectory is:", 
+        answer: 1,
+        explanation: "Newton is the SI unit of force, defined as the force to accelerate 1 kg by 1 m/s². Dyne is CGS, pound is imperial, and kilogram is mass."
+      },
+      { 
+        q: "The equation of trajectory is:", 
         options: ["y = x cos α", "y = x tan α - gx² / (2u² cos² α)", "y = x sin α", "y = gx² / (2u²)"], 
-        answer: 1 },
-      { q: "The point through which the whole weight of the body acts, irrespective of its position is known as:", 
+        answer: 1,
+        explanation: "The trajectory equation for a projectile is y = x tan α - gx² / (2u² cos² α), accounting for initial velocity (u) and angle (α). Other options are incorrect simplifications."
+      },
+      { 
+        q: "The point through which the whole weight of the body acts, irrespective of its position is known as:", 
         options: ["Centre of percussion", "Centre of gravity", "Centre of mass", "Centre of rotation"], 
-        answer: 1 },
-      { q: "The product of pressure and volume is constant for a fixed mass of a real gas at constant temperature i.e. PV = constant. This is:", 
+        answer: 1,
+        explanation: "The center of gravity is where the entire weight of a body acts, regardless of position. Center of mass is similar but for mass, and others are unrelated."
+      },
+      { 
+        q: "The product of pressure and volume is constant for a fixed mass of a real gas at constant temperature i.e. PV = constant. This is:", 
         options: ["Graham’s law", "Boyle’s law", "Charles’ law", "Avogadro’s law"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "Boyle’s law states that PV = constant for a fixed mass of gas at constant temperature. Charles’ law involves volume and temperature, Graham’s law is about diffusion, and Avogadro’s law relates to moles."
+      },
 
       // Thermodynamics (8 MCQs)
-      { q: "The unit of temperature is based on:", 
+      { 
+        q: "The unit of temperature is based on:", 
         options: ["Boiling point of mercury", "Triple point of water", "Freezing point of water", "Boiling point of water"], 
-        answer: 1 },
-      { q: "Absolute zero temperature is taken as:", 
+        answer: 1,
+        explanation: "The Kelvin scale is based on the triple point of water (273.16 K). Boiling and freezing points vary with pressure, and mercury is not used."
+      },
+      { 
+        q: "Absolute zero temperature is taken as:", 
         options: ["237°C", "-273°C", "0°C", "-237°C"], 
-        answer: 1 },
-      { q: "Essential condition for heat transfer is:", 
+        answer: 1,
+        explanation: "Absolute zero is -273°C (0 K), where molecular motion theoretically stops. Other options are incorrect."
+      },
+      { 
+        q: "Essential condition for heat transfer is:", 
         options: ["Difference in conductivity", "Difference in temperature", "Difference in pressure", "Difference in volume"], 
-        answer: 1 },
-      { q: "A constant volume air thermometer works on:", 
+        answer: 1,
+        explanation: "Heat transfer requires a temperature difference (driving force for conduction, convection, or radiation). Conductivity, pressure, and volume differences are not essential."
+      },
+      { 
+        q: "A constant volume air thermometer works on:", 
         options: ["Archimedes’ principle", "Charles’ Law", "Boyle’s Law", "Pascal’s Law"], 
-        answer: 1 },
-      { q: "The value of Cp/Cv for air is:", 
+        answer: 1,
+        explanation: "A constant volume air thermometer uses Charles’ Law (V/T = constant at constant pressure), relating volume to temperature. Boyle’s Law is for pressure-volume, and others are unrelated."
+      },
+      { 
+        q: "The value of Cp/Cv for air is:", 
         options: ["1.2", "1.4", "1.0", "1.6"], 
-        answer: 1 },
-      { q: "A gas behaves as an ideal gas at:", 
+        answer: 1,
+        explanation: "For air (diatomic gas), the ratio of specific heats (Cp/Cv) is approximately 1.4. Other values are incorrect for air under standard conditions."
+      },
+      { 
+        q: "A gas behaves as an ideal gas at:", 
         options: ["Very high pressure", "Low pressure", "High temperature only", "Low temperature only"], 
-        answer: 1 },
-      { q: "The efficiency of the Joule cycle is:", 
+        answer: 1,
+        explanation: "A gas behaves as an ideal gas at low pressure and high temperature, where intermolecular forces are negligible. High pressure and low temperature cause deviations."
+      },
+      { 
+        q: "The efficiency of the Joule cycle is:", 
         options: ["Greater than Carnot cycle", "Less than Carnot cycle", "Equal to Carnot cycle", "Independent of Carnot cycle"], 
-        answer: 1 },
-      { q: "Heat engine attains 100% thermal efficiency: it violates —", 
+        answer: 1,
+        explanation: "The Joule (Brayton) cycle has lower efficiency than the Carnot cycle due to practical losses and non-ideal processes. Carnot is the theoretical maximum."
+      },
+      { 
+        q: "Heat engine attains 100% thermal efficiency: it violates —", 
         options: ["First law of thermodynamics", "Second law of thermodynamics", "Zeroth law of thermodynamics", "Third law of thermodynamics"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "A 100% efficient heat engine violates the second law of thermodynamics, which states some energy is always lost as heat. The first law concerns energy conservation, and others are unrelated."
+      },
 
       // Machine Drawing (7 MCQs)
-      { q: "Which is the correct conventional representation of a splined hole (BS 308)?", 
+      { 
+        q: "Which is the correct conventional representation of a splined hole (BS 308)?", 
         options: ["⭘ with vertical line", "⭘ with zig-zag and center marking", "⭘ with cross", "⭘ with diagonal line"], 
-        answer: 1 },
-      { q: "A title block contains all the following information except:", 
+        answer: 1,
+        explanation: "Per BS 308, a splined hole is represented by a circle with a zig-zag and center marking, indicating internal splines. Other symbols are incorrect or represent different features."
+      },
+      { 
+        q: "A title block contains all the following information except:", 
         options: ["Part list", "Drawing No.", "Scale", "Date"], 
-        answer: 0 },
-      { q: "What is the standard angle between isometric axes?", 
+        answer: 0,
+        explanation: "A title block includes Drawing No., scale, and date, but the part list (bill of materials) is typically separate. Part lists are not standard in title blocks."
+      },
+      { 
+        q: "What is the standard angle between isometric axes?", 
         options: ["120°", "90°", "60°", "45°"], 
-        answer: 0 },
-      { q: "Which symbol is used to denote surface roughness?", 
+        answer: 0,
+        explanation: "Isometric axes are at 120° to each other, creating a balanced 3D effect. 90° is for orthographic, and 60° or 45° are not standard for isometric drawings."
+      },
+      { 
+        q: "Which symbol is used to denote surface roughness?", 
         options: ["Check mark (✓)", "Tick with triangle (⏜✓)", "Circle (⭘)", "Square (⬛)"], 
-        answer: 1 },
-      { q: "In AutoCAD, what is the function of the ORTHO mode?", 
+        answer: 1,
+        explanation: "Surface roughness is denoted by a tick with a triangle (⏜✓), indicating texture requirements. Other symbols are used for different purposes in drawings."
+      },
+      { 
+        q: "In AutoCAD, what is the function of the ORTHO mode?", 
         options: ["Constrains cursor to 90° angles", "Mirrors the object", "Rotates the object", "Scales the object"], 
-        answer: 0 },
-      { q: "What does the symbol ⌀ represent in machine drawing?", 
+        answer: 0,
+        explanation: "ORTHO mode in AutoCAD constrains cursor movement to 0° and 90° angles, aiding straight-line drawing. Other options describe different commands."
+      },
+      { 
+        q: "What does the symbol ⌀ represent in machine drawing?", 
         options: ["Radius", "Diameter", "Angle", "Depth"], 
-        answer: 1 },
-      { q: "Which of the following is a permanent joint?", 
+        answer: 1,
+        explanation: "The ⌀ symbol denotes diameter in machine drawings, specifying the size of circular features. Radius uses ‘R’, and angle or depth use other notations."
+      },
+      { 
+        q: "Which of the following is a permanent joint?", 
         options: ["Welded joint", "Nut and bolt", "Screw joint", "Cotter joint"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "A welded joint is permanent, fusing materials together. Nut and bolt, screw, and cotter joints are detachable or semi-permanent."
+      },
 
       // Electro-Mechanical (3 MCQs)
-      { q: "An equipment or device used to convert electrical energy into mechanical energy is called:", 
+      { 
+        q: "An equipment or device used to convert electrical energy into mechanical energy is called:", 
         options: ["Motor", "Generator", "Transformer", "Rectifier"], 
-        answer: 0 },
-      { q: "The power factor of an alternator depends on:", 
+        answer: 0,
+        explanation: "An electric motor converts electrical energy to mechanical energy. Generators convert mechanical to electrical, transformers adjust voltage, and rectifiers convert AC to DC."
+      },
+      { 
+        q: "The power factor of an alternator depends on:", 
         options: ["Load", "Alternate loss", "Voltage", "Frequency"], 
-        answer: 0 },
-      { q: "Which D.C. motor is used in machine tool?", 
+        answer: 0,
+        explanation: "The power factor of an alternator depends on the load’s characteristics (e.g., resistive, inductive). Voltage and frequency are controlled, and ‘alternate loss’ is not a term."
+      },
+      { 
+        q: "Which D.C. motor is used in machine tool?", 
         options: ["Series motor", "Shunt motor", "Compound motor", "Synchronous motor"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "Shunt DC motors are used in machine tools due to their constant speed under varying loads. Series motors are for high torque, compound motors are mixed, and synchronous motors are AC."
+      },
 
       // Industrial Boiler (5 MCQs)
-      { q: "Safety valve generally used on high pressure boiler is:", 
+      { 
+        q: "Safety valve generally used on high pressure boiler is:", 
         options: ["Dead weight type", "Both of the above", "Spring-loaded type", "Lever type"], 
-        answer: 2 },
-      { q: "Fire tube boilers are those in which:", 
+        answer: 2,
+        explanation: "Spring-loaded safety valves are used in high-pressure boilers for quick and reliable pressure release. Dead weight and lever types are for lower pressures."
+      },
+      { 
+        q: "Fire tube boilers are those in which:", 
         options: ["Water passes through the tubes and fine gases around it", "Gases pass through tubes and water around it", "Steam flows through tubes", "Fuel burns inside tubes"], 
-        answer: 1 },
-      { q: "Which of the following is a water tube boiler?", 
+        answer: 1,
+        explanation: "In fire tube boilers, hot gases pass through tubes, heating water surrounding them. Water tube boilers have water in tubes, and other options are incorrect."
+      },
+      { 
+        q: "Which of the following is a water tube boiler?", 
         options: ["Cochran boiler", "Babcock and Wilcox boiler", "Lancashire boiler", "Locomotive boiler"], 
-        answer: 1 },
-      { q: "Water tube boilers are preferred for:", 
+        answer: 1,
+        explanation: "Babcock and Wilcox is a water tube boiler, with water flowing through tubes heated externally. Cochran, Lancashire, and locomotive boilers are fire tube."
+      },
+      { 
+        q: "Water tube boilers are preferred for:", 
         options: ["Low pressure and high output", "High pressure and high output", "Low pressure and low output", "High pressure and low output"], 
-        answer: 1 },
-      { q: "Efficiency improving component:", 
+        answer: 1,
+        explanation: "Water tube boilers are preferred for high pressure and high output due to their ability to handle high steam demands safely. Fire tube boilers suit lower pressures."
+      },
+      { 
+        q: "Efficiency improving component:", 
         options: ["Safety valve", "Economizer", "Blow-off valve", "Steam stop valve"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "An economizer improves boiler efficiency by preheating feedwater with exhaust gases. Safety valves ensure safety, blow-off valves remove impurities, and steam stop valves control flow."
+      },
 
       // Heat Engines (5 MCQs)
-      { q: "Which cycle is used in petrol engines?", 
+      { 
+        q: "Which cycle is used in petrol engines?", 
         options: ["Diesel cycle", "Otto cycle", "Brayton cycle", "Rankine cycle"], 
-        answer: 1 },
-      { q: "Compression ratio of diesel engine is?", 
+        answer: 1,
+        explanation: "Petrol engines use the Otto cycle (spark ignition). Diesel cycle is for diesel engines, Brayton for gas turbines, and Rankine for steam engines."
+      },
+      { 
+        q: "Compression ratio of diesel engine is?", 
         options: ["10:1", "20:1", "5:1", "15:1"], 
-        answer: 1 },
-      { q: "Fuel is ignited in CI engine by?", 
+        answer: 1,
+        explanation: "Diesel engines typically have a compression ratio around 20:1 to achieve ignition by compression. Lower ratios (e.g., 10:1, 15:1) are for petrol engines."
+      },
+      { 
+        q: "Fuel is ignited in CI engine by?", 
         options: ["Spark plug", "Compression", "Glow plug", "Fuel injector"], 
-        answer: 1 },
-      { q: "The unit of brake power is:", 
+        answer: 1,
+        explanation: "In a compression-ignition (CI) engine, fuel ignites due to high compression heating the air. Spark plugs are for SI engines, glow plugs assist cold starts, and injectors deliver fuel."
+      },
+      { 
+        q: "The unit of brake power is:", 
         options: ["kW", "N.m", "J/s", "W/m²"], 
-        answer: 0 },
-      { q: "Thermal efficiency of an ideal diesel cycle is?", 
+        answer: 0,
+        explanation: "Brake power, the usable power output of an engine, is measured in kW. N.m is torque, J/s is equivalent to watts, and W/m² is power density."
+      },
+      { 
+        q: "Thermal efficiency of an ideal diesel cycle is?", 
         options: ["Less than Otto cycle", "More than Otto cycle", "Equal to Otto cycle", "Independent of Otto cycle"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "The ideal diesel cycle has lower thermal efficiency than the Otto cycle due to its lower compression ratio for the same heat input. Efficiency depends on cycle specifics, not independence."
+      },
 
       // Industrial Management (6 MCQs)
-      { q: "According to the Civil Service Act, 2049, the required age to apply for non-gazetted 2nd class:", 
+      { 
+        q: "According to the Civil Service Act, 2049, the required age to apply for non-gazetted 2nd class:", 
         options: ["16 years", "18 years", "21 years", "25 years"], 
-        answer: 1 },
-      { q: "According to Labour Act, no enterprise is allowed to employ the worker below the age of:", 
+        answer: 1,
+        explanation: "Per Nepal’s Civil Service Act, 2049, the minimum age for non-gazetted 2nd class posts is 18 years. Other ages do not align with the requirement."
+      },
+      { 
+        q: "According to Labour Act, no enterprise is allowed to employ the worker below the age of:", 
         options: ["16 years", "14 years", "12 years", "18 years"], 
-        answer: 0 },
-      { q: "Which one is the full form of ICAO?", 
+        answer: 0,
+        explanation: "Nepal’s Labour Act prohibits employing workers below 16 years to protect against child labor. Lower ages violate the law, and 18 is not the minimum."
+      },
+      { 
+        q: "Which one is the full form of ICAO?", 
         options: ["International civil action organization", "International civil aviation organization", "International council of aviation operations", "International committee for air oversight"], 
-        answer: 1 },
-      { q: "Industrial relation can be defined as:", 
+        answer: 1,
+        explanation: "ICAO stands for International Civil Aviation Organization, a UN agency for aviation standards. Other options are incorrect acronyms."
+      },
+      { 
+        q: "Industrial relation can be defined as:", 
         options: ["Labour management relation", "The interactions between employers, employees and government", "Employee-to-employee interactions", "Government-to-industry regulations"], 
-        answer: 1 },
-      { q: "ILO stands for:", 
+        answer: 1,
+        explanation: "Industrial relations involve interactions between employers, employees, and government, focusing on workplace dynamics. Other options are too narrow or unrelated."
+      },
+      { 
+        q: "ILO stands for:", 
         options: ["International Labor Organization", "Industrial Labor Operation", "International Law Organization", "Industrial Leadership Office"], 
-        answer: 0 },
-      { q: "What is the purpose of ventilation in industries?", 
+        answer: 0,
+        explanation: "ILO is the International Labour Organization, a UN agency for labor standards. Other options are incorrect or fabricated."
+      },
+      { 
+        q: "What is the purpose of ventilation in industries?", 
         options: ["For air circulation only", "All of the above", "For temperature control only", "For humidity control only"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "Ventilation in industries serves multiple purposes: air circulation, temperature control, humidity control, and removing contaminants. ‘All of the above’ is correct."
+      },
 
       // Estimating and Costing (3 MCQs)
-      { q: "Depreciation is a process of:", 
+      { 
+        q: "Depreciation is a process of:", 
         options: ["Maintenance", "Valuation", "Cost estimation", "Profit calculation"], 
-        answer: 1 },
-      { q: "Following cost is variable cost:", 
+        answer: 1,
+        explanation: "Depreciation is the process of allocating the cost of an asset over its useful life, a form of valuation. It’s not maintenance, cost estimation, or profit calculation."
+      },
+      { 
+        q: "Following cost is variable cost:", 
         options: ["Depreciation of plant", "Cost of raw material", "Rent of building", "Insurance premium"], 
-        answer: 1 },
-      { q: "Return on Investment (ROI) =", 
+        answer: 1,
+        explanation: "Cost of raw material is a variable cost, changing with production volume. Depreciation, rent, and insurance are fixed costs."
+      },
+      { 
+        q: "Return on Investment (ROI) =", 
         options: ["Gross profit / Net sales × 100", "Net profit / Total assets × 100", "Total revenue / Total cost × 100", "Net sales / Total assets × 100"], 
-        answer: 1 }
+        answer: 1,
+        explanation: "ROI is calculated as (Net profit / Total assets) × 100, measuring investment efficiency. Other formulas represent different financial ratios."
+      }
     ];
 
     let currentPage = 0;
@@ -386,7 +550,7 @@
     let timerSeconds = 0;
     let timerInterval;
     const QUESTIONS_PER_PAGE = 5;
-    const ANSWER_DELAY = 1500; // Defined but not used in checkAnswer
+    const ANSWER_DELAY = 1500;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -402,10 +566,10 @@
       const saved = localStorage.getItem("quizProgress6");
       if (saved) {
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        currentPage = savedPage;
-        score = savedScore;
-        skipped = savedSkipped;
-        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        currentPage = savedPage || 0;
+        score = savedScore || 0;
+        skipped = savedSkipped || [];
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
       }
     }
@@ -435,6 +599,10 @@
 
     // Start timer
     function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -445,8 +613,23 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      const answeredOrSkipped = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answeredOrSkipped / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
+    }
+
+    // Escape special characters for JavaScript string
+    function escapeJsString(str) {
+      return str
+        .replace(/'/g, "\\'")
+        .replace(/\u2212/g, '-') // Mathematical minus to hyphen
+        .replace(/ᵥ/g, 'v')
+        .replace(/ₚ/g, 'p')
+        .replace(/\u2019/g, "'") // Curly apostrophe to straight
+        .replace(/\u00B0/g, "°") // Degree symbol
+        .replace(/\u03B1/g, "α") // Alpha symbol
+        .replace(/\u25CB/g, "⭘") // Circle symbol
+        .replace(/\u2713/g, "✓"); // Check mark symbol
     }
 
     // Show questions for the current page
@@ -458,12 +641,13 @@
         const q = shuffledQuestions[i];
         const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
         const options = shuffledOptions
-          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeJsString(opt.text)}')">${opt.text}</button>`)
           .join('');
         html += `
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -496,18 +680,33 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(shuffledQuestions[questionIndex])) {
-        skipped.push(shuffledQuestions[questionIndex]);
+      if (!skipped.includes(questionIndex)) {
+        skipped.push(questionIndex);
         userAnswers[questionIndex] = "Skipped";
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
       checkNextButton();
     }
@@ -560,6 +759,7 @@
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
