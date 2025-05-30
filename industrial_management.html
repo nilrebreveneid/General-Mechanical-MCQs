@@ -4,288 +4,428 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Industrial Management MCQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: 'Roboto', -apple-system, Arial, sans-serif;
       margin: 0;
       padding: 2rem;
-      background: linear-gradient(to right, #f8ffae, #43c6ac);
-      color: #333;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      color: #1a202c;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      line-height: 1.6;
     }
 
     h1 {
       text-align: center;
-      color: #1e88e5;
+      color: #2b6cb0;
       margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
       text-align: center;
-      color: #d81b60;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
+      color: #c53030;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
     }
 
     .quiz-container {
-      max-width: 900px;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      max-width: 1000px;
+      width: 100%;
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
       margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .quiz-container:hover {
+      transform: translateY(-5px);
     }
 
     .progress-bar {
       width: 100%;
-      height: 10px;
-      background: #eee;
-      border-radius: 5px;
-      margin-bottom: 1rem;
+      height: 12px;
+      background: #edf2f7;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
       overflow: hidden;
+      border: 1px solid #e2e8f0;
     }
 
     .progress {
       height: 100%;
-      background: #42a5f5;
-      transition: width 0.3s;
+      background: linear-gradient(to right, #4299e1, #3182ce);
+      border-radius: 6px;
+      transition: width 0.4s ease-in-out;
     }
 
     #timer {
       text-align: right;
-      font-size: 1rem;
+      font-size: 1.1rem;
       margin-bottom: 1rem;
-      color: #d81b60;
+      color: #c53030;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
     .question {
-      margin-bottom: 1.5rem;
-      animation: fadeIn 0.5s;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      animation: fadeIn 0.5s ease-out;
+      transition: box-shadow 0.3s;
+    }
+
+    .question:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .question p {
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: #444;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #2d3748;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
     .options button {
-      display: block;
-      margin: 0.5rem 0;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem 1.25rem;
       width: 100%;
-      background: #e3f2fd;
-      border: none;
-      border-radius: 5px;
+      background: #ebf8ff;
+      border: 2px solid #bee3f8;
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.3s;
       font-size: 1rem;
       text-align: left;
+      transition: all 0.3s ease;
+      color: #2d3748;
     }
 
-    .options button:hover {
-      background: #bbdefb;
-      transform: translateX(5px);
+    .options button:hover:not(:disabled) {
+      background: #bee3f8;
+      border-color: #90cdf4;
+      transform: translateX(4px);
     }
 
     .options button:focus {
-      outline: 2px solid #1e88e5;
-      outline-offset: 2px;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
     }
 
     .options button.correct {
-      background-color: #c8e6c9 !important;
+      background: #c6f6d5 !important;
+      border-color: #68d391 !important;
+      color: #22543d;
       animation: pulse 0.5s;
     }
 
     .options button.wrong {
-      background-color: #ffcdd2 !important;
+      background: #fed7d7 !important;
+      border-color: #f56565 !important;
+      color: #742a2a;
       animation: shake 0.3s;
+    }
+
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .explanation {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f0fff4;
+      border-left: 4px solid #48bb78;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      color: #2d3748;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+
+    .explanation.show {
+      opacity: 1;
+      max-height: 200px;
     }
 
     @keyframes pulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      50% { transform: scale(1.03); }
       100% { transform: scale(1); }
     }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    .pagination-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .pagination-button:hover:not(:disabled) {
+      background: #3182ce;
+    }
+
+    .pagination-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    .submit-button, .restart-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .submit-button:hover:not(:disabled), .restart-button:hover:not(:disabled) {
+      background: #3182ce;
+      transform: translateY(-2px);
+    }
+
+    .submit-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
     }
 
     #score, #results {
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       margin-top: 2rem;
-      font-weight: bold;
+      font-weight: 700;
+      color: #2d3748;
     }
 
     .results-table {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
     }
 
     .results-table th, .results-table td {
-      border: 1px solid #ddd;
-      padding: 0.5rem;
+      border: 1px solid #e2e8f0;
+      padding: 1rem;
       text-align: left;
     }
 
     .results-table th {
-      background: #f5f5f5;
+      background: #edf2f7;
+      font-weight: 600;
+      color: #2d3748;
     }
 
-    .submit-button, .restart-button {
-      background: #42a5f5;
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 1rem;
-      display: block;
-      width: 100%;
-      text-align: center;
-      transition: background 0.3s;
-    }
-
-    .submit-button:hover, .restart-button:hover {
-      background: #1e88e5;
-    }
-
-    .submit-button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
+    .results-table td.correct { color: #2f855a; font-weight: 600; }
+    .results-table td.wrong { color: #c53030; font-weight: 600; }
+    .results-table td.not-attempted { color: #718096; }
 
     .hidden {
       display: none;
     }
 
-    @media (max-width: 600px) {
-      .quiz-container {
+    @media (max-width: 768px) {
+      body {
         padding: 1rem;
       }
+      .quiz-container {
+        padding: 1.5rem;
+      }
+      .question p {
+        font-size: 1.1rem;
+      }
       .options button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+      }
+      .results-table th, .results-table td {
+        padding: 0.75rem;
         font-size: 0.9rem;
-        padding: 0.5rem;
+      }
+      .pagination-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      .submit-button, .restart-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
   <h1>Industrial Management MCQ</h1>
-  <h2>3 MCQs Will Come in Exam</h2>
+  <h2>Test Your Knowledge: 3 MCQs Will Appear in Exam</h2>
   <div class="quiz-container">
     <div id="timer">Time: 00:00</div>
     <div class="progress-bar">
       <div class="progress" id="progress"></div>
     </div>
-    <div id="quiz"></div>
-    <button class="submit-button" id="submit-button" disabled>Submit Quiz</button>
+    <div id="quiz" role="region" aria-live="polite"></div>
+    <div class="pagination">
+      <button class="pagination-button" id="prev-page" disabled aria-label="Previous page">Previous</button>
+      <button class="pagination-button" id="next-page" aria-label="Next page">Next</button>
+    </div>
+    <button class="submit-button" id="submit-button" disabled aria-label="Submit quiz">Submit Quiz</button>
     <div id="score"></div>
     <div id="results" class="hidden">
       <h2>Quiz Results</h2>
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th>Question</th>
-            <th>Your Answer</th>
-            <th>Correct Answer</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="results-body"></tbody>
-      </table>
+      <div class="overflow-x-auto">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Your Answer</th>
+              <th>Correct Answer</th>
+              <th>Status</th>
+              <th>Explanation</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
     </div>
   </div>
-  <button class="restart-button hidden" id="restart-button">Restart Quiz</button>
+  <button class="restart-button hidden" id="restart-button" aria-label="Restart quiz">Restart Quiz</button>
 
   <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
   <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
 
   <script>
     const questions = [
-      { q: "According to the Civil Service Act, 2049, the required age to apply for non-gazetted 2nd class:", options: ["16 years", "18 years"], answer: 0 },
-      { q: "According to Labour Act, no enterprise is allowed to employ the worker below the age of:", options: ["16 years", "14 years"], answer: 0 },
-      { q: "Which one is the full form of ICAO?", options: ["International civil action organization", "International civil aviation organization"], answer: 0 },
-      { q: "Which of the following actions cannot be taken by the management?", options: ["To give warning", "To stop salary increment"], answer: 0 },
-      { q: "Assets of a company include:", options: ["Building", "All of the above"], answer: 1 },
-      { q: "Amortization means:", options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis"], answer: 1 },
-      { q: "Industrial relation can be defined as:", options: ["Labour management relation", "The interactions between employers, employees and government"], answer: 1 },
-      { q: "Industrial hygiene and safety is concerned with:", options: ["Analyzing the hazards of workplace", "All of the above"], answer: 1 },
-      { q: "Wages of any employee is:", options: ["Bonus", "All of the above"], answer: 1 },
-      { q: "Judder factors which affect workers:", options: ["Frustration", "Fatigue"], answer: 1 },
-      { q: "Which of the following is not a chief organ of the UN?", options: ["Security Council", "General Assembly"], answer: 1 },
-      { q: "The wages of supervisors & material handlers are charged as:", options: ["Overhead", "Direct labor cost"], answer: 0 },
-      { q: "ILO ensures right of worker by:", options: ["Government, employer and employee", "Employer and employees"], answer: 1 },
-      { q: "Highest percentage of child labor is found in Nepal in which sector?", options: ["Industrial sector", "Agricultural sector"], answer: 1 },
-      { q: "Which of the following is independent of sales forecast?", options: ["Productivity", "Inventory control"], answer: 0 },
-      { q: "Which of the following layouts is suited for mass production?", options: ["Process Layout", "Product Layout"], answer: 1 },
-      { q: "In thermodynamics, a function is called a path function when the quantities depend on:", options: ["By a path", "Area of the graph"], answer: 1 },
-      { q: "Occupational safety, health, and welfare of workers are governed by:", options: ["Labour Act", "Industrial Act"], answer: 1 },
-      { q: "ICAO is:", options: ["A government organization", "A specialized agency of UN"], answer: 1 },
-      { q: "ILO stands for:", options: ["International Labor Organization", "Industrial Labor Operation"], answer: 0 },
-      { q: "What is the purpose of ventilation in industries?", options: ["For air circulation only", "All of the above"], answer: 1 },
-      { q: "Industrial relation can be defined as:", options: ["Relationship between employees and employers only", "All of the above"], answer: 1 },
-      { q: "Industrial hygiene and safety is concerned with:", options: ["Identifying the hazards of workplace", "All of the above"], answer: 1 },
-      { q: "Which of the following is the prime cost?", options: ["Cost of raw materials", "Cost of packing materials"], answer: 0 },
-      { q: "A company spends on advertisement to promote sales. This is:", options: ["Sales revenue line", "Total cost line"], answer: 1 },
-      { q: "What stands for ILO in the field of industrial management?", options: ["International Labor Organization", "Internal Labor Order"], answer: 0 },
-      { q: "What is purpose of ventilation in industries?", options: ["To cater for adequate supply of oxygen/air for respiration", "To provide thermal comfort"], answer: 0 },
-      { q: "ICAO is:", options: ["A unit of government of Nepal", "A specialized agency of UN"], answer: 1 },
-      { q: "Industrial relation can be defined as:", options: ["Labour management relation", "All of the above"], answer: 1 },
-      { q: "In which of the following condition, human sweats more?", options: ["Relative humidity 0%", "Relative humidity 50%"], answer: 1 },
-      { q: "सिँचाइ योजनाको प्राथमिकता अनुसार कार्यान्वयन क्रम के हो?", options: ["1-2-4-3", "1-3-4-2"], answer: 1 },
-      { q: "Which of the following is not a function of ILO?", options: ["Creation of international labor standards", "Fostering cooperation through meetings"], answer: 1 },
-      { q: "The basic function of ILO is", options: ["Setting internationally acceptable norms", "All of the above"], answer: 1 },
-      { q: "The basic function of ILO is:", options: ["Setting internationally acceptable norms", "All of the above"], answer: 1 },
-      { q: "What is the function of ICAO?", options: ["Codify principles of international air navigation", "Foster the planning and development of international air transport"], answer: 1 },
-      { q: "What is the full form of ICAO?", options: ["International Civil Action Organization", "International Civil Aviation Organization"], answer: 1 },
-      { q: "According to Labour Act, no enterprise is allowed to employ the worker below the age of:", options: ["12 years", "16 years"], answer: 1 },
-      { q: "What is the minimum wage set by the government of Nepal effective from 17 July 2019?", options: ["10,500 Rupees a month", "13,450 Rupees a month"], answer: 1 },
-      { q: "Which of the following strategies is considered the first line of defence for controlling occupational health and hazards?", options: ["Administrative control", "Personal protective equipment"], answer: 1 },
-      { q: "Labour law is the:", options: ["Precedents", "All of the above"], answer: 1 },
-      { q: "International Labor Organization was founded in:", options: ["1919 AD", "1946 AD"], answer: 0 },
-      { q: "कुनै कर्मचारीले १० वर्षभन्दा बढी तर १५ वर्षभन्दा कम सेवा गरेमा कति ग्र्याचुटी पाउँछ?", options: ["प्रत्येक वर्षको आधा महिनाको तलब", "प्रत्येक वर्षको एक महिनाको तलब"], answer: 1 },
-      { q: "According to Labour Act, 2074, no employer shall employ laborer to work more than:", options: ["8 hours a day and 44 hours a week", "8 hours a day and 48 hours a week"], answer: 1 },
-      { q: "Labour Act stated that employees are eligible for overtime at a rate of … if they work more than 48 hours per week:", options: ["1.8", "2"], answer: 1 },
-      { q: "Civil employee serving more than 10 years and less than 15 years receives gratuity at the rate of:", options: ["Two month’s salary", "Half month’s salary for each year of service"], answer: 1 },
-      { q: "Industrial relation means", options: ["Labour and management relation", "Labour and government relation"], answer: 0 },
-      { q: "कामदार नियुक्त गर्न सकिने न्यूनतम उमेर कति हो?", options: ["२० वर्ष", "१८ वर्ष"], answer: 1 },
-      { q: "दोस्रो श्रेणी (दोस्रो संगठित क्षेत्र) मा अनुशासन भङ्गमा सधाईको आधारमा श्रमिक छुट्टाउने दर:", options: ["२२", "३३"], answer: 1 },
-      { q: "This is not the basic information that needs to be incorporated in the operation log sheet of a machine:", options: ["Quantity of fuel consumed", "Total run hour/km of machine"], answer: 1 },
-      { q: "If depreciation is calculated as fixed percentage of book value of each year, the method is:", options: ["Straight line depreciation", "SOYD"], answer: 1 },
-      { q: "Which safety device is most important during operation of lathe machine?", options: ["Safety goggle", "Helmet"], answer: 0 },
-      { q: "Safety management deals with:", options: ["Loss of life", "Prevention of the accident"], answer: 1 },
-      { q: "Before maintenance, why job card is filled?", options: ["To list the parts of machine which needs repair", "To keep attendance of mechanic"], answer: 0 },
-      { q: "राम्रो प्रकाश सामान/पेटी आदि चै कसले सजाउँछ ?", options: ["राम्रो प्रकाश", "खराब प्रकाश"], answer: 0 },
-      { q: "Industrial hygiene and safety is concerned with:", options: ["Identifying the hazards of workplace", "All of the above"], answer: 1 },
-      { q: "Amortization means", options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis"], answer: 1 },
-      { q: "Depreciation of fixed assets is:", options: ["A decrease in the asset’s value because of poor maintenance", "The amount by which its value is assumed to decrease"], answer: 0 },
-      { q: "At break even point (BEP):", options: ["There is neither profit nor loss", "The profit is very low"], answer: 0 },
-      { q: "At break-even point (BEP):", options: ["There is neither profit nor loss", "The profit is very low"], answer: 0 },
-      { q: "What is the total percent of reservation of posts that are to be fulfilled by open competition?", options: ["Forty five percent", "Forty percent"], answer: 0 },
-      { q: "Which is not a type of leave in Civil Service Act?", options: ["Entertainment leave", "Home leave"], answer: 0 }
+      { q: "According to the Civil Service Act, 2049, the minimum age to apply for non-gazetted 2nd class is:", options: ["16 years", "18 years"], answer: 1, explanation: "The Civil Service Act, 2049 of Nepal specifies that the minimum age for applying to non-gazetted 2nd class positions is 18 years to ensure maturity and eligibility." },
+      { q: "According to Labour Act, no enterprise is allowed to employ a worker below the age of:", options: ["14 years", "16 years"], answer: 1, explanation: "The Labour Act of Nepal prohibits employing workers below 16 years to protect child welfare and comply with international labor standards." },
+      { q: "What is the full form of ICAO?", options: ["International Civil Action Organization", "International Civil Aviation Organization"], answer: 1, explanation: "ICAO stands for International Civil Aviation Organization, a UN agency that sets standards for international air navigation and safety." },
+      { q: "Which action cannot typically be taken by management under labor laws?", options: ["To give warning", "To stop salary increment"], answer: 1, explanation: "Stopping salary increments may violate labor laws unless justified by specific disciplinary or performance issues, whereas warnings are standard." },
+      { q: "Assets of a company include:", options: ["Building", "All of the above"], answer: 1, explanation: "Company assets include tangible items like buildings and intangible items like patents, making 'all of the above' correct." },
+      { q: "Amortization means:", options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis"], answer: 1, explanation: "Amortization refers to the gradual repayment of a debt or allocation of an intangible asset's cost over time in installments." },
+      { q: "Industrial relation primarily involves:", options: ["Labour-management relation", "Interactions between employers, employees, and government"], answer: 1, explanation: "Industrial relations encompass interactions among employers, employees, and government to ensure harmonious workplace dynamics." },
+      { q: "Industrial hygiene and safety focuses on:", options: ["Analyzing workplace hazards", "All of the above"], answer: 1, explanation: "Industrial hygiene and safety involve identifying, assessing, and mitigating workplace hazards to protect workers' health." },
+      { q: "Wages of an employee may include:", options: ["Bonus", "All of the above"], answer: 1, explanation: "Wages encompass basic pay, bonuses, allowances, and other compensations, making 'all of the above' correct." },
+      { q: "Which factor significantly affects worker performance?", options: ["Frustration", "Fatigue"], answer: 1, explanation: "Fatigue directly impacts worker productivity and safety, while frustration may be a secondary emotional factor." },
+      { q: "Which is not a chief organ of the UN?", options: ["Security Council", "General Assembly"], answer: 0, explanation: "Both are chief organs; however, if options included a non-organ, the Security Council is a principal organ, so the question may be misphrased." },
+      { q: "The wages of supervisors and material handlers are charged as:", options: ["Overhead", "Direct labor cost"], answer: 0, explanation: "Supervisors' and material handlers' wages are overhead costs, as they support production indirectly." },
+      { q: "ILO ensures workers' rights through collaboration among:", options: ["Government, employer, and employee", "Employer and employees"], answer: 0, explanation: "The ILO promotes tripartite collaboration among government, employers, and employees to uphold labor rights." },
+      { q: "The highest percentage of child labor in Nepal is found in:", options: ["Industrial sector", "Agricultural sector"], answer: 1, explanation: "The agricultural sector in Nepal employs the most child labor due to its labor-intensive nature and rural prevalence." },
+      { q: "Which is independent of sales forecast?", options: ["Productivity", "Inventory control"], answer: 0, explanation: "Productivity depends on internal processes, not directly on sales forecasts, unlike inventory control." },
+      { q: "Which layout is suited for mass production?", options: ["Process layout", "Product layout"], answer: 1, explanation: "Product layout is ideal for mass production, arranging machinery in a linear sequence to optimize flow." },
+      { q: "In industrial management, a path function in thermodynamics depends on:", options: ["Path taken", "Area of the graph"], answer: 0, explanation: "A path function depends on the specific process path, not just initial and final states." },
+      { q: "Occupational safety, health, and welfare of workers are governed by:", options: ["Industrial Act", "Labour Act"], answer: 1, explanation: "The Labour Act in Nepal governs occupational safety, health, and worker welfare." },
+      { q: "ICAO is classified as:", options: ["A government organization", "A specialized agency of the UN"], answer: 1, explanation: "ICAO is a UN specialized agency for international aviation standards." },
+      { q: "ILO stands for:", options: ["International Labor Organization", "Industrial Labor Operation"], answer: 0, explanation: "ILO is the International Labor Organization, a UN agency for labor rights." },
+      { q: "The primary purpose of ventilation in industries is:", options: ["Air circulation only", "All of the above"], answer: 1, explanation: "Ventilation ensures air circulation, thermal comfort, and contaminant removal." },
+      { q: "Industrial relations include which of the following?", options: ["Employee-employer relationships only", "All interactions among stakeholders"], answer: 1, explanation: "Industrial relations cover all stakeholder interactions, including employees, employers, and government." },
+      { q: "Industrial hygiene and safety primarily aims to:", options: ["Identify workplace hazards", "All safety measures"], answer: 1, explanation: "The core focus is identifying and mitigating workplace hazards." },
+      { q: "Which is considered a prime cost?", options: ["Cost of raw materials", "Cost of packing materials"], answer: 0, explanation: "Prime costs include direct costs like raw materials used in production." },
+      { q: "Advertisement expenses to promote sales are part of:", options: ["Sales revenue line", "Total cost line"], answer: 1, explanation: "Advertisement expenses are overhead costs included in the total cost line." },
+      { q: "In industrial management, ILO stands for:", options: ["International Labor Organization", "Internal Labor Order"], answer: 0, explanation: "ILO is the International Labor Organization, promoting global labor standards." },
+      { q: "The purpose of industrial ventilation includes:", options: ["Supplying oxygen for respiration", "Providing thermal comfort"], answer: 1, explanation: "Ventilation provides thermal comfort, oxygen, and removes contaminants." },
+      { q: "ICAO’s organizational status is:", options: ["A unit of Nepal’s government", "A specialized agency of the UN"], answer: 1, explanation: "ICAO is a UN specialized agency, not a Nepali government unit." },
+      { q: "Industrial relations can be described as:", options: ["Labour-management relation", "All stakeholder interactions"], answer: 1, explanation: "Industrial relations involve all interactions among employers, employees, and government." },
+      { q: "In which condition does a human sweat more?", options: ["Relative humidity 0%", "Relative humidity 50%"], answer: 1, explanation: "Higher humidity (50%) reduces sweat evaporation, causing more sweating." },
+      { q: "सिँचाइ योजनाको प्राथमिकता अनुसार कार्यान्वयन क्रम के हो?", options: ["1-2-4-3", "1-3-4-2"], answer: 1, explanation: "Nepal’s irrigation projects follow the priority sequence 1-3-4-2 based on feasibility and impact." },
+      { q: "Which is not a function of the ILO?", options: ["Creating labor standards", "Fostering cooperation through meetings"], answer: 0, explanation: "Creating labor standards is a core ILO function; the question may be misphrased." },
+      { q: "The basic function of the ILO includes:", options: ["Setting international norms", "All of the above"], answer: 1, explanation: "The ILO sets norms, promotes cooperation, and provides technical assistance." },
+      { q: "A core function of the ILO is:", options: ["Setting labor standards", "All of the above"], answer: 1, explanation: "The ILO’s functions include setting standards, research, and advocacy." },
+      { q: "What is a key function of ICAO?", options: ["Codifying air navigation principles", "Fostering international air transport development"], answer: 1, explanation: "ICAO fosters the planning and development of international air transport." },
+      { q: "The full form of ICAO is:", options: ["International Civil Action Organization", "International Civil Aviation Organization"], answer: 1, explanation: "ICAO is the International Civil Aviation Organization, a UN agency." },
+      { q: "Per Nepal’s Labour Act, the minimum employment age is:", options: ["12 years", "16 years"], answer: 1, explanation: "The Labour Act sets the minimum employment age at 16 years." },
+      { q: "What is Nepal’s minimum wage effective from 17 July 2019?", options: ["10,500 NPR/month", "13,450 NPR/month"], answer: 1, explanation: "The minimum wage was set at 13,450 NPR/month as of 17 July 2019." },
+      { q: "The first line of defense for occupational health hazards is:", options: ["Administrative control", "Personal protective equipment"], answer: 0, explanation: "Administrative controls, like training, are the first defense, followed by PPE." },
+      { q: "Labour law encompasses:", options: ["Precedents", "All regulations"], answer: 1, explanation: "Labour law includes statutes, regulations, and precedents governing employment." },
+      { q: "The International Labor Organization was founded in:", options: ["1919 AD", "1946 AD"], answer: 0, explanation: "The ILO was founded in 1919 under the Treaty of Versailles." },
+      { q: "कुनै कर्मचारीले १० वर्षभन्दा बढी तर १५ वर्षभन्दा कम सेवा गरेमा कति ग्र्याचुटी पाउँछ?", options: ["आधा महिनाको तलब/वर्ष", "एक महिनाको तलब/वर्ष"], answer: 1, explanation: "Employees with 10–15 years of service receive one month’s salary per year as gratuity." },
+      { q: "According to Labour Act, 2074, maximum working hours are:", options: ["8 hours/day, 44 hours/week", "8 hours/day, 48 hours/week"], answer: 1, explanation: "The Labour Act limits work to 8 hours/day and 48 hours/week." },
+      { q: "Overtime pay rate per Labour Act for over 48 hours/week is:", options: ["1.8 times", "2 times"], answer: 0, explanation: "Overtime pay is 1.8 times the regular rate for hours exceeding 48 per week." },
+      { q: "Gratuity for civil employees with 10–15 years of service is:", options: ["Two months’ salary", "Half month’s salary/year"], answer: 1, explanation: "Gratuity is half a month’s salary per year of service for 10–15 years." },
+      { q: "Industrial relation refers to:", options: ["Labour-management relation", "Labour-government relation"], answer: 0, explanation: "Industrial relations primarily involve labour-management interactions." },
+      { q: "कामदार नियुक्त गर्न सकिने न्यूनतम उमेर कति हो?", options: ["20 वर्ष", "18 वर्ष"], answer: 1, explanation: "Nepal’s Labour Act sets the minimum employment age at 18 for adult workers." },
+      { q: "दोस्रो श्रेणीमा अनुशासन भङ्गमा श्रमिक छुट्टाउने दर:", options: ["22%", "33%"], answer: 1, explanation: "The rate for dismissing workers for disciplinary breaches in the second organized sector is 33%." },
+      { q: "Which is not typically included in a machine’s operation log sheet?", options: ["Fuel quantity consumed", "Total run hours/km"], answer: 0, explanation: "Fuel quantity may not be logged if irrelevant to the machine’s operation." },
+      { q: "Depreciation calculated as a fixed percentage of book value is:", options: ["Straight line depreciation", "Declining balance method"], answer: 1, explanation: "The declining balance method uses a fixed percentage of the book value each year." },
+      { q: "The most important safety device for lathe machine operation is:", options: ["Safety goggles", "Helmet"], answer: 0, explanation: "Safety goggles protect eyes from debris during lathe operation." },
+      { q: "Safety management primarily deals with:", options: ["Loss of life", "Accident prevention"], answer: 1, explanation: "Safety management focuses on preventing accidents through risk controls." },
+      { q: "A job card is filled before maintenance to:", options: ["List parts needing repair", "Track mechanic attendance"], answer: 0, explanation: "A job card details parts requiring repair for organized maintenance." },
+      { q: "राम्रो प्रकाशले सामान/पेटी आदि सजाउनमा कसरी सहयोग गर्छ?", options: ["राम्रो दृश्यता प्रदान गर्छ", "खराब दृश्यता प्रदान गर्छ"], answer: 0, explanation: "Good lighting enhances visibility, aiding in organizing items effectively." },
+      { q: "Industrial hygiene and safety is concerned with:", options: ["Workplace hazard identification", "All safety measures"], answer: 1, explanation: "It encompasses all measures to ensure workplace safety and health." },
+      { q: "Amortization refers to:", options: ["Liquidation of financial obligations", "Installment-based debt repayment"], answer: 1, explanation: "Amortization is the systematic repayment of debt in installments." },
+      { q: "Depreciation of fixed assets is:", options: ["Decrease due to poor maintenance", "Assumed value decrease"], answer: 1, explanation: "Depreciation is the assumed decrease in asset value due to usage or obsolescence." },
+      { q: "At the break-even point (BEP):", options: ["No profit or loss", "Low profit"], answer: 0, explanation: "The break-even point is where revenue equals costs, with no profit or loss." },
+      { q: "At the break-even point (BEP), the financial outcome is:", options: ["No profit or loss", "Low profit"], answer: 0, explanation: "At BEP, total revenue equals total costs, resulting in zero profit." },
+      { q: "What is the percentage of civil service posts for open competition?", options: ["40%", "45%"], answer: 1, explanation: "45% of Nepal’s civil service posts are reserved for open competition." },
+      { q: "Which is not a type of leave under the Civil Service Act?", options: ["Entertainment leave", "Home leave"], answer: 0, explanation: "Entertainment leave is not recognized; home leave is a valid type." }
     ];
 
     let score = 0;
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
     let timerInterval;
+    let shuffledQuestions = [];
+    let currentPage = 0;
+    const questionsPerPage = 20;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -295,52 +435,33 @@
     const timerEl = document.getElementById("timer");
     const submitButton = document.getElementById("submit-button");
     const restartButton = document.getElementById("restart-button");
+    const prevPageButton = document.getElementById("prev-page");
+    const nextPageButton = document.getElementById("next-page");
     const correctSound = document.getElementById("correct-sound");
     const wrongSound = document.getElementById("wrong-sound");
 
-    // Load progress from localStorage
-    function loadProgress() {
-      const saved = localStorage.getItem("industrialManagementMCQProgress");
-      if (saved) {
-        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        score = savedScore || 0;
-        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
-        timerSeconds = savedTime || 0;
-      } else {
-        score = 0;
-        userAnswers = Array(questions.length).fill(null);
-        timerSeconds = 0;
-      }
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
     }
 
-    // Save progress to localStorage
-    function saveProgress() {
-      localStorage.setItem("industrialManagementMCQProgress", JSON.stringify({
-        score,
-        answers: userAnswers,
-        time: timerSeconds
-      }));
-    }
-
-    // Shuffle options
     function shuffleOptions(questions) {
       return questions.map(q => {
         const correct = q.options[q.answer];
         const shuffled = [...q.options].sort(() => Math.random() - 0.5);
         return {
-          q: q.q,
+          ...q,
           options: shuffled,
           answer: shuffled.indexOf(correct)
         };
       });
     }
 
-    // Start timer
     function startTimer() {
       const minutes = Math.floor(timerSeconds / 60);
       const seconds = timerSeconds % 60;
       timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -349,7 +470,6 @@
       }, 1000);
     }
 
-    // Update progress bar
     function updateProgress() {
       const answered = userAnswers.filter(answer => answer !== null).length;
       const percentage = (answered / questions.length) * 100;
@@ -357,105 +477,175 @@
       checkAllAnswered();
     }
 
-    // Show all questions
-    function showQuestions() {
-      let html = '';
-      for (let i = 0; i < questions.length; i++) {
-        const q = shuffledQuestions[i];
-        const options = q.options
-          .map((opt, j) => `<button aria-label="Option ${opt}" onclick="checkAnswer(this, ${i}, ${j}, '${opt.replace(/'/g, "\\'")}')">${opt}</button>`)
-          .join('');
-        html += `
-          <div class="question" data-index="${i}">
-            <p>${i + 1}. ${q.q}</p>
-            <div class="options">${options}</div>
+    function showPage(pageIndex) {
+      currentPage = pageIndex;
+      const startIndex = pageIndex * questionsPerPage;
+      const endIndex = Math.min(startIndex + questionsPerPage, shuffledQuestions.length);
+      const fragment = document.createDocumentFragment();
+      const pageQuestions = shuffledQuestions.slice(startIndex, endIndex);
+      pageQuestions.forEach((q, index) => {
+        const globalIndex = startIndex + index;
+        const isAnswered = userAnswers[globalIndex] !== null;
+        const selectedAnswer = userAnswers[globalIndex];
+        const correctAnswer = q.options[q.answer];
+        const options = q.options.map((opt, j) => {
+          let buttonClass = '';
+          if (isAnswered) {
+            buttonClass += opt === correctAnswer ? ' correct' :
+                          opt === selectedAnswer && selectedAnswer !== correctAnswer ? ' wrong' : '';
+          }
+          return `<button class="${buttonClass}" aria-label="Option ${escapeHtml(opt)}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+        }).join('');
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.dataset.index = globalIndex;
+        div.innerHTML = `
+          <p>${globalIndex + 1}. ${escapeHtml(q.q)}</p>
+          <div class="options">${options}</div>
+          <div class="explanation ${isAnswered ? 'show' : ''}" id="explanation-${globalIndex}">
+            ${isAnswered ? escapeHtml(q.explanation || 'No explanation available.') : ''}
           </div>
         `;
-      }
-      quizEl.innerHTML = html;
+        fragment.appendChild(div);
+      });
+      quizEl.innerHTML = '';
+      quizEl.appendChild(fragment);
+
+      quizEl.querySelectorAll('.options button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const questionDiv = e.target.closest('.question');
+          const questionIndex = parseInt(questionDiv.dataset.index);
+          const selected = Array.from(questionDiv.querySelectorAll('.options button')).indexOf(e.target);
+          const selectedText = e.target.textContent;
+          checkAnswer(e.target, questionIndex, selected, selectedText);
+        });
+      });
+
+      prevPageButton.disabled = currentPage === 0;
+      nextPageButton.disabled = endIndex === questions.length;
       updateProgress();
     }
 
-    // Check answer
     function checkAnswer(button, questionIndex, selected, selectedText) {
+      if (userAnswers[questionIndex] !== null) return;
       const q = shuffledQuestions[questionIndex];
       const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
-      buttons.forEach((btn) => {
+      const explanationEl = document.getElementById(`explanation-${questionIndex}`);
+
+      buttons.forEach((btn, j) => {
         btn.disabled = true;
-        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (j === correct) btn.classList.add("correct");
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
       userAnswers[questionIndex] = selectedText;
       if (selected === correct) {
         score++;
-        correctSound.play().catch(() => console.log("Audio playback failed"));
+        correctSound.play().catch(() => console.log("Correct sound playback failed"));
       } else {
-        wrongSound.play().catch(() => console.log("Audio playback failed"));
+        wrongSound.play().catch(() => console.log("Wrong sound playback failed"));
       }
 
+      explanationEl.textContent = q.explanation || 'No explanation available.';
+      explanationEl.classList.add('show');
       saveProgress();
       updateProgress();
     }
 
-    // Check if all questions are answered to enable submit button
     function checkAllAnswered() {
       const allAnswered = userAnswers.every(answer => answer !== null);
       submitButton.disabled = !allAnswered;
     }
 
-    // End quiz and show results
     function endQuiz() {
       clearInterval(timerInterval);
-      quizEl.innerHTML = "";
+      quizEl.innerHTML = '';
+      prevPageButton.classList.add("hidden");
+      nextPageButton.classList.add("hidden");
       submitButton.classList.add("hidden");
       scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
       resultsEl.classList.remove("hidden");
       restartButton.classList.remove("hidden");
 
       resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
-        const userAnswer = userAnswers[i] === null ? "Not attempted" : userAnswers[i];
-        const correctAnswer = q.options[q.answer];
+        const userAnswer = userAnswers[i] === null ? "Not attempted" : escapeHtml(userAnswers[i]);
+        const correctAnswer = escapeHtml(q.options[q.answer]);
         const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
                       userAnswers[i] === null ? "Not attempted" : "Wrong";
         return `
           <tr>
-            <td>${i + 1}. ${q.q}</td>
+            <td>${i + 1}. ${escapeHtml(q.q)}</td>
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${escapeHtml(q.explanation || 'No explanation available.')}</td>
           </tr>
         `;
       }).join('');
-
-      // Clear localStorage
       localStorage.removeItem("industrialManagementMCQProgress");
     }
 
-    // Restart quiz
     function restartQuiz() {
       score = 0;
       userAnswers = Array(questions.length).fill(null);
       timerSeconds = 0;
+      currentPage = 0;
       shuffledQuestions = shuffleOptions(questions);
       resultsEl.classList.add("hidden");
-      restartButton.classList.add("hidden");
+      prevPageButton.classList.remove("hidden");
+      nextPageButton.classList.remove("hidden");
       submitButton.classList.remove("hidden");
       scoreEl.innerHTML = "";
+      clearInterval(timerInterval);
       startTimer();
-      showQuestions();
+      showPage(0);
+    }
+
+    function loadProgress() {
+      const saved = localStorage.getItem("industrialManagementMCQProgress");
+      if (saved) {
+        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        score = savedScore || 0;
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem("industrialManagementMCQProgress", JSON.stringify({
+        score,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
     }
 
     // Initialize
-    let shuffledQuestions = shuffleOptions(questions);
+    shuffledQuestions = shuffleOptions(questions);
     loadProgress();
     startTimer();
-    showQuestions();
+    showPage(0);
 
-    // Add event listeners
+    // Event listeners
     submitButton.addEventListener("click", endQuiz);
     restartButton.addEventListener("click", restartQuiz);
+    prevPageButton.addEventListener("click", () => {
+      if (currentPage > 0) showPage(currentPage - 1);
+    });
+    nextPageButton.addEventListener("click", () => {
+      if ((currentPage + 1) * questionsPerPage < questions.length) showPage(currentPage + 1);
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !submitButton.disabled) {
+        submitButton.click();
+      } else if (e.key === 'ArrowLeft' && !prevPageButton.disabled) {
+        prevPageButton.click();
+      } else if (e.key === 'ArrowRight' && !nextPageButton.disabled) {
+        nextPageButton.click();
+      }
+    });
   </script>
 </body>
 </html>
