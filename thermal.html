@@ -4,273 +4,421 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thermal MCQ Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: 'Roboto', -apple-system, Arial, sans-serif;
       margin: 0;
       padding: 2rem;
-      background: linear-gradient(to right, #f8ffae, #43c6ac);
-      color: #333;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      color: #1a202c;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      line-height: 1.6;
     }
 
     h1 {
       text-align: center;
-      color: #1e88e5;
+      color: #2b6cb0;
       margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #c53030;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
     }
 
     .quiz-container {
-      max-width: 900px;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      max-width: 1000px;
+      width: 100%;
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
       margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .quiz-container:hover {
+      transform: translateY(-5px);
     }
 
     .progress-bar {
       width: 100%;
-      height: 10px;
-      background: #eee;
-      border-radius: 5px;
-      margin-bottom: 1rem;
+      height: 12px;
+      background: #edf2f7;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
       overflow: hidden;
+      border: 1px solid #e2e8f0;
     }
 
     .progress {
       height: 100%;
-      background: #42a5f5;
-      transition: width 0.3s;
+      background: linear-gradient(to right, #4299e1, #3182ce);
+      border-radius: 6px;
+      transition: width 0.4s ease-in-out;
     }
 
     #timer {
       text-align: right;
-      font-size: 1rem;
+      font-size: 1.1rem;
       margin-bottom: 1rem;
-      color: #d81b60;
+      color: #c53030;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
     .question {
-      margin-bottom: 1.5rem;
-      animation: fadeIn 0.5s;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      animation: fadeIn 0.5s ease-out;
+      transition: box-shadow 0.3s;
+    }
+
+    .question:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .question p {
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: #444;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #2d3748;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
     .options button {
-      display: block;
-      margin: 0.5rem 0;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem 1.25rem;
       width: 100%;
-      background: #e3f2fd;
-      border: none;
-      border-radius: 5px;
+      background: #ebf8ff;
+      border: 2px solid #bee3f8;
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.3s;
       font-size: 1rem;
       text-align: left;
+      transition: all 0.3s ease;
+      color: #2d3748;
     }
 
-    .options button:hover {
-      background: #bbdefb;
-      transform: translateX(5px);
+    .options button:hover:not(:disabled) {
+      background: #bee3f8;
+      border-color: #90cdf4;
+      transform: translateX(4px);
     }
 
     .options button:focus {
-      outline: 2px solid #1e88e5;
-      outline-offset: 2px;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
     }
 
     .options button.correct {
-      background-color: #c8e6c9 !important;
+      background: #c6f6d5 !important;
+      border-color: #68d391 !important;
+      color: #22543d;
       animation: pulse 0.5s;
     }
 
     .options button.wrong {
-      background-color: #ffcdd2 !important;
+      background: #fed7d7 !important;
+      border-color: #f56565 !important;
+      color: #742a2a;
       animation: shake 0.3s;
+    }
+
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .explanation {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f0fff4;
+      border-left: 4px solid #48bb78;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      color: #2d3748;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+
+    .explanation.show {
+      opacity: 1;
+      max-height: 200px;
     }
 
     @keyframes pulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      50% { transform: scale(1.03); }
       100% { transform: scale(1); }
     }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    .pagination-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .pagination-button:hover:not(:disabled) {
+      background: #3182ce;
+    }
+
+    .pagination-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    .submit-button, .restart-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .submit-button:hover:not(:disabled), .restart-button:hover:not(:disabled) {
+      background: #3182ce;
+      transform: translateY(-2px);
+    }
+
+    .submit-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
     }
 
     #score, #results {
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       margin-top: 2rem;
-      font-weight: bold;
+      font-weight: 700;
+      color: #2d3748;
     }
 
     .results-table {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
     }
 
     .results-table th, .results-table td {
-      border: 1px solid #ddd;
-      padding: 0.5rem;
+      border: 1px solid #e2e8f0;
+      padding: 1rem;
       text-align: left;
     }
 
     .results-table th {
-      background: #f5f5f5;
+      background: #edf2f7;
+      font-weight: 600;
+      color: #2d3748;
     }
 
-    .submit-button, .restart-button {
-      background: #42a5f5;
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 1rem;
-      display: block;
-      width: 100%;
-      text-align: center;
-      transition: background 0.3s;
-    }
-
-    .submit-button:hover, .restart-button:hover {
-      background: #1e88e5;
-    }
-
-    .submit-button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
+    .results-table td.correct { color: #2f855a; font-weight: 600; }
+    .results-table td.wrong { color: #c53030; font-weight: 600; }
+    .results-table td.not-attempted { color: #718096; }
 
     .hidden {
       display: none;
     }
 
-    @media (max-width: 600px) {
-      .quiz-container {
+    @media (max-width: 768px) {
+      body {
         padding: 1rem;
       }
+      .quiz-container {
+        padding: 1.5rem;
+      }
+      .question p {
+        font-size: 1.1rem;
+      }
       .options button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+      }
+      .results-table th, .results-table td {
+        padding: 0.75rem;
         font-size: 0.9rem;
-        padding: 0.5rem;
+      }
+      .pagination-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      .submit-button, .restart-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
+  <h1>Thermal MCQ Quiz (54 Questions)</h1>
+  <h2>Test Your Knowledge</h2>
   <div class="quiz-container">
-    <h1>Thermal MCQ Quiz (54 Questions)</h1>
     <div id="timer">Time: 00:00</div>
     <div class="progress-bar">
       <div class="progress" id="progress"></div>
     </div>
-    <div id="quiz"></div>
-    <button class="submit-button" id="submit-button" disabled>Submit Quiz</button>
+    <div id="quiz" role="region" aria-live="polite"></div>
+    <div class="pagination">
+      <button class="pagination-button" id="prev-page" disabled aria-label="Previous page">Previous</button>
+      <button class="pagination-button" id="next-page" aria-label="Next page">Next</button>
+    </div>
+    <button class="submit-button" id="submit-button" disabled aria-label="Submit quiz">Submit Quiz</button>
     <div id="score"></div>
     <div id="results" class="hidden">
       <h2>Quiz Results</h2>
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th>Question</th>
-            <th>Your Answer</th>
-            <th>Correct Answer</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="results-body"></tbody>
-      </table>
+      <div class="overflow-x-auto">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Your Answer</th>
+              <th>Correct Answer</th>
+              <th>Status</th>
+              <th>Explanation</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
     </div>
   </div>
-  <button class="restart-button hidden" id="restart-button">Restart Quiz</button>
+  <button class="restart-button hidden" id="restart-button" aria-label="Restart quiz">Restart Quiz</button>
 
   <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
   <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
 
   <script>
     const thermalQuestions = [
-      { q: "The Otto cycle is related to:", options: ["Diesel engine", "Petrol engine"], answer: 1 },
-      { q: "Air is compressed to high pressure and fuel is injected at nearly constant pressure. This cycle is called:", options: ["Otto cycle", "Diesel cycle"], answer: 1 },
-      { q: "Energy can neither be created nor destroyed. This is:", options: ["3rd law of thermodynamics", "1st law of thermodynamics"], answer: 1 },
-      { q: "Heat transferred to a closed system during an isobaric process is equal to:", options: ["Change in internal energy", "Change in enthalpy"], answer: 1 },
-      { q: "PV = constant process is known as:", options: ["Polytropic process", "Isobaric process"], answer: 0 },
-      { q: "Which law states entropy of the universe always increases?", options: ["Second law", "First law"], answer: 0 },
-      { q: "The most efficient cycle for a given temperature range is:", options: ["Carnot cycle", "Otto cycle"], answer: 0 },
-      { q: "Specific heat at constant volume for air is:", options: ["0.17", "0.24"], answer: 0 },
-      { q: "The general gas equation is:", options: ["PV = nRT", "PV = mRT"], answer: 1 },
-      { q: "Internal energy of an ideal gas is a function of:", options: ["Temperature", "Pressure"], answer: 0 },
-      { q: "Superheated vapour behaves:", options: ["As liquid", "As gas"], answer: 1 },
-      { q: "Entropy is a measure of:", options: ["Energy", "Disorder"], answer: 1 },
-      { q: "In a Carnot cycle, expansion is:", options: ["Isothermal", "Isentropic"], answer: 1 },
-      { q: "The absolute zero temperature is:", options: ["-273°C", "0°C"], answer: 0 },
-      { q: "Boiler efficiency is the ratio of:", options: ["Steam pressure / Fuel input", "Heat used / Heat input"], answer: 1 },
-      { q: "The calorific value of a fuel is:", options: ["Mass per heat release", "The heat released per unit mass"], answer: 1 },
-      { q: "Compression ratio of diesel engine is:", options: ["8:1 to 12:1", "16:1 to 20:1"], answer: 1 },
-      { q: "In adiabatic process, heat exchange is:", options: ["Zero", "Infinite"], answer: 0 },
-      { q: "A reversible process has:", options: ["No loss of energy", "High friction"], answer: 0 },
-      { q: "Rankine cycle is used in:", options: ["Gas turbines", "Steam power plants"], answer: 1 },
-      { q: "Diesel cycle assumes:", options: ["Constant pressure heat addition", "Constant volume heat addition"], answer: 0 },
-      { q: "Critical point is where:", options: ["Liquid and vapor lines meet", "Boiling point is lowest"], answer: 0 },
-      { q: "Entropy change in a cyclic process is:", options: ["Zero", "Maximum"], answer: 0 },
-      { q: "Isothermal process has constant:", options: ["Pressure", "Temperature"], answer: 1 },
-      { q: "Steam pressure is measured in:", options: ["Bar", "Calorie"], answer: 0 },
-      { q: "Gas constant R is:", options: ["Different for different gases", "Universal constant"], answer: 0 },
-      { q: "Steam tables are used to find:", options: ["Properties of steam", "Boiler design"], answer: 0 },
-      { q: "Enthalpy is defined as:", options: ["U + PV", "P + UV"], answer: 0 },
-      { q: "Maximum efficiency of Carnot cycle depends on:", options: ["Temperature limits", "Fuel used"], answer: 0 },
-      { q: "No heat exchange process is:", options: ["Adiabatic", "Isothermal"], answer: 0 },
-      { q: "Work done in an isochoric process is:", options: ["Zero", "Maximum"], answer: 0 },
-      { q: "The unit of heat is:", options: ["Joule", "Watt"], answer: 0 },
-      { q: "For an ideal gas, PV/T is:", options: ["Variable", "Constant"], answer: 1 },
-      { q: "The second law introduces concept of:", options: ["Entropy", "Internal energy"], answer: 0 },
-      { q: "Isobaric process means:", options: ["Constant temperature", "Constant pressure"], answer: 1 },
-      { q: "Efficiency of Carnot engine depends on:", options: ["Pressure", "Temperature"], answer: 1 },
-      { q: "Latent heat is:", options: ["Heat to change temperature", "Heat to change phase"], answer: 1 },
-      { q: "A perfect gas satisfies:", options: ["Ideal gas equation", "Real gas law"], answer: 0 },
-      { q: "The unit of entropy is:", options: ["J", "J/K"], answer: 1 },
-      { q: "The lowest possible temperature is:", options: ["0 K", "-100°C"], answer: 0 },
-      { q: "Dry saturated steam is steam:", options: ["Without moisture", "With high pressure"], answer: 0 },
-      { q: "Specific volume is volume per:", options: ["Unit area", "Unit mass"], answer: 1 },
-      { q: "Triple point is where:", options: ["All three phases exist", "Critical temperature exists"], answer: 0 },
-      { q: "One kilocalorie equals:", options: ["1000 J", "4186 J"], answer: 1 },
-      { q: "No engine can be 100% efficient because of:", options: ["Second law of thermodynamics", "First law of thermodynamics"], answer: 0 },
-      { q: "S.I. unit of pressure is:", options: ["Pascal", "Bar"], answer: 0 },
-      { q: "Real gases differ most from ideal gases at:", options: ["High pressure and low temperature", "Low pressure and high temperature"], answer: 0 },
-      { q: "Boiling point increases with:", options: ["Volume", "Pressure"], answer: 1 },
-      { q: "One tonne of refrigeration is:", options: ["1.5 kW", "3.5 kW"], answer: 1 },
-      { q: "Absolute pressure = Gauge pressure +", options: ["Atmospheric pressure", "Steam pressure"], answer: 0 },
-      { q: "The SI unit of specific heat is:", options: ["J/kg·K", "J/kg"], answer: 0 },
-      { q: "Which of the following is intensive property?", options: ["Mass", "Temperature"], answer: 1 },
-      { q: "At constant temperature, pressure and volume relation is:", options: ["Direct", "Inverse"], answer: 1 },
-      { q: "Sensible heat is the heat that:", options: ["Changes phase", "Raises temperature"], answer: 1 }
+      { q: "The Otto cycle is related to:", options: ["Diesel engine", "Petrol engine"], answer: 1, explanation: "The Otto cycle is the thermodynamic cycle used in spark-ignition petrol engines, characterized by constant volume heat addition." },
+      { q: "Air is compressed to high pressure and fuel is injected at nearly constant pressure. This cycle is called:", options: ["Otto cycle", "Diesel cycle"], answer: 1, explanation: "The Diesel cycle involves compression ignition with fuel injected at nearly constant pressure during combustion, unlike the Otto cycle." },
+      { q: "Energy can neither be created nor destroyed. This is:", options: ["Third law of thermodynamics", "First law of thermodynamics"], answer: 1, explanation: "The first law, or law of energy conservation, states that energy cannot be created or destroyed, only converted." },
+      { q: "Heat transferred to a closed system during an isobaric process is equal to:", options: ["Change in internal energy", "Change in enthalpy"], answer: 1, explanation: "In an isobaric (constant pressure) process, heat transfer equals the change in enthalpy (H = U + PV)." },
+      { q: "A process where PV = constant is known as:", options: ["Isothermal process", "Isobaric process"], answer: 0, explanation: "A process where PV = constant is isothermal, maintaining constant temperature for an ideal gas." },
+      { q: "Which law states the entropy of the universe always increases?", options: ["Second law", "First law"], answer: 0, explanation: "The second law states that the total entropy of an isolated system or universe always increases over time." },
+      { q: "The most efficient cycle for a given temperature range is:", options: ["Carnot cycle", "Otto cycle"], answer: 0, explanation: "The Carnot cycle is the most efficient for a given temperature range, operating between two isothermal processes." },
+      { q: "Specific heat at constant volume for air is approximately:", options: ["0.717 kJ/kg·K", "1.005 kJ/kg·K"], answer: 0, explanation: "The specific heat of air at constant volume (Cv) is about 0.717 kJ/kg·K, while Cp is 1.005 kJ/kg·K." },
+      { q: "The general gas equation is:", options: ["PV = nRT", "PV = mRT"], answer: 1, explanation: "The general gas equation for an ideal gas is PV = mRT, where m is mass and R is the specific gas constant." },
+      { q: "Internal energy of an ideal gas is a function of:", options: ["Temperature", "Pressure"], answer: 0, explanation: "For an ideal gas, internal energy depends only on temperature, as it is a function of kinetic energy." },
+      { q: "Superheated vapor behaves:", options: ["As a liquid", "As a gas"], answer: 1, explanation: "Superheated vapor, heated beyond its saturation point, behaves like a gas with no liquid content." },
+      { q: "Entropy is a measure of:", options: ["Energy", "Disorder"], answer: 1, explanation: "Entropy quantifies the disorder or randomness of a system’s molecular arrangement." },
+      { q: "In a Carnot cycle, expansion is:", options: ["Isothermal and isentropic", "Isobaric"], answer: 0, explanation: "The Carnot cycle includes isothermal expansion (constant temperature) and isentropic expansion (no entropy change)." },
+      { q: "The absolute zero temperature is:", options: ["-273.15°C", "0°C"], answer: 0, explanation: "Absolute zero is -273.15°C (0 K), where molecular motion theoretically ceases." },
+      { q: "Boiler efficiency is the ratio of:", options: ["Steam pressure / Fuel input", "Heat used / Heat input"], answer: 1, explanation: "Boiler efficiency is the ratio of heat utilized (to produce steam) to the total heat input from fuel." },
+      { q: "The calorific value of a fuel is:", options: ["Mass per heat release", "Heat released per unit mass"], answer: 1, explanation: "Calorific value is the heat energy released per unit mass of fuel during complete combustion." },
+      { q: "The compression ratio of a diesel engine is typically:", options: ["8:1 to 12:1", "16:1 to 20:1"], answer: 1, explanation: "Diesel engines use high compression ratios (16:1 to 20:1) to achieve ignition without a spark." },
+      { q: "In an adiabatic process, heat exchange is:", options: ["Zero", "Infinite"], answer: 0, explanation: "An adiabatic process involves no heat exchange with the surroundings, only work transfer." },
+      { q: "A reversible process has:", options: ["No energy loss", "High friction"], answer: 0, explanation: "Reversible processes are idealized with no energy losses, occurring without irreversibilities like friction." },
+      { q: "The Rankine cycle is used in:", options: ["Gas turbines", "Steam power plants"], answer: 1, explanation: "The Rankine cycle is the thermodynamic cycle used in steam power plants to generate electricity." },
+      { q: "The Diesel cycle assumes:", options: ["Constant pressure heat addition", "Constant volume heat addition"], answer: 0, explanation: "The Diesel cycle involves heat addition at constant pressure during fuel injection and combustion." },
+      { q: "The critical point is where:", options: ["Liquid and vapor phases become indistinguishable", "Boiling point is lowest"], answer: 0, explanation: "The critical point is where liquid and vapor phases merge, with no distinct phase boundary." },
+      { q: "Entropy change in a cyclic process is:", options: ["Zero", "Maximum"], answer: 0, explanation: "In a cyclic process, the system returns to its initial state, so the net entropy change is zero." },
+      { q: "An isothermal process has constant:", options: ["Pressure", "Temperature"], answer: 1, explanation: "An isothermal process maintains constant temperature, with PV = constant for an ideal gas." },
+      { q: "Steam pressure is typically measured in:", options: ["Bar", "Calorie"], answer: 0, explanation: "Steam pressure is measured in bar, a unit of pressure, while calorie measures energy." },
+      { q: "The gas constant R is:", options: ["Different for different gases", "Universal constant"], answer: 0, explanation: "The specific gas constant R varies for different gases, derived from the universal gas constant divided by molar mass." },
+      { q: "Steam tables are used to find:", options: ["Properties of steam", "Boiler design"], answer: 0, explanation: "Steam tables provide thermodynamic properties like enthalpy, entropy, and specific volume of steam." },
+      { q: "Enthalpy is defined as:", options: ["U + PV", "P + UV"], answer: 0, explanation: "Enthalpy (H) is defined as H = U + PV, where U is internal energy, P is pressure, and V is volume." },
+      { q: "Maximum efficiency of a Carnot cycle depends on:", options: ["Temperature limits", "Fuel used"], answer: 0, explanation: "Carnot efficiency depends on the temperature difference between the hot and cold reservoirs (1 - T_cold/T_hot)." },
+      { q: "A process with no heat exchange is:", options: ["Adiabatic", "Isothermal"], answer: 0, explanation: "An adiabatic process has no heat exchange, unlike an isothermal process which maintains constant temperature." },
+      { q: "Work done in an isochoric process is:", options: ["Zero", "Maximum"], answer: 0, explanation: "In an isochoric (constant volume) process, work done is zero since W = PΔV and ΔV = 0." },
+      { q: "The unit of heat is:", options: ["Joule", "Watt"], answer: 0, explanation: "Heat is measured in joules (J), a unit of energy, while watt measures power." },
+      { q: "For an ideal gas, PV/T is:", options: ["Variable", "Constant"], answer: 1, explanation: "For an ideal gas, PV/T = mR (constant) per the ideal gas law PV = mRT." },
+      { q: "The second law of thermodynamics introduces the concept of:", options: ["Entropy", "Internal energy"], answer: 0, explanation: "The second law introduces entropy, a measure of disorder and energy unavailability." },
+      { q: "An isobaric process means:", options: ["Constant temperature", "Constant pressure"], answer: 1, explanation: "An isobaric process occurs at constant pressure, with heat transfer affecting volume and temperature." },
+      { q: "The efficiency of a Carnot engine depends on:", options: ["Pressure", "Temperature"], answer: 1, explanation: "Carnot engine efficiency depends on the absolute temperatures of the hot and cold reservoirs." },
+      { q: "Latent heat is:", options: ["Heat to change temperature", "Heat to change phase"], answer: 1, explanation: "Latent heat is the energy required to change a substance’s phase (e.g., liquid to vapor) without temperature change." },
+      { q: "A perfect gas satisfies:", options: ["Ideal gas equation", "Real gas law"], answer: 0, explanation: "A perfect (ideal) gas follows the ideal gas equation PV = nRT, assuming no intermolecular forces." },
+      { q: "The unit of entropy is:", options: ["J", "J/K"], answer: 1, explanation: "Entropy is measured in joules per kelvin (J/K), reflecting energy dispersion per unit temperature." },
+      { q: "The lowest possible temperature is:", options: ["0 K", "-100°C"], answer: 0, explanation: "The lowest possible temperature is 0 K (-273.15°C), known as absolute zero." },
+      { q: "Dry saturated steam is steam:", options: ["Without moisture", "With high pressure"], answer: 0, explanation: "Dry saturated steam contains no liquid water droplets, existing at the saturation point without superheating." },
+      { q: "Specific volume is volume per:", options: ["Unit area", "Unit mass"], answer: 1, explanation: "Specific volume is the volume occupied per unit mass of a substance, measured in m³/kg." },
+      { q: "The triple point is where:", options: ["All three phases coexist", "Critical temperature exists"], answer: 0, explanation: "The triple point is where solid, liquid, and vapor phases of a substance coexist in equilibrium." },
+      { q: "One kilocalorie equals:", options: ["1000 J", "4186 J"], answer: 1, explanation: "One kilocalorie (kcal) equals 4186 joules, as 1 cal = 4.186 J." },
+      { q: "No engine can be 100% efficient because of:", options: ["Second law of thermodynamics", "First law of thermodynamics"], answer: 0, explanation: "The second law limits efficiency, as some energy is always lost as unusable heat." },
+      { q: "The S.I. unit of pressure is:", options: ["Pascal", "Bar"], answer: 0, explanation: "The SI unit of pressure is the pascal (Pa), equivalent to N/m²; bar is a non-SI unit." },
+      { q: "Real gases differ most from ideal gases at:", options: ["High pressure and low temperature", "Low pressure and high temperature"], answer: 0, explanation: "Real gases deviate from ideal behavior at high pressure and low temperature due to intermolecular forces." },
+      { q: "The boiling point of a liquid increases with:", options: ["Volume", "Pressure"], answer: 1, explanation: "Higher pressure raises the boiling point by requiring more energy to overcome intermolecular forces." },
+      { q: "One tonne of refrigeration is equivalent to:", options: ["1.5 kW", "3.5 kW"], answer: 1, explanation: "One tonne of refrigeration equals 3.5 kW, the cooling effect of melting one ton of ice in 24 hours." },
+      { q: "Absolute pressure equals gauge pressure plus:", options: ["Atmospheric pressure", "Steam pressure"], answer: 0, explanation: "Absolute pressure is gauge pressure plus atmospheric pressure (typically 101.325 kPa)." },
+      { q: "The SI unit of specific heat is:", options: ["J/kg·K", "J/kg"], answer: 0, explanation: "Specific heat is measured in J/kg·K, indicating energy per unit mass per degree temperature change." },
+      { q: "Which of the following is an intensive property?", options: ["Mass", "Temperature"], answer: 1, explanation: "Temperature is an intensive property, independent of system size, unlike mass (extensive)." },
+      { q: "At constant temperature, the relation between pressure and volume is:", options: ["Direct", "Inverse"], answer: 1, explanation: "Boyle’s law states that at constant temperature, pressure and volume are inversely proportional (PV = constant)." },
+      { q: "Sensible heat is the heat that:", options: ["Changes phase", "Raises temperature"], answer: 1, explanation: "Sensible heat causes a temperature change without altering the phase of a substance." }
     ];
 
     let score = 0;
     let userAnswers = Array(thermalQuestions.length).fill(null);
     let timerSeconds = 0;
     let timerInterval;
+    let shuffledQuestions = [];
+    let currentPage = 0;
+    const questionsPerPage = 20;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -280,52 +428,33 @@
     const timerEl = document.getElementById("timer");
     const submitButton = document.getElementById("submit-button");
     const restartButton = document.getElementById("restart-button");
+    const prevPageButton = document.getElementById("prev-page");
+    const nextPageButton = document.getElementById("next-page");
     const correctSound = document.getElementById("correct-sound");
     const wrongSound = document.getElementById("wrong-sound");
 
-    // Load progress from localStorage
-    function loadProgress() {
-      const saved = localStorage.getItem("thermalMCQProgress");
-      if (saved) {
-        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        score = savedScore || 0;
-        userAnswers = savedAnswers && savedAnswers.length === thermalQuestions.length ? savedAnswers : Array(thermalQuestions.length).fill(null);
-        timerSeconds = savedTime || 0;
-      } else {
-        score = 0;
-        userAnswers = Array(thermalQuestions.length).fill(null);
-        timerSeconds = 0;
-      }
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
     }
 
-    // Save progress to localStorage
-    function saveProgress() {
-      localStorage.setItem("thermalMCQProgress", JSON.stringify({
-        score,
-        answers: userAnswers,
-        time: timerSeconds
-      }));
-    }
-
-    // Shuffle options
     function shuffleOptions(questions) {
       return questions.map(q => {
         const correct = q.options[q.answer];
         const shuffled = [...q.options].sort(() => Math.random() - 0.5);
         return {
-          q: q.q,
+          ...q,
           options: shuffled,
           answer: shuffled.indexOf(correct)
         };
       });
     }
 
-    // Start timer
     function startTimer() {
       const minutes = Math.floor(timerSeconds / 60);
       const seconds = timerSeconds % 60;
       timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -334,7 +463,6 @@
       }, 1000);
     }
 
-    // Update progress bar
     function updateProgress() {
       const answered = userAnswers.filter(answer => answer !== null).length;
       const percentage = (answered / thermalQuestions.length) * 100;
@@ -342,105 +470,175 @@
       checkAllAnswered();
     }
 
-    // Show all questions
-    function showQuestions() {
-      let html = '';
-      for (let i = 0; i < thermalQuestions.length; i++) {
-        const q = shuffledQuestions[i];
-        const options = q.options
-          .map((opt, j) => `<button aria-label="Option ${opt}" onclick="checkAnswer(this, ${i}, ${j}, '${opt.replace(/'/g, "\\'")}')">${opt}</button>`)
-          .join('');
-        html += `
-          <div class="question" data-index="${i}">
-            <p><strong>Q${i + 1}:</strong> ${q.q}</p>
-            <div class="options">${options}</div>
+    function showPage(pageIndex) {
+      currentPage = pageIndex;
+      const startIndex = pageIndex * questionsPerPage;
+      const endIndex = Math.min(startIndex + questionsPerPage, shuffledQuestions.length);
+      const fragment = document.createDocumentFragment();
+      const pageQuestions = shuffledQuestions.slice(startIndex, endIndex);
+      pageQuestions.forEach((q, index) => {
+        const globalIndex = startIndex + index;
+        const isAnswered = userAnswers[globalIndex] !== null;
+        const selectedAnswer = userAnswers[globalIndex];
+        const correctAnswer = q.options[q.answer];
+        const options = q.options.map((opt, j) => {
+          let buttonClass = '';
+          if (isAnswered) {
+            buttonClass += opt === correctAnswer ? ' correct' :
+                          opt === selectedAnswer && selectedAnswer !== correctAnswer ? ' wrong' : '';
+          }
+          return `<button class="${buttonClass}" aria-label="Option ${escapeHtml(opt)}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+        }).join('');
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.dataset.index = globalIndex;
+        div.innerHTML = `
+          <p>${globalIndex + 1}. ${escapeHtml(q.q)}</p>
+          <div class="options">${options}</div>
+          <div class="explanation ${isAnswered ? 'show' : ''}" id="explanation-${globalIndex}">
+            ${isAnswered ? escapeHtml(q.explanation || 'No explanation available.') : ''}
           </div>
         `;
-      }
-      quizEl.innerHTML = html;
+        fragment.appendChild(div);
+      });
+      quizEl.innerHTML = '';
+      quizEl.appendChild(fragment);
+
+      quizEl.querySelectorAll('.options button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const questionDiv = e.target.closest('.question');
+          const questionIndex = parseInt(questionDiv.dataset.index);
+          const selected = Array.from(questionDiv.querySelectorAll('.options button')).indexOf(e.target);
+          const selectedText = e.target.textContent;
+          checkAnswer(e.target, questionIndex, selected, selectedText);
+        });
+      });
+
+      prevPageButton.disabled = currentPage === 0;
+      nextPageButton.disabled = endIndex === thermalQuestions.length;
       updateProgress();
     }
 
-    // Check answer
     function checkAnswer(button, questionIndex, selected, selectedText) {
+      if (userAnswers[questionIndex] !== null) return;
       const q = shuffledQuestions[questionIndex];
       const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
-      buttons.forEach((btn) => {
+      const explanationEl = document.getElementById(`explanation-${questionIndex}`);
+
+      buttons.forEach((btn, j) => {
         btn.disabled = true;
-        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (j === correct) btn.classList.add("correct");
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
       userAnswers[questionIndex] = selectedText;
       if (selected === correct) {
         score++;
-        correctSound.play().catch(() => console.log("Audio playback failed"));
+        correctSound.play().catch(() => console.log("Correct sound playback failed"));
       } else {
-        wrongSound.play().catch(() => console.log("Audio playback failed"));
+        wrongSound.play().catch(() => console.log("Wrong sound playback failed"));
       }
 
+      explanationEl.textContent = q.explanation || 'No explanation available.';
+      explanationEl.classList.add('show');
       saveProgress();
       updateProgress();
     }
 
-    // Check if all questions are answered to enable submit button
     function checkAllAnswered() {
       const allAnswered = userAnswers.every(answer => answer !== null);
       submitButton.disabled = !allAnswered;
     }
 
-    // End quiz and show results
     function endQuiz() {
       clearInterval(timerInterval);
-      quizEl.innerHTML = "";
+      quizEl.innerHTML = '';
+      prevPageButton.classList.add("hidden");
+      nextPageButton.classList.add("hidden");
       submitButton.classList.add("hidden");
       scoreEl.innerHTML = `Your score: ${score} / ${thermalQuestions.length} (${((score / thermalQuestions.length) * 100).toFixed(2)}%)`;
       resultsEl.classList.remove("hidden");
       restartButton.classList.remove("hidden");
 
       resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
-        const userAnswer = userAnswers[i] === null ? "Not attempted" : userAnswers[i];
-        const correctAnswer = q.options[q.answer];
+        const userAnswer = userAnswers[i] === null ? "Not attempted" : escapeHtml(userAnswers[i]);
+        const correctAnswer = escapeHtml(q.options[q.answer]);
         const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
                       userAnswers[i] === null ? "Not attempted" : "Wrong";
         return `
           <tr>
-            <td>${i + 1}. ${q.q}</td>
+            <td>${i + 1}. ${escapeHtml(q.q)}</td>
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${escapeHtml(q.explanation || 'No explanation available.')}</td>
           </tr>
         `;
       }).join('');
-
-      // Clear localStorage
       localStorage.removeItem("thermalMCQProgress");
     }
 
-    // Restart quiz
     function restartQuiz() {
       score = 0;
       userAnswers = Array(thermalQuestions.length).fill(null);
       timerSeconds = 0;
+      currentPage = 0;
       shuffledQuestions = shuffleOptions(thermalQuestions);
       resultsEl.classList.add("hidden");
-      restartButton.classList.add("hidden");
+      prevPageButton.classList.remove("hidden");
+      nextPageButton.classList.remove("hidden");
       submitButton.classList.remove("hidden");
       scoreEl.innerHTML = "";
+      clearInterval(timerInterval);
       startTimer();
-      showQuestions();
+      showPage(0);
+    }
+
+    function loadProgress() {
+      const saved = localStorage.getItem("thermalMCQProgress");
+      if (saved) {
+        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        score = savedScore || 0;
+        userAnswers = savedAnswers && savedAnswers.length === thermalQuestions.length ? savedAnswers : Array(thermalQuestions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem("thermalMCQProgress", JSON.stringify({
+        score,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
     }
 
     // Initialize
-    let shuffledQuestions = shuffleOptions(thermalQuestions);
+    shuffledQuestions = shuffleOptions(thermalQuestions);
     loadProgress();
     startTimer();
-    showQuestions();
+    showPage(0);
 
-    // Add event listeners
+    // Event listeners
     submitButton.addEventListener("click", endQuiz);
     restartButton.addEventListener("click", restartQuiz);
+    prevPageButton.addEventListener("click", () => {
+      if (currentPage > 0) showPage(currentPage - 1);
+    });
+    nextPageButton.addEventListener("click", () => {
+      if ((currentPage + 1) * questionsPerPage < thermalQuestions.length) showPage(currentPage + 1);
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !submitButton.disabled) {
+        submitButton.click();
+      } else if (e.key === 'ArrowLeft' && !prevPageButton.disabled) {
+        prevPageButton.click();
+      } else if (e.key === 'ArrowRight' && !nextPageButton.disabled) {
+        nextPageButton.click();
+      }
+    });
   </script>
 </body>
 </html>
