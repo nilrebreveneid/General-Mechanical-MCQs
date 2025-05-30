@@ -171,6 +171,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +188,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -200,6 +213,7 @@
             <th>Your Answer</th>
             <th>Correct Answer</th>
             <th>Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -213,159 +227,300 @@
   <script>
     const questions = [
       // Applied Mechanics (13 MCQs)
-      { q: "According to equilibrium law, two forces can be in equilibrium if:", 
+      { 
+        q: "According to equilibrium law, two forces can be in equilibrium if:", 
         options: ["Equal in magnitude, opposite in direction, collinear", "Equal in magnitude", "Opposite in direction", "Collinear"], 
-        answer: 0 },
-      { q: "Forces not meeting at a point and not lying on the same plane are called:", 
+        answer: 0,
+        explanation: "For two forces to be in equilibrium, they must balance each other, meaning they are equal in magnitude, opposite in direction, and act along the same line (collinear). This ensures the net force is zero, satisfying the equilibrium condition. Options 'Equal in magnitude', 'Opposite in direction', and 'Collinear' are incomplete as they don’t include all necessary conditions."
+      },
+      { 
+        q: "Forces not meeting at a point and not lying on the same plane are called:", 
         options: ["Non-coplanar concurrent", "Non-coplanar non-concurrent", "Coplanar concurrent", "Coplanar non-concurrent"], 
-        answer: 1 },
-      { q: "A force is completely defined when we specify:", 
+        answer: 1,
+        explanation: "Forces that do not intersect at a single point (non-concurrent) and do not lie in the same plane (non-coplanar) are classified as non-coplanar non-concurrent. Non-coplanar concurrent forces meet at a point, coplanar concurrent forces meet in the same plane, and coplanar non-concurrent forces are in the same plane but don’t meet."
+      },
+      { 
+        q: "A force is completely defined when we specify:", 
         options: ["Point of application", "Magnitude and direction", "Line of action", "All of the above"], 
-        answer: 3 },
-      { q: "Which of the following is not a projectile?", 
+        answer: 3,
+        explanation: "A force is fully defined by its magnitude (strength), direction (orientation), point of application (where it acts), and line of action (path along which it acts). All these parameters are necessary, making 'all of the above' the correct choice."
+      },
+      { 
+        q: "Which of the following is not a projectile?", 
         options: ["Ball thrown upwards", "A bullet fired from the gun", "A rocket in orbit", "A stone dropped from a height"], 
-        answer: 2 },
-      { q: "The velocity ratio of simple wheel and axle with D and d as diameters of effort wheel and load axle is:", 
+        answer: 2,
+        explanation: "A projectile follows a parabolic path under gravity with no propulsion after launch. A ball, bullet, and stone are projectiles as they move freely after being thrown or dropped. A rocket in orbit is propelled and controlled, so it’s not a projectile."
+      },
+      { 
+        q: "The velocity ratio of simple wheel and axle with D and d as diameters of effort wheel and load axle is:", 
         options: ["D+d", "D/d", "d/D", "D-d"], 
-        answer: 1 },
-      { q: "Force acting on a mass of one gramme creating an acceleration of one cm per sec² is called:", 
+        answer: 1,
+        explanation: "The velocity ratio of a wheel and axle is the ratio of the effort wheel’s diameter (D) to the load axle’s diameter (d), i.e., D/d. This ratio reflects the mechanical advantage, as the larger wheel amplifies the effort applied to the smaller axle."
+      },
+      { 
+        q: "Force acting on a mass of one gramme creating an acceleration of one cm per sec² is called:", 
         options: ["Watt", "Dyne", "Newton", "Joule"], 
-        answer: 1 },
-      { q: "Which of the following do not meet and do not lie on the same plane?", 
+        answer: 1,
+        explanation: "A dyne is the CGS unit of force, defined as the force that causes a 1-gram mass to accelerate at 1 cm/s². A Newton is the SI unit, a Joule is energy, and a Watt is power, none of which match the definition."
+      },
+      { 
+        q: "Which of the following do not meet and do not lie on the same plane?", 
         options: ["Coplanar concurrent forces", "Non-coplanar non-concurrent forces", "Coplanar non-concurrent forces", "Non-coplanar concurrent forces"], 
-        answer: 1 },
-      { q: "A stationary object of 10 kg mass is acted upon by 20 N force for 5 seconds. The object will attain final velocity:", 
+        answer: 1,
+        explanation: "Non-coplanar non-concurrent forces do not intersect at a point (non-concurrent) and are not in the same plane (non-coplanar). Concurrent forces meet at a point, and coplanar forces lie in the same plane, ruling out the other options."
+      },
+      { 
+        q: "A stationary object of 10 kg mass is acted upon by 20 N force for 5 seconds. The object will attain final velocity:", 
         options: ["10 m/s", "20 m/s", "5 m/s", "15 m/s"], 
-        answer: 0 },
-      { q: "The resultant of two forces P and Q (such that P > Q) acting along the same straight line but in opposite directions is:", 
+        answer: 0,
+        explanation: "Using Newton’s second law, acceleration a = F/m = 20/10 = 2 m/s². Since the object is initially stationary (u = 0), the final velocity is v = u + at = 0 + 2 × 5 = 10 m/s. Option '10 m/s' is correct."
+      },
+      { 
+        q: "The resultant of two forces P and Q (such that P > Q) acting along the same straight line but in opposite directions is:", 
         options: ["P + Q", "P - Q", "Q - P", "P × Q"], 
-        answer: 1 },
-      { q: "Energy can neither be created nor destroyed. This is:", 
+        answer: 1,
+        explanation: "When two forces act in opposite directions along the same line, the resultant is the difference in their magnitudes. Since P > Q, the resultant is P - Q, with the direction of the larger force P. Option 'P - Q' is correct."
+      },
+      { 
+        q: "Energy can neither be created nor destroyed. This is:", 
         options: ["First law of thermodynamics", "Second law of thermodynamics", "Zeroth law of thermodynamics", "Law of conservation of mass"], 
-        answer: 0 },
-      { q: "The rate of doing work is known as:", 
+        answer: 0,
+        explanation: "The first law of thermodynamics, also known as the law of energy conservation, states that energy cannot be created or destroyed, only converted between forms. The second law deals with entropy, the zeroth law with thermal equilibrium, and the law of conservation of mass is unrelated."
+      },
+      { 
+        q: "The rate of doing work is known as:", 
         options: ["Kinetic energy", "Power", "Potential energy", "Torque"], 
-        answer: 1 },
-      { q: "The motion of a wheel of a car is:", 
+        answer: 1,
+        explanation: "Power is defined as the rate of doing work (P = W/t). Kinetic and potential energy are forms of energy, and torque is a rotational force, none of which represent the rate of work."
+      },
+      { 
+        q: "The motion of a wheel of a car is:", 
         options: ["Purely rotational", "Combined translation and rotational", "Purely translational", "Oscillatory"], 
-        answer: 1 },
-      { q: "If the force acting on the body, m is the mass and a is the acceleration, Newton’s 2nd law is:", 
+        answer: 1,
+        explanation: "A car wheel undergoes both translational motion (moving forward with the car) and rotational motion (spinning around its axis). This combination is typical for rolling objects, making 'Combined translation and rotational' correct."
+      },
+      { 
+        q: "If the force acting on the body, m is the mass and a is the acceleration, Newton’s 2nd law is:", 
         options: ["F × ma = 0", "F = ma", "F = m/a", "F = m²a"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "Newton’s second law states that force equals mass times acceleration (F = ma). This describes the relationship between force, mass, and acceleration, making 'F = ma' the correct choice."
+      },
 
       // Thermodynamics (8 MCQs)
-      { q: "In an isothermal process:", 
+      { 
+        q: "In an isothermal process:", 
         options: ["Pressure is constant", "Temperature is constant", "Volume is constant", "Entropy is constant"], 
-        answer: 1 },
-      { q: "According to the 1st Law of Thermodynamics:", 
+        answer: 1,
+        explanation: "An isothermal process occurs at constant temperature. Pressure, volume, or entropy may vary to maintain constant temperature, but only temperature remains fixed, making 'Temperature is constant' correct."
+      },
+      { 
+        q: "According to the 1st Law of Thermodynamics:", 
         options: ["Mass and light are mutually convertible", "Heat and work are mutually convertible", "Energy is created", "Entropy remains constant"], 
-        answer: 1 },
-      { q: "Which coal has the highest calorific value?", 
+        answer: 1,
+        explanation: "The first law states that the change in internal energy of a system equals heat added minus work done (ΔU = Q - W). Heat and work are forms of energy transfer and are mutually convertible, making 'Heat and work are mutually convertible' correct."
+      },
+      { 
+        q: "Which coal has the highest calorific value?", 
         options: ["Bituminous coal", "Anthracite coal", "Lignite coal", "Peat coal"], 
-        answer: 1 },
-      { q: "Thermal power plants operate on which cycle?", 
+        answer: 1,
+        explanation: "Anthracite coal has the highest carbon content and thus the highest calorific value (energy per unit mass) among coal types. Bituminous is lower, lignite even lower, and peat has the least."
+      },
+      { 
+        q: "Thermal power plants operate on which cycle?", 
         options: ["Otto cycle", "Rankine cycle", "Brayton cycle", "Joule cycle"], 
-        answer: 1 },
-      { q: "Carnot cycle has maximum efficiency for:", 
+        answer: 1,
+        explanation: "Thermal power plants, particularly steam power plants, operate on the Rankine cycle, which involves steam generation, expansion, condensation, and pumping. Otto is for petrol engines, Brayton for gas turbines, and Joule is less common."
+      },
+      { 
+        q: "Carnot cycle has maximum efficiency for:", 
         options: ["Irreversible engine", "Reversible engine", "Diesel engine", "Petrol engine"], 
-        answer: 1 },
-      { q: "General gas equation is:", 
+        answer: 1,
+        explanation: "The Carnot cycle achieves the maximum possible efficiency for a heat engine operating between two temperature reservoirs, but only when reversible. Irreversible engines, diesel, and petrol engines have lower efficiencies due to losses."
+      },
+      { 
+        q: "General gas equation is:", 
         options: ["PV = mRT", "PV = nRT", "PV = RT", "PV = mT"], 
-        answer: 1 },
-      { q: "Water is a ____ fluid.", 
+        answer: 1,
+        explanation: "The ideal gas law is PV = nRT, where n is the number of moles, R is the gas constant, and T is temperature. Option 'PV = nRT' correctly represents this equation."
+      },
+      { 
+        q: "Water is a ____ fluid.", 
         options: ["Ideal", "Real", "Perfect", "Compressible"], 
-        answer: 1 },
-      { q: "Bar is the unit of:", 
+        answer: 1,
+        explanation: "Water is a real fluid with properties like viscosity and slight compressibility. Ideal fluids are frictionless (theoretical), perfect fluids are often synonymous with ideal, and water is not highly compressible."
+      },
+      { 
+        q: "Bar is the unit of:", 
         options: ["Power", "Pressure", "Force", "Energy"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "A bar is a unit of pressure, approximately equal to 100 kPa. Power is measured in watts, force in newtons, and energy in joules, making 'Pressure' correct."
+      },
 
       // Machine Drawing (7 MCQs)
-      { q: "Which component lists part name, material, and quantity?", 
+      { 
+        q: "Which component lists part name, material, and quantity?", 
         options: ["Bill of Materials", "Title Block", "Border Lines", "Revision Block"], 
-        answer: 0 },
-      { q: "In assembly drawing, hatching is used to show:", 
+        answer: 0,
+        explanation: "The Bill of Materials (BOM) lists part names, materials, quantities, and other details for manufacturing. The title block contains drawing metadata, border lines define the drawing area, and the revision block tracks changes."
+      },
+      { 
+        q: "In assembly drawing, hatching is used to show:", 
         options: ["Material cut in section", "Hole center lines", "Hidden edges", "Dimension lines"], 
-        answer: 0 },
-      { q: "Which drawing represents the exact shape and size of an object?", 
+        answer: 0,
+        explanation: "Hatching in assembly drawings indicates areas where material has been cut in sectional views, showing internal structures. Center lines mark axes, dashed lines show hidden edges, and dimension lines indicate measurements."
+      },
+      { 
+        q: "Which drawing represents the exact shape and size of an object?", 
         options: ["Scale drawing", "Freehand sketch", "Isometric drawing", "Perspective drawing"], 
-        answer: 0 },
-      { q: "Which method is used to develop a cone’s surface?", 
+        answer: 0,
+        explanation: "A scale drawing represents an object’s exact shape and size using a specific scale (e.g., 1:10). Freehand sketches are approximate, isometric drawings are 3D representations, and perspective drawings include visual distortion."
+      },
+      { 
+        q: "Which method is used to develop a cone’s surface?", 
         options: ["Radial line development", "Parallel line development", "Triangulation development", "Approximate development"], 
-        answer: 0 },
-      { q: "What is a break line used for?", 
+        answer: 0,
+        explanation: "Radial line development is used for conical surfaces, where lines radiate from the apex to create a flat pattern. Parallel line development is for cylinders, triangulation for complex shapes, and approximate methods are less precise."
+      },
+      { 
+        q: "What is a break line used for?", 
         options: ["Show removed portion", "Indicate center", "Show hidden edges", "Show dimension"], 
-        answer: 0 },
-      { q: "Which one of the following lines is used for hidden features?", 
+        answer: 0,
+        explanation: "Break lines indicate where a portion of an object is removed to shorten the view or reveal internal features, often used for long objects. Center lines mark axes, dashed lines show hidden edges, and dimension lines indicate sizes."
+      },
+      { 
+        q: "Which one of the following lines is used for hidden features?", 
         options: ["Dashed line", "Solid line", "Center line", "Phantom line"], 
-        answer: 0 },
-      { q: "Section lines are generally drawn at an angle of:", 
+        answer: 0,
+        explanation: "Dashed lines represent hidden edges or features not directly visible in the view. Solid lines show visible edges, center lines mark symmetry, and phantom lines indicate alternate positions or paths."
+      },
+      { 
+        q: "Section lines are generally drawn at an angle of:", 
         options: ["45°", "60°", "30°", "90°"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Section lines (hatching) are typically drawn at 45° to indicate cut surfaces in sectional views, distinguishing the cut material. Other angles may be used for adjacent parts to avoid confusion, but 45° is standard."
+      },
 
       // Electro-Mechanical (3 MCQs)
-      { q: "In a hydropower plant, what converts mechanical energy into electrical energy?", 
+      { 
+        q: "In a hydropower plant, what converts mechanical energy into electrical energy?", 
         options: ["Generator", "Pump", "Turbine", "Transformer"], 
-        answer: 0 },
-      { q: "In generators, what principle is used to convert mechanical motion to electrical energy?", 
+        answer: 0,
+        explanation: "In a hydropower plant, the generator converts mechanical energy (from the turbine’s rotation) into electrical energy via electromagnetic induction. Turbines convert hydraulic energy to mechanical, pumps move water, and transformers adjust voltage."
+      },
+      { 
+        q: "In generators, what principle is used to convert mechanical motion to electrical energy?", 
         options: ["Magnetic induction", "Magnetic repulsion", "Electrostatic induction", "Thermal conduction"], 
-        answer: 0 },
-      { q: "The nature of the current flowing in the armature of the DC machine is:", 
+        answer: 0,
+        explanation: "Generators operate on electromagnetic induction (Faraday’s law), where mechanical motion of a conductor in a magnetic field induces an electric current. Magnetic repulsion is not a principle, electrostatic induction is for static charges, and thermal conduction is unrelated."
+      },
+      { 
+        q: "The nature of the current flowing in the armature of the DC machine is:", 
         options: ["DC", "AC", "Pulsed DC", "Alternating DC"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "In a DC machine, the armature generates AC due to the rotating magnetic field, but the commutator rectifies it to DC for external use. Thus, the current in the armature itself is AC, making 'AC' correct."
+      },
 
       // Industrial Boiler (5 MCQs)
-      { q: "Which of the following is a fire tube boiler?", 
+      { 
+        q: "Which of the following is a fire tube boiler?", 
         options: ["Locomotive boiler", "Babcock and Wilcox boiler", "Stirling boiler", "Benson boiler"], 
-        answer: 0 },
-      { q: "Boiler HP is defined as:", 
+        answer: 0,
+        explanation: "Locomotive boilers are fire-tube boilers, where hot gases pass through tubes surrounded by water. Babcock and Wilcox, Stirling, and Benson are water-tube boilers, where water flows inside tubes heated externally."
+      },
+      { 
+        q: "Boiler HP is defined as:", 
         options: ["Steam evaporation rate of 34.5 lb/hr from and at 212°F", "Work done in evaporating 1 kg of steam", "Heat transfer rate", "Pressure capacity"], 
-        answer: 0 },
-      { q: "Fire tube boilers are:", 
+        answer: 0,
+        explanation: "Boiler horsepower (BHP) is a unit of power defined as the evaporation of 34.5 pounds of water per hour from and at 212°F, equivalent to about 33,475 BTU/hr. Other options do not match this definition."
+      },
+      { 
+        q: "Fire tube boilers are:", 
         options: ["Internally fired", "Externally fired", "Both internally and externally fired", "Neither internally nor externally fired"], 
-        answer: 2 },
-      { q: "The heat loss in a boiler takes place in the form of:", 
+        answer: 2,
+        explanation: "Fire-tube boilers can be internally fired (e.g., locomotive boilers, where the firebox is inside the boiler) or externally fired (e.g., Lancashire boilers, with an external furnace). Option 'Both internally and externally fired' accounts for both types."
+      },
+      { 
+        q: "The heat loss in a boiler takes place in the form of:", 
         options: ["Heat carried away by flue gases", "Radiation losses", "Unburnt carbon in ash", "All of the above"], 
-        answer: 3 },
-      { q: "The device attached to the steam chest for preventing explosions due to excessive internal pressure of steam is called:", 
+        answer: 3,
+        explanation: "Boiler heat losses include heat carried away by flue gases, radiation losses from the boiler surface, and energy lost due to unburnt carbon in ash. Option 'All of the above' encompasses all these losses."
+      },
+      { 
+        q: "The device attached to the steam chest for preventing explosions due to excessive internal pressure of steam is called:", 
         options: ["Water level indicator", "Safety valve", "Blow-off cock", "Feed check valve"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "A safety valve releases excess steam pressure to prevent boiler explosions. Water level indicators monitor water levels, blow-off cocks remove sludge, and feed check valves control water inflow."
+      },
 
       // Heat Engines (5 MCQs)
-      { q: "Which part of the engine connects piston and crankshaft?", 
+      { 
+        q: "Which part of the engine connects piston and crankshaft?", 
         options: ["Connecting rod", "Camshaft", "Flywheel", "Crankcase"], 
-        answer: 0 },
-      { q: "Which stroke removes burnt gases?", 
+        answer: 0,
+        explanation: "The connecting rod transfers motion from the piston to the crankshaft, converting linear motion to rotational. The camshaft controls valves, the flywheel smooths rotation, and the crankcase houses the crankshaft."
+      },
+      { 
+        q: "Which stroke removes burnt gases?", 
         options: ["Exhaust stroke", "Intake stroke", "Compression stroke", "Power stroke"], 
-        answer: 0 },
-      { q: "All steam engines are:", 
+        answer: 0,
+        explanation: "In a four-stroke engine, the exhaust stroke pushes burnt gases out of the cylinder via the exhaust valve. Intake draws in air-fuel, compression compresses the mixture, and power delivers energy."
+      },
+      { 
+        q: "All steam engines are:", 
         options: ["External combustion engine", "Internal combustion engine", "Hybrid combustion engine", "Non-combustion engine"], 
-        answer: 0 },
-      { q: "Which of the following is a four-stroke engine?", 
+        answer: 0,
+        explanation: "Steam engines are external combustion engines, as fuel is burned outside the engine to heat water and produce steam. Internal combustion occurs inside cylinders, and hybrid/non-combustion are not applicable."
+      },
+      { 
+        q: "Which of the following is a four-stroke engine?", 
         options: ["Petrol engine", "Steam engine", "Two-stroke engine", "Jet engine"], 
-        answer: 0 },
-      { q: "The main function of a carburetor is to:", 
+        answer: 0,
+        explanation: "Petrol engines typically use a four-stroke cycle (intake, compression, power, exhaust). Steam engines are external combustion, two-stroke engines have two strokes, and jet engines operate on a continuous flow principle."
+      },
+      { 
+        q: "The main function of a carburetor is to:", 
         options: ["Mix air and fuel", "Cool the engine", "Compress the fuel", "Ignite the mixture"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "A carburetor mixes air and fuel in the correct ratio for combustion in a petrol engine. Cooling is done by radiators, compression by the piston, and ignition by the spark plug."
+      },
 
       // Industrial Management (6 MCQs)
-      { q: "Assets of a company include:", 
+      { 
+        q: "Assets of a company include:", 
         options: ["Building", "Machinery", "Inventory", "All of the above"], 
-        answer: 3 },
-      { q: "Amortization means:", 
+        answer: 3,
+        explanation: "Assets are resources owned by a company, including tangible items like buildings, machinery, and inventory, as well as intangible items. Option 'All of the above' includes all listed tangible assets."
+      },
+      { 
+        q: "Amortization means:", 
         options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis", "Depreciation of assets", "Sale of assets"], 
-        answer: 1 },
-      { q: "Industrial hygiene and safety is concerned with:", 
+        answer: 1,
+        explanation: "Amortization refers to the gradual repayment of a debt (e.g., a loan) through regular installments, liquidating the financial obligation over time. Depreciation applies to tangible assets, and sale is unrelated."
+      },
+      { 
+        q: "Industrial hygiene and safety is concerned with:", 
         options: ["Analyzing the hazards of workplace", "Ensuring worker comfort", "Reducing operational costs", "All of the above"], 
-        answer: 3 },
-      { q: "Which of the following is not a chief organ of the UN?", 
+        answer: 3,
+        explanation: "Industrial hygiene and safety involve identifying workplace hazards, ensuring worker comfort (e.g., ventilation), and implementing cost-effective safety measures to reduce risks, making 'All of the above' comprehensive."
+      },
+      { 
+        q: "Which of the following is not a chief organ of the UN?", 
         options: ["Security Council", "General Assembly", "Economic and Social Council", "International Labor Organization"], 
-        answer: 3 },
-      { q: "Highest percentage of child labor is found in Nepal in which sector?", 
+        answer: 3,
+        explanation: "The UN’s chief organs include the Security Council, General Assembly, and Economic and Social Council. The ILO is a specialized agency, not a chief organ, making 'International Labor Organization' correct."
+      },
+      { 
+        q: "Highest percentage of child labor is found in Nepal in which sector?", 
         options: ["Industrial sector", "Agricultural sector", "Service sector", "Construction sector"], 
-        answer: 1 },
-      { q: "Which of the following layouts is suited for mass production?", 
+        answer: 1,
+        explanation: "In Nepal, the agricultural sector employs the highest percentage of child labor, as children often work in farming and rural activities. Industrial, service, and construction sectors have lower percentages."
+      },
+      { 
+        q: "Which of the following layouts is suited for mass production?", 
         options: ["Process Layout", "Product Layout", "Fixed Position Layout", "Cellular Layout"], 
-        answer: 1 }
+        answer: 1,
+        explanation: "Product layout (e.g., assembly lines) is ideal for mass production, as it arranges equipment in a linear sequence for high-volume, standardized output. Process layout groups similar processes, fixed position is for large items, and cellular is for flexible production."
+      }
     ];
 
     let currentPage = 0;
@@ -474,6 +629,7 @@
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -506,8 +662,16 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
@@ -518,6 +682,13 @@
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
       checkNextButton();
     }
@@ -570,6 +741,7 @@
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
