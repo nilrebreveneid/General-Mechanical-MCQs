@@ -4,298 +4,438 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Machine Drawing MCQ Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: 'Roboto', -apple-system, Arial, sans-serif;
       margin: 0;
       padding: 2rem;
-      background: linear-gradient(to right, #f8ffae, #43c6ac);
-      color: #333;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      color: #1a202c;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      line-height: 1.6;
     }
 
     h1 {
       text-align: center;
-      color: #1e88e5;
+      color: #2b6cb0;
       margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
       text-align: center;
-      color: #d81b60;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
+      color: #c53030;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
     }
 
     .quiz-container {
-      max-width: 900px;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      max-width: 1000px;
+      width: 100%;
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
       margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .quiz-container:hover {
+      transform: translateY(-5px);
     }
 
     .progress-bar {
       width: 100%;
-      height: 10px;
-      background: #eee;
-      border-radius: 5px;
-      margin-bottom: 1rem;
+      height: 12px;
+      background: #edf2f7;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
       overflow: hidden;
+      border: 1px solid #e2e8f0;
     }
 
     .progress {
       height: 100%;
-      background: #42a5f5;
-      transition: width 0.3s;
+      background: linear-gradient(to right, #4299e1, #3182ce);
+      border-radius: 6px;
+      transition: width 0.4s ease-in-out;
     }
 
     #timer {
       text-align: right;
-      font-size: 1rem;
+      font-size: 1.1rem;
       margin-bottom: 1rem;
-      color: #d81b60;
+      color: #c53030;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
     .question {
-      margin-bottom: 1.5rem;
-      animation: fadeIn 0.5s;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      animation: fadeIn 0.5s ease-out;
+      transition: box-shadow 0.3s;
+    }
+
+    .question:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .question p {
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: #444;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #2d3748;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
     .options button {
-      display: block;
-      margin: 0.5rem 0;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem 1.25rem;
       width: 100%;
-      background: #e3f2fd;
-      border: none;
-      border-radius: 5px;
+      background: #ebf8ff;
+      border: 2px solid #bee3f8;
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.3s;
       font-size: 1rem;
       text-align: left;
+      transition: all 0.3s ease;
+      color: #2d3748;
     }
 
-    .options button:hover {
-      background: #bbdefb;
-      transform: translateX(5px);
+    .options button:hover:not(:disabled) {
+      background: #bee3f8;
+      border-color: #90cdf4;
+      transform: translateX(4px);
     }
 
     .options button:focus {
-      outline: 2px solid #1e88e5;
-      outline-offset: 2px;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
     }
 
     .options button.correct {
-      background-color: #c8e6c9 !important;
+      background: #c6f6d5 !important;
+      border-color: #68d391 !important;
+      color: #22543d;
       animation: pulse 0.5s;
     }
 
     .options button.wrong {
-      background-color: #ffcdd2 !important;
+      background: #fed7d7 !important;
+      border-color: #f56565 !important;
+      color: #742a2a;
       animation: shake 0.3s;
+    }
+
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .explanation {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f0fff4;
+      border-left: 4px solid #48bb78;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      color: #2d3748;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+
+    .explanation.show {
+      opacity: 1;
+      max-height: 200px;
     }
 
     @keyframes pulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      50% { transform: scale(1.03); }
       100% { transform: scale(1); }
     }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    .pagination-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .pagination-button:hover:not(:disabled) {
+      background: #3182ce;
+    }
+
+    .pagination-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    .submit-button, .restart-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .submit-button:hover:not(:disabled), .restart-button:hover:not(:disabled) {
+      background: #3182ce;
+      transform: translateY(-2px);
+    }
+
+    .submit-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
     }
 
     #score, #results {
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       margin-top: 2rem;
-      font-weight: bold;
+      font-weight: 700;
+      color: #2d3748;
     }
 
     .results-table {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
     }
 
     .results-table th, .results-table td {
-      border: 1px solid #ddd;
-      padding: 0.5rem;
+      border: 1px solid #e2e8f0;
+      padding: 1rem;
       text-align: left;
     }
 
     .results-table th {
-      background: #f5f5f5;
+      background: #edf2f7;
+      font-weight: 600;
+      color: #2d3748;
     }
 
-    .submit-button, .restart-button {
-      background: #42a5f5;
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 1rem;
-      display: block;
-      width: 100%;
-      text-align: center;
-      transition: background 0.3s;
-    }
-
-    .submit-button:hover, .restart-button:hover {
-      background: #1e88e5;
-    }
-
-    .submit-button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
+    .results-table td.correct { color: #2f855a; font-weight: 600; }
+    .results-table td.wrong { color: #c53030; font-weight: 600; }
+    .results-table td.not-attempted { color: #718096; }
 
     .hidden {
       display: none;
     }
 
-    @media (max-width: 600px) {
-      .quiz-container {
+    @media (max-width: 768px) {
+      body {
         padding: 1rem;
       }
+      .quiz-container {
+        padding: 1.5rem;
+      }
+      .question p {
+        font-size: 1.1rem;
+      }
       .options button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+      }
+      .results-table th, .results-table td {
+        padding: 0.75rem;
         font-size: 0.9rem;
-        padding: 0.5rem;
+      }
+      .pagination-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      .submit-button, .restart-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
   <h1>Machine Drawing MCQ Quiz</h1>
-  <h2>4 MCQs Will Come in Exam</h2>
+  <h2>Test Your Knowledge: 4 MCQs Will Appear in Exam</h2>
   <div class="quiz-container">
     <div id="timer">Time: 00:00</div>
     <div class="progress-bar">
       <div class="progress" id="progress"></div>
     </div>
-    <div id="quiz"></div>
-    <button class="submit-button" id="submit-button" disabled>Submit Quiz</button>
+    <div id="quiz" role="region" aria-live="polite"></div>
+    <div class="pagination">
+      <button class="pagination-button" id="prev-page" disabled aria-label="Previous page">Previous</button>
+      <button class="pagination-button" id="next-page" aria-label="Next page">Next</button>
+    </div>
+    <button class="submit-button" id="submit-button" disabled aria-label="Submit quiz">Submit Quiz</button>
     <div id="score"></div>
     <div id="results" class="hidden">
       <h2>Quiz Results</h2>
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th>Question</th>
-            <th>Your Answer</th>
-            <th>Correct Answer</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="results-body"></tbody>
-      </table>
+      <div class="overflow-x-auto">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Your Answer</th>
+              <th>Correct Answer</th>
+              <th>Status</th>
+              <th>Explanation</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
     </div>
   </div>
-  <button class="restart-button hidden" id="restart-button">Restart Quiz</button>
+  <button class="restart-button hidden" id="restart-button" aria-label="Restart quiz">Restart Quiz</button>
 
   <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
   <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
 
   <script>
     const questions = [
-      { q: "Which is the correct conventional representation of a splined hole (BS 308)?", options: ["⭘ with vertical line", "⭘ with zig-zag and center marking"], answer: 1 },
-      { q: "A drawing instrument set usually contains all except:", options: ["Bow compass", "Extra lead"], answer: 1 },
-      { q: "A title block contains all the following information except:", options: ["Part list", "Drawing No."], answer: 0 },
-      { q: "Which type of projection uses 45° lines for depth?", options: ["Oblique projection", "Isometric projection"], answer: 0 },
-      { q: "What is the standard angle between isometric axes?", options: ["120°", "90°"], answer: 0 },
-      { q: "Which symbol is used to denote surface roughness?", options: ["Check mark (✓)", "Tick with triangle (⏜✓)"], answer: 1 },
-      { q: "Which of the following is not a type of section?", options: ["Offset section", "Rough section"], answer: 1 },
-      { q: "Which component lists part name, material, and quantity?", options: ["Bill of Materials", "Title Block"], answer: 0 },
-      { q: "In assembly drawing, hatching is used to show:", options: ["Material cut in section", "Hole center lines"], answer: 0 },
-      { q: "Which drawing represents the exact shape and size of an object?", options: ["Scale drawing", "Freehand sketch"], answer: 0 },
-      { q: "Which of the following is not included in a machine drawing set?", options: ["Production schedule", "Detail drawing"], answer: 0 },
-      { q: "In AutoCAD, what is the function of the ORTHO mode?", options: ["Constrains cursor to 90° angles", "Mirrors the object"], answer: 0 },
-      { q: "Which method is used to develop a cone’s surface?", options: ["Radial line development", "Parallel line development"], answer: 0 },
-      { q: "Threads are represented in drawings using:", options: ["Thick solid lines", "Thin continuous lines with zigzag"], answer: 1 },
-      { q: "What is the typical symbol for a counterbore?", options: ["⌀", "⏃"], answer: 1 },
-      { q: "What does the symbol ⌀ represent in machine drawing?", options: ["Radius", "Diameter"], answer: 1 },
-      { q: "What is a break line used for?", options: ["Show removed portion", "Indicate center"], answer: 0 },
-      { q: "Which one of the following lines is used for hidden features?", options: ["Dashed line", "Solid line"], answer: 0 },
-      { q: "Which of the following is a permanent joint?", options: ["Welded joint", "Nut and bolt"], answer: 0 },
-      { q: "Section lines are generally drawn at an angle of:", options: ["45°", "60°"], answer: 0 },
-      { q: "The drawing scale 2:1 means:", options: ["Drawing is half the size of object", "Drawing is double the size of object"], answer: 1 },
-      { q: "Which view is generally considered as the front view?", options: ["Longest and most detailed side", "Top view"], answer: 0 },
-      { q: "Center lines are represented by:", options: ["Chain thin lines", "Thick solid lines"], answer: 0 },
-      { q: "Which line is used to show symmetry?", options: ["Centerline", "Object line"], answer: 0 },
-      { q: "Which tool is used to draw large circles?", options: ["Beam compass", "Divider"], answer: 0 },
-      { q: "Why is a sectional view used?", options: ["To show internal features", "To reduce drawing size"], answer: 0 },
-      { q: "What does a 'chain' line represent in a drawing?", options: ["Center of gravity", "Pitch circle diameter"], answer: 1 },
-      { q: "In drawing, the term 'R' is used for:", options: ["Radius", "Revolution"], answer: 0 },
-      { q: "Sectional views are generally shown using:", options: ["Hatching lines", "Dimension lines"], answer: 0 },
-      { q: "A projection that shows three faces of an object equally is called:", options: ["Isometric projection", "Orthographic projection"], answer: 0 },
-      { q: "Which CAD command is used to copy objects?", options: ["COPY", "MIRROR"], answer: 0 },
-      { q: "What is a taper in machine drawing?", options: ["Gradual reduction in diameter", "Notch in shaft"], answer: 0 },
-      { q: "A dimension with ⌀ symbol refers to:", options: ["Radius", "Diameter"], answer: 1 },
-      { q: "The projection method used in Nepal is:", options: ["First angle", "Third angle"], answer: 0 },
-      { q: "Which drawing is used for manufacturing individual parts?", options: ["Detail drawing", "Assembly drawing"], answer: 0 },
-      { q: "Which instrument is used for measuring angle?", options: ["Protractor", "Divider"], answer: 0 }, 
-      { q: "Which line type is thin and light?", options: ["All of the above", "Construction lines"], answer: 1 },
-      { q: "Which type of line is particular to section drawings?", options: ["Break lines", "Cutting plane lines"], answer: 1 },
-      { q: "Projection with parallel lines perpendicular to plane is:", options: ["Perspective projection", "Orthographic projection"], answer: 1 },
-      { q: "Correct layout for third angle system projection:", options: ["D", "B"], answer: 1 },
-      { q: "Top view of the given solid is:", options: ["A", "C"], answer: 1 },
-      { q: "Circle appears as in isometric drawing:", options: ["Circle", "Ellipse"], answer: 1 },
-      { q: "Which is not a pictorial drawing?", options: ["Isometric", "Multiview"], answer: 1 },
-      { q: "Hidden lines are drawn as:", options: ["Dashed wide lines", "Dashed narrow lines"], answer: 1 },
-      { q: "Common projection angles in drawing:", options: ["1st and 2nd", "1st and 3rd"], answer: 1 },
-      { q: "Assembly drawing should start with:", options: ["Title block", "Part list"], answer: 1 },
-      { q: "Screw thread axial advance is:", options: ["Turn", "Lead"], answer: 1 },
-      { q: "Lead in threads is:", options: ["Parallel axis distance", "Axial advance per turn"], answer: 1 },
-      { q: "Not a practical welded joint:", options: ["Butt joint", "Tree joint"], answer: 1 },
-      { q: "Ø50 H7 denotes:", options: ["Shaft basis clearance fit", "Hole basis interference fit"], answer: 1 },
-      { q: "Loading error type:", options: ["Systematic error", "Random error"], answer: 1 },
-      { q: "Orthographic projection is:", options: ["Side view projection", "All of the above"], answer: 1 },
-      { q: "Not a personal safety device:", options: ["Shoe", "Fan belt cover"], answer: 1 },
-      { q: "Correct top view for object:", options: ["B", "C"], answer: 1 },
-      { q: "Taper magnitude of keys:", options: ["1:100", "1:50"], answer: 0 },
-      { q: "Line for hidden outlines:", options: ["Continuous thick", "Short dashed narrow"], answer: 1 },
-      { q: "Pictorial drawing:", options: ["Orthographic", "Axonometric"], answer: 1 },
-      { q: "Hatching line angle:", options: ["30°", "45°"], answer: 1 },
-      { q: "Required elements of welding symbol:", options: ["Arrow and finish symbol", "Arrow and weld symbol"], answer: 1 },
-      { q: "Sectional view importance:", options: ["To beautify the drawing", "To see internal details"], answer: 1 },
-      { q: "Orthographic projection done in:", options: ["Second and third angle", "First and third angle"], answer: 1 },
-      { q: "Plane parallel to projection appears:", options: ["Foreshortened", "True size"], answer: 1 },
-      { q: "Key used for shifting gears:", options: ["Flat key", "Square key"], answer: 1 },
-      { q: "If axis is perpendicular to HP:", options: ["Front view drawn first", "Top view drawn first"], answer: 1 },
-      { q: "Three view object projection:", options: ["Perspective", "Orthographic"], answer: 1 },
-      { q: "BS 308 splined hole symbol:", options: ["Vertical line", "Zig-zag with center"], answer: 1 },
-      { q: "Drawing set lacks:", options: ["Bow compass", "Extra lead"], answer: 1 },
-      { q: "Title block missing info:", options: ["Part list", "Drawing No."], answer: 1 },
-      { q: "True statement:", options: ["No dimension in assembly", "Balloon numbers in sequence"], answer: 1 },
-      { q: "Isometric drawing circle is:", options: ["Circle", "Ellipse"], answer: 1 },
-      { q: "Two types of projection:", options: ["Parallel and Convergent", "Perspective and Parallel"], answer: 1 }
+      { q: "Which is the correct conventional representation of a splined hole per BS 308?", options: ["Circle with vertical line", "Circle with zig-zag and center marking"], answer: 1, explanation: "Per BS 308, a splined hole is represented by a circle with a zig-zag pattern and center marking to indicate the spline geometry." },
+      { q: "A drawing instrument set typically includes all except:", options: ["Bow compass", "Extra lead"], answer: 1, explanation: "A drawing instrument set includes tools like a bow compass, but extra lead is a consumable, not a standard instrument." },
+      { q: "A title block contains all the following information except:", options: ["Part list", "Drawing number"], answer: 0, explanation: "The title block includes drawing number, title, and scale, but the part list is typically in a separate bill of materials." },
+      { q: "Which projection uses 45° lines to represent depth?", options: ["Oblique projection", "Isometric projection"], answer: 0, explanation: "Oblique projection uses 45° lines for depth, while isometric uses 30° angles for axes." },
+      { q: "What is the standard angle between isometric axes?", options: ["120°", "90°"], answer: 0, explanation: "Isometric axes are spaced at 120° to represent three-dimensional objects equally." },
+      { q: "Which symbol denotes surface roughness in machine drawing?", options: ["Check mark (✓)", "Tick with triangle (⏜✓)"], answer: 1, explanation: "The tick with triangle symbol indicates surface roughness, specifying texture requirements." },
+      { q: "Which of the following is not a type of section?", options: ["Offset section", "Rough section"], answer: 1, explanation: "Offset sections are valid, but 'rough section' is not a recognized type in technical drawing." },
+      { q: "Which component lists part name, material, and quantity?", options: ["Bill of Materials", "Title Block"], answer: 0, explanation: "The Bill of Materials lists part details, while the title block contains drawing metadata." },
+      { q: "In assembly drawings, hatching is used to show:", options: ["Material cut in section", "Hole center lines"], answer: 0, explanation: "Hatching indicates cut surfaces in sectional views to reveal internal features." },
+      { q: "Which drawing represents the exact shape and size of an object?", options: ["Scale drawing", "Freehand sketch"], answer: 0, explanation: "Scale drawings provide precise, proportional representations, unlike freehand sketches." },
+      { q: "Which is not typically included in a machine drawing set?", options: ["Production schedule", "Detail drawing"], answer: 0, explanation: "Production schedules are planning documents, not part of a drawing set." },
+      { q: "In AutoCAD, what does ORTHO mode do?", options: ["Constrains cursor to 90° angles", "Mirrors the object"], answer: 0, explanation: "ORTHO mode restricts cursor movement to horizontal and vertical (90°) for precise drawing." },
+      { q: "Which method develops a cone’s surface?", options: ["Radial line development", "Parallel line development"], answer: 0, explanation: "Radial line development is used for conical surfaces, dividing the cone into radial segments." },
+      { q: "Threads in drawings are represented using:", options: ["Thick solid lines", "Thin continuous lines with zigzag"], answer: 1, explanation: "Threads are shown with thin continuous lines and zigzag patterns to indicate threading." },
+      { q: "What is the typical symbol for a counterbore?", options: ["⌀", "⏃"], answer: 1, explanation: "The counterbore symbol (⏃) indicates a cylindrical hole with a larger diameter at the surface." },
+      { q: "What does the ⌀ symbol represent in machine drawing?", options: ["Radius", "Diameter"], answer: 1, explanation: "The ⌀ symbol denotes the diameter of a circular feature, such as a hole." },
+      { q: "What is a break line used for in drawings?", options: ["Show removed portion", "Indicate center"], answer: 0, explanation: "Break lines indicate where a portion of an object is removed to shorten the view." },
+      { q: "Which line type represents hidden features?", options: ["Dashed line", "Solid line"], answer: 0, explanation: "Dashed lines show edges that are not directly visible, such as hidden features." },
+      { q: "Which of the following is a permanent joint?", options: ["Welded joint", "Nut and bolt"], answer: 0, explanation: "Welded joints are permanent, while nuts and bolts allow disassembly." },
+      { q: "Section lines are generally drawn at an angle of:", options: ["45°", "60°"], answer: 0, explanation: "Hatching lines are typically drawn at 45° to indicate cut surfaces in sections." },
+      { q: "A drawing scale of 2:1 means:", options: ["Drawing is half size", "Drawing is double size"], answer: 1, explanation: "A 2:1 scale means the drawing is twice the size of the actual object." },
+      { q: "Which view is typically considered the front view?", options: ["Longest and most detailed side", "Top view"], answer: 0, explanation: "The front view shows the most detailed and longest side for clarity." },
+      { q: "Center lines are represented by:", options: ["Chain thin lines", "Thick solid lines"], answer: 0, explanation: "Chain thin lines (alternating long and short dashes) indicate centers of circles or symmetry." },
+      { q: "Which line indicates symmetry in a drawing?", options: ["Centerline", "Object line"], answer: 0, explanation: "Centerlines show axes of symmetry for circular or symmetrical features." },
+      { q: "Which tool is used to draw large circles?", options: ["Beam compass", "Divider"], answer: 0, explanation: "A beam compass is designed for drawing large circles, unlike dividers." },
+      { q: "Why are sectional views used in drawings?", options: ["To show internal features", "To reduce drawing size"], answer: 0, explanation: "Sectional views reveal internal features by cutting through the object." },
+      { q: "What does a 'chain' line represent?", options: ["Center of gravity", "Pitch circle diameter"], answer: 1, explanation: "Chain lines often indicate pitch circle diameters in gear drawings." },
+      { q: "In drawing, the term 'R' stands for:", options: ["Radius", "Revolution"], answer: 0, explanation: "The 'R' prefix denotes the radius of a circular feature, e.g., R10 for 10 mm radius." },
+      { q: "Sectional views are shown using:", options: ["Hatching lines", "Dimension lines"], answer: 0, explanation: "Hatching lines fill cut areas to distinguish materials in sectional views." },
+      { q: "A projection showing three faces equally is:", options: ["Isometric projection", "Orthographic projection"], answer: 0, explanation: "Isometric projection shows three faces at 120° angles, equally foreshortened." },
+      { q: "Which AutoCAD command copies objects?", options: ["COPY", "MIRROR"], answer: 0, explanation: "The COPY command duplicates objects, while MIRROR creates a mirrored copy." },
+      { q: "What is a taper in machine drawing?", options: ["Gradual reduction in diameter", "Notch in shaft"], answer: 0, explanation: "A taper is a gradual reduction in diameter, often for fitting components." },
+      { q: "A dimension with ⌀ symbol refers to:", options: ["Radius", "Diameter"], answer: 1, explanation: "The ⌀ symbol indicates the diameter of a circular feature." },
+      { q: "The projection method used in Nepal is:", options: ["First angle", "Third angle"], answer: 0, explanation: "Nepal uses first-angle projection, where views are placed opposite the projection plane." },
+      { q: "Which drawing is used for manufacturing individual parts?", options: ["Detail drawing", "Assembly drawing"], answer: 0, explanation: "Detail drawings specify individual part dimensions for manufacturing." },
+      { q: "Which instrument measures angles?", options: ["Protractor", "Divider"], answer: 0, explanation: "A protractor measures angles, while dividers measure distances." },
+      { q: "Which line type is thin and light?", options: ["All of the above", "Construction lines"], answer: 1, explanation: "Construction lines are thin and light, used for layout and not part of the final drawing." },
+      { q: "Which line is specific to section drawings?", options: ["Break lines", "Cutting plane lines"], answer: 1, explanation: "Cutting plane lines indicate where a section is cut to reveal internal features." },
+      { q: "Projection with parallel lines perpendicular to the plane is:", options: ["Perspective projection", "Orthographic projection"], answer: 1, explanation: "Orthographic projection uses parallel lines perpendicular to the projection plane." },
+      { q: "The correct layout for third-angle projection is:", options: ["Option D", "Option B"], answer: 1, explanation: "Third-angle projection places the top view above the front view, typically option B in standard layouts." },
+      { q: "The top view of a given solid is:", options: ["Option A", "Option C"], answer: 1, explanation: "The top view (option C) shows the plan view of the solid as projected orthographically." },
+      { q: "A circle in an isometric drawing appears as:", options: ["Circle", "Ellipse"], answer: 1, explanation: "Circles appear as ellipses in isometric drawings due to the angled projection." },
+      { q: "Which is not a pictorial drawing?", options: ["Isometric", "Multiview"], answer: 1, explanation: "Multiview drawings are orthographic, not pictorial like isometric drawings." },
+      { q: "Hidden lines are drawn as:", options: ["Dashed wide lines", "Dashed narrow lines"], answer: 1, explanation: "Hidden lines are dashed narrow lines to indicate non-visible edges." },
+      { q: "Common projection angles in technical drawing are:", options: ["1st and 2nd", "1st and 3rd"], answer: 1, explanation: "First and third-angle projections are standard in technical drawing." },
+      { q: "An assembly drawing should start with:", options: ["Title block", "Part list"], answer: 1, explanation: "The part list (bill of materials) is essential to identify components in an assembly drawing." },
+      { q: "The axial advance of a screw thread per turn is called:", options: ["Turn", "Lead"], answer: 1, explanation: "Lead is the distance a screw thread advances axially in one turn." },
+      { q: "The lead in screw threads refers to:", options: ["Parallel axis distance", "Axial advance per turn"], answer: 1, explanation: "Lead is the axial distance advanced by the thread in one revolution." },
+      { q: "Which is not a practical welded joint?", options: ["Butt joint", "Tree joint"], answer: 1, explanation: "Tree joint is not a recognized welded joint; butt joints are standard." },
+      { q: "The notation Ø50 H7 denotes:", options: ["Shaft basis clearance fit", "Hole basis interference fit"], answer: 1, explanation: "Ø50 H7 indicates a hole basis interference fit, where H7 is the hole tolerance." },
+      { q: "A loading error in measurements is classified as:", options: ["Systematic error", "Random error"], answer: 1, explanation: "Loading errors, caused by inconsistent forces, are random errors." },
+      { q: "Orthographic projection includes:", options: ["Side view projection", "All views"], answer: 1, explanation: "Orthographic projection includes all views (front, top, side) projected perpendicularly." },
+      { q: "Which is not a personal safety device?", options: ["Shoe", "Fan belt cover"], answer: 1, explanation: "Fan belt covers are machine safety devices, not personal protective equipment." },
+      { q: "The correct top view for a given object is:", options: ["Option B", "Option C"], answer: 1, explanation: "Option C correctly represents the top view based on orthographic projection principles." },
+      { q: "The taper magnitude of keys is typically:", options: ["1:100", "1:50"], answer: 0, explanation: "Keys typically have a taper of 1:100 for secure fitting." },
+      { q: "The line type for hidden outlines is:", options: ["Continuous thick", "Short dashed narrow"], answer: 1, explanation: "Short dashed narrow lines represent hidden outlines in drawings." },
+      { q: "A pictorial drawing is best described as:", options: ["Orthographic", "Axonometric"], answer: 1, explanation: "Axonometric drawings (e.g., isometric) are pictorial, showing 3D views." },
+      { q: "The angle for hatching lines is typically:", options: ["30°", "45°"], answer: 1, explanation: "Hatching lines are drawn at 45° to indicate cut surfaces in sections." },
+      { q: "Required elements of a welding symbol include:", options: ["Arrow and finish symbol", "Arrow and weld symbol"], answer: 1, explanation: "A welding symbol includes an arrow pointing to the weld and the weld symbol itself." },
+      { q: "The importance of a sectional view is:", options: ["To beautify the drawing", "To see internal details"], answer: 1, explanation: "Sectional views reveal internal details by cutting through the object." },
+      { q: "Orthographic projection is commonly done in:", options: ["Second and third angle", "First and third angle"], answer: 1, explanation: "First and third-angle projections are standard for orthographic drawings." },
+      { q: "A plane parallel to the projection plane appears:", options: ["Foreshortened", "True size"], answer: 1, explanation: "A plane parallel to the projection plane is shown in its true size and shape." },
+      { q: "The key used for shifting gears is typically:", options: ["Flat key", "Square key"], answer: 1, explanation: "Square keys are commonly used in gear-shifting mechanisms for strength." },
+      { q: "If an axis is perpendicular to the horizontal plane (HP):", options: ["Front view drawn first", "Top view drawn first"], answer: 1, explanation: "The top view is prioritized when the axis is perpendicular to the HP in projection." },
+      { q: "Projection for a three-view object is:", options: ["Perspective", "Orthographic"], answer: 1, explanation: "Orthographic projection is used for three-view drawings (front, top, side)." },
+      { q: "The BS 308 symbol for a splined hole is:", options: ["Vertical line", "Zig-zag with center"], answer: 1, explanation: "BS 308 specifies a zig-zag with center marking for splined holes." },
+      { q: "A drawing instrument set typically lacks:", options: ["Bow compass", "Extra lead"], answer: 1, explanation: "Extra lead is not an instrument, unlike a bow compass." },
+      { q: "Information typically missing from a title block is:", options: ["Part list", "Drawing number"], answer: 0, explanation: "The part list is separate from the title block, which includes the drawing number." },
+      { q: "Which statement about assembly drawings is true?", options: ["No dimensions included", "Balloon numbers in sequence"], answer: 1, explanation: "Balloon numbers sequentially identify parts in assembly drawings." },
+      { q: "A circle in an isometric drawing appears as:", options: ["Circle", "Ellipse"], answer: 1, explanation: "Circles are drawn as ellipses in isometric projections due to the angled view." },
+      { q: "The two main types of projection are:", options: ["Parallel and Convergent", "Perspective and Parallel"], answer: 1, explanation: "Perspective (convergent) and parallel (e.g., orthographic) are the main projection types." }
     ];
 
     let score = 0;
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
     let timerInterval;
+    let shuffledQuestions = [];
+    let currentPage = 0;
+    const questionsPerPage = 20;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -305,52 +445,33 @@
     const timerEl = document.getElementById("timer");
     const submitButton = document.getElementById("submit-button");
     const restartButton = document.getElementById("restart-button");
+    const prevPageButton = document.getElementById("prev-page");
+    const nextPageButton = document.getElementById("next-page");
     const correctSound = document.getElementById("correct-sound");
     const wrongSound = document.getElementById("wrong-sound");
 
-    // Load progress from localStorage
-    function loadProgress() {
-      const saved = localStorage.getItem("machineDrawingMCQProgress");
-      if (saved) {
-        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        score = savedScore || 0;
-        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
-        timerSeconds = savedTime || 0;
-      } else {
-        score = 0;
-        userAnswers = Array(questions.length).fill(null);
-        timerSeconds = 0;
-      }
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
     }
 
-    // Save progress to localStorage
-    function saveProgress() {
-      localStorage.setItem("machineDrawingMCQProgress", JSON.stringify({
-        score,
-        answers: userAnswers,
-        time: timerSeconds
-      }));
-    }
-
-    // Shuffle options
     function shuffleOptions(questions) {
       return questions.map(q => {
         const correct = q.options[q.answer];
         const shuffled = [...q.options].sort(() => Math.random() - 0.5);
         return {
-          q: q.q,
+          ...q,
           options: shuffled,
           answer: shuffled.indexOf(correct)
         };
       });
     }
 
-    // Start timer
     function startTimer() {
       const minutes = Math.floor(timerSeconds / 60);
       const seconds = timerSeconds % 60;
       timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -359,7 +480,6 @@
       }, 1000);
     }
 
-    // Update progress bar
     function updateProgress() {
       const answered = userAnswers.filter(answer => answer !== null).length;
       const percentage = (answered / questions.length) * 100;
@@ -367,105 +487,175 @@
       checkAllAnswered();
     }
 
-    // Show all questions
-    function showQuestions() {
-      let html = '';
-      for (let i = 0; i < questions.length; i++) {
-        const q = shuffledQuestions[i];
-        const options = q.options
-          .map((opt, j) => `<button aria-label="Option ${opt}" onclick="checkAnswer(this, ${i}, ${j}, '${opt.replace(/'/g, "\\'")}')">${opt}</button>`)
-          .join('');
-        html += `
-          <div class="question" data-index="${i}">
-            <p>${i + 1}. ${q.q}</p>
-            <div class="options">${options}</div>
+    function showPage(pageIndex) {
+      currentPage = pageIndex;
+      const startIndex = pageIndex * questionsPerPage;
+      const endIndex = Math.min(startIndex + questionsPerPage, shuffledQuestions.length);
+      const fragment = document.createDocumentFragment();
+      const pageQuestions = shuffledQuestions.slice(startIndex, endIndex);
+      pageQuestions.forEach((q, index) => {
+        const globalIndex = startIndex + index;
+        const isAnswered = userAnswers[globalIndex] !== null;
+        const selectedAnswer = userAnswers[globalIndex];
+        const correctAnswer = q.options[q.answer];
+        const options = q.options.map((opt, j) => {
+          let buttonClass = '';
+          if (isAnswered) {
+            buttonClass += opt === correctAnswer ? ' correct' :
+                          opt === selectedAnswer && selectedAnswer !== correctAnswer ? ' wrong' : '';
+          }
+          return `<button class="${buttonClass}" aria-label="Option ${escapeHtml(opt)}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+        }).join('');
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.dataset.index = globalIndex;
+        div.innerHTML = `
+          <p>${globalIndex + 1}. ${escapeHtml(q.q)}</p>
+          <div class="options">${options}</div>
+          <div class="explanation ${isAnswered ? 'show' : ''}" id="explanation-${globalIndex}">
+            ${isAnswered ? escapeHtml(q.explanation || 'No explanation available.') : ''}
           </div>
         `;
-      }
-      quizEl.innerHTML = html;
+        fragment.appendChild(div);
+      });
+      quizEl.innerHTML = '';
+      quizEl.appendChild(fragment);
+
+      quizEl.querySelectorAll('.options button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const questionDiv = e.target.closest('.question');
+          const questionIndex = parseInt(questionDiv.dataset.index);
+          const selected = Array.from(questionDiv.querySelectorAll('.options button')).indexOf(e.target);
+          const selectedText = e.target.textContent;
+          checkAnswer(e.target, questionIndex, selected, selectedText);
+        });
+      });
+
+      prevPageButton.disabled = currentPage === 0;
+      nextPageButton.disabled = endIndex === questions.length;
       updateProgress();
     }
 
-    // Check answer
     function checkAnswer(button, questionIndex, selected, selectedText) {
+      if (userAnswers[questionIndex] !== null) return;
       const q = shuffledQuestions[questionIndex];
       const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
-      buttons.forEach((btn) => {
+      const explanationEl = document.getElementById(`explanation-${questionIndex}`);
+
+      buttons.forEach((btn, j) => {
         btn.disabled = true;
-        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        if (j === correct) btn.classList.add("correct");
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
       userAnswers[questionIndex] = selectedText;
       if (selected === correct) {
         score++;
-        correctSound.play().catch(() => console.log("Audio playback failed"));
+        correctSound.play().catch(() => console.log("Correct sound playback failed"));
       } else {
-        wrongSound.play().catch(() => console.log("Audio playback failed"));
+        wrongSound.play().catch(() => console.log("Wrong sound playback failed"));
       }
 
+      explanationEl.textContent = q.explanation || 'No explanation available.';
+      explanationEl.classList.add('show');
       saveProgress();
       updateProgress();
     }
 
-    // Check if all questions are answered to enable submit button
     function checkAllAnswered() {
       const allAnswered = userAnswers.every(answer => answer !== null);
       submitButton.disabled = !allAnswered;
     }
 
-    // End quiz and show results
     function endQuiz() {
       clearInterval(timerInterval);
-      quizEl.innerHTML = "";
+      quizEl.innerHTML = '';
+      prevPageButton.classList.add("hidden");
+      nextPageButton.classList.add("hidden");
       submitButton.classList.add("hidden");
       scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
       resultsEl.classList.remove("hidden");
       restartButton.classList.remove("hidden");
 
       resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
-        const userAnswer = userAnswers[i] === null ? "Not attempted" : userAnswers[i];
-        const correctAnswer = q.options[q.answer];
+        const userAnswer = userAnswers[i] === null ? "Not attempted" : escapeHtml(userAnswers[i]);
+        const correctAnswer = escapeHtml(q.options[q.answer]);
         const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
                       userAnswers[i] === null ? "Not attempted" : "Wrong";
         return `
           <tr>
-            <td>${i + 1}. ${q.q}</td>
+            <td>${i + 1}. ${escapeHtml(q.q)}</td>
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${escapeHtml(q.explanation || 'No explanation available.')}</td>
           </tr>
         `;
       }).join('');
-
-      // Clear localStorage
       localStorage.removeItem("machineDrawingMCQProgress");
     }
 
-    // Restart quiz
     function restartQuiz() {
       score = 0;
       userAnswers = Array(questions.length).fill(null);
       timerSeconds = 0;
+      currentPage = 0;
       shuffledQuestions = shuffleOptions(questions);
       resultsEl.classList.add("hidden");
-      restartButton.classList.add("hidden");
+      prevPageButton.classList.remove("hidden");
+      nextPageButton.classList.remove("hidden");
       submitButton.classList.remove("hidden");
       scoreEl.innerHTML = "";
+      clearInterval(timerInterval);
       startTimer();
-      showQuestions();
+      showPage(0);
+    }
+
+    function loadProgress() {
+      const saved = localStorage.getItem("machineDrawingMCQProgress");
+      if (saved) {
+        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        score = savedScore || 0;
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem("machineDrawingMCQProgress", JSON.stringify({
+        score,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
     }
 
     // Initialize
-    let shuffledQuestions = shuffleOptions(questions);
+    shuffledQuestions = shuffleOptions(questions);
     loadProgress();
     startTimer();
-    showQuestions();
+    showPage(0);
 
-    // Add event listeners
+    // Event listeners
     submitButton.addEventListener("click", endQuiz);
     restartButton.addEventListener("click", restartQuiz);
+    prevPageButton.addEventListener("click", () => {
+      if (currentPage > 0) showPage(currentPage - 1);
+    });
+    nextPageButton.addEventListener("click", () => {
+      if ((currentPage + 1) * questionsPerPage < questions.length) showPage(currentPage + 1);
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !submitButton.disabled) {
+        submitButton.click();
+      } else if (e.key === 'ArrowLeft' && !prevPageButton.disabled) {
+        prevPageButton.click();
+      } else if (e.key === 'ArrowRight' && !nextPageButton.disabled) {
+        nextPageButton.click();
+      }
+    });
   </script>
 </body>
 </html>
