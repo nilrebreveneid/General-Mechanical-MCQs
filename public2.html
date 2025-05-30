@@ -4,33 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nepal Admin & Rights Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', -apple-system, Arial, sans-serif;
         }
 
         body {
-            background: #f5f5f5;
-            color: #333;
+            background: linear-gradient(135deg, #e0f7fa, #80deea);
+            color: #1a202c;
             display: flex;
             min-height: 100vh;
         }
 
         .sidebar {
             width: 200px;
-            background: #333;
+            background: #2d3748;
             color: #fff;
             padding: 20px;
             height: 100vh;
             position: fixed;
+            transition: width 0.3s ease;
         }
 
         .sidebar h2 {
-            font-size: 1.3em;
+            font-size: 1.5rem;
             margin-bottom: 15px;
+            text-align: center;
         }
 
         .sidebar ul {
@@ -38,114 +41,295 @@
         }
 
         .sidebar li {
-            padding: 10px;
+            padding: 12px;
             cursor: pointer;
-            border-radius: 5px;
-            margin-bottom: 5px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            transition: background 0.3s ease;
         }
 
         .sidebar li:hover, .sidebar li.active {
-            background: #007bff;
+            background: #4299e1;
         }
 
         .main-content {
             margin-left: 200px;
-            padding: 20px;
+            padding: 2rem;
             width: calc(100% - 200px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .header h1 {
-            font-size: 1.8em;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            color: #2b6cb0;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
-        .question-card {
+        .header h2 {
+            color: #c53030;
+            font-size: 1.4rem;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-container {
             background: #fff;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+            max-width: 1000px;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .quiz-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #edf2f7;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, #4299e1, #3182ce);
+            border-radius: 6px;
+            transition: width 0.4s ease-in-out;
+        }
+
+        #timer {
+            text-align: right;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #c53030;
+            font-weight: 600;
+        }
+
+        .question {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
             border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 0 auto;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .question:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .question-text {
-            font-size: 1.2em;
-            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2d3748;
         }
 
         .options {
-            display: grid;
-            gap: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .option {
-            background: #e0e0e0;
-            padding: 12px;
-            border-radius: 5px;
+            background: #ebf8ff;
+            padding: 0.75rem 1.25rem;
+            border: 2px solid #bee3f8;
+            border-radius: 6px;
             cursor: pointer;
-            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            text-align: left;
         }
 
-        .option:hover {
-            background: #d0d0d0;
+        .option:hover:not(.disabled) {
+            background: #bee3f8;
+            border-color: #90cdf4;
+            transform: translateX(4px);
+        }
+
+        .option:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
         }
 
         .option.correct {
-            background: #28a745;
-            color: #fff;
-            border-color: #28a745;
+            background: #c6f6d5 !important;
+            border-color: #68d391 !important;
+            color: #22543d;
+            animation: pulse 0.5s;
         }
 
         .option.wrong {
-            background: #dc3545;
-            color: #fff;
-            border-color: #dc3545;
+            background: #fed7d7 !important;
+            border-color: #f56565 !important;
+            color: #742a2a;
+            animation: shake 0.3s;
         }
 
-        .feedback {
-            margin-top: 10px;
-            font-size: 0.9em;
-            color: #333;
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
-        .carousel-nav {
+        .skip-button {
+            background: #fff3cd;
+            margin-top: 1rem;
+            padding: 0.75rem;
+            width: 100%;
+            border: 2px solid #ffca28;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .skip-button:hover:not(.disabled) {
+            background: #ffecb3;
+            transform: translateY(-2px);
+        }
+
+        .skip-button.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .explanation {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: #2d3748;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.3s ease, max-height 0.3s ease;
+        }
+
+        .explanation.show {
+            opacity: 1;
+            max-height: 300px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+
+        .pagination {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
+            margin-top: 1.5rem;
+            gap: 1rem;
         }
 
-        .nav-btn {
-            background: #007bff;
+        .pagination-button {
+            background: #4299e1;
             color: #fff;
+            padding: 0.75rem 1.5rem;
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
         }
 
-        .nav-btn:disabled {
-            background: #ccc;
+        .pagination-button:hover:not(:disabled) {
+            background: #3182ce;
+        }
+
+        .pagination-button:disabled {
+            background: #e2e8f0;
             cursor: not-allowed;
         }
 
-        .submit-btn, .reset-btn {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
+        .submit-button, .restart-button {
+            background: #4299e1;
+            color: #fff;
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 1em;
+            margin-top: 1.5rem;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
 
-        .submit-btn {
-            background: #28a745;
-            color: #fff;
+        .submit-button:hover:not(:disabled), .restart-button:hover:not(:disabled) {
+            background: #3182ce;
+            transform: translateY(-2px);
         }
 
-        .reset-btn {
-            background: #dc3545;
-            color: #fff;
+        .submit-button:disabled {
+            background: #e2e8f0;
+            cursor: not-allowed;
+        }
+
+        #score, #results {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .results-table th, .results-table td {
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .results-table th {
+            background: #edf2f7;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .results-table td.correct { color: #2f855a; font-weight: 600; }
+        .results-table td.wrong { color: #c53030; font-weight: 600; }
+        .results-table td.skipped { color: #d69e2e; font-weight: 600; }
+        .results-table td.not-attempted { color: #718096; }
+
+        .hidden {
+            display: none;
         }
 
         @media (max-width: 768px) {
@@ -156,10 +340,30 @@
             .main-content {
                 margin-left: 180px;
                 width: calc(100% - 180px);
+                padding: 1rem;
+            }
+
+            .quiz-container {
+                padding: 1.5rem;
             }
 
             .question-text {
-                font-size: 1.1em;
+                font-size: 1.1rem;
+            }
+
+            .option, .skip-button {
+                font-size: 0.95rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .results-table th, .results-table td {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+
+            .pagination-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.95rem;
             }
         }
 
@@ -167,6 +371,7 @@
             .sidebar {
                 width: 100%;
                 position: static;
+                height: auto;
             }
 
             .main-content {
@@ -175,7 +380,16 @@
             }
 
             .header h1 {
-                font-size: 1.5em;
+                font-size: 2rem;
+            }
+
+            .header h2 {
+                font-size: 1.2rem;
+            }
+
+            .submit-button, .restart-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
             }
         }
     </style>
@@ -192,19 +406,43 @@
     <div class="main-content">
         <div class="header">
             <h1>Nepal Admin & Rights Quiz</h1>
+            <h2>परीक्षा अभ्यास गर्नुहोस्</h2>
         </div>
-        <div class="question-card">
-            <div class="question-text"></div>
-            <div class="options"></div>
-            <div class="feedback" id="feedback"></div>
+        <div class="quiz-container">
+            <div id="timer">Time: 00:00</div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div id="quiz" role="region" aria-live="polite"></div>
+            <div class="pagination">
+                <button class="pagination-button" id="prev-page" disabled aria-label="Previous page">Previous</button>
+                <button class="pagination-button" id="next-page" aria-label="Next page">Next</button>
+            </div>
+            <button class="submit-button" id="submit-button" disabled aria-label="Submit quiz">Submit Quiz</button>
+            <div id="score"></div>
+            <div id="results" class="hidden">
+                <h2>Quiz Results</h2>
+                <div class="overflow-x-auto">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Question</th>
+                                <th>Your Answer</th>
+                                <th>Correct Answer</th>
+                                <th>Status</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-body"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="carousel-nav">
-            <button class="nav-btn prev-btn" onclick="changeQuestion(-1)" disabled>Previous</button>
-            <button class="nav-btn next-btn" onclick="changeQuestion(1)">Next</button>
-        </div>
-        <button class="submit-btn" onclick="submitQuiz()">Submit Quiz</button>
-        <button class="reset-btn" onclick="resetQuiz()">Reset Quiz</button>
+        <button class="restart-button hidden" id="restart-button" aria-label="Restart quiz">Restart Quiz</button>
     </div>
+
+    <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+    <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
 
     <script>
         const questions = [
@@ -251,111 +489,303 @@
             { id: 4, section: "Constitutional Rights", text: "कसैलाई पनि निजको इच्छाविरुद्ध काममा लगाइनेछैन। यो प्रावधान कुन मौलिक हकअन्तर्गत छ?", options: ["स्वतन्त्रताको हक", "सम्मानपूर्वक बाँच्ने हक", "शोषणविरुद्धको हक", "न्याय सम्बन्धी हक"], correct: "शोषणविरुद्धको हक", explanation: { en: "Against forced labor under exploitation rights.", np: "शोषणविरुद्धको हकअन्तर्गत।" }, tip: "Exploitation (शोषण)." },
             { id: 5, section: "Constitutional Rights", text: "संविधानबमोजिम कसलाई आधारभूत शिक्षामा पहुँचको हक हुनेछ?", options: ["प्रत्येक व्यक्तिलाई", "प्रत्येक नागरिकलाई", "प्रत्येक बालकलाई", "सबै नेपालीलाई"], correct: "प्रत्येक नागरिकलाई", explanation: { en: "Basic education for every citizen.", np: "प्रत्येक नागरिकलाई आधारभूत शिक्षा।" }, tip: "Citizen-focused (नागरिक)." },
             { id: 6, section: "Constitutional Rights", text: "सम्मानपूर्वक बाँच्ने हक कसलाई प्राप्त छ?", options: ["प्रत्येक व्यक्तिलाई", "प्रत्येक नागरिकलाई", "प्रत्येक नेपाली नागरिकलाई", "प्रत्येक नेपालीलाई"], correct: "प्रत्येक नागरिकलाई", explanation: { en: "Dignity for every citizen.", np: "प्रत्येक नागरिकलाई सम्मानपूर्वक बाँच्ने हक।" }, tip: "Citizen’s right (नागरिक)." },
-            { id: 7, section: "Constitutional Rights", text: "सम्पत्ति तथा पारिवारिक मामिलामा दम्पतीको समान हक हुने व्यवस्था कुन হकले गरेको छ?", options: ["समानताको हक", "महिलाको हक", "सम्पत्तिको हक", "न्याय सम्बन्धी हक"], correct: "महिलाको हक", explanation: { en: "Equal rights under women’s rights.", np: "महिलाको हकअन्तर्गत समान हक।" }, tip: "Women’s rights (महिला)." },
+            { id: 7, section: "Constitutional Rights", text: "सम्पत्ति तथा पारिवारिक मामिलामा दम्पतीको समान हक हुने व्यवस्था कुन हकले गरेको छ?", options: ["समानताको हक", "महिलाको हक", "सम्पत्तिको हक", "न्याय सम्बन्धी हक"], correct: "महिलाको हक", explanation: { en: "Equal rights under women’s rights.", np: "महिलाको हकअन्तर्गत समान हक।" }, tip: "Women’s rights (महिला)." },
             { id: 8, section: "Constitutional Rights", text: "नेपालको संविधान अनुसार कुन तहसम्मको शिक्षा अनिवार्य र निःशुल्क हुने व्यवस्था छ?", options: ["प्राथमिक शिक्षा", "आधारभूत शिक्षा", "माध्यमिक शिक्षा", "विद्यालय शिक्षा"], correct: "आधारभूत शिक्षा", explanation: { en: "Basic education is mandatory and free.", np: "आधारभूत शिक्षा अनिवार्य र निःशुल्क छ।" }, tip: "Basic education (आधारभूत)." }
         ];
 
-        let currentQuestion = 0;
         let score = 0;
-        let answeredQuestions = new Set();
+        let userAnswers = Array(questions.length).fill(null);
+        let skipped = [];
+        let timerSeconds = 0;
+        let timerInterval;
+        let shuffledQuestions = [];
+        let currentPage = 0;
+        const questionsPerPage = 20;
         let currentTopic = 'Office Procedures';
 
-        function renderQuestion() {
-            const filteredQuestions = questions.filter(q => q.section === currentTopic);
-            if (currentQuestion >= filteredQuestions.length) currentQuestion = filteredQuestions.length - 1;
-            if (currentQuestion < 0) currentQuestion = 0;
-            const q = filteredQuestions[currentQuestion];
-            const questionCard = document.querySelector('.question-card');
-            questionCard.innerHTML = `
-                <div class="question-text">${q.id}. ${q.text}</div>
-                <div class="options">
-                    ${q.options.map((option, index) => `<div class="option" data-index="${index}" data-id="${q.id}" data-section="${q.section}" role="button" tabindex="0">${option}</div>`).join('')}
-                </div>
-                <div class="feedback" id="feedback"></div>
-            `;
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.addEventListener('click', handleAnswer);
-                opt.addEventListener('keydown', e => e.key === 'Enter' && handleAnswer(e));
-            });
-            updateNavigation();
-            document.getElementById('feedback').textContent = '';
+        const quizEl = document.getElementById("quiz");
+        const scoreEl = document.getElementById("score");
+        const resultsEl = document.getElementById("results");
+        const resultsBody = document.getElementById("results-body");
+        const progressEl = document.getElementById("progress");
+        const timerEl = document.getElementById("timer");
+        const submitButton = document.getElementById("submit-button");
+        const restartButton = document.getElementById("restart-button");
+        const prevPageButton = document.getElementById("prev-page");
+        const nextPageButton = document.getElementById("next-page");
+        const correctSound = document.getElementById("correct-sound");
+        const wrongSound = document.getElementById("wrong-sound");
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
-        function handleAnswer(e) {
-            const selectedIndex = parseInt(e.target.dataset.index);
-            const id = parseInt(e.target.dataset.id);
-            const section = e.target.dataset.section;
-            const q = questions.find(q => q.id === id && q.section === section);
-            const correctIndex = q.options.indexOf(q.correct);
-            const feedback = document.getElementById('feedback');
-
-            document.querySelectorAll(`.option[data-id="${id}"][data-section="${section}"]`).forEach(opt => {
-                opt.style.pointerEvents = 'none';
-                if (parseInt(opt.dataset.index) === correctIndex) opt.classList.add('correct');
-                if (parseInt(opt.dataset.index) === selectedIndex && selectedIndex !== correctIndex) opt.classList.add('wrong');
+        function shuffleOptions(questions) {
+            return questions.map(q => {
+                const correct = q.options[q.options.indexOf(q.correct)];
+                const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+                return {
+                    ...q,
+                    options: shuffled,
+                    correct: shuffled.indexOf(correct)
+                };
             });
-
-            feedback.textContent = selectedIndex === correctIndex 
-                ? `Correct! ${q.explanation.en} (${q.explanation.np}) Tip: ${q.tip}`
-                : `Incorrect. Correct answer: ${q.correct}. ${q.explanation.en} (${q.explanation.np}) Tip: ${q.tip}`;
-
-            if (selectedIndex === correctIndex) score++;
-            answeredQuestions.add(`${id}-${section}`);
-            setTimeout(moveToNextQuestion, 2000);
         }
 
-        function moveToNextQuestion() {
+        function startTimer() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function updateProgress() {
+            const answered = userAnswers.filter(answer => answer !== null).length;
             const filteredQuestions = questions.filter(q => q.section === currentTopic);
-            if (currentQuestion < filteredQuestions.length - 1) {
-                currentQuestion++;
-                renderQuestion();
+            const percentage = (answered / filteredQuestions.length) * 100;
+            progressEl.style.width = `${percentage}%`;
+            checkAllAnswered();
+        }
+
+        function showPage(pageIndex) {
+            currentPage = pageIndex;
+            const filteredQuestions = questions.filter(q => q.section === currentTopic);
+            const startIndex = pageIndex * questionsPerPage;
+            const endIndex = Math.min(startIndex + questionsPerPage, filteredQuestions.length);
+            const fragment = document.createDocumentFragment();
+            const pageQuestions = shuffledQuestions.filter(q => q.section === currentTopic).slice(startIndex, endIndex);
+            pageQuestions.forEach((q, index) => {
+                const globalIndex = filteredQuestions.indexOf(questions.find(ques => ques.id === q.id && ques.section === q.section));
+                const isAnswered = userAnswers[globalIndex] !== null;
+                const selectedAnswer = userAnswers[globalIndex];
+                const correctAnswer = q.options[q.correct];
+                const isSkipped = skipped.some(skippedQ => skippedQ.id === q.id && skippedQ.section === q.section);
+                const options = q.options.map((opt, j) => {
+                    let buttonClass = 'option';
+                    if (isAnswered) {
+                        buttonClass += opt === correctAnswer ? ' correct' :
+                                      opt === selectedAnswer && selectedAnswer !== correctAnswer ? ' wrong' : '';
+                        buttonClass += ' disabled';
+                    }
+                    return `<button class="${buttonClass}" data-index="${j}" data-id="${q.id}" data-section="${q.section}" aria-label="Option ${escapeHtml(opt)}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+                }).join('');
+                const div = document.createElement('div');
+                div.className = 'question';
+                div.dataset.index = globalIndex;
+                div.innerHTML = `
+                    <div class="question-text">${q.id}. ${escapeHtml(q.text)}</div>
+                    <div class="options">${options}</div>
+                    <button class="skip-button" id="skip-btn-${globalIndex}" ${isAnswered || isSkipped ? 'disabled' : ''}>Skip</button>
+                    <div class="explanation ${isAnswered ? 'show' : ''}" id="explanation-${globalIndex}">
+                        ${isAnswered ? `Tip: ${escapeHtml(q.tip)}<br>${escapeHtml(q.explanation.en)} (${escapeHtml(q.explanation.np)})` : ''}
+                    </div>
+                `;
+                fragment.appendChild(div);
+            });
+            quizEl.innerHTML = '';
+            quizEl.appendChild(fragment);
+
+            quizEl.querySelectorAll('.option').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const questionDiv = e.target.closest('.question');
+                    const questionIndex = parseInt(questionDiv.dataset.index);
+                    const selected = parseInt(e.target.dataset.index);
+                    const selectedText = e.target.textContent;
+                    checkAnswer(e.target, questionIndex, selected, selectedText);
+                });
+            });
+
+            quizEl.querySelectorAll('.skip-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const questionIndex = parseInt(e.target.id.replace('skip-btn-', ''));
+                    skipQuestion(questionIndex);
+                });
+            });
+
+            prevPageButton.disabled = currentPage === 0;
+            nextPageButton.disabled = (currentPage + 1) * questionsPerPage >= filteredQuestions.length;
+            updateProgress();
+        }
+
+        function checkAnswer(button, questionIndex, selected, selectedText) {
+            if (userAnswers[questionIndex] !== null) return;
+            const filteredQuestions = questions.filter(q => q.section === currentTopic);
+            const q = shuffledQuestions.find(ques => ques.id === filteredQuestions[questionIndex].id && ques.section === filteredQuestions[questionIndex].section);
+            const correct = q.correct;
+            const buttons = button.parentElement.querySelectorAll(".option");
+            const skipBtn = document.getElementById(`skip-btn-${questionIndex}`);
+            const explanationEl = document.getElementById(`explanation-${questionIndex}`);
+
+            buttons.forEach((btn, j) => {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+                if (j === correct) btn.classList.add("correct");
+                if (btn === button && selected !== correct) btn.classList.add("wrong");
+            });
+            skipBtn.disabled = true;
+            skipBtn.classList.add('disabled');
+
+            userAnswers[questionIndex] = selectedText;
+            if (selected === correct) {
+                score++;
+                correctSound.play().catch(() => console.log("Correct sound playback failed"));
             } else {
-                submitQuiz();
+                wrongSound.play().catch(() => console.log("Wrong sound playback failed"));
             }
+
+            explanationEl.innerHTML = `Tip: ${escapeHtml(q.tip)}<br>${escapeHtml(q.explanation.en)} (${escapeHtml(q.explanation.np)})`;
+            explanationEl.classList.add('show');
+            saveProgress();
+            updateProgress();
         }
 
-        function updateNavigation() {
+        function skipQuestion(questionIndex) {
+            if (userAnswers[questionIndex] !== null) return;
             const filteredQuestions = questions.filter(q => q.section === currentTopic);
-            document.querySelector('.prev-btn').disabled = currentQuestion === 0;
-            document.querySelector('.next-btn').disabled = currentQuestion === filteredQuestions.length - 1;
+            const q = shuffledQuestions.find(ques => ques.id === filteredQuestions[questionIndex].id && ques.section === filteredQuestions[questionIndex].section);
+            if (!skipped.some(skippedQ => skippedQ.id === q.id && skippedQ.section === q.section)) {
+                skipped.push(q);
+                userAnswers[questionIndex] = "Skipped";
+            }
+            const questionEl = quizEl.querySelector(`.question[data-index="${questionIndex}"]`);
+            const buttons = questionEl.querySelectorAll(".option");
+            const skipBtn = document.getElementById(`skip-btn-${questionIndex}`);
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+            });
+            skipBtn.disabled = true;
+            skipBtn.classList.add('disabled');
+
+            saveProgress();
+            updateProgress();
+        }
+
+        function checkAllAnswered() {
+            const filteredQuestions = questions.filter(q => q.section === currentTopic);
+            const allAnswered = userAnswers.slice(0, filteredQuestions.length).every(answer => answer !== null);
+            submitButton.disabled = !allAnswered;
+        }
+
+        function endQuiz() {
+            clearInterval(timerInterval);
+            quizEl.innerHTML = '';
+            prevPageButton.classList.add("hidden");
+            nextPageButton.classList.add("hidden");
+            submitButton.classList.add("hidden");
+            const filteredQuestions = questions.filter(q => q.section === currentTopic);
+            scoreEl.innerHTML = `Your score: ${score} / ${filteredQuestions.length} (${((score / filteredQuestions.length) * 100).toFixed(2)}%)`;
+            resultsEl.classList.remove("hidden");
+            restartButton.classList.remove("hidden");
+
+            resultsBody.innerHTML = filteredQuestions.map((q, i) => {
+                const userAnswer = userAnswers[i] === null ? "Not attempted" :
+                                  userAnswers[i] === "Skipped" ? "Skipped" :
+                                  escapeHtml(userAnswers[i]);
+                const correctAnswer = escapeHtml(q.options[q.options.indexOf(q.correct)]);
+                const status = userAnswers[i] === q.options[q.options.indexOf(q.correct)] ? "Correct" :
+                              userAnswers[i] === "Skipped" ? "Skipped" :
+                              userAnswers[i] === null ? "Not attempted" : "Wrong";
+                return `
+                    <tr>
+                        <td>${q.id}. ${escapeHtml(q.text)}</td>
+                        <td>${userAnswer}</td>
+                        <td>${correctAnswer}</td>
+                        <td class="${status.toLowerCase()}">${status}</td>
+                        <td>Tip: ${escapeHtml(q.tip)}<br>${escapeHtml(q.explanation.en)} (${escapeHtml(q.explanation.np)})</td>
+                    </tr>
+                `;
+            }).join('');
+            localStorage.removeItem("adminRightsQuizProgress");
+        }
+
+        function restartQuiz() {
+            score = 0;
+            userAnswers = Array(questions.length).fill(null);
+            skipped = [];
+            timerSeconds = 0;
+            currentPage = 0;
+            shuffledQuestions = shuffleOptions(questions);
+            resultsEl.classList.add("hidden");
+            prevPageButton.classList.remove("hidden");
+            nextPageButton.classList.remove("hidden");
+            submitButton.classList.remove("hidden");
+            scoreEl.innerHTML = "";
+            clearInterval(timerInterval);
+            startTimer();
+            showPage(0);
         }
 
         function selectTopic(topic) {
             currentTopic = topic;
-            currentQuestion = 0;
+            currentPage = 0;
+            score = 0;
+            userAnswers = Array(questions.length).fill(null);
+            skipped = [];
             document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
             document.querySelector(`.sidebar li[onclick="selectTopic('${topic}')"]`).classList.add('active');
-            renderQuestion();
+            showPage(0);
+            updateProgress();
         }
 
-        function changeQuestion(direction) {
-            currentQuestion += direction;
-            renderQuestion();
+        function loadProgress() {
+            const saved = localStorage.getItem("adminRightsQuizProgress");
+            if (saved) {
+                const { score: savedScore, answers: savedAnswers, skipped: savedSkipped, time: savedTime, topic: savedTopic } = JSON.parse(saved);
+                score = savedScore || 0;
+                userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
+                skipped = savedSkipped || [];
+                timerSeconds = savedTime || 0;
+                currentTopic = savedTopic || 'Office Procedures';
+                document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+                document.querySelector(`.sidebar li[onclick="selectTopic('${currentTopic}')"]`).classList.add('active');
+            }
         }
 
-        function submitQuiz() {
-            const questionCard = document.querySelector('.question-card');
-            questionCard.innerHTML = `
-                <div class="question-text">Quiz Completed!</div>
-                <div class="feedback">
-                    Score: ${score}/${questions.length}<br>
-                    Percentage: ${(score / questions.length * 100).toFixed(2)}%
-                </div>
-            `;
-            document.querySelector('.carousel-nav').style.display = 'none';
-            document.querySelector('.submit-btn').style.display = 'none';
+        function saveProgress() {
+            localStorage.setItem("adminRightsQuizProgress", JSON.stringify({
+                score,
+                answers: userAnswers,
+                skipped,
+                time: timerSeconds,
+                topic: currentTopic
+            }));
         }
 
-        function resetQuiz() {
-            score = 0;
-            currentQuestion = 0;
-            answeredQuestions.clear();
-            document.querySelector('.carousel-nav').style.display = 'flex';
-            document.querySelector('.submit-btn').style.display = 'block';
-            renderQuestion();
-        }
+        // Initialize
+        shuffledQuestions = shuffleOptions(questions);
+        loadProgress();
+        startTimer();
+        showPage(0);
 
-        renderQuestion();
+        // Event listeners
+        submitButton.addEventListener("click", endQuiz);
+        restartButton.addEventListener("click", restartQuiz);
+        prevPageButton.addEventListener("click", () => {
+            if (currentPage > 0) showPage(currentPage - 1);
+        });
+        nextPageButton.addEventListener("click", () => {
+            const filteredQuestions = questions.filter(q => q.section === currentTopic);
+            if ((currentPage + 1) * questionsPerPage < filteredQuestions.length) showPage(currentPage + 1);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !submitButton.disabled) {
+                submitButton.click();
+            } else if (e.key === 'ArrowLeft' && !prevPageButton.disabled) {
+                prevPageButton.click();
+            } else if (e.key === 'ArrowRight' && !nextPageButton.disabled) {
+                nextPageButton.click();
+            }
+        });
     </script>
 </body>
 </html>
