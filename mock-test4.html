@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -171,6 +172,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +189,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -200,6 +214,7 @@
             <th>Your Answer</th>
             <th>Correct Answer</th>
             <th>Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -212,55 +227,306 @@
 
   <script>
     const questions = [
-      { q: "Efficiency of Carnot cycle depends on:", options: ["Temperature", "Pressure", "Volume", "Mass"], answer: 0 },
-      { q: "Break-even point is where:", options: ["Profit=0", "Revenue=0", "Cost=0", "Loss=0"], answer: 0 },
-      { q: "SI Unit of force is:", options: ["Dyne", "Newton", "Joule", "Pascal"], answer: 1 },
-      { q: "Watt is the SI unit of:", options: ["Energy", "Force", "Power", "Pressure"], answer: 2 },
-      { q: "Which of the following is a scalar quantity?", options: ["Velocity", "Displacement", "Speed", "Acceleration"], answer: 2 },
-      { q: "The center of gravity of a triangle lies at:", options: ["Circumcenter", "Centroid", "Incenter", "Orthocenter"], answer: 1 },
-      { q: "Which one is not a type of valve?", options: ["Gate valve", "Globe valve", "Check valve", "Loop valve"], answer: 3 },
-      { q: "An isometric drawing has all angles equal to:", options: ["60°", "90°", "30°", "45°"], answer: 0 },
-      { q: "The boiling point of water increases with:", options: ["Altitude", "Pressure", "Temperature", "Volume"], answer: 1 },
-      { q: "Which law states PV = Constant?", options: ["Boyle's Law", "Charles's Law", "Avogadro's Law", "Newton's Law"], answer: 0 },
-      { q: "The efficiency of a good boiler is about:", options: ["70%", "80%", "90%", "60%"], answer: 2 },
-      { q: "Welding symbols are placed on:", options: ["Assembly drawing", "Detail drawing", "Both", "None"], answer: 0 },
-      { q: "In a four-stroke engine, power is developed in:", options: ["2 strokes", "Every stroke", "1 stroke", "4 strokes"], answer: 2 },
-      { q: "Which element is not used in a centrifugal pump?", options: ["Impeller", "Shaft", "Piston", "Casing"], answer: 2 },
-      { q: "The purpose of a governor in an engine is to:", options: ["Start engine", "Control speed", "Cool engine", "Increase torque"], answer: 1 },
-      { q: "Milling operation is performed using:", options: ["Single-point tool", "Multi-point tool", "Hammer", "Lathe"], answer: 1 },
-      { q: "Heat energy is transferred by conduction in:", options: ["Solids", "Liquids", "Gases", "Vacuum"], answer: 0 },
-      { q: "Energy stored in a body due to position is:", options: ["Kinetic energy", "Potential energy", "Thermal energy", "Nuclear energy"], answer: 1 },
-      { q: "Which material is most ductile?", options: ["Cast iron", "Copper", "Glass", "Rubber"], answer: 1 },
-      { q: "Draft tube is used in:", options: ["Steam engine", "Centrifugal pump", "Hydraulic turbine", "Compressor"], answer: 2 },
-      { q: "Which of the following is a permanent joint?", options: ["Nut and bolt", "Key joint", "Welded joint", "Pin joint"], answer: 2 },
-      { q: "If net force on object is zero, motion is:", options: ["Accelerated", "Decelerated", "Uniform", "Unstable"], answer: 2 },
-      { q: "Lathe operation used to create screw thread:", options: ["Facing", "Turning", "Threading", "Drilling"], answer: 2 },
-      { q: "Heat transfer from Sun to Earth is:", options: ["Conduction", "Convection", "Radiation", "Diffusion"], answer: 2 },
-      { q: "Drawings for shop floor are called:", options: ["Detailed drawing", "Assembly drawing", "Installation drawing", "Perspective drawing"], answer: 0 },
-      { q: "Boiler accessories include:", options: ["Superheater", "Chimney", "Mud drum", "Baffle"], answer: 0 },
-      { q: "Volumetric efficiency of IC engine is:", options: ["<100%", ">100%", "=100%", "All of above"], answer: 0 },
-      { q: "Condenser is used in:", options: ["Gas turbine", "Boiler", "Refrigerator", "Steam plant"], answer: 3 },
-      { q: "Chimney height depends on:", options: ["Boiler size", "Fuel used", "Draft required", "Steam pressure"], answer: 2 },
-      { q: "Which of these is a fusible alloy?", options: ["Brass", "Solder", "Steel", "Bronze"], answer: 1 },
-      { q: "Principal planes are:", options: ["XY, YZ, ZX", "Isometric planes", "Parallel planes", "Profile planes"], answer: 0 },
-      { q: "Main purpose of condenser is to:", options: ["Increase pressure", "Reduce temperature", "Condense steam", "Save space"], answer: 2 },
-      { q: "Milling cutter has:", options: ["Single edge", "Double edge", "Multiple edges", "No edge"], answer: 2 },
-      { q: "Standard angle for thread is:", options: ["29°", "60°", "90°", "30°"], answer: 1 },
-      { q: "Function of flywheel:", options: ["Increase speed", "Reduce fuel", "Maintain speed", "Absorb vibration"], answer: 2 },
-      { q: "Which component controls governor speed?", options: ["Throttle", "Gear", "Ball", "Spring"], answer: 3 },
-      { q: "Tensile test measures:", options: ["Hardness", "Elasticity", "Toughness", "Ductility"], answer: 3 },
-      { q: "Gear is made by:", options: ["Shaper", "Lathe", "Milling", "Planer"], answer: 2 },
-      { q: "The factor of safety =", options: ["Ultimate/Working", "Yield/Ultimate", "Load/Area", "Stress/Strain"], answer: 0 },
-      { q: "Belt slip causes:", options: ["Speed loss", "Noise", "Power gain", "Cooling"], answer: 0 },
-      { q: "Strength of material is tested using:", options: ["Torsion test", "Bend test", "Impact test", "Tensile test"], answer: 3 },
-      { q: "Number of rivets for a lap joint:", options: ["1", "2", "3", "4"], answer: 1 },
-      { q: "Which pump uses reciprocating motion?", options: ["Centrifugal", "Gear", "Piston", "Jet"], answer: 2 },
-      { q: "Turbine converts:", options: ["Mechanical to electrical", "Hydraulic to mechanical", "Heat to light", "Air to sound"], answer: 1 },
-      { q: "In orthographic view, depth is seen in:", options: ["Front view", "Top view", "Side view", "Isometric"], answer: 1 },
-      { q: "Sketch without scale is:", options: ["Drawing", "Sketch", "Model", "Isometric"], answer: 1 },
-      { q: "Shaft is different from axle in that it:", options: ["Transmits power", "Supports load", "Has no rotation", "Only holds gear"], answer: 0 },
-      { q: "Which cycle has highest efficiency?", options: ["Otto", "Diesel", "Carnot", "Brayton"], answer: 2 },
-      { q: "To calculate power of shaft:", options: ["P = 2πNT/60", "P = VIt", "P = I²R", "P = W/t"], answer: 0 }
+      { 
+        q: "Efficiency of Carnot cycle depends on:", 
+        options: ["Temperature", "Pressure", "Volume", "Mass"], 
+        answer: 0,
+        explanation: "The efficiency of a Carnot cycle depends solely on the absolute temperatures of the hot and cold reservoirs (η = 1 - T_c/T_h). Pressure, volume, and mass do not directly determine efficiency."
+      },
+      { 
+        q: "Break-even point is where:", 
+        options: ["Profit=0", "Revenue=0", "Cost=0", "Loss=0"], 
+        answer: 0,
+        explanation: "The break-even point occurs where total revenue equals total cost, resulting in zero profit (Profit=0). Revenue or cost being zero is unrealistic, and loss=0 is not the standard definition."
+      },
+      { 
+        q: "SI Unit of force is:", 
+        options: ["Dyne", "Newton", "Joule", "Pascal"], 
+        answer: 1,
+        explanation: "Newton is the SI unit of force, defined as the force required to accelerate a 1 kg mass by 1 m/s². Dyne is a CGS unit, Joule is energy, and Pascal is pressure."
+      },
+      { 
+        q: "Watt is the SI unit of:", 
+        options: ["Energy", "Force", "Power", "Pressure"], 
+        answer: 2,
+        explanation: "Watt is the SI unit of power, equal to one joule per second. Energy is measured in joules, force in Newtons, and pressure in Pascals."
+      },
+      { 
+        q: "Which of the following is a scalar quantity?", 
+        options: ["Velocity", "Displacement", "Speed", "Acceleration"], 
+        answer: 2,
+        explanation: "Speed is a scalar quantity, having only magnitude. Velocity, displacement, and acceleration are vectors, with both magnitude and direction."
+      },
+      { 
+        q: "The center of gravity of a triangle lies at:", 
+        options: ["Circumcenter", "Centroid", "Incenter", "Orthocenter"], 
+        answer: 1,
+        explanation: "The center of gravity of a triangle is at its centroid, where the medians intersect. Circumcenter is for the circumcircle, incenter for the incircle, and orthocenter for altitudes."
+      },
+      { 
+        q: "Which one is not a type of valve?", 
+        options: ["Gate valve", "Globe valve", "Check valve", "Loop valve"], 
+        answer: 3,
+        explanation: "Loop valve is not a recognized type of valve. Gate, globe, and check valves are standard types used to control fluid flow in piping systems."
+      },
+      { 
+        q: "An isometric drawing has all angles equal to:", 
+        options: ["60°", "90°", "30°", "45°"], 
+        answer: 0,
+        explanation: "An isometric drawing uses 120° angles between axes, but the projected angles appear as 60° due to the 30° inclination from the horizontal, making 60° the effective angle."
+      },
+      { 
+        q: "The boiling point of water increases with:", 
+        options: ["Altitude", "Pressure", "Temperature", "Volume"], 
+        answer: 1,
+        explanation: "The boiling point of water increases with pressure, as higher pressure requires more energy to change phase. Altitude decreases pressure, temperature is the result, and volume is irrelevant."
+      },
+      { 
+        q: "Which law states PV = Constant?", 
+        options: ["Boyle's Law", "Charles's Law", "Avogadro's Law", "Newton's Law"], 
+        answer: 0,
+        explanation: "Boyle’s Law states that for a fixed amount of gas at constant temperature, pressure (P) times volume (V) is constant (PV = constant). Charles’s Law involves volume and temperature, Avogadro’s Law involves moles, and Newton’s Laws are unrelated."
+      },
+      { 
+        q: "The efficiency of a good boiler is about:", 
+        options: ["70%", "80%", "90%", "60%"], 
+        answer: 2,
+        explanation: "Modern good boilers achieve efficiencies around 90% due to advanced heat recovery systems. 70% and 80% are lower than optimal, and 60% is too inefficient."
+      },
+      { 
+        q: "Welding symbols are placed on:", 
+        options: ["Assembly drawing", "Detail drawing", "Both", "None"], 
+        answer: 0,
+        explanation: "Welding symbols are typically placed on assembly drawings to indicate where and how parts are joined. Detail drawings focus on individual parts, and ‘both’ or ‘none’ are incorrect."
+      },
+      { 
+        q: "In a four-stroke engine, power is developed in:", 
+        options: ["2 strokes", "Every stroke", "1 stroke", "4 strokes"], 
+        answer: 2,
+        explanation: "In a four-stroke engine, power is developed only in the power stroke (third stroke: intake, compression, power, exhaust). One power stroke occurs every two crankshaft revolutions."
+      },
+      { 
+        q: "Which element is not used in a centrifugal pump?", 
+        options: ["Impeller", "Shaft", "Piston", "Casing"], 
+        answer: 2,
+        explanation: "Centrifugal pumps use an impeller, shaft, and casing, but not a piston, which is typical in reciprocating pumps."
+      },
+      { 
+        q: "The purpose of a governor in an engine is to:", 
+        options: ["Start engine", "Control speed", "Cool engine", "Increase torque"], 
+        answer: 1,
+        explanation: "A governor controls engine speed by regulating fuel or power supply under varying loads. It doesn’t start the engine, cool it, or directly increase torque."
+      },
+      { 
+        q: "Milling operation is performed using:", 
+        options: ["Single-point tool", "Multi-point tool", "Hammer", "Lathe"], 
+        answer: 1,
+        explanation: "Milling uses a multi-point tool (milling cutter) to remove material. Single-point tools are for turning, hammers are not machining tools, and lathes are machines, not tools."
+      },
+      { 
+        q: "Heat energy is transferred by conduction in:", 
+        options: ["Solids", "Liquids", "Gases", "Vacuum"], 
+        answer: 0,
+        explanation: "Conduction is the primary mode of heat transfer in solids due to close molecular contact. Liquids and gases rely more on convection, and vacuums transfer heat via radiation."
+      },
+      { 
+        q: "Energy stored in a body due to position is:", 
+        options: ["Kinetic energy", "Potential energy", "Thermal energy", "Nuclear energy"], 
+        answer: 1,
+        explanation: "Potential energy is stored due to an object’s position (e.g., height in a gravitational field). Kinetic energy is due to motion, thermal energy is heat, and nuclear energy is from atomic nuclei."
+      },
+      { 
+        q: "Which material is most ductile?", 
+        options: ["Cast iron", "Copper", "Glass", "Rubber"], 
+        answer: 1,
+        explanation: "Copper is highly ductile, allowing it to be drawn into wires without breaking. Cast iron is brittle, glass is non-ductile, and rubber is elastic but not typically ductile."
+      },
+      { 
+        q: "Draft tube is used in:", 
+        options: ["Steam engine", "Centrifugal pump", "Hydraulic turbine", "Compressor"], 
+        answer: 2,
+        explanation: "A draft tube is used in hydraulic turbines (e.g., Francis turbine) to recover kinetic energy from water exiting the turbine. It’s not used in steam engines, pumps, or compressors."
+      },
+      { 
+        q: "Which of the following is a permanent joint?", 
+        options: ["Nut and bolt", "Key joint", "Welded joint", "Pin joint"], 
+        answer: 2,
+        explanation: "A welded joint is permanent, fusing materials together. Nut and bolt, key, and pin joints are detachable or semi-permanent."
+      },
+      { 
+        q: "If net force on object is zero, motion is:", 
+        options: ["Accelerated", "Decelerated", "Uniform", "Unstable"], 
+        answer: 2,
+        explanation: "If the net force is zero, per Newton’s First Law, an object maintains uniform motion (constant velocity or rest). Acceleration or deceleration requires a net force, and ‘unstable’ is not a motion state."
+      },
+      { 
+        q: "Lathe operation used to create screw thread:", 
+        options: ["Facing", "Turning", "Threading", "Drilling"], 
+        answer: 2,
+        explanation: "Threading on a lathe creates screw threads. Facing flattens surfaces, turning reduces diameter, and drilling creates holes."
+      },
+      { 
+        q: "Heat transfer from Sun to Earth is:", 
+        options: ["Conduction", "Convection", "Radiation", "Diffusion"], 
+        answer: 2,
+        explanation: "Heat from the Sun reaches Earth via radiation (electromagnetic waves) through the vacuum of space. Conduction and convection require a medium, and diffusion is not a heat transfer mode."
+      },
+      { 
+        q: "Drawings for shop floor are called:", 
+        options: ["Detailed drawing", "Assembly drawing", "Installation drawing", "Perspective drawing"], 
+        answer: 0,
+        explanation: "Detailed drawings provide specific dimensions and instructions for shop floor fabrication. Assembly drawings show how parts fit, installation drawings guide setup, and perspective drawings are 3D visualizations."
+      },
+      { 
+        q: "Boiler accessories include:", 
+        options: ["Superheater", "Chimney", "Mud drum", "Baffle"], 
+        answer: 0,
+        explanation: "Superheaters are boiler accessories that enhance steam quality. Chimneys, mud drums, and baffles are structural or essential components, not accessories."
+      },
+      { 
+        q: "Volumetric efficiency of IC engine is:", 
+        options: ["<100%", ">100%", "=100%", "All of above"], 
+        answer: 0,
+        explanation: "Volumetric efficiency of an internal combustion engine is typically less than 100% due to losses like air intake restrictions. It cannot exceed 100% naturally, and ‘all’ is incorrect."
+      },
+      { 
+        q: "Condenser is used in:", 
+        options: ["Gas turbine", "Boiler", "Refrigerator", "Steam plant"], 
+        answer: 3,
+        explanation: "A condenser in a steam plant converts exhaust steam back to water for reuse. Gas turbines and boilers don’t use condensers, and refrigerators use condensers differently."
+      },
+      { 
+        q: "Chimney height depends on:", 
+        options: ["Boiler size", "Fuel used", "Draft required", "Steam pressure"], 
+        answer: 2,
+        explanation: "Chimney height is determined by the draft required to ensure proper combustion and exhaust. Boiler size, fuel type, and steam pressure influence but are not the primary factor."
+      },
+      { 
+        q: "Which of these is a fusible alloy?", 
+        options: ["Brass", "Solder", "Steel", "Bronze"], 
+        answer: 1,
+        explanation: "Solder is a fusible alloy with a low melting point, used for joining metals. Brass, steel, and bronze have higher melting points and are not fusible alloys."
+      },
+      { 
+        q: "Principal planes are:", 
+        options: ["XY, YZ, ZX", "Isometric planes", "Parallel planes", "Profile planes"], 
+        answer: 0,
+        explanation: "Principal planes in orthographic projection are XY (horizontal), YZ (vertical), and ZX (profile). Isometric planes are for 3D, parallel planes are generic, and profile planes are a subset."
+      },
+      { 
+        q: "Main purpose of condenser is to:", 
+        options: ["Increase pressure", "Reduce temperature", "Condense steam", "Save space"], 
+        answer: 2,
+        explanation: "The main purpose of a condenser is to condense steam into water, improving efficiency in steam plants. It reduces temperature indirectly but doesn’t increase pressure or save space primarily."
+      },
+      { 
+        q: "Milling cutter has:", 
+        options: ["Single edge", "Double edge", "Multiple edges", "No edge"], 
+        answer: 2,
+        explanation: "A milling cutter has multiple edges (teeth) to remove material efficiently. Single or double edges are for other tools, and ‘no edge’ is incorrect."
+      },
+      { 
+        q: "Standard angle for thread is:", 
+        options: ["29°", "60°", "90°", "30°"], 
+        answer: 1,
+        explanation: "The standard thread angle for metric and unified threads is 60°. 29° is for Acme threads, 90° is not standard, and 30° is incorrect."
+      },
+      { 
+        q: "Function of flywheel:", 
+        options: ["Increase speed", "Reduce fuel", "Maintain speed", "Absorb vibration"], 
+        answer: 2,
+        explanation: "A flywheel maintains uniform speed by storing and releasing energy, smoothing out fluctuations. It doesn’t increase speed, reduce fuel, or primarily absorb vibration."
+      },
+      { 
+        q: "Which component controls governor speed?", 
+        options: ["Throttle", "Gear", "Ball", "Spring"], 
+        answer: 3,
+        explanation: "In a governor, springs control speed by balancing centrifugal forces of rotating balls, adjusting fuel flow. Throttles regulate flow, gears adjust ratios, and balls sense speed."
+      },
+      { 
+        q: "Tensile test measures:", 
+        options: ["Hardness", "Elasticity", "Toughness", "Ductility"], 
+        answer: 3,
+        explanation: "A tensile test measures ductility (ability to deform plastically), along with strength and elongation. Hardness, elasticity, and toughness are measured by other tests."
+      },
+      { 
+        q: "Gear is made by:", 
+        options: ["Shaper", "Lathe", "Milling", "Planer"], 
+        answer: 2,
+        explanation: "Gears are typically made by milling, using gear cutters or hobbing. Shapers and planers are less common, and lathes are used for turning, not gear cutting."
+      },
+      { 
+        q: "The factor of safety =", 
+        options: ["Ultimate/Working", "Yield/Ultimate", "Load/Area", "Stress/Strain"], 
+        answer: 0,
+        explanation: "Factor of safety is the ratio of ultimate strength to working (allowable) stress, ensuring safe design. Other ratios are incorrect or unrelated."
+      },
+      { 
+        q: "Belt slip causes:", 
+        options: ["Speed loss", "Noise", "Power gain", "Cooling"], 
+        answer: 0,
+        explanation: "Belt slip reduces power transmission, causing speed loss in the driven pulley. It may cause noise, but not power gain or cooling."
+      },
+      { 
+        q: "Strength of material is tested using:", 
+        options: ["Torsion test", "Bend test", "Impact test", "Tensile test"], 
+        answer: 3,
+        explanation: "A tensile test measures material strength (ultimate and yield strength). Torsion tests shear, bend tests flexibility, and impact tests toughness."
+      },
+      { 
+        q: "Number of rivets for a lap joint:", 
+        options: ["1", "2", "3", "4"], 
+        answer: 1,
+        explanation: "A lap joint typically requires at least one rivet to join overlapping plates, though more may be used for strength. The minimum is one."
+      },
+      { 
+        q: "Which pump uses reciprocating motion?", 
+        options: ["Centrifugal", "Gear", "Piston", "Jet"], 
+        answer: 2,
+        explanation: "Piston pumps use reciprocating motion to displace fluid. Centrifugal pumps use rotation, gear pumps use meshing gears, and jet pumps use fluid jets."
+      },
+      { 
+        q: "Turbine converts:", 
+        options: ["Mechanical to electrical", "Hydraulic to mechanical", "Heat to light", "Air to sound"], 
+        answer: 1,
+        explanation: "A turbine converts hydraulic (fluid) energy to mechanical energy (e.g., rotating a shaft). Generators convert mechanical to electrical, and other options are incorrect."
+      },
+      { 
+        q: "In orthographic view, depth is seen in:", 
+        options: ["Front view", "Top view", "Side view", "Isometric"], 
+        answer: 1,
+        explanation: "In orthographic projection, the top view shows depth and width. Front view shows height and width, side view shows height and depth, and isometric is 3D."
+      },
+      { 
+        q: "Sketch without scale is:", 
+        options: ["Drawing", "Sketch", "Model", "Isometric"], 
+        answer: 1,
+        explanation: "A sketch is a freehand drawing without a precise scale. Drawings are scaled, models are physical or 3D, and isometric is a specific projection type."
+      },
+      { 
+        q: "Shaft is different from axle in that it:", 
+        options: ["Transmits power", "Supports load", "Has no rotation", "Only holds gear"], 
+        answer: 0,
+        explanation: "A shaft transmits power (e.g., torque), while an axle supports loads without necessarily rotating. Shafts rotate, and ‘only holds gear’ is incorrect."
+      },
+      { 
+        q: "Which cycle has highest efficiency?", 
+        options: ["Otto", "Diesel", "Carnot", "Brayton"], 
+        answer: 2,
+        explanation: "The Carnot cycle has the highest theoretical efficiency, limited only by temperature differences. Otto, Diesel, and Brayton cycles have lower efficiencies due to practical losses."
+      },
+      { 
+        q: "To calculate power of shaft:", 
+        options: ["P = 2πNT/60", "P = VIt", "P = I²R", "P = W/t"], 
+        answer: 0,
+        explanation: "Shaft power is calculated as P = 2πNT/60, where N is RPM and T is torque. VIt is electrical power, I²R is heat loss, and W/t is general power."
+      },
+      { 
+        q: "The SI unit of work is:", 
+        options: ["Joule", "Watt", "Newton", "Pascal"], 
+        answer: 0,
+        explanation: "Joule is the SI unit of work, equal to one Newton-meter. Watt is power, Newton is force, and Pascal is pressure."
+      }
     ];
 
     let currentPage = 0;
@@ -291,12 +557,6 @@
         skipped = savedSkipped || [];
         userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
-      } else {
-        currentPage = 0;
-        score = 0;
-        skipped = [];
-        userAnswers = Array(questions.length).fill(null);
-        timerSeconds = 0;
       }
     }
 
@@ -369,6 +629,7 @@
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -401,8 +662,16 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
@@ -413,6 +682,13 @@
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
       checkNextButton();
     }
@@ -465,6 +741,7 @@
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
@@ -474,9 +751,7 @@
     }
 
     // Initialize
-    console.log("Initial state:", { currentPage, score, skipped, userAnswers, timerSeconds });
     loadProgress();
-    console.log("After loadProgress:", { currentPage, score, skipped, userAnswers, timerSeconds });
     startTimer();
     showQuestions(currentPage);
   </script>
