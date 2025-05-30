@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,6 +132,26 @@
       background: #f5f5f5;
     }
 
+    .results-table .correct {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .results-table .wrong {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+
+    .results-table .skipped {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+
+    .results-table .notattempted {
+      background-color: #f5f5f5;
+      color: #616161;
+    }
+
     .skip-button {
       background: #fff3cd;
       margin-top: 1rem;
@@ -171,6 +192,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +209,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -199,7 +233,8 @@
             <th>Question</th>
             <th>Your Answer</th>
             <th>Correct Answer</th>
-            <th>Status</th>
+            <th class="status">Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -213,170 +248,321 @@
   <script>
     const questions = [
       // Applied Mechanics (13 MCQs)
-      { q: "The work done is said to be zero when:", 
+      { 
+        q: "The work done is said to be zero when:", 
         options: ["Force acts on a body, but displacement takes place", "No force acts on a body, but displacement is zero", "Force and displacement are perpendicular", "All of the above"], 
-        answer: 2 },
-      { q: "Which law states Energy can neither be created nor destroyed:", 
+        answer: 2,
+        explanation: "Work is zero when force and displacement are perpendicular (W = F · d · cosθ, cos 90° = 0). Option A is incorrect as work depends on displacement, and B is incorrect as zero force yields zero work."
+      },
+      { 
+        q: "Which law states Energy can neither be created nor destroyed:", 
         options: ["Newton’s first law", "First law of thermodynamics", "Newton’s third law", "Law of conservation of momentum"], 
-        answer: 1 },
-      { q: "In a couple, the lines of action of the forces are:", 
+        answer: 1,
+        explanation: "The first law of thermodynamics states energy conservation, neither created nor destroyed. Newton’s laws address motion, and momentum conservation is a different principle."
+      },
+      { 
+        q: "In a couple, the lines of action of the forces are:", 
         options: ["Perpendicular", "Parallel", "Collinear", "Intersecting"], 
-        answer: 1 },
-      { q: "On a ladder leaning against a smooth vertical wall, the friction acts:", 
+        answer: 1,
+        explanation: "A couple consists of two equal, opposite forces with parallel, non-collinear lines of action, causing rotation. Perpendicular or intersecting forces don’t form a couple."
+      },
+      { 
+        q: "On a ladder leaning against a smooth vertical wall, the friction acts:", 
         options: ["Zero at its upper end", "Upward at its upper end", "Downward at its lower end", "Perpendicular at its middle"], 
-        answer: 0 },
-      { q: "Effect of a force on a body depends upon:", 
+        answer: 0,
+        explanation: "A smooth wall has no friction, so friction is zero at the ladder’s upper end. Friction acts at the lower end against the floor, not as described in other options."
+      },
+      { 
+        q: "Effect of a force on a body depends upon:", 
         options: ["Magnitude", "All of the above", "Direction", "Point of application"], 
-        answer: 1 },
-      { q: "A rigid body is in a stable equilibrium if the application of any force:", 
+        answer: 1,
+        explanation: "A force’s effect depends on its magnitude, direction, and point of application, so ‘all of the above’ is correct."
+      },
+      { 
+        q: "A rigid body is in a stable equilibrium if the application of any force:", 
         options: ["Can raise the CG of the body but cannot lower it", "Tends to lower the CG of the body", "Has no effect on CG", "Rotates the body"], 
-        answer: 0 },
-      { q: "FPS unit ‘Pound’ is the unit to measure:", 
+        answer: 0,
+        explanation: "In stable equilibrium, forces raise the center of gravity (CG), returning it to the original position upon release. Lowering the CG or rotation indicates instability."
+      },
+      { 
+        q: "FPS unit ‘Pound’ is the unit to measure:", 
         options: ["Length", "Weight", "Force", "Mass"], 
-        answer: 2 },
-      { q: "The center of gravity of a plane lamina will not be at its geometric center if it is a:", 
+        answer: 2,
+        explanation: "In the FPS system, the pound is a unit of force. Weight is a force, but mass is measured in slugs, and length in feet."
+      },
+      { 
+        q: "The center of gravity of a plane lamina will not be at its geometric center if it is a:", 
+        q: "The center of gravity of a plane lamina will not be at its geometric center if it is:", 
         options: ["Rectangle", "Right-angled triangle", "Circle", "Square"], 
-        answer: 1 },
-      { q: "Force acting on 1 gram mass creating 1 cm/sec² acceleration is called:", 
+        answer: 1,
+        explanation: "For a right-angled triangle, the center of gravity is not at the geometric center but at the centroid (1/3 from base and height). Rectangle, circle, and square have CG at their centers."
+      },
+      { 
+        q: "Force acting on 1 gram mass creating 1 cm/sec² acceleration is called:", 
         options: ["Horsepower", "Dyne", "Newton", "Watt"], 
-        answer: 1 },
-      { q: "Non-coplanar forces are those which:", 
+        answer: 1,
+        explanation: "A dyne is the CGS unit of force, causing 1 g·cm/s² acceleration. Newton is SI, horsepower and watt are power units."
+      },
+      { 
+        q: "Non-coplanar forces are those which:", 
         options: ["Coplanar concurrent forces", "Do not lie in the same plane", "Are parallel", "Intersect at one point"], 
-        answer: 1 },
-      { q: "Which situation is a projectile?", 
-        options: ["Lifting of a bag", "Throwing of a cricket ball", "Pushing a cart", "Dropping a stone"], 
-        answer: 1 },
-      { q: "Resultant of two forces P and Q (P > Q) in opposite direction is:", 
+        answer: 1,
+        explanation: "Non-coplanar forces do not lie in the same plane. Coplanar forces are in one plane, and parallel or intersecting forces may still be coplanar."
+      },
+      { 
+        q: "Which situation is a projectile?", 
+        options: ["Lifting of a bag", "Throwing a stone", "Pushing a cart", "Dropping a stone"], 
+        answer: 1,
+        explanation: "Throwing a stone involves projectile motion, with both horizontal and vertical components under gravity. Lifting, pushing, or dropping are not projectile motions."
+      },
+      { 
+        q: "Resultant of two forces P and Q (P > Q) in opposite direction is:", 
         options: ["P + Q", "P - Q", "Q - P", "P × Q"], 
-        answer: 1 },
-      { q: "Young’s modulus of elasticity of a perfectly plastic body is:", 
+        answer: 1,
+        explanation: "For forces P and Q in opposite directions, the resultant is P - Q (in P’s direction) since P > Q. Other options are incorrect."
+      },
+      { 
+        q: "Young’s modulus of elasticity of a perfectly plastic body is:", 
         options: ["One", "Zero", "Infinite", "Negative"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "Young’s modulus for a perfectly plastic body is zero, as it deforms without elastic recovery. Other values don’t apply."
+      },
 
       // Thermodynamics (8 MCQs)
-      { q: "In an isothermal process:", 
-        options: ["There is no change in enthalpy", "All of the above", "Temperature is constant", "Pressure is constant"], 
-        answer: 2 },
-      { q: "Which characteristic does not change in a reversible isothermal process?", 
+      { 
+        q: "In an isothermal process:", 
+        options: ["There is no change in enthalpy", "All of the", "Temperature is constant", "Pressure is constant"], 
+        answer: 2,
+        explanation: "An isothermal process maintains constant temperature. Enthalpy or pressure may change, and ‘all’ is incorrect."
+      },
+      { 
+        q: "Which characteristic does not change in a reversible isothermal process?", 
         options: ["Enthalpy", "Entropy", "Internal energy", "Temperature"], 
-        answer: 3 },
-      { q: "For any natural process, the entropy change would be:", 
+        answer: 3,
+        explanation: "In a reversible isothermal process, temperature remains constant. Internal energy, enthalpy, and entropy may change for ideal gases."
+      },
+      { 
+        q: "For any natural process, the entropy change would be:", 
         options: ["Negative", "Positive", "Zero", "Infinite"], 
-        answer: 1 },
-      { q: "Which laws apply to behavior of perfect gas?", 
+        answer: 1,
+        explanation: "Natural (irreversible) processes increase the system’s entropy (positive change) per the second law. Zero is for reversible processes."
+      },
+      { 
+        q: "Which laws apply to behavior of perfect gas?", 
         options: ["Boyle’s law", "Both Boyle’s law and Charles’s law", "Avogadro’s law", "Graham’s law"], 
-        answer: 1 },
-      { q: "Increase in entropy of a system means:", 
+        answer: 1,
+        explanation: "Both Boyle’s law (PV = constant) and Charles’s law (V/T = constant) apply to ideal gases. Avogadro’s law relates moles, and Graham’s law is for diffusion."
+      },
+      { 
+        q: "Increase in entropy of a system means:", 
         options: ["Increase in availability of energy", "Degradation of energy", "Conservation of energy", "Reduction of energy"], 
-        answer: 1 },
-      { q: "Step 2 in Carnot cycle is:", 
+        answer: 1,
+        explanation: "Increased entropy indicates energy degradation, reducing its availability for work. It’s not conservation or reduction of energy."
+      },
+      { 
+        q: "Step 2 in Carnot cycle is:", 
         options: ["Isentropic compression", "Isentropic expansion", "Isothermal expansion", "Isothermal compression"], 
-        answer: 2 },
-      { q: "As octane number increases, knocking tendency of petrol engine:", 
+        answer: 2,
+        explanation: "The Carnot cycle’s second step is isothermal expansion (heat absorption at constant temperature). Other steps occur later."
+      },
+      { 
+        q: "As octane number increases, knocking tendency of petrol engine:", 
         options: ["Increases", "Decreases", "Remains same", "Becomes unpredictable"], 
-        answer: 1 },
-      { q: "Closeness of measured value to true value is:", 
+        answer: 1,
+        explanation: "Higher octane numbers reduce knocking in petrol engines by improving fuel stability. Knocking doesn’t increase or remain unchanged."
+      },
+      { 
+        q: "Closeness of measured value to true value is:", 
         options: ["Precision", "Accuracy", "Error", "Reliability"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "Accuracy measures how close a value is to the true value. Precision is consistency, error is deviation, and reliability is dependability."
+      },
 
       // Machine Drawing (7 MCQs)
-      { q: "A projection that shows three faces of an object equally is called:", 
+      { 
+        q: "A projection that shows three faces of an object equally is called:", 
         options: ["Isometric projection", "Orthographic projection", "Perspective projection", "Oblique projection"], 
-        answer: 0 },
-      { q: "Which CAD command is used to copy objects?", 
+        answer: 0,
+        explanation: "Isometric projection shows three faces equally at 120° angles. Orthographic shows one face, perspective mimics human vision, and oblique distorts one axis."
+      },
+      { 
+        q: "Which CAD command is used to copy objects?", 
         options: ["COPY", "MIRROR", "MOVE", "ROTATE"], 
-        answer: 0 },
-      { q: "What is a taper in machine drawing?", 
+        answer: 0,
+        explanation: "The COPY command duplicates objects in CAD. MIRROR creates a mirrored copy, MOVE relocates, and ROTATE rotates objects."
+      },
+      { 
+        q: "What is a taper in machine drawing?", 
         options: ["Gradual reduction in diameter", "Notch in shaft", "Threaded portion", "Flat surface"], 
-        answer: 0 },
-      { q: "The projection method used in Nepal is:", 
+        answer: 0,
+        explanation: "A taper is a gradual reduction in diameter, used for fitting components. Notches, threads, or flat surfaces are different features."
+      },
+      { 
+        q: "The projection method used in Nepal is:", 
         options: ["First angle", "Third angle", "Second angle", "Fourth angle"], 
-        answer: 0 },
-      { q: "Which drawing is used for manufacturing individual parts?", 
+        answer: 0,
+        explanation: "Nepal uses first-angle projection, where the object is projected onto planes behind it, common in many countries."
+      },
+      { 
+        q: "Which drawing is used for manufacturing individual parts?", 
         options: ["Detail drawing", "Assembly drawing", "Exploded drawing", "Isometric drawing"], 
-        answer: 0 },
-      { q: "Which instrument is used for measuring angle?", 
+        answer: 0,
+        explanation: "Detail drawings provide specifications for individual parts. Assembly drawings show part relationships, exploded drawings show assembly order, and isometric drawings are for visualization."
+      },
+      { 
+        q: "Which instrument is used for measuring angle?", 
         options: ["Protractor", "Divider", "Compass", "Ruler"], 
-        answer: 0 },
-      { q: "Which type of line is particular to section drawings?", 
+        answer: 0,
+        explanation: "A protractor measures angles. Dividers measure distances, compasses draw circles, and rulers measure lengths."
+      },
+      { 
+        q: "Which type of line is particular to section drawings?", 
         options: ["Break lines", "Cutting plane lines", "Hidden lines", "Center lines"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "Cutting plane lines indicate where a section is cut in section drawings. Break lines show breaks, hidden lines show edges, and center lines show symmetry."
+      },
 
       // Electro-Mechanical (3 MCQs)
-      { q: "When you use left-hand rule for generators, what is indicated by the middle finger?", 
+      { 
+        q: "When you use left-hand rule for generators, what is indicated by the middle finger?", 
         options: ["Direction of current flow", "Direction of the magnetic field", "Direction of motion", "Direction of force"], 
-        answer: 0 },
-      { q: "A machine that converts mechanical energy into electrical energy is known as:", 
+        answer: 0,
+        explanation: "In the left-hand rule for generators, the middle finger indicates current flow direction, the thumb motion, and the index finger magnetic field."
+      },
+      { 
+        q: "A machine that converts mechanical energy into electrical energy is known as:", 
         options: ["A.C. generator", "D.C. motor", "Transformer", "Rectifier"], 
-        answer: 0 },
-      { q: "What part of a generator/motor ensures current direction control?", 
+        answer: 0,
+        explanation: "An A.C. generator converts mechanical to electrical energy. D.C. motors convert electrical to mechanical, transformers adjust voltage, and rectifiers convert AC to DC."
+      },
+      { 
+        q: "What part of a generator/motor ensures current direction control?", 
         options: ["Commutator", "Brushless ring", "Slip ring", "Armature"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "The commutator in DC motors/generators reverses current direction for consistent rotation. Slip rings maintain AC flow, and armatures carry current."
+      },
 
       // Industrial Boiler (5 MCQs)
-      { q: "Water can't come out due to:", 
+      { 
+        q: "Water can't come out due to:", 
         options: ["Steam stop valve", "Blow off valve", "Feed check valve", "Safety valve"], 
-        answer: 2 },
-      { q: "Feed water in economizer is heated by:", 
+        answer: 2,
+        explanation: "The feed check valve prevents water from exiting the boiler, controlling inflow. Steam stop valves control steam, blow off valves remove sludge, and safety valves release pressure."
+      },
+      { 
+        q: "Feed water in economizer is heated by:", 
         options: ["Fresh steam of the turbine", "Waste flue gas", "Burning coal", "Electric heater"], 
-        answer: 1 },
-      { q: "Cochran boiler is:", 
+        answer: 1,
+        explanation: "Economizers use waste flue gas to preheat feed water, improving efficiency. Steam, coal, or electric heaters are not used."
+      },
+      { 
+        q: "Cochran boiler is:", 
         options: ["Horizontal water tube type", "Horizontal fire tube type", "Vertical water tube type", "Vertical fire tube type"], 
-        answer: 3 },
-      { q: "Safe boiler operation fittings:", 
+        answer: 3,
+        explanation: "Cochran boilers are vertical fire tube boilers, with hot gases passing through tubes surrounded by water. Other configurations don’t apply."
+      },
+      { 
+        q: "Safe boiler operation fittings:", 
         options: ["Water level indicator", "All of the above", "Pressure gauge", "Safety valve"], 
-        answer: 1 },
-      { q: "Which coal has the highest calorific value?", 
+        answer: 1,
+        explanation: "Water level indicators, pressure gauges, and safety valves are all essential for safe boiler operation, so ‘all of the above’ is correct."
+      },
+      { 
+        q: "Which coal has the highest calorific value?", 
         options: ["Anthracite coal", "Bituminous coal", "Lignite coal", "Peat coal"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Anthracite coal has the highest calorific value due to its high carbon content. Bituminous, lignite, and peat have progressively lower values."
+      },
 
       // Heat Engines (5 MCQs)
-      { q: "Air standard efficiency of Otto cycle depends on?", 
+      { 
+        q: "Air standard efficiency of Otto cycle depends on?", 
         options: ["Compression ratio", "Stroke length", "Fuel type", "Engine speed"], 
-        answer: 0 },
-      { q: "Diesel cycle consists of how many processes?", 
+        answer: 0,
+        explanation: "Otto cycle efficiency depends on compression ratio (η = 1 - 1/r^(γ-1)). Stroke length, fuel type, and speed don’t directly affect it."
+      },
+      { 
+        q: "Diesel cycle consists of how many processes?", 
         options: ["Four", "Three", "Two", "Five"], 
-        answer: 0 },
-      { q: "Scavenging is used in?", 
+        answer: 0,
+        explanation: "The Diesel cycle has four processes: isentropic compression, constant-pressure heat addition, isentropic expansion, and constant-volume heat rejection."
+      },
+      { 
+        q: "Scavenging is used in?", 
         options: ["Two stroke engines", "Four stroke engines", "Steam engines", "Jet engines"], 
-        answer: 0 },
-      { q: "What is the difference between steam engine and automotive engine?", 
+        answer: 0,
+        explanation: "Scavenging removes exhaust gases and introduces fresh air in two-stroke engines. Four-stroke engines use valves, and steam or jet engines don’t scavenge."
+      },
+      { 
+        q: "What is the difference between steam engine and automotive engine?", 
         options: ["Automotive engines work on the Otto cycle, whereas steam engines work on the Rankine cycle", "Automotive engines are I.C. Engine, whereas steam engines are external combustion engine", "Steam engines are more efficient", "Automotive engines use steam"], 
-        answer: 1 },
-      { q: "A 4-stroke petrol engine is:", 
+        answer: 1,
+        explanation: "Automotive engines are internal combustion (IC), burning fuel inside, while steam engines are external combustion, using external heat. Steam engines aren’t more efficient, and automotive engines don’t use steam."
+      },
+      { 
+        q: "A 4-stroke petrol engine is:", 
         options: ["Diesel engine", "An internal combustion engine", "External combustion engine", "Steam engine"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "A 4-stroke petrol engine is an internal combustion engine, burning fuel internally. Diesel is a different IC type, and steam engines are external combustion."
+      },
 
       // Industrial Management (6 MCQs)
-      { q: "Occupational safety, health, and welfare of workers are governed by:", 
+      { 
+        q: "Occupational safety, health, and welfare of workers are governed by:", 
         options: ["Industrial Act", "Labour Act", "Trade Union Act", "Factory Act"], 
-        answer: 1 },
-      { q: "ICAO is:", 
+        answer: 1,
+        explanation: "The Labour Act governs occupational safety, health, and welfare. Industrial, Trade Union, and Factory Acts address other aspects."
+      },
+      { 
+        q: "ICAO is:", 
         options: ["A government organization", "A specialized agency of UN", "A private aviation company", "A regional aviation authority"], 
-        answer: 1 },
-      { q: "What stands for ILO in the field of industrial management?", 
+        answer: 1,
+        explanation: "ICAO is a UN specialized agency for international aviation standards. It’s not a government, private, or regional entity."
+      },
+      { 
+        q: "What stands for ILO in the field of industrial management?", 
         options: ["International Labor Organization", "Internal Labor Order", "Industrial Law Office", "International Logistics Organization"], 
-        answer: 0 },
-      { q: "What is the purpose of ventilation in industries?", 
+        answer: 0,
+        explanation: "ILO stands for International Labour Organization, a UN agency for labor standards. Other options are incorrect."
+      },
+      { 
+        q: "What is the purpose of ventilation in industries?", 
         options: ["To cater for adequate supply of oxygen/air for respiration", "To provide thermal comfort", "To remove contaminants", "All of the above"], 
-        answer: 3 },
-      { q: "In which of the following condition, human sweats more?", 
+        answer: 3,
+        explanation: "Industrial ventilation ensures oxygen supply, thermal comfort, and contaminant removal, so ‘all of the above’ is correct."
+      },
+      { 
+        q: "In which of the following condition, human sweats more?", 
         options: ["Relative humidity 0%", "Relative humidity 50%", "Relative humidity 20%", "Relative humidity 80%"], 
-        answer: 3 },
-      { q: "What is the function of ICAO?", 
+        answer: 3,
+        explanation: "High humidity (80%) reduces sweat evaporation, causing more sweating to cool the body. Lower humidity allows easier evaporation."
+      },
+      { 
+        q: "What is the function of ICAO?", 
         options: ["Codify principles of international air navigation", "Foster the planning and development of international air transport", "Regulate airline pricing", "All of the above"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "ICAO fosters international air transport development and safety standards. It doesn’t regulate pricing, so ‘all’ is incorrect."
+      },
 
       // Estimating and Costing (3 MCQs)
-      { q: "Depreciation of machines is categorized under the head:", 
+      { 
+        q: "Depreciation of machines is categorized under the head:", 
         options: ["Direct expenses", "Indirect expenses", "Fixed costs", "Variable costs"], 
-        answer: 2 },
-      { q: "A cost that has already been made and cannot be recovered is called:", 
+        answer: 2,
+        explanation: "Depreciation is a fixed cost, allocated over time regardless of production. It’s not a direct, indirect, or variable expense."
+      },
+      { 
+        q: "A cost that has already been made and cannot be recovered is called:", 
         options: ["Fixed cost", "Sunk cost", "Variable cost", "Opportunity cost"], 
-        answer: 1 },
-      { q: "A book published by manufacturers containing parts, numbers and diagrams is called:", 
+        answer: 1,
+        explanation: "Sunk costs are irrecoverable past expenses. Fixed costs are ongoing, variable costs change with output, and opportunity costs are foregone alternatives."
+      },
+      { 
+        q: "A book published by manufacturers containing parts, numbers and diagrams is called:", 
         options: ["Service manual", "Owner’s manual", "Technical manual", "All of the above"], 
-        answer: 3 }
+        answer: 3,
+        explanation: "Service, owner’s, and technical manuals all contain parts, numbers, and diagrams, so ‘all of the above’ is correct."
+      }
     ];
 
     let currentPage = 0;
@@ -386,7 +572,7 @@
     let timerSeconds = 0;
     let timerInterval;
     const QUESTIONS_PER_PAGE = 5;
-    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+    const ANSWER_DELAY = 1500;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -402,10 +588,10 @@
       const saved = localStorage.getItem("quizProgress9");
       if (saved) {
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        currentPage = savedPage;
-        score = savedScore;
-        skipped = savedSkipped;
-        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        currentPage = savedPage || 0;
+        score = savedScore || 0;
+        skipped = savedSkipped || [];
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
       }
     }
@@ -435,6 +621,10 @@
 
     // Start timer
     function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -445,8 +635,23 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      const answeredOrSkipped = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answeredOrSkipped / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
+    }
+
+    // Escape special characters for JavaScript string
+    function escapeJsString(str) {
+      return str
+        .replace(/'/g, "\\'")
+        .replace(/\u2212/g, '-') // Mathematical minus to hyphen
+        .replace(/ᵥ/g, 'v')
+        .replace(/ₚ/g, 'p')
+        .replace(/\u2019/g, "'") // Curly apostrophe to straight
+        .replace(/\u00B0/g, "°") // Degree symbol
+        .replace(/\u00B2/g, "²") // Superscript 2
+        .replace(/\u00D7/g, "×") // Multiplication sign
+        .replace(/\u2022/g, "·"); // Middle dot
     }
 
     // Show questions for the current page
@@ -458,12 +663,13 @@
         const q = shuffledQuestions[i];
         const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
         const options = shuffledOptions
-          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeJsString(opt.text)}')">${opt.text}</button>`)
           .join('');
         html += `
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -484,7 +690,8 @@
       const buttons = button.parentElement.querySelectorAll("button");
       buttons.forEach((btn) => {
         btn.disabled = true;
-        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        const originalIndex = q.options.indexOf(btn.innerText);
+        if (originalIndex === correct) btn.classList.add("correct");
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
@@ -496,18 +703,33 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(shuffledQuestions[questionIndex])) {
-        skipped.push(shuffledQuestions[questionIndex]);
+      if (!skipped.includes(questionIndex)) {
+        skipped.push(questionIndex);
         userAnswers[questionIndex] = "Skipped";
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
       checkNextButton();
     }
@@ -560,6 +782,7 @@
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
