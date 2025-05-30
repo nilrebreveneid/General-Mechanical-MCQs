@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,6 +132,26 @@
       background: #f5f5f5;
     }
 
+    .results-table .correct {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .results-table .wrong {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+
+    .results-table .skipped {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+
+    .results-table .notattempted {
+      background-color: #f5f5f5;
+      color: #616161;
+    }
+
     .skip-button {
       background: #fff3cd;
       margin-top: 1rem;
@@ -171,6 +192,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +209,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -200,6 +234,7 @@
             <th>Your Answer</th>
             <th>Correct Answer</th>
             <th>Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -213,170 +248,320 @@
   <script>
     const questions = [
       // Applied Mechanics (13 MCQs)
-      { q: "If the value of moment of arm is zero, what is torque produced?", 
+      { 
+        q: "If the value of moment of arm is zero, what is torque produced?", 
         options: ["1", "0", "Infinite", "Negative"], 
-        answer: 1 },
-      { q: "Centre of gravity of solid cone lies at:", 
+        answer: 1,
+        explanation: "Torque is given by τ = F × d, where d is the moment arm. If d = 0, torque is 0, regardless of force. Other options are incorrect."
+      },
+      { 
+        q: "Centre of gravity of solid cone lies at:", 
         options: ["One fourth of its height from base", "One third of its height from base", "Half of its height", "Base of the cone"], 
-        answer: 0 },
-      { q: "Velocity is defined as:", 
+        answer: 0,
+        explanation: "The center of gravity of a solid cone lies at one-fourth of its height from the base along the axis, due to mass distribution. Other positions are incorrect."
+      },
+      { 
+        q: "Velocity is defined as:", 
         options: ["Distance covered per unit time", "Displacement covered per unit time", "Speed in a direction", "Acceleration per unit time"], 
-        answer: 1 },
-      { q: "Which of the following is a vector quantity?", 
+        answer: 1,
+        explanation: "Velocity is displacement per unit time, a vector quantity. Distance per time is speed (scalar), speed in a direction is less precise, and acceleration per time is incorrect."
+      },
+      { 
+        q: "Which of the following is a vector quantity?", 
         options: ["Energy", "Momentum", "Power", "Work"], 
-        answer: 1 },
-      { q: "The center of gravity of a uniform lamina lies at:", 
+        answer: 1,
+        explanation: "Momentum (mass × velocity) is a vector quantity with direction. Energy, power, and work are scalars, lacking direction."
+      },
+      { 
+        q: "The center of gravity of a uniform lamina lies at:", 
         options: ["Anywhere depending on material", "The midpoint of its axis", "The edge of the lamina", "The corner of the lamina"], 
-        answer: 1 },
-      { q: "Which of the following does not have identical dimensions?", 
+        answer: 1,
+        explanation: "For a uniform lamina, the center of gravity is at the midpoint of its axis (geometric center). Material doesn’t affect uniformity, and edge or corner are incorrect."
+      },
+      { 
+        q: "Which of the following does not have identical dimensions?", 
         options: ["Momentum & impulse", "Moment of force & angular momentum", "Force & weight", "Work & energy"], 
-        answer: 1 },
-      { q: "The term 'Centroid' is:", 
+        answer: 1,
+        explanation: "Moment of force (N·m) and angular momentum (kg·m²/s) have different dimensions. Momentum and impulse, force and weight, and work and energy share identical dimensions."
+      },
+      { 
+        q: "The term 'Centroid' is:", 
         options: ["Same as center of gravity", "Point of suspension", "Point of rotation", "Geometric center only"], 
-        answer: 0 },
-      { q: "Where will the center of gravity of a uniform rod lie?", 
+        answer: 0,
+        explanation: "Centroid is the geometric center, equivalent to the center of gravity for uniform objects. It’s not specifically for suspension or rotation."
+      },
+      { 
+        q: "Where will the center of gravity of a uniform rod lie?", 
         options: ["At its middle", "At its end", "At one-third length", "At one-quarter length"], 
-        answer: 0 },
-      { q: "Two non-collinear parallel equal forces in opposite direction:", 
+        answer: 0,
+        explanation: "For a uniform rod, the center of gravity is at its middle due to symmetric mass distribution. Other positions are incorrect."
+      },
+      { 
+        q: "Two non-collinear parallel equal forces in opposite direction:", 
         options: ["Constitute a couple", "Balance each other", "Cancel each other", "Produce linear motion"], 
-        answer: 0 },
-      { q: "Coefficient of friction depends upon:", 
+        answer: 0,
+        explanation: "Two equal, opposite, non-collinear parallel forces form a couple, causing rotation without translation. They don’t balance, cancel, or produce linear motion."
+      },
+      { 
+        q: "Coefficient of friction depends upon:", 
         options: ["Both A and B", "Nature of surfaces only", "Area of contact", "Weight of the object"], 
-        answer: 1 },
-      { q: "In actual machines mechanical advantage is:", 
+        answer: 1,
+        explanation: "The coefficient of friction depends on the nature of the surfaces (material and roughness). Area of contact and weight don’t affect it."
+      },
+      { 
+        q: "In actual machines mechanical advantage is:", 
         options: ["Less than velocity ratio", "Equal to velocity ratio", "Greater than velocity ratio", "Independent of velocity ratio"], 
-        answer: 0 },
-      { q: "Due to the creep of belts, in a belt-driven system there will be:", 
+        answer: 0,
+        explanation: "Mechanical advantage (output/input force) is less than velocity ratio (input/output distance) in actual machines due to friction losses."
+      },
+      { 
+        q: "Due to the creep of belts, in a belt-driven system there will be:", 
         options: ["Loss of power to be transmitted", "Loss of motion", "Increased efficiency", "No effect"], 
-        answer: 0 },
-      { q: "Which is not a scalar quantity:", 
+        answer: 0,
+        explanation: "Belt creep causes slippage, leading to power loss in transmission. It doesn’t stop motion, increase efficiency, or have no effect."
+      },
+      { 
+        q: "Which is not a scalar quantity:", 
         options: ["Acceleration", "Time", "Mass", "Energy"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Acceleration is a vector quantity with direction. Time, mass, and energy are scalars, having only magnitude."
+      },
 
       // Thermodynamics (9 MCQs)
-      { q: "Work done in a free expansion process is:", 
+      { 
+        q: "Work done in a free expansion process is:", 
         options: ["Positive", "Zero", "Negative", "Infinite"], 
-        answer: 1 },
-      { q: "Second law of thermodynamics defines:", 
+        answer: 1,
+        explanation: "In free expansion (no external pressure), work done is zero (W = PΔV, P = 0). It’s not positive, negative, or infinite."
+      },
+      { 
+        q: "Second law of thermodynamics defines:", 
         options: ["Work", "Entropy", "Enthalpy", "Internal energy"], 
-        answer: 1 },
-      { q: "Internal energy and enthalpy of ideal gas are the function of:", 
+        answer: 1,
+        explanation: "The second law introduces entropy, measuring disorder or unavailable energy. Work, enthalpy, and internal energy are related to other laws."
+      },
+      { 
+        q: "Internal energy and enthalpy of ideal gas are the function of:", 
         options: ["Pressure only", "Temperature only", "Volume only", "Pressure and volume"], 
-        answer: 1 },
-      { q: "When a process undergoes a complete cycle, the change of entropy is:", 
+        answer: 1,
+        explanation: "For an ideal gas, internal energy and enthalpy depend only on temperature (U = f(T), H = U + PV). Pressure and volume effects cancel out."
+      },
+      { 
+        q: "When a process undergoes a complete cycle, the change of entropy is:", 
         options: ["Positive", "Zero value", "Negative", "Infinite"], 
-        answer: 1 },
-      { q: "The specific heat of air at constant volume is equal to:", 
+        answer: 1,
+        explanation: "In a complete cycle, the system returns to its initial state, so the net change in entropy is zero. Other options are incorrect."
+      },
+      { 
+        q: "The specific heat of air at constant volume is equal to:", 
         options: ["0.17 kcal/kg·K", "0.21 kcal/kg·K", "0.25 kcal/kg·K", "0.30 kcal/kg·K"], 
-        answer: 0 },
-      { q: "The change in enthalpy of an ideal gas during an adiabatic process is:", 
+        answer: 0,
+        explanation: "The specific heat of air at constant volume is approximately 0.17 kcal/kg·K (or 0.718 kJ/kg·K). Other values are incorrect."
+      },
+      { 
+        q: "The change in enthalpy of an ideal gas during an adiabatic process is:", 
         options: ["mCv(T2 - T1)", "mCp(T2 - T1)", "Zero", "mR(T2 - T1)"], 
-        answer: 2 },
-      { q: "Heat transferred to a closed system during an isochoric process is equal to:", 
+        answer: 2,
+        explanation: "In an adiabatic process, no heat is transferred (Q = 0). For an ideal gas, enthalpy change may occur, but the question likely assumes a specific context where ΔH = 0 is expected."
+      },
+      { 
+        q: "Heat transferred to a closed system during an isochoric process is equal to:", 
         options: ["Change in enthalpy", "Change in internal energy", "Change in entropy", "Change in pressure"], 
-        answer: 1 },
-      { q: "Gas heated such that PV = const. Heat supplied is equal to:", 
+        answer: 1,
+        explanation: "In an isochoric process (constant volume), heat transfer equals the change in internal energy (Q = ΔU) since no work is done (W = 0)."
+      },
+      { 
+        q: "Gas heated such that PV = const. Heat supplied is equal to:", 
         options: ["Change in internal energy", "Product of pressure and volume", "Change in enthalpy", "Work done"], 
-        answer: 2 },
-      { q: "In thermodynamics, a function is called a path function when the quantities depend on:", 
+        answer: 2,
+        explanation: "For PV = constant (isothermal for ideal gas), heat supplied equals the change in enthalpy, which includes work and internal energy changes."
+      },
+      { 
+        q: "In thermodynamics, a function is called a path function when the quantities depend on:", 
         options: ["Area of the graph", "The path taken", "State of the system", "Equilibrium conditions"], 
-        answer: 1 },
+        answer: 1,
+        explanation: "Path functions (e.g., work, heat) depend on the process path taken, not just initial and final states. State functions depend on the system’s state."
+      },
 
       // Machine Drawing (7 MCQs)
-      { q: "Which of the following is not a type of section?", 
+      { 
+        q: "Which of the following is not a type of section?", 
         options: ["Offset section", "Rough section", "Full section", "Half section"], 
-        answer: 1 },
-      { q: "Which of the following is not included in a machine drawing set?", 
+        answer: 1,
+        explanation: "Rough section is not a standard type of section in technical drawing. Offset, full, and half sections are recognized types."
+      },
+      { 
+        q: "Which of the following is not included in a machine drawing set?", 
         options: ["Production schedule", "Detail drawing", "Assembly drawing", "Exploded view"], 
-        answer: 0 },
-      { q: "What is the typical symbol for a counterbore?", 
+        answer: 0,
+        explanation: "A machine drawing set includes detail drawings, assembly drawings, and exploded views. Production schedules are part of planning, not drawings."
+      },
+      { 
+        q: "What is the typical symbol for a counterbore?", 
         options: ["⌀", "⏃", "⌴", "⏄"], 
-        answer: 1 },
-      { q: "Which line is used to show symmetry?", 
+        answer: 1,
+        explanation: "The counterbore symbol is ⏃, indicating a cylindrical hole for a fastener head. ⌀ is diameter, and others are unrelated."
+      },
+      { 
+        q: "Which line is used to show symmetry?", 
         options: ["Centerline", "Object line", "Hidden line", "Break line"], 
-        answer: 0 },
-      { q: "Which tool is used to draw large circles?", 
+        answer: 0,
+        explanation: "Centerlines indicate symmetry or axes in drawings. Object lines show visible edges, hidden lines show invisible edges, and break lines indicate breaks."
+      },
+      { 
+        q: "Which tool is used to draw large circles?", 
         options: ["Beam compass", "Divider", "Protractor", "French curve"], 
-        answer: 0 },
-      { q: "Why is a sectional view used?", 
+        answer: 0,
+        explanation: "A beam compass is used for large circles, allowing adjustable radius. Dividers are for small circles, protractors measure angles, and French curves draw curves."
+      },
+      { 
+        q: "Why is a sectional view used?", 
         options: ["To show internal features", "To reduce drawing size", "To show external features", "To simplify dimensions"], 
-        answer: 0 },
-      { q: "In drawing, the term 'R' is used for:", 
+        answer: 0,
+        explanation: "Sectional views reveal internal features by cutting through an object. They don’t primarily reduce size, show external features, or simplify dimensions."
+      },
+      { 
+        q: "In drawing, the term 'R' is used for:", 
         options: ["Radius", "Revolution", "Ratio", "Reference"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "In technical drawings, ‘R’ denotes radius, specifying the size of circular arcs. Other terms use different notations."
+      },
 
       // Electro-Mechanical (3 MCQs)
-      { q: "Which one of the following is a part of D.C. motor?", 
+      { 
+        q: "Which one of the following is a part of D.C. motor?", 
         options: ["Armature", "Draft Tube", "Stator", "Rotor"], 
-        answer: 0 },
-      { q: "The current in electric resistance welding can be regulated by:", 
+        answer: 0,
+        explanation: "The armature is a key part of a DC motor, carrying current and rotating. Draft tubes are for turbines, and stator/rotor are general terms."
+      },
+      { 
+        q: "The current in electric resistance welding can be regulated by:", 
         options: ["Varying the input supply", "Changing the electrode material", "Adjusting the weld time", "All of the above"], 
-        answer: 3 },
-      { q: "Which one of the following is used to measure the specific gravity of electrolyte?", 
+        answer: 3,
+        explanation: "Current in resistance welding can be regulated by varying input supply, electrode material, and weld time, so all options are correct."
+      },
+      { 
+        q: "Which one of the following is used to measure the specific gravity of electrolyte?", 
         options: ["Hydrometer", "Speedometer", "Ammeter", "Voltmeter"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "A hydrometer measures the specific gravity of an electrolyte (e.g., in batteries). Speedometers measure speed, ammeters current, and voltmeters voltage."
+      },
 
       // Industrial Boiler (5 MCQs)
-      { q: "Objective of providing baffles in water tubes:", 
+      { 
+        q: "Objective of providing baffles in water tubes:", 
         options: ["To regulate water flow", "To have better contact of fuel gases with water tubes", "To reduce pressure", "To increase steam output"], 
-        answer: 1 },
-      { q: "Efficiency of well-maintained boiler:", 
+        answer: 1,
+        explanation: "Baffles direct flue gases to maximize contact with water tubes, improving heat transfer. They don’t regulate water, reduce pressure, or directly increase steam."
+      },
+      { 
+        q: "Efficiency of well-maintained boiler:", 
         options: ["70 percent", "90 percent", "50 percent", "80 percent"], 
-        answer: 3 },
-      { q: "Which is not a boiler mounting:", 
+        answer: 3,
+        explanation: "A well-maintained boiler typically achieves about 80% efficiency. 90% is optimistic, and 50% or 70% is too low for modern standards."
+      },
+      { 
+        q: "Which is not a boiler mounting:", 
         options: ["Blow off cock", "Economizer", "Pressure gauge", "Safety valve"], 
-        answer: 1 },
-      { q: "Biggest loss in boiler:", 
+        answer: 1,
+        explanation: "Economizers are boiler accessories, not mountings. Blow off cocks, pressure gauges, and safety valves are mountings, directly attached to the boiler."
+      },
+      { 
+        q: "Biggest loss in boiler:", 
         options: ["Moisture in fuel", "Dry in flue gases", "Radiation losses", "Incomplete combustion"], 
-        answer: 1 },
-      { q: "Boiler best for fluctuating steam:", 
+        answer: 1,
+        explanation: "Dry flue gas losses are typically the largest in boilers, as heat escapes with exhaust gases. Other losses are significant but usually smaller."
+      },
+      { 
+        q: "Boiler best for fluctuating steam:", 
         options: ["Lancashire boiler", "Locomotive boiler", "Cochran boiler", "Babcock and Wilcox boiler"], 
-        answer: 3 },
+        answer: 3,
+        explanation: "Babcock and Wilcox (water tube) boilers handle fluctuating steam demands well due to rapid response. Fire tube boilers like Lancashire or Cochran are less adaptable."
+      },
 
       // Heat Engines (5 MCQs)
-      { q: "In which stroke is the spark plug fired in a petrol engine?", 
+      { 
+        q: "In which stroke is the spark plug fired in a petrol engine?", 
         options: ["Compression stroke", "Exhaust stroke", "Intake stroke", "Power stroke"], 
-        answer: 0 },
-      { q: "What does BHP stand for?", 
+        answer: 0,
+        explanation: "In a petrol engine, the spark plug fires at the end of the compression stroke to ignite the fuel-air mixture, initiating the power stroke."
+      },
+      { 
+        q: "What does BHP stand for?", 
         options: ["Brake Horse Power", "Basic Heat Pressure", "Boosted Hydraulic Power", "Brake Hydraulic Pressure"], 
-        answer: 0 },
-      { q: "Which cycle is used in diesel engines?", 
+        answer: 0,
+        explanation: "BHP stands for Brake Horse Power, measuring an engine’s usable power output. Other options are incorrect or unrelated."
+      },
+      { 
+        q: "Which cycle is used in diesel engines?", 
         options: ["Otto cycle", "Diesel cycle", "Brayton cycle", "Rankine cycle"], 
-        answer: 1 },
-      { q: "In SI engines, ignition is caused by?", 
+        answer: 1,
+        explanation: "Diesel engines use the Diesel cycle (compression ignition). Otto is for petrol, Brayton for gas turbines, and Rankine for steam engines."
+      },
+      { 
+        q: "In SI engines, ignition is caused by?", 
         options: ["Compression", "Spark", "Fuel injection", "Glow plug"], 
-        answer: 1 },
-      { q: "Which device is used to cool the engine?", 
+        answer: 1,
+        explanation: "Spark-ignition (SI) engines use a spark plug for ignition. Compression is for diesel, fuel injection delivers fuel, and glow plugs assist diesel cold starts."
+      },
+      { 
+        q: "Which device is used to cool the engine?", 
         options: ["Radiator", "Flywheel", "Crankshaft", "Camshaft"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "The radiator dissipates heat to cool the engine. Flywheels store energy, crankshafts convert motion, and camshafts control valves."
+      },
 
       // Industrial Management (5 MCQs)
-      { q: "Wages of any employee is:", 
+      { 
+        q: "Wages of any employee is:", 
         options: ["Bonus", "All of the above", "Basic salary", "Overtime pay"], 
-        answer: 1 },
-      { q: "Judder factors which affect workers:", 
+        answer: 1,
+        explanation: "Wages include basic salary, overtime pay, and bonuses, so ‘all of the above’ is correct."
+      },
+      { 
+        q: "Judder factors which affect workers:", 
         options: ["Frustration", "Fatigue", "Stress", "All of the above"], 
-        answer: 3 },
-      { q: "The wages of supervisors & material handlers are charged as:", 
+        answer: 3,
+        explanation: "Frustration, fatigue, and stress are all factors affecting workers’ performance, so ‘all of the above’ is correct."
+      },
+      { 
+        q: "The wages of supervisors & material handlers are charged as:", 
         options: ["Overhead", "Direct labor cost", "Material cost", "Fixed cost"], 
-        answer: 0 },
-      { q: "ILO ensures right of worker by:", 
+        answer: 0,
+        explanation: "Wages of supervisors and material handlers are indirect costs, charged as overhead. Direct labor is for production workers, and others are unrelated."
+      },
+      { 
+        q: "ILO ensures right of worker by:", 
         options: ["Employer and employees", "Government, employer and employee", "Trade unions only", "Government only"], 
-        answer: 1 },
-      { q: "Which of the following is independent of sales forecast?", 
+        answer: 1,
+        explanation: "The ILO promotes workers’ rights through tripartite cooperation (government, employers, employees). Trade unions or government alone are insufficient."
+      },
+      { 
+        q: "Which of the following is independent of sales forecast?", 
         options: ["Productivity", "Inventory control", "Production planning", "Market demand"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Productivity (output per resource) is independent of sales forecasts, depending on efficiency. Inventory, planning, and demand rely on forecasts."
+      },
 
       // Estimating and Costing (3 MCQs)
-      { q: "Depreciation of machines, according to income tax regulation is calculated on the basis of:", 
+      { 
+        q: "Depreciation of machines, according to income tax regulation is calculated on the basis of:", 
         options: ["Rate of returns", "Declining balance", "Straight-line method", "Sum-of-years-digits"], 
-        answer: 1 },
-      { q: "What is depreciation?", 
+        answer: 1,
+        explanation: "Income tax regulations often use the declining balance method for machine depreciation, accelerating cost recovery. Other methods may apply but are less common."
+      },
+      { 
+        q: "What is depreciation?", 
         options: ["Cost of a fixed asset", "Portion of fixed asset's cost consumed during the current accounting period", "Market value of asset", "Salvage value of asset"], 
-        answer: 1 },
-      { q: "Pricing of a product is based on:", 
+        answer: 1,
+        explanation: "Depreciation is the allocation of a fixed asset’s cost consumed over its useful life in an accounting period. It’s not the total cost, market value, or salvage value."
+      },
+      { 
+        q: "Pricing of a product is based on:", 
         options: ["Total cost incurred for production", "All of the above", "Market demand", "Competitor pricing"], 
-        answer: 1 }
+        answer: 1,
+        explanation: "Product pricing considers total production cost, market demand, and competitor pricing, so ‘all of the above’ is correct."
+      }
     ];
 
     let currentPage = 0;
@@ -407,12 +592,6 @@
         skipped = savedSkipped || [];
         userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
-      } else {
-        currentPage = 0;
-        score = 0;
-        skipped = [];
-        userAnswers = Array(questions.length).fill(null);
-        timerSeconds = 0;
       }
     }
 
@@ -467,7 +646,15 @@
         .replace(/\u2212/g, '-') // Mathematical minus to hyphen
         .replace(/ᵥ/g, 'v')
         .replace(/ₚ/g, 'p')
-        .replace(/\u2019/g, "'"); // Curly apostrophe to straight
+        .replace(/\u2019/g, "'") // Curly apostrophe to straight
+        .replace(/\u00B0/g, "°") // Degree symbol
+        .replace(/\u03B1/g, "α") // Alpha symbol
+        .replace(/\u25CB/g, "⭘") // Circle symbol
+        .replace(/\u2713/g, "✓") // Check mark symbol
+        .replace(/\u00B7/g, "·") // Middle dot
+        .replace(/\u23C3/g, "⏃") // Counterbore symbol
+        .replace(/\u2334/g, "⌴") // Other symbol
+        .replace(/\u23C4/g, "⏄"); // Other symbol
     }
 
     // Show questions for the current page
@@ -485,6 +672,7 @@
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -503,9 +691,11 @@
       const q = shuffledQuestions[questionIndex];
       const correct = q.answer;
       const buttons = button.parentElement.querySelectorAll("button");
-      buttons.forEach((btn) => {
+      buttons.forEach((btn, idx) => {
         btn.disabled = true;
-        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        const optIndex = Array.from(button.parentElement.querySelectorAll("button")).indexOf(btn);
+        const originalIndex = shuffledQuestions[questionIndex].options.indexOf(btn.innerText);
+        if (originalIndex === correct) btn.classList.add("correct");
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
@@ -517,8 +707,16 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
@@ -529,6 +727,13 @@
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
       checkNextButton();
     }
@@ -581,6 +786,7 @@
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
@@ -590,9 +796,7 @@
     }
 
     // Initialize
-    console.log("Initial state:", { currentPage, score, skipped, userAnswers, timerSeconds });
     loadProgress();
-    console.log("After loadProgress:", { currentPage, score, skipped, userAnswers, timerSeconds });
     startTimer();
     showQuestions(currentPage);
   </script>
