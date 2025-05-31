@@ -1,3 +1,4 @@
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,6 +132,26 @@
       background: #f5f5f5;
     }
 
+    .results-table .correct {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .results-table .wrong {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+
+    .results-table .skipped {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+
+    .results-table .notattempted {
+      background-color: #f5f5f5;
+      color: #616161;
+    }
+
     .skip-button {
       background: #fff3cd;
       margin-top: 1rem;
@@ -171,6 +192,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +209,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -200,6 +234,7 @@
             <th>Your Answer</th>
             <th>Correct Answer</th>
             <th>Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -213,170 +248,320 @@
   <script>
     const questions = [
       // Applied Mechanics (13 MCQs)
-      { q: "The second moment of area is also known as:", 
+      { 
+        q: "The second moment of area is also known as:", 
         options: ["Moment of inertia", "Radius of gyration", "Polar moment", "Section modulus"], 
-        answer: 0 },
-      { q: "The maximum shear stress in a circular shaft under torsion occurs at:", 
+        answer: 0,
+        explanation: "The second moment of area, or moment of inertia, measures resistance to bending or torsion. Radius of gyration is a derived property, polar moment relates to torsion, and section modulus is for bending stress."
+      },
+      { 
+        q: "The maximum shear stress in a circular shaft under torsion occurs at:", 
         options: ["Outer surface", "Center", "Mid-radius", "Quarter-radius"], 
-        answer: 0 },
-      { q: "The bending moment at a point in a beam is the:", 
+        answer: 0,
+        explanation: "In a circular shaft under torsion, shear stress is maximum at the outer surface and zero at the center, following τ = Tr/J, where r is the radius."
+      },
+      { 
+        q: "The bending moment at a point in a beam is the:", 
         options: ["Sum of moments about that point", "Sum of forces about that point", "Product of force and distance", "Shear force at that point"], 
-        answer: 0 },
-      { q: "The coefficient of restitution for a perfectly elastic collision is:", 
+        answer: 0,
+        explanation: "Bending moment is the sum of moments of forces on one side of a beam section about that point. Shear force is the sum of vertical forces."
+      },
+      { 
+        q: "The coefficient of restitution for a perfectly elastic collision is:", 
         options: ["1", "0", "Greater than 1", "Less than 0"], 
-        answer: 0 },
-      { q: "The range of a projectile is maximum when the angle of projection is:", 
+        answer: 0,
+        explanation: "For a perfectly elastic collision, the coefficient of restitution is 1, indicating no kinetic energy loss. 0 is for inelastic collisions, and other values are invalid."
+      },
+      { 
+        q: "The range of a projectile is maximum when the angle of projection is:", 
         options: ["45°", "30°", "60°", "90°"], 
-        answer: 0 },
-      { q: "The unit of strain is:", 
+        answer: 0,
+        explanation: "The range of a projectile is maximized at 45°, balancing horizontal and vertical components. Other angles reduce range due to suboptimal trajectories."
+      },
+      { 
+        q: "The unit of strain is:", 
         options: ["Dimensionless", "N/m²", "m/s²", "kg/m³"], 
-        answer: 0 },
-      { q: "The center of gravity of a hollow sphere lies at:", 
+        answer: 0,
+        explanation: "Strain, the ratio of deformation to original length, is dimensionless. N/m² is stress, m/s² is acceleration, and kg/m³ is density."
+      },
+      { 
+        q: "The center of gravity of a hollow sphere lies at:", 
         options: ["Geometric center", "Inner surface", "Outer surface", "Midway between surfaces"], 
-        answer: 0 },
-      { q: "The work-energy principle states that:", 
+        answer: 0,
+        explanation: "The center of gravity of a hollow sphere is at its geometric center due to symmetric mass distribution. Other locations are incorrect."
+      },
+      { 
+        q: "The work-energy principle states that:", 
         options: ["Work done equals change in kinetic energy", "Work done equals potential energy", "Work done equals total energy", "Work done is zero"], 
-        answer: 0 },
-      { q: "The moment of a couple is independent of:", 
+        answer: 0,
+        explanation: "The work-energy principle states that net work done on an object equals its change in kinetic energy. Other options misrepresent this relationship."
+      },
+      { 
+        q: "The moment of a couple is independent of:", 
         options: ["Point of rotation", "Magnitude of forces", "Distance between forces", "Direction of forces"], 
-        answer: 0 },
-      { q: "The Young’s modulus of a material is defined as:", 
+        answer: 0,
+        explanation: "A couple’s moment is independent of the point of rotation, depending only on force magnitude and distance between forces."
+      },
+      { 
+        q: "The Young’s modulus of a material is defined as:", 
         options: ["Stress divided by strain", "Strain divided by stress", "Force divided by area", "Displacement divided by force"], 
-        answer: 0 },
-      { q: "The angular velocity of a body in uniform circular motion is:", 
+        answer: 0,
+        explanation: "Young’s modulus is stress (force/area) divided by strain (deformation/length), measuring material stiffness. Other options are incorrect."
+      },
+      { 
+        q: "The angular velocity of a body in uniform circular motion is:", 
         options: ["Constant", "Variable", "Zero", "Infinite"], 
-        answer: 0 },
-      { q: "The principle of conservation of energy applies to:", 
+        answer: 0,
+        explanation: "In uniform circular motion, angular velocity is constant as the body rotates at a steady rate. Other options don’t apply."
+      },
+      { 
+        q: "The principle of conservation of energy applies to:", 
         options: ["Isolated systems", "Open systems", "Non-conservative systems", "Systems with friction"], 
-        answer: 0 },
-      { q: "The shear force at a section of a beam is the:", 
+        answer: 0,
+        explanation: "Energy conservation applies to isolated systems with no external work or heat transfer. Open or non-conservative systems may lose energy."
+      },
+      { 
+        q: "The shear force at a section of a beam is the:", 
         options: ["Sum of vertical forces on one side", "Sum of horizontal forces", "Moment about the section", "Twisting force"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Shear force is the sum of vertical forces on one side of a beam section. Moments relate to bending, and twisting is torsion."
+      },
 
       // Thermodynamics (8 MCQs)
-      { q: "The Carnot efficiency is given by:", 
+      { 
+        q: "The Carnot efficiency is given by:", 
         options: ["1 - (T_cold / T_hot)", "T_hot / T_cold", "T_cold / T_hot", "1 - (T_hot / T_cold)"], 
-        answer: 0 },
-      { q: "The specific heat capacity of a gas at constant volume is:", 
+        answer: 0,
+        explanation: "Carnot efficiency is 1 - (T_cold / T_hot), where temperatures are in Kelvin, representing the maximum efficiency of a heat engine."
+      },
+      { 
+        q: "The specific heat capacity of a gas at constant volume is:", 
         options: ["Less than at constant pressure", "Equal to at constant pressure", "Greater than at constant pressure", "Zero"], 
-        answer: 0 },
-      { q: "The entropy change in a reversible adiabatic process is:", 
+        answer: 0,
+        explanation: "Specific heat at constant volume (C_v) is less than at constant pressure (C_p) for gases, as C_p includes work done during expansion."
+      },
+      { 
+        q: "The entropy change in a reversible adiabatic process is:", 
         options: ["Zero", "Positive", "Negative", "Infinite"], 
-        answer: 0 },
-      { q: "The ideal gas equation for one mole of gas is:", 
+        answer: 0,
+        explanation: "A reversible adiabatic process is isentropic, so entropy change is zero. Irreversible processes increase entropy."
+      },
+      { 
+        q: "The ideal gas equation for one mole of gas is:", 
         options: ["PV = RT", "PV = nRT", "PV = mRT", "PV = T"], 
-        answer: 0 },
-      { q: "The main source of irreversibility in a thermodynamic process is:", 
+        answer: 0,
+        explanation: "For one mole, the ideal gas equation is PV = RT, where R is the gas constant. PV = nRT applies for n moles."
+      },
+      { 
+        q: "The main source of irreversibility in a thermodynamic process is:", 
         options: ["Friction", "Constant temperature", "Reversible work", "Isothermal expansion"], 
-        answer: 0 },
-      { q: "The enthalpy change in an isochoric process equals:", 
+        answer: 0,
+        explanation: "Friction causes irreversibility by dissipating energy as heat. Reversible processes and isothermal expansion can be reversible."
+      },
+      { 
+        q: "The enthalpy change in an isochoric process equals:", 
         options: ["Change in internal energy", "Work done", "Heat rejected", "Change in entropy"], 
-        answer: 0 },
-      { q: "The Kelvin-Planck statement of the second law states:", 
+        answer: 0,
+        explanation: "In an isochoric (constant volume) process, enthalpy change equals internal energy change since no work is done (ΔH = ΔU + PΔV, ΔV = 0)."
+      },
+      { 
+        q: "The Kelvin-Planck statement of the second law states:", 
         options: ["No engine can be 100% efficient", "Energy is conserved", "Entropy is constant", "Heat flows from hot to cold"], 
-        answer: 0 },
-      { q: "The compressibility factor of an ideal gas is:", 
+        answer: 0,
+        explanation: "The Kelvin-Planck statement says no heat engine can convert all heat into work (100% efficiency), requiring some heat rejection."
+      },
+      { 
+        q: "The compressibility factor of an ideal gas is:", 
         options: ["1", "0", "Greater than 1", "Less than 1"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "The compressibility factor (Z = PV/nRT) for an ideal gas is 1, as it follows the ideal gas law exactly."
+      },
 
       // Machine Drawing (7 MCQs)
-      { q: "The symbol for a keyway in a drawing is:", 
+      { 
+        q: "The symbol for a keyway in a drawing is:", 
         options: ["Rectangle with rounded ends", "Circle with cross", "Triangle with dot", "Square with diagonal"], 
-        answer: 0 },
-      { q: "The purpose of a sectional view is to:", 
+        answer: 0,
+        explanation: "A keyway is represented by a rectangle with rounded ends, indicating a slot for a key in machine drawings. Other symbols are incorrect."
+      },
+      { 
+        q: "The purpose of a sectional view is to:", 
         options: ["Show internal features", "Show external outline", "Indicate tolerances", "Show assembly sequence"], 
-        answer: 0 },
-      { q: "The standard line weight for object lines is:", 
+        answer: 0,
+        explanation: "Sectional views reveal internal features by cutting through an object. Other options describe different drawing purposes."
+      },
+      { 
+        q: "The standard line weight for object lines is:", 
         options: ["0.7 mm", "0.3 mm", "0.5 mm", "1.0 mm"], 
-        answer: 0 },
-      { q: "The purpose of a revision block in a drawing is to:", 
+        answer: 0,
+        explanation: "Object lines, showing visible edges, typically use a 0.7 mm line weight in technical drawings for clarity. Other weights are for different lines."
+      },
+      { 
+        q: "The purpose of a revision block in a drawing is to:", 
         options: ["Record changes to the drawing", "Show material specifications", "Indicate scale", "List part numbers"], 
-        answer: 0 },
-      { q: "The symbol for a countersunk hole is:", 
+        answer: 0,
+        explanation: "A revision block tracks changes to a drawing, including dates and descriptions. Other options are covered elsewhere in drawings."
+      },
+      { 
+        q: "The symbol for a countersunk hole is:", 
         options: ["V-shaped with angle", "U-shaped", "Circular with cross", "Square with dot"], 
-        answer: 0 },
-      { q: "The purpose of a geometric dimensioning and tolerancing (GD&T) symbol is to:", 
+        answer: 0,
+        explanation: "A countersunk hole is shown with a V-shaped symbol indicating the angle for a screw head. Other symbols don’t apply."
+      },
+      { 
+        q: "The purpose of a geometric dimensioning and tolerancing (GD&T) symbol is to:", 
         options: ["Specify precise tolerances", "Show hidden lines", "Indicate material type", "Show sectional views"], 
-        answer: 0 },
-      { q: "The standard angle for isometric projection is:", 
+        answer: 0,
+        explanation: "GD&T symbols define precise tolerances for manufacturing and inspection. They don’t indicate hidden lines, materials, or views."
+      },
+      { 
+        q: "The standard angle for isometric projection is:", 
         options: ["30°", "45°", "60°", "90°"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Isometric projection uses 30° angles from the horizontal for axes, creating a balanced 3D effect. Other angles are incorrect."
+      },
 
       // Electro-Mechanical (3 MCQs)
-      { q: "The efficiency of an induction motor is maximum at:", 
+      { 
+        q: "The efficiency of an induction motor is maximum at:", 
         options: ["Full load", "No load", "Half load", "Overload"], 
-        answer: 0 },
-      { q: "The function of a stator in an electric motor is to:", 
+        answer: 0,
+        explanation: "Induction motor efficiency peaks at full load, where losses are minimized relative to output. Efficiency drops at no load or overload."
+      },
+      { 
+        q: "The function of a stator in an electric motor is to:", 
         options: ["Provide a magnetic field", "Rotate the rotor", "Collect current", "Reduce voltage"], 
-        answer: 0 },
-      { q: "The main advantage of a synchronous motor is:", 
+        answer: 0,
+        explanation: "The stator generates a magnetic field to drive the rotor. The rotor rotates, brushes collect current, and voltage isn’t reduced by the stator."
+      },
+      { 
+        q: "The main advantage of a synchronous motor is:", 
         options: ["Constant speed", "High starting torque", "Low maintenance", "Small size"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Synchronous motors maintain constant speed synchronized with the supply frequency, ideal for precise applications. Other options are less primary."
+      },
 
       // Industrial Boiler (5 MCQs)
-      { q: "The function of a manhole in a boiler is to:", 
+      { 
+        q: "The function of a manhole in a boiler is to:", 
         options: ["Allow inspection and cleaning", "Increase steam pressure", "Regulate fuel supply", "Cool the boiler"], 
-        answer: 0 },
-      { q: "The main advantage of a forced draught system in a boiler is:", 
+        answer: 0,
+        explanation: "Manholes provide access for boiler inspection and cleaning. They don’t affect pressure, fuel, or cooling."
+      },
+      { 
+        q: "The main advantage of a forced draught system in a boiler is:", 
         options: ["Improved combustion efficiency", "Reduced fuel consumption", "Lower steam pressure", "Smaller boiler size"], 
-        answer: 0 },
-      { q: "The purpose of a steam accumulator in a boiler system is to:", 
+        answer: 0,
+        explanation: "Forced draught systems enhance combustion efficiency by supplying air under pressure. Fuel reduction is a secondary effect, and others don’t apply."
+      },
+      { 
+        q: "The purpose of a steam accumulator in a boiler system is to:", 
         options: ["Store excess steam", "Cool the flue gases", "Increase fuel combustion", "Reduce water flow"], 
-        answer: 0 },
-      { q: "The main cause of boiler scale formation is:", 
+        answer: 0,
+        explanation: "Steam accumulators store excess steam to meet peak demands, stabilizing supply. They don’t cool gases, increase combustion, or reduce water flow."
+      },
+      { 
+        q: "The main cause of boiler scale formation is:", 
         options: ["Hard water deposits", "Low steam pressure", "Excessive fuel", "Poor air circulation"], 
-        answer: 0 },
-      { q: "The function of a boiler economizer is to:", 
+        answer: 0,
+        explanation: "Hard water deposits (calcium/magnesium) cause boiler scale, reducing efficiency. Other factors don’t directly cause scale."
+      },
+      { 
+        q: "The function of a boiler economizer is to:", 
         options: ["Preheat feedwater using flue gases", "Increase steam pressure", "Cool the combustion chamber", "Regulate air intake"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Economizers preheat feedwater with waste flue gas heat, improving efficiency. They don’t affect pressure, cooling, or air intake."
+      },
 
       // Heat Engines (5 MCQs)
-      { q: "The air-standard efficiency of an Otto cycle increases with:", 
+      { 
+        q: "The air-standard efficiency of an Otto cycle increases with:", 
         options: ["Higher compression ratio", "Lower compression ratio", "Higher fuel volume", "Lower air intake"], 
-        answer: 0 },
-      { q: "The main function of a carburetor in a petrol engine is to:", 
+        answer: 0,
+        explanation: "Otto cycle efficiency increases with higher compression ratios (η = 1 - 1/r^(γ-1)). Fuel volume and air intake don’t directly affect efficiency."
+      },
+      { 
+        q: "The main function of a carburetor in a petrol engine is to:", 
         options: ["Mix air and fuel", "Ignite the mixture", "Cool the engine", "Regulate valve timing"], 
-        answer: 0 },
-      { q: "The purpose of a supercharger in an engine is to:", 
+        answer: 0,
+        explanation: "Carburetors mix air and fuel in the correct ratio for combustion. Ignition, cooling, and valve timing are handled by other components."
+      },
+      { 
+        q: "The purpose of a supercharger in an engine is to:", 
         options: ["Increase air intake pressure", "Reduce exhaust emissions", "Cool the combustion chamber", "Ignite the fuel"], 
-        answer: 0 },
-      { q: "The main cause of engine knocking in a diesel engine is:", 
+        answer: 0,
+        explanation: "Superchargers boost air intake pressure, increasing power output. They don’t reduce emissions, cool chambers, or ignite fuel."
+      },
+      { 
+        q: "The main cause of engine knocking in a diesel engine is:", 
         options: ["Delayed ignition", "Excessive fuel", "Low compression ratio", "High exhaust pressure"], 
-        answer: 0 },
-      { q: "The function of a connecting rod in an engine is to:", 
+        answer: 0,
+        explanation: "Delayed ignition in diesel engines causes knocking due to rapid combustion. Excessive fuel or low compression may contribute but aren’t primary."
+      },
+      { 
+        q: "The function of a connecting rod in an engine is to:", 
         options: ["Transfer motion from piston to crankshaft", "Regulate fuel flow", "Cool the engine", "Control valve timing"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "The connecting rod transfers linear piston motion to the crankshaft’s rotary motion. Other functions are handled by different components."
+      },
 
       // Industrial Management (6 MCQs)
-      { q: "The main purpose of a work breakdown structure (WBS) is to:", 
+      { 
+        q: "The main purpose of a work breakdown structure (WBS) is to:", 
         options: ["Divide project into manageable tasks", "Calculate production costs", "Train employees", "Develop marketing plans"], 
-        answer: 0 },
-      { q: "The term ‘total quality management’ (TQM) refers to:", 
+        answer: 0,
+        explanation: "A WBS breaks a project into manageable tasks for planning and execution. It doesn’t directly address costs, training, or marketing."
+      },
+      { 
+        q: "The term ‘total quality management’ (TQM) refers to:", 
         options: ["Continuous quality improvement", "Cost reduction strategy", "Employee training program", "Marketing campaign"], 
-        answer: 0 },
-      { q: "The main function of a supply chain manager is to:", 
+        answer: 0,
+        explanation: "TQM focuses on continuous quality improvement across processes. It’s not primarily about cost, training, or marketing."
+      },
+      { 
+        q: "The main function of a supply chain manager is to:", 
         options: ["Optimize logistics and inventory", "Develop new products", "Increase advertising", "Reduce employee turnover"], 
-        answer: 0 },
-      { q: "The purpose of a performance management system is to:", 
+        answer: 0,
+        explanation: "Supply chain managers optimize logistics and inventory for efficiency. Product development, advertising, and turnover are other roles."
+      },
+      { 
+        q: "The purpose of a performance management system is to:", 
         options: ["Align employee goals with organizational objectives", "Calculate depreciation", "Increase market share", "Develop new technologies"], 
-        answer: 0 },
-      { q: "The main objective of occupational health and safety standards is to:", 
+        answer: 0,
+        explanation: "Performance management aligns employee goals with organizational objectives, enhancing productivity. Other options are unrelated."
+      },
+      { 
+        q: "The main objective of occupational health and safety standards is to:", 
         options: ["Ensure worker safety", "Reduce production costs", "Increase sales", "Develop new products"], 
-        answer: 0 },
-      { q: "The term ‘benchmarking’ in management refers to:", 
+        answer: 0,
+        explanation: "Occupational health and safety standards prioritize worker safety and well-being. They don’t focus on costs, sales, or product development."
+      },
+      { 
+        q: "The term ‘benchmarking’ in management refers to:", 
         options: ["Comparing performance with best practices", "Reducing employee workload", "Increasing inventory levels", "Developing advertising"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Benchmarking compares an organization’s performance with industry best practices to improve processes. Other options are unrelated."
+      },
 
       // Estimating and Costing (3 MCQs)
-      { q: "The term ‘marginal cost’ refers to:", 
+      { 
+        q: "The term ‘marginal cost’ refers to:", 
         options: ["Cost of producing one additional unit", "Total cost of production", "Fixed cost per unit", "Cost of raw materials"], 
-        answer: 0 },
-      { q: "The main purpose of a cash flow analysis is to:", 
+        answer: 0,
+        explanation: "Marginal cost is the cost of producing one additional unit. Total cost includes all costs, and fixed or material costs are distinct."
+      },
+      { 
+        q: "The main purpose of a cash flow analysis is to:", 
         options: ["Assess financial liquidity", "Calculate depreciation", "Reduce employee turnover", "Increase market share"], 
-        answer: 0 },
-      { q: "The term ‘break-even analysis’ is used to determine:", 
+        answer: 0,
+        explanation: "Cash flow analysis assesses financial liquidity by tracking cash inflows and outflows. It doesn’t address depreciation, turnover, or market share."
+      },
+      { 
+        q: "The term ‘break-even analysis’ is used to determine:", 
         options: ["Point where revenue equals cost", "Maximum profit point", "Minimum production cost", "Employee productivity"], 
-        answer: 0 }
+        answer: 0,
+        explanation: "Break-even analysis finds the point where total revenue equals total cost, indicating no profit or loss. Other options are unrelated."
+      }
     ];
 
     let currentPage = 0;
@@ -386,7 +571,7 @@
     let timerSeconds = 0;
     let timerInterval;
     const QUESTIONS_PER_PAGE = 5;
-    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+    const ANSWER_DELAY = 1500;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -402,10 +587,10 @@
       const saved = localStorage.getItem("quizProgress13");
       if (saved) {
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        currentPage = savedPage;
-        score = savedScore;
-        skipped = savedSkipped;
-        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        currentPage = savedPage || 0;
+        score = savedScore || 0;
+        skipped = savedSkipped || [];
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
       }
     }
@@ -435,6 +620,10 @@
 
     // Start timer
     function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -445,8 +634,23 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      const answeredOrSkipped = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answeredOrSkipped / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
+    }
+
+    // Escape special characters for JavaScript string
+    function escapeJsString(str) {
+      return str
+        .replace(/'/g, "\\'")
+        .replace(/\u2212/g, '-') // Mathematical minus to hyphen
+        .replace(/ᵥ/g, 'v')
+        .replace(/ₚ/g, 'p')
+        .replace(/\u2019/g, "'") // Curly apostrophe to straight
+        .replace(/\u00B0/g, "°") // Degree symbol
+        .replace(/\u00B2/g, "²") // Superscript 2
+        .replace(/\//g, "/") // Forward slash
+        .replace(/\u2022/g, "·"); // Middle dot
     }
 
     // Show questions for the current page
@@ -458,12 +662,13 @@
         const q = shuffledQuestions[i];
         const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
         const options = shuffledOptions
-          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeJsString(opt.text)}')">${opt.text}</button>`)
           .join('');
         html += `
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -484,7 +689,8 @@
       const buttons = button.parentElement.querySelectorAll("button");
       buttons.forEach((btn) => {
         btn.disabled = true;
-        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        const originalIndex = q.options.indexOf(btn.innerText);
+        if (originalIndex === correct) btn.classList.add("correct");
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
@@ -496,18 +702,33 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(shuffledQuestions[questionIndex])) {
-        skipped.push(shuffledQuestions[questionIndex]);
+      if (!skipped.includes(questionIndex)) {
+        skipped.push(questionIndex);
         userAnswers[questionIndex] = "Skipped";
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
       checkNextButton();
     }
@@ -560,6 +781,7 @@
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
