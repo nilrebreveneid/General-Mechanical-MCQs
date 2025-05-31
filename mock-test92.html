@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,6 +132,26 @@
       background: #f5f5f5;
     }
 
+    .results-table .correct {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .results-table .wrong {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+
+    .results-table .skipped {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+
+    .results-table .notattempted {
+      background-color: #f5f5f5;
+      color: #616161;
+    }
+
     .skip-button {
       background: #fff3cd;
       margin-top: 1rem;
@@ -171,6 +192,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +209,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -200,6 +234,7 @@
             <th>Your Answer</th>
             <th>Correct Answer</th>
             <th>Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -213,320 +248,620 @@
   <script>
     const questions = [
       // Applied Mechanics (26 MCQs)
-      { q: "The angle of friction is the angle between:", 
+      { 
+        q: "The angle of friction is the angle between:", 
         options: ["Normal reaction and resultant", "Applied force and surface", "Frictional force and surface", "Normal force and applied force"], 
-        answer: 0 },
-      { q: "A body is said to be in equilibrium when:", 
+        answer: 0,
+        explanation: "The angle of friction is the angle between the normal reaction and the resultant force (friction + normal). It represents the maximum angle before slipping occurs."
+      },
+      { 
+        q: "A body is said to be in equilibrium when:", 
         options: ["Sum of all forces is zero", "Sum of all torques is non-zero", "Body is accelerating", "Body is rotating"], 
-        answer: 0 },
-      { q: "The unit of moment of a force is:", 
+        answer: 0,
+        explanation: "A body is in equilibrium when the sum of all forces and torques acting on it is zero, resulting in no acceleration or rotation."
+      },
+      { 
+        q: "The unit of moment of a force is:", 
         options: ["N/m", "N.m", "N.m²", "N/m²"], 
-        answer: 1 },
-      { q: "The frictional force depends on:", 
+        answer: 1,
+        explanation: "Moment of a force (torque) is force × distance, with units N·m. N/m is for pressure, N·m² is incorrect, and N/m² is for stress."
+      },
+      { 
+        q: "The frictional force depends on:", 
         options: ["Nature of surfaces in contact", "Area of contact", "Shape of the body", "Volume of the body"], 
-        answer: 0 },
-      { q: "The center of gravity of a hemisphere lies at:", 
+        answer: 0,
+        explanation: "Frictional force depends on the nature of surfaces (coefficient of friction) and normal force, not on contact area, shape, or volume."
+      },
+      { 
+        q: "The center of gravity of a hemisphere lies at:", 
         options: ["3/8 radius from base", "1/2 radius from base", "1/4 radius from base", "Center of the sphere"], 
-        answer: 0 },
-      { q: "A couple produces:", 
+        answer: 0,
+        explanation: "The center of gravity of a solid hemisphere is at 3/8 of the radius from the flat base, derived from its mass distribution."
+      },
+      { 
+        q: "A couple produces:", 
         options: ["Rotational motion only", "Translational motion only", "Both rotational and translational motion", "No motion"], 
-        answer: 0 },
-      { q: "The mechanical advantage of a simple machine is:", 
+        answer: 0,
+        explanation: "A couple (two equal, opposite forces) produces only rotational motion, as the net force is zero, preventing translation."
+      },
+      { 
+        q: "The mechanical advantage of a simple machine is:", 
         options: ["Load divided by effort", "Effort divided by load", "Load times effort", "Effort minus load"], 
-        answer: 0 },
-      { q: "The impulse of a force is equal to:", 
+        answer: 0,
+        explanation: "Mechanical advantage is the ratio of load (output force) to effort (input force), indicating machine efficiency."
+      },
+      { 
+        q: "The impulse of a force is equal to:", 
         options: ["Change in momentum", "Rate of change of force", "Work done", "Energy transferred"], 
-        answer: 0 },
-      { q: "The law of parallelogram of forces is used to find:", 
+        answer: 0,
+        explanation: "Impulse (force × time) equals the change in momentum, per the impulse-momentum theorem."
+      },
+      { 
+        q: "The law of parallelogram of forces is used to find:", 
         options: ["Resultant of two forces", "Sum of two forces", "Difference of two forces", "Angle between two forces"], 
-        answer: 0 },
-      { q: "The efficiency of a machine is always:", 
+        answer: 0,
+        explanation: "The parallelogram law determines the resultant magnitude and direction of two forces acting at a point."
+      },
+      { 
+        q: "The efficiency of a machine is always:", 
         options: ["Less than 100%", "Equal to 100%", "Greater than 100%", "Zero"], 
-        answer: 0 },
-      { q: "The velocity ratio of a pulley system with n movable pulleys is:", 
+        answer: 0,
+        explanation: "Due to energy losses (e.g., friction), a machine’s efficiency is always less than 100%."
+      },
+      { 
+        q: "The velocity ratio of a pulley system with n movable pulleys is:", 
         options: ["n", "2n", "n/2", "1/n"], 
-        answer: 1 },
-      { q: "The kinetic energy of a body is proportional to:", 
+        answer: 0,
+        explanation: "For n movable pulleys, the velocity ratio is n, as each pulley reduces the effort by 1/n."
+      },
+      { 
+        q: "The kinetic energy of a body is proportional to:", 
         options: ["Square of its velocity", "Its velocity", "Its mass only", "Its height"], 
-        answer: 0 },
-      { q: "The principle of conservation of momentum applies to:", 
+        answer: 0,
+        explanation: "Kinetic energy is ½mv², proportional to the square of velocity and mass."
+      },
+      { 
+        q: "The principle of conservation of momentum applies to:", 
         options: ["Isolated systems", "Open systems", "Non-conservative systems", "Systems with external forces"], 
-        answer: 0 },
-      { q: "The modulus of elasticity is a measure of:", 
+        answer: 0,
+        explanation: "Momentum is conserved in isolated systems with no external forces, per Newton’s laws."
+      },
+      { 
+        q: "The modulus of elasticity is a measure of:", 
         options: ["Stiffness", "Hardness", "Ductility", "Brittleness"], 
-        answer: 0 },
-      { q: "The time period of a simple pendulum depends on:", 
+        answer: 0,
+        explanation: "Modulus of elasticity (Young’s modulus) measures stiffness, the ratio of stress to strain."
+      },
+      { 
+        q: "The time period of a simple pendulum depends on:", 
         options: ["Length of the pendulum", "Mass of the bob", "Amplitude of oscillation", "Material of the bob"], 
-        answer: 0 },
-      { q: "The resultant force of two forces at right angles is:", 
+        answer: 0,
+        explanation: "The period of a simple pendulum is T = 2π√(L/g), depending only on length and gravity."
+      },
+      { 
+        q: "The resultant force of two forces at right angles is:", 
         options: ["√(P² + Q²)", "P + Q", "P - Q", "P × Q"], 
-        answer: 0 },
-      { q: "The moment of inertia of a body depends on:", 
+        answer: 0,
+        explanation: "For two forces P and Q at 90°, the resultant is √(P² + Q²), per the Pythagorean theorem."
+      },
+      { 
+        q: "The moment of inertia of a body depends on:", 
         options: ["Mass distribution", "Shape only", "Velocity of the body", "Force applied"], 
-        answer: 0 },
-      { q: "The angle of repose is equal to:", 
+        answer: 0,
+        explanation: "Moment of inertia depends on mass distribution relative to the axis of rotation, not velocity or force."
+      },
+      { 
+        q: "The angle of repose is equal to:", 
         options: ["Angle of friction", "Angle of inclination", "Angle of projection", "Angle of trajectory"], 
-        answer: 0 },
-      { q: "The work done by a force is zero if:", 
+        answer: 0,
+        explanation: "The angle of repose, where slipping begins, equals the angle of friction, determined by the coefficient of friction."
+      },
+      { 
+        q: "The work done by a force is zero if:", 
         options: ["Displacement is perpendicular to force", "Force is zero", "Displacement is zero", "All of the above"], 
-        answer: 3 },
-      { q: "The unit of power in the CGS system is:", 
+        answer: 3,
+        explanation: "Work is zero if force is zero, displacement is zero, or force and displacement are perpendicular (W = F·d·cosθ)."
+      },
+      { 
+        q: "The unit of power in the CGS system is:", 
         options: ["Erg per second", "Dyne per second", "Joule per second", "Watt"], 
-        answer: 0 },
-      { q: "The coefficient of restitution measures:", 
+        answer: 0,
+        explanation: "In the CGS system, power is measured in erg per second (1 erg/s = 10⁻⁷ W)."
+      },
+      { 
+        q: "The coefficient of restitution measures:", 
         options: ["Elasticity of collision", "Friction between surfaces", "Hardness of materials", "Viscosity of fluids"], 
-        answer: 0 },
-      { q: "The force required to keep a body in uniform circular motion is:", 
+        answer: 0,
+        explanation: "The coefficient of restitution measures collision elasticity, the ratio of relative velocities after to before impact."
+      },
+      { 
+        q: "The force required to keep a body in uniform circular motion is:", 
         options: ["Centripetal force", "Centrifugal force", "Gravitational force", "Frictional force"], 
-        answer: 0 },
-      { q: "The shear stress in a material is proportional to:", 
+        answer: 0,
+        explanation: "Centripetal force, directed toward the center, is required for uniform circular motion (F = mv²/r)."
+      },
+      { 
+        q: "The shear stress in a material is proportional to:", 
         options: ["Shear strain", "Normal strain", "Compressive strain", "Tensile strain"], 
-        answer: 0 },
-      { q: "The potential energy of a body at height h is:", 
+        answer: 0,
+        explanation: "Shear stress is proportional to shear strain within the elastic limit, per Hooke’s law for shear."
+      },
+      { 
+        q: "The potential energy of a body at height h is:", 
         options: ["mgh", "1/2 mv²", "mg/h", "mgh²"], 
-        answer: 0 },
-      { q: "The equilibrium of a body under three concurrent forces requires:", 
+        answer: 0,
+        explanation: "Gravitational potential energy is mgh, where m is mass, g is gravity, and h is height."
+      },
+      { 
+        q: "The equilibrium of a body under three concurrent forces requires:", 
         options: ["Sum of forces to be zero", "Sum of forces to be non-zero", "Forces to be parallel", "Forces to be perpendicular"], 
-        answer: 0 },
-      { q: "The Poisson’s ratio of a material is the ratio of:", 
+        answer: 0,
+        explanation: "For equilibrium under three concurrent forces, their vector sum must be zero, ensuring no net force."
+      },
+      { 
+        q: "The Poisson’s ratio of a material is the ratio of:", 
         options: ["Lateral strain to longitudinal strain", "Longitudinal strain to lateral strain", "Shear strain to normal strain", "Compressive strain to tensile strain"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Poisson’s ratio is the ratio of lateral strain to longitudinal strain, measuring material deformation."
+      },
 
       // Thermodynamics (16 MCQs)
-      { q: "The efficiency of a Carnot engine depends on:", 
+      { 
+        q: "The efficiency of a Carnot engine depends on:", 
         options: ["Temperature of source and sink", "Pressure of the working fluid", "Volume of the system", "Mass of the working fluid"], 
-        answer: 0 },
-      { q: "The zeroth law of thermodynamics defines:", 
+        answer: 0,
+        explanation: "Carnot efficiency is η = 1 - (T_cold/T_hot), depending only on the absolute temperatures of the source and sink."
+      },
+      { 
+        q: "The zeroth law of thermodynamics defines:", 
         options: ["Temperature", "Entropy", "Internal energy", "Work"], 
-        answer: 0 },
-      { q: "The specific heat at constant pressure is always:", 
+        answer: 0,
+        explanation: "The zeroth law establishes temperature by stating that systems in thermal equilibrium share a common property (temperature)."
+      },
+      { 
+        q: "The specific heat at constant pressure is always:", 
         options: ["Greater than specific heat at constant volume", "Equal to specific heat at constant volume", "Less than specific heat at constant volume", "Zero"], 
-        answer: 0 },
-      { q: "In an isobaric process:", 
+        answer: 0,
+        explanation: "Specific heat at constant pressure (C_p) is greater than at constant volume (C_v) due to additional work done in expansion."
+      },
+      { 
+        q: "In an isobaric process:", 
         options: ["Pressure remains constant", "Volume remains constant", "Temperature remains constant", "Entropy remains constant"], 
-        answer: 0 },
-      { q: "The ideal gas law is expressed as:", 
+        answer: 0,
+        explanation: "An isobaric process occurs at constant pressure, allowing volume and temperature to change."
+      },
+      { 
+        q: "The ideal gas law is expressed as:", 
         options: ["PV = nRT", "PV = mRT", "PV = RT", "PV = nT"], 
-        answer: 0 },
-      { q: "The entropy of a system increases in:", 
+        answer: 0,
+        explanation: "The ideal gas law, PV = nRT, relates pressure, volume, moles, gas constant, and temperature."
+      },
+      { 
+        q: "The entropy of a system increases in:", 
         options: ["Irreversible processes", "Reversible processes", "Isothermal processes", "Adiabatic processes"], 
-        answer: 0 },
-      { q: "The Rankine cycle is used in:", 
+        answer: 0,
+        explanation: "Irreversible processes increase system entropy due to inefficiencies, per the second law of thermodynamics."
+      },
+      { 
+        q: "The Rankine cycle is used in:", 
         options: ["Steam power plants", "Gas turbines", "Internal combustion engines", "Refrigeration systems"], 
-        answer: 0 },
-      { q: "The second law of thermodynamics implies:", 
+        answer: 0,
+        explanation: "The Rankine cycle is the thermodynamic cycle used in steam power plants to generate electricity."
+      },
+      { 
+        q: "The second law of thermodynamics implies:", 
         options: ["Heat cannot flow from cold to hot without work", "Energy is always conserved", "All processes are reversible", "Entropy is constant"], 
-        answer: 0 },
-      { q: "The enthalpy of a system is defined as:", 
+        answer: 0,
+        explanation: "The second law states that heat cannot spontaneously flow from a colder to a hotter body without external work."
+      },
+      { 
+        q: "The enthalpy of a system is defined as:", 
         options: ["Internal energy plus pressure-volume work", "Internal energy minus work", "Heat content at constant volume", "Total kinetic energy"], 
-        answer: 0 },
-      { q: "The coefficient of performance of a refrigerator is:", 
+        answer: 0,
+        explanation: "Enthalpy (H) is internal energy (U) plus pressure-volume work (PV), i.e., H = U + PV."
+      },
+      { 
+        q: "The coefficient of performance of a refrigerator is:", 
         options: ["Heat removed divided by work input", "Work input divided by heat removed", "Heat rejected divided by work input", "Work input divided by heat rejected"], 
-        answer: 0 },
-      { q: "The triple point of water occurs at:", 
+        answer: 0,
+        explanation: "COP of a refrigerator is Q_cold/W, the ratio of heat removed to work input."
+      },
+      { 
+        q: "The triple point of water occurs at:", 
         options: ["0.01°C and 611.657 Pa", "0°C and 1 atm", "100°C and 1 atm", "0°C and 101.325 kPa"], 
-        answer: 0 },
-      { q: "The adiabatic process is characterized by:", 
+        answer: 0,
+        explanation: "The triple point of water, where solid, liquid, and gas coexist, is at 0.01°C and 611.657 Pa."
+      },
+      { 
+        q: "The adiabatic process is characterized by:", 
         options: ["No heat transfer", "Constant temperature", "Constant pressure", "Constant volume"], 
-        answer: 0 },
-      { q: "The thermal efficiency of a heat engine is:", 
+        answer: 0,
+        explanation: "An adiabatic process has no heat transfer (Q = 0), with work changing internal energy."
+      },
+      { 
+        q: "The thermal efficiency of a heat engine is:", 
         options: ["Work output divided by heat input", "Heat input divided by work output", "Work output divided by heat rejected", "Heat rejected divided by work output"], 
-        answer: 0 },
-      { q: "The Avogadro’s law states that:", 
+        answer: 0,
+        explanation: "Thermal efficiency is W/Q_in, the ratio of work output to heat input."
+      },
+      { 
+        q: "The Avogadro’s law states that:", 
         options: ["Equal volumes of gases contain equal numbers of molecules", "Pressure is proportional to temperature", "Volume is inversely proportional to pressure", "Temperature is proportional to volume"], 
-        answer: 0 },
-      { q: "The Joule-Thomson effect describes:", 
+        answer: 0,
+        explanation: "Avogadro’s law states that equal volumes of gases at the same temperature and pressure contain equal numbers of molecules."
+      },
+      { 
+        q: "The Joule-Thomson effect describes:", 
         options: ["Temperature change during gas expansion", "Pressure change during compression", "Volume change during heating", "Entropy change during cooling"], 
-        answer: 0 },
-      { q: "The Clausius statement of the second law states:", 
+        answer: 0,
+        explanation: "The Joule-Thomson effect describes the temperature change of a gas during isenthalpic expansion through a valve."
+      },
+      { 
+        q: "The Clausius statement of the second law states:", 
         options: ["Heat cannot flow from a colder to a hotter body without work", "Energy is conserved in all processes", "Entropy of an isolated system decreases", "Work is always converted to heat"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Clausius’ statement of the second law states that heat cannot spontaneously flow from a colder to a hotter body without work."
+      },
 
       // Machine Drawing (14 MCQs)
-      { q: "The purpose of a dimension line is to:", 
+      { 
+        q: "The purpose of a dimension line is to:", 
         options: ["Indicate the distance between two points", "Show hidden features", "Indicate the center of a circle", "Show the outline of an object"], 
-        answer: 0 },
-      { q: "A phantom line is used to show:", 
+        answer: 0,
+        explanation: "A dimension line indicates the distance between two points in a technical drawing, aiding measurement."
+      },
+      { 
+        q: "A phantom line is used to show:", 
         options: ["Alternate positions of a part", "Hidden edges", "Center of a circle", "Cutting plane"], 
-        answer: 0 },
-      { q: "The symbol for first angle projection is:", 
-        options: ["Cone with circle inside", "Circle with cross", "Square with diagonal", "Triangle with dot"], 
-        answer: 0 },
-      { q: "A leader line is used to:", 
+        answer: 0,
+        explanation: "Phantom lines show alternate positions or paths of moving parts in a drawing."
+      },
+      { 
+        q: "The symbol for first angle projection is:", 
+        options: ["Frustum with circle inside", "Circle with cross", "Square with diagonal", "Triangle with dot"], 
+        answer: 0,
+        explanation: "The first angle projection symbol is a frustum of a cone with a circle inside, per ISO standards."
+      },
+      { 
+        q: "A leader line is used to:", 
         options: ["Point to a note or dimension", "Show hidden edges", "Indicate symmetry", "Show a break in the object"], 
-        answer: 0 },
-      { q: "The pitch of a screw thread is:", 
+        answer: 0,
+        explanation: "Leader lines connect notes or dimensions to specific features in a drawing."
+      },
+      { 
+        q: "The pitch of a screw thread is:", 
         options: ["Distance between adjacent threads", "Diameter of the thread", "Depth of the thread", "Angle of the thread"], 
-        answer: 0 },
-      { q: "An exploded view drawing shows:", 
+        answer: 0,
+        explanation: "Pitch is the distance between adjacent threads, critical for thread specification."
+      },
+      { 
+        q: "An exploded view drawing shows:", 
         options: ["Components separated for clarity", "Assembled parts only", "Hidden features", "Sectional views"], 
-        answer: 0 },
-      { q: "The purpose of a title block is to:", 
+        answer: 0,
+        explanation: "Exploded view drawings show components separated to illustrate assembly relationships."
+      },
+      { 
+        q: "The purpose of a title block is to:", 
         options: ["Provide drawing information", "Show hidden lines", "Indicate scale only", "Show sectional views"], 
-        answer: 0 },
-      { q: "A countersink is represented by:", 
+        answer: 0,
+        explanation: "A title block contains metadata like title, scale, date, and author for the drawing."
+      },
+      { 
+        q: "A countersink is represented by:", 
         options: ["V-shaped symbol", "U-shaped symbol", "Circular symbol", "Square symbol"], 
-        answer: 0 },
-      { q: "The standard paper size for engineering drawings is:", 
+        answer: 0,
+        explanation: "A countersink is shown with a V-shaped symbol, indicating a conical hole for screws."
+      },
+      { 
+        q: "The standard paper size for engineering drawings is:", 
         options: ["A0, A1, A2, etc.", "Letter, Legal, Tabloid", "B1, B2, B3", "C1, C2, C3"], 
-        answer: 0 },
-      { q: "The function of a datum in drawing is to:", 
+        answer: 0,
+        explanation: "ISO A-series (A0, A1, A2, etc.) are standard for engineering drawings globally."
+      },
+      { 
+        q: "The function of a datum in drawing is to:", 
         options: ["Establish a reference point", "Show hidden lines", "Indicate scale", "Show tolerances"], 
-        answer: 0 },
-      { q: "A fillet in machine drawing refers to:", 
+        answer: 0,
+        explanation: "A datum is a reference point or plane for measurements and tolerances in a drawing."
+      },
+      { 
+        q: "A fillet in machine drawing refers to:", 
         options: ["Rounded internal corner", "Sharp external corner", "Threaded surface", "Flat surface"], 
-        answer: 0 },
-      { q: "The purpose of a break line is to:", 
+        answer: 0,
+        explanation: "A fillet is a rounded internal corner, reducing stress concentrations in parts."
+      },
+      { 
+        q: "The purpose of a break line is to:", 
         options: ["Shorten a long object in drawing", "Show hidden edges", "Indicate center lines", "Show sectional views"], 
-        answer: 0 },
-      { q: "The orthographic projection shows:", 
+        answer: 0,
+        explanation: "Break lines shorten long objects in drawings to fit within the paper size."
+      },
+      { 
+        q: "The orthographic projection shows:", 
         options: ["Two-dimensional views", "Three-dimensional views", "Perspective views", "Isometric views"], 
-        answer: 0 },
-      { q: "The symbol for welding in a drawing is:", 
+        answer: 0,
+        explanation: "Orthographic projection shows 2D views (front, top, side) of an object, preserving dimensions."
+      },
+      { 
+        q: "The symbol for welding in a drawing is:", 
         options: ["Arrow with tail and reference line", "Circle with cross", "Square with diagonal", "Triangle with dot"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Welding symbols use an arrow with a tail and reference line to specify weld details."
+      },
 
       // Electro-Mechanical (6 MCQs)
-      { q: "Which is not an essential part of a DC motor?", 
+      { 
+        q: "Which is not an essential part of a DC motor?", 
         options: ["Stator", "Rotor", "Commutator", "Turbine"], 
-        answer: 3 },
-      { q: "The main function of a transformer is to:", 
+        answer: 3,
+        explanation: "A turbine is not part of a DC motor; it’s used in power generation. Stator, rotor, and commutator are essential."
+      },
+      { 
+        q: "The main function of a transformer is to:", 
         options: ["Convert AC to DC", "Change voltage levels", "Generate electricity", "Store electrical energy"], 
-        answer: 1 },
-      { q: "The torque in a DC motor is proportional to:", 
+        answer: 1,
+        explanation: "Transformers change AC voltage levels (step-up or step-down) using electromagnetic induction."
+      },
+      { 
+        q: "The torque in a DC motor is proportional to:", 
         options: ["Armature current", "Speed of rotation", "Voltage applied", "Resistance of the circuit"], 
-        answer: 0 },
-      { q: "The purpose of a capacitor in an AC circuit is to:", 
+        answer: 0,
+        explanation: "Torque in a DC motor is proportional to armature current, as T = k·I_a·Φ."
+      },
+      { 
+        q: "The purpose of a capacitor in an AC circuit is to:", 
         options: ["Store electrical energy", "Convert AC to DC", "Reduce voltage", "Increase resistance"], 
-        answer: 0 },
-      { q: "The synchronous speed of an induction motor depends on:", 
+        answer: 0,
+        explanation: "Capacitors store electrical energy and manage current flow in AC circuits, aiding in power factor correction."
+      },
+      { 
+        q: "The synchronous speed of an induction motor depends on:", 
         options: ["Frequency and number of poles", "Voltage and current", "Load and resistance", "Torque and power"], 
-        answer: 0 },
-      { q: "The function of a rectifier in a circuit is to:", 
+        answer: 0,
+        explanation: "Synchronous speed is N_s = 120f/P, depending on frequency (f) and number of poles (P)."
+      },
+      { 
+        q: "The function of a rectifier in a circuit is to:", 
         options: ["Convert AC to DC", "Convert DC to AC", "Increase voltage", "Reduce current"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "A rectifier converts alternating current (AC) to direct current (DC) using diodes."
+      },
 
       // Industrial Boiler (10 MCQs)
-      { q: "The function of a superheater in a boiler is to:", 
+      { 
+        q: "The function of a superheater in a boiler is to:", 
         options: ["Increase steam temperature", "Reduce steam pressure", "Cool the steam", "Remove impurities"], 
-        answer: 0 },
-      { q: "The draught in a boiler is created by:", 
+        answer: 0,
+        explanation: "A superheater increases steam temperature above saturation, improving efficiency in turbines."
+      },
+      { 
+        q: "The draught in a boiler is created by:", 
         options: ["Chimney or fan", "Fuel combustion", "Steam pressure", "Water circulation"], 
-        answer: 0 },
-      { q: "The main purpose of a fusible plug is to:", 
+        answer: 0,
+        explanation: "Draught, the flow of air for combustion, is created by a chimney (natural) or fan (forced)."
+      },
+      { 
+        q: "The main purpose of a fusible plug is to:", 
         options: ["Prevent boiler explosion", "Increase steam output", "Regulate water flow", "Improve fuel combustion"], 
-        answer: 0 },
-      { q: "The efficiency of a boiler is improved by:", 
+        answer: 0,
+        explanation: "A fusible plug melts at high temperatures, releasing steam to prevent boiler explosions."
+      },
+      { 
+        q: "The efficiency of a boiler is improved by:", 
         options: ["Using an economizer", "Reducing steam pressure", "Increasing fuel consumption", "Decreasing water flow"], 
-        answer: 0 },
-      { q: "The type of boiler used in locomotives is:", 
+        answer: 0,
+        explanation: "An economizer preheats feedwater using flue gases, improving boiler efficiency."
+      },
+      { 
+        q: "The type of boiler used in locomotives is:", 
         options: ["Fire tube boiler", "Water tube boiler", "Electric boiler", "Nuclear boiler"], 
-        answer: 0 },
-      { q: "The blow-off cock in a boiler is used to:", 
+        answer: 0,
+        explanation: "Locomotive boilers are fire tube boilers, compact and suitable for mobile steam engines."
+      },
+      { 
+        q: "The blow-off cock in a boiler is used to:", 
         options: ["Remove sludge and sediment", "Increase steam pressure", "Regulate fuel supply", "Cool the boiler"], 
-        answer: 0 },
-      { q: "The steam separator in a boiler is used to:", 
+        answer: 0,
+        explanation: "The blow-off cock removes sludge and sediment from the boiler to maintain water quality."
+      },
+      { 
+        q: "The steam separator in a boiler is used to:", 
         options: ["Remove moisture from steam", "Increase steam pressure", "Reduce steam temperature", "Improve fuel combustion"], 
-        answer: 0 },
-      { q: "The main advantage of a water tube boiler over a fire tube boiler is:", 
+        answer: 0,
+        explanation: "A steam separator removes moisture, ensuring dry steam for efficient turbine operation."
+      },
+      { 
+        q: "The main advantage of a water tube boiler over a fire tube boiler is:", 
         options: ["Higher pressure and output", "Lower cost", "Simpler design", "Smaller size"], 
-        answer: 0 },
-      { q: "The pressure gauge in a boiler is used to:", 
+        answer: 0,
+        explanation: "Water tube boilers handle higher pressures and outputs, suitable for large-scale applications."
+      },
+      { 
+        q: "The pressure gauge in a boiler is used to:", 
         options: ["Measure steam pressure", "Measure water temperature", "Measure fuel consumption", "Measure air flow"], 
-        answer: 0 },
-      { q: "The main source of heat loss in a boiler is:", 
+        answer: 0,
+        explanation: "A pressure gauge measures steam pressure to ensure safe boiler operation."
+      },
+      { 
+        q: "The main source of heat loss in a boiler is:", 
         options: ["Flue gas heat loss", "Radiation loss", "Fuel loss", "Water loss"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Flue gas heat loss, where hot gases escape, is the primary source of heat loss in boilers."
+      },
 
       // Heat Engines (10 MCQs)
-      { q: "The function of a flywheel in an engine is to:", 
+      { 
+        q: "The function of a flywheel in an engine is to:", 
         options: ["Smooth out power delivery", "Increase fuel efficiency", "Cool the engine", "Ignite the fuel"], 
-        answer: 0 },
-      { q: "The compression ratio of a petrol engine is typically:", 
+        answer: 0,
+        explanation: "A flywheel stores rotational energy to smooth out power delivery in engines."
+      },
+      { 
+        q: "The compression ratio of a petrol engine is typically:", 
         options: ["8:1 to 12:1", "15:1 to 20:1", "5:1 to 7:1", "20:1 to 25:1"], 
-        answer: 0 },
-      { q: "The purpose of a governor in an engine is to:", 
+        answer: 0,
+        explanation: "Petrol engines typically have compression ratios of 8:1 to 12:1, balancing efficiency and knocking."
+      },
+      { 
+        q: "The purpose of a governor in an engine is to:", 
         options: ["Regulate engine speed", "Increase power output", "Cool the engine", "Ignite the fuel"], 
-        answer: 0 },
-      { q: "The Brayton cycle is used in:", 
+        answer: 0,
+        explanation: "A governor regulates engine speed by controlling fuel or air intake under varying loads."
+      },
+      { 
+        q: "The Brayton cycle is used in:", 
         options: ["Gas turbines", "Steam engines", "Diesel engines", "Petrol engines"], 
-        answer: 0 },
-      { q: "The main difference between a two-stroke and four-stroke engine is:", 
+        answer: 0,
+        explanation: "The Brayton cycle is the thermodynamic cycle for gas turbines, involving compression and expansion."
+      },
+      { 
+        q: "The main difference between a two-stroke and four-stroke engine is:", 
         options: ["Number of power strokes per cycle", "Fuel type", "Cooling system", "Ignition method"], 
-        answer: 0 },
-      { q: "The function of a fuel injector in a diesel engine is to:", 
+        answer: 0,
+        explanation: "Two-stroke engines have a power stroke every revolution, while four-stroke engines have one every two revolutions."
+      },
+      { 
+        q: "The function of a fuel injector in a diesel engine is to:", 
         options: ["Spray fuel into the combustion chamber", "Ignite the fuel", "Cool the engine", "Regulate air intake"], 
-        answer: 0 },
-      { q: "The thermal efficiency of a diesel engine is generally:", 
+        answer: 0,
+        explanation: "Fuel injectors spray atomized fuel into the combustion chamber for efficient burning."
+      },
+      { 
+        q: "The thermal efficiency of a diesel engine is generally:", 
         options: ["Higher than a petrol engine", "Lower than a petrol engine", "Equal to a petrol engine", "Zero"], 
-        answer: 0 },
-      { q: "The purpose of a turbocharger in an engine is to:", 
+        answer: 0,
+        explanation: "Diesel engines have higher thermal efficiency due to higher compression ratios."
+      },
+      { 
+        q: "The purpose of a turbocharger in an engine is to:", 
         options: ["Increase air intake pressure", "Reduce fuel consumption", "Cool the exhaust gases", "Ignite the fuel"], 
-        answer: 0 },
-      { q: "The valve timing in a four-stroke engine is controlled by:", 
+        answer: 0,
+        explanation: "A turbocharger increases air intake pressure, boosting engine power output."
+      },
+      { 
+        q: "The valve timing in a four-stroke engine is controlled by:", 
         options: ["Camshaft", "Crankshaft", "Piston", "Flywheel"], 
-        answer: 0 },
-      { q: "The knocking in a petrol engine is caused by:", 
+        answer: 0,
+        explanation: "The camshaft controls valve timing, opening and closing valves in sync with the engine cycle."
+      },
+      { 
+        q: "The knocking in a petrol engine is caused by:", 
         options: ["Premature ignition of fuel", "Low fuel quality", "Excessive cooling", "High exhaust pressure"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Knocking occurs due to premature ignition of the air-fuel mixture, causing pressure waves."
+      },
 
       // Industrial Management (12 MCQs)
-      { q: "The purpose of a Gantt chart in management is to:", 
+      { 
+        q: "The purpose of a Gantt chart in management is to:", 
         options: ["Schedule project tasks", "Calculate profits", "Analyze market trends", "Train employees"], 
-        answer: 0 },
-      { q: "The term ‘kaizen’ refers to:", 
+        answer: 0,
+        explanation: "A Gantt chart visually schedules project tasks, showing timelines and dependencies."
+      },
+      { 
+        q: "The term ‘kaizen’ refers to:", 
         options: ["Continuous improvement", "Cost reduction", "Employee turnover", "Market expansion"], 
-        answer: 0 },
-      { q: "The main objective of inventory management is to:", 
+        answer: 0,
+        explanation: "Kaizen is a Japanese philosophy of continuous improvement in processes and productivity."
+      },
+      { 
+        q: "The main objective of inventory management is to:", 
         options: ["Minimize stock levels while meeting demand", "Maximize stock levels", "Reduce production costs", "Increase employee productivity"], 
-        answer: 0 },
-      { q: "The function of a trade union is to:", 
+        answer: 0,
+        explanation: "Inventory management balances minimal stock levels with demand to reduce costs."
+      },
+      { 
+        q: "The function of a trade union is to:", 
         options: ["Protect workers’ rights", "Manage company finances", "Develop new products", "Market the company"], 
-        answer: 0 },
-      { q: "The critical path method (CPM) is used to:", 
+        answer: 0,
+        explanation: "Trade unions advocate for workers’ rights, wages, and working conditions."
+      },
+      { 
+        q: "The critical path method (CPM) is used to:", 
         options: ["Optimize project scheduling", "Reduce employee turnover", "Increase sales", "Calculate depreciation"], 
-        answer: 0 },
-      { q: "The term ‘ergonomics’ in industrial management refers to:", 
+        answer: 0,
+        explanation: "CPM identifies the longest path of tasks to optimize project scheduling and duration."
+      },
+      { 
+        q: "The term ‘ergonomics’ in industrial management refers to:", 
         options: ["Designing workplaces for efficiency and safety", "Reducing production costs", "Increasing market share", "Automating processes"], 
-        answer: 0 },
-      { q: "The main goal of quality control is to:", 
+        answer: 0,
+        explanation: "Ergonomics designs workplaces to enhance worker efficiency, safety, and comfort."
+      },
+      { 
+        q: "The main goal of quality control is to:", 
         options: ["Ensure product consistency", "Reduce employee workload", "Increase advertising", "Minimize raw material use"], 
-        answer: 0 },
-      { q: "The purpose of a performance appraisal is to:", 
+        answer: 0,
+        explanation: "Quality control ensures products meet consistent standards, reducing defects."
+      },
+      { 
+        q: "The purpose of a performance appraisal is to:", 
         options: ["Evaluate employee performance", "Reduce production costs", "Develop new products", "Increase market share"], 
-        answer: 0 },
-      { q: "The term ‘just-in-time’ refers to:", 
+        answer: 0,
+        explanation: "Performance appraisals assess employee performance to guide promotions and training."
+      },
+      { 
+        q: "The term ‘just-in-time’ refers to:", 
         options: ["Inventory management to reduce waste", "Employee training program", "Marketing strategy", "Financial planning"], 
-        answer: 0 },
-      { q: "The main function of OSHA is to:", 
+        answer: 0,
+        explanation: "Just-in-time inventory reduces waste by receiving materials only as needed."
+      },
+      { 
+        q: "The main function of OSHA is to:", 
         options: ["Ensure workplace safety", "Regulate product pricing", "Promote international trade", "Develop new technologies"], 
-        answer: 0 },
-      { q: "The purpose of a SWOT analysis is to:", 
+        answer: 0,
+        explanation: "OSHA (Occupational Safety and Health Administration) ensures workplace safety and health standards."
+      },
+      { 
+        q: "The purpose of a SWOT analysis is to:", 
         options: ["Identify strengths, weaknesses, opportunities, threats", "Calculate production costs", "Train employees", "Develop advertising campaigns"], 
-        answer: 0 },
-      { q: "The main objective of supply chain management is to:", 
+        answer: 0,
+        explanation: "SWOT analysis identifies internal strengths/weaknesses and external opportunities/threats for strategic planning."
+      },
+      { 
+        q: "The main objective of supply chain management is to:", 
         options: ["Optimize flow of goods and services", "Reduce employee turnover", "Increase advertising budget", "Develop new products"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Supply chain management optimizes the flow of goods, services, and information to enhance efficiency."
+      },
 
       // Estimating and Costing (6 MCQs)
-      { q: "The purpose of cost estimation in a project is to:", 
+      { 
+        q: "The purpose of cost estimation in a project is to:", 
         options: ["Predict total project expenses", "Increase profit margins", "Reduce employee workload", "Develop new products"], 
-        answer: 0 },
-      { q: "The term ‘direct cost’ refers to:", 
+        answer: 0,
+        explanation: "Cost estimation predicts total project expenses to aid budgeting and planning."
+      },
+      { 
+        q: "The term ‘direct cost’ refers to:", 
         options: ["Costs directly attributable to production", "Costs of advertising", "Costs of office rent", "Costs of employee training"], 
-        answer: 0 },
-      { q: "The payback period of an investment is:", 
+        answer: 0,
+        explanation: "Direct costs, like raw materials and labor, are directly tied to production."
+      },
+      { 
+        q: "The payback period of an investment is:", 
         options: ["Time to recover initial investment", "Time to maximize profits", "Time to depreciate assets", "Time to increase sales"], 
-        answer: 0 },
-      { q: "The main purpose of a cost-benefit analysis is to:", 
+        answer: 0,
+        explanation: "The payback period is the time required to recover the initial investment cost."
+      },
+      { 
+        q: "The main purpose of a cost-benefit analysis is to:", 
         options: ["Evaluate project viability", "Reduce employee turnover", "Increase market share", "Develop new technologies"], 
-        answer: 0 },
-      { q: "The term ‘indirect cost’ includes:", 
+        answer: 0,
+        explanation: "Cost-benefit analysis evaluates project viability by comparing costs to benefits."
+      },
+      { 
+        q: "The term ‘indirect cost’ includes:", 
         options: ["Utilities and maintenance", "Raw material costs", "Direct labor wages", "Cost of goods sold"], 
-        answer: 0 },
-      { q: "The net present value (NPV) is used to:", 
+        answer: 0,
+        explanation: "Indirect costs, like utilities and maintenance, are not directly tied to production."
+      },
+      { 
+        q: "The net present value (NPV) is used to:", 
         options: ["Assess investment profitability", "Calculate depreciation", "Reduce production costs", "Increase sales"], 
-        answer: 0 }
+        answer: 0,
+        explanation: "NPV assesses investment profitability by discounting future cash flows to present value."
+      }
     ];
 
     let currentPage = 0;
@@ -536,7 +871,7 @@
     let timerSeconds = 0;
     let timerInterval;
     const QUESTIONS_PER_PAGE = 5;
-    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+    const ANSWER_DELAY = 1500;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -552,10 +887,10 @@
       const saved = localStorage.getItem("quizProgress11");
       if (saved) {
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        currentPage = savedPage;
-        score = savedScore;
-        skipped = savedSkipped;
-        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        currentPage = savedPage || 0;
+        score = savedScore || 0;
+        skipped = savedSkipped || [];
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
       }
     }
@@ -585,6 +920,10 @@
 
     // Start timer
     function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -595,8 +934,23 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      const answeredOrSkipped = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answeredOrSkipped / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
+    }
+
+    // Escape special characters for JavaScript string
+    function escapeJsString(str) {
+      return str
+        .replace(/'/g, "\\'")
+        .replace(/\u2212/g, '-') // Mathematical minus to hyphen
+        .replace(/ᵥ/g, 'v')
+        .replace(/ₚ/g, 'p')
+        .replace(/\u2019/g, "'") // Curly apostrophe to straight
+        .replace(/\u00B0/g, "°") // Degree symbol
+        .replace(/\u00B2/g, "²") // Superscript 2
+        .replace(/\u00D7/g, "×") // Multiplication sign
+        .replace(/\u2022/g, "·"); // Middle dot
     }
 
     // Show questions for the current page
@@ -608,12 +962,13 @@
         const q = shuffledQuestions[i];
         const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
         const options = shuffledOptions
-          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeJsString(opt.text)}')">${opt.text}</button>`)
           .join('');
         html += `
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -634,7 +989,8 @@
       const buttons = button.parentElement.querySelectorAll("button");
       buttons.forEach((btn) => {
         btn.disabled = true;
-        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        const originalIndex = q.options.indexOf(btn.innerText);
+        if (originalIndex === correct) btn.classList.add("correct");
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
@@ -646,19 +1002,36 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        updateProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(shuffledQuestions[questionIndex])) {
-        skipped.push(shuffledQuestions[questionIndex]);
+      if (!skipped.includes(questionIndex)) {
+        skipped.push(questionIndex);
         userAnswers[questionIndex] = "Skipped";
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
+      updateProgress();
       checkNextButton();
     }
 
@@ -710,6 +1083,7 @@
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
