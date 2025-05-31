@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,6 +132,26 @@
       background: #f5f5f5;
     }
 
+    .results-table .correct {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .results-table .wrong {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+
+    .results-table .skipped {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+
+    .results-table .notattempted {
+      background-color: #f5f5f5;
+      color: #616161;
+    }
+
     .skip-button {
       background: #fff3cd;
       margin-top: 1rem;
@@ -171,6 +192,16 @@
       display: none;
     }
 
+    .explanation {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #f5f5f5;
+      border-left: 4px solid #1e88e5;
+      font-size: 0.9rem;
+      color: #444;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .quiz-container {
         padding: 1rem;
@@ -178,6 +209,9 @@
       .options button {
         font-size: 0.9rem;
         padding: 0.5rem;
+      }
+      .explanation {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -200,6 +234,7 @@
             <th>Your Answer</th>
             <th>Correct Answer</th>
             <th>Status</th>
+            <th>Explanation</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -213,170 +248,320 @@
   <script>
     const questions = [
       // Applied Mechanics (13 MCQs)
-      { q: "The moment of inertia of a circular disc about its diameter is:", 
+      { 
+        q: "The moment of inertia of a circular disc about its diameter is:", 
         options: ["(1/4)MR²", "(1/2)MR²", "MR²", "(2/3)MR²"], 
-        answer: 0 },
-      { q: "The maximum normal stress in a beam under bending occurs at:", 
+        answer: 0,
+        explanation: "The moment of inertia of a circular disc about its diameter is (1/4)MR², derived from the perpendicular axis theorem. Other values apply to different axes or shapes."
+      },
+      { 
+        q: "The maximum normal stress in a beam under bending occurs at:", 
         options: ["Farthest point from the neutral axis", "Neutral axis", "Midpoint of the beam", "Point of load application"], 
-        answer: 0 },
-      { q: "The angle of friction is defined as the angle between:", 
+        answer: 0,
+        explanation: "Normal stress in bending is maximum at the farthest point from the neutral axis, where the bending moment causes the greatest tension or compression."
+      },
+      { 
+        q: "The angle of friction is defined as the angle between:", 
         options: ["Normal force and resultant force", "Frictional force and applied force", "Normal force and surface", "Frictional force and surface"], 
-        answer: 0 },
-      { q: "The kinetic energy of a rotating body is given by:", 
+        answer: 0,
+        explanation: "The angle of friction is the angle between the normal force and the resultant of normal and frictional forces, defining the friction limit."
+      },
+      { 
+        q: "The kinetic energy of a rotating body is given by:", 
         options: ["(1/2)Iω²", "(1/2)mv²", "Iω", "mv²"], 
-        answer: 0 },
-      { q: "The condition for equilibrium of a particle under two forces is:", 
+        answer: 0,
+        explanation: "Rotational kinetic energy is (1/2)Iω², where I is moment of inertia and ω is angular velocity. (1/2)mv² is for linear motion."
+      },
+      { 
+        q: "The condition for equilibrium of a particle under two forces is:", 
         options: ["Forces are equal and opposite", "Forces are perpendicular", "Forces are parallel", "Forces are unequal"], 
-        answer: 0 },
-      { q: "The radius of gyration of a body is a measure of:", 
+        answer: 0,
+        explanation: "For a particle in equilibrium under two forces, the forces must be equal in magnitude and opposite in direction to cancel each other."
+      },
+      { 
+        q: "The radius of gyration of a body is a measure of:", 
         options: ["Mass distribution about an axis", "Linear velocity", "Angular acceleration", "Frictional resistance"], 
-        answer: 0 },
-      { q: "The impulse-momentum theorem states that:", 
+        answer: 0,
+        explanation: "Radius of gyration measures how mass is distributed relative to an axis, affecting rotational dynamics. Other options are unrelated."
+      },
+      { 
+        q: "The impulse-momentum theorem states that:", 
         options: ["Impulse equals change in momentum", "Impulse equals change in energy", "Momentum equals work done", "Impulse equals force"], 
-        answer: 0 },
-      { q: "The center of gravity of a composite body is determined by:", 
+        answer: 0,
+        explanation: "The impulse-momentum theorem states that impulse (force × time) equals the change in momentum. Other options misrepresent this principle."
+      },
+      { 
+        q: "The center of gravity of a composite body is determined by:", 
         options: ["Weighted average of individual centroids", "Sum of individual masses", "Average of individual volumes", "Product of individual areas"], 
-        answer: 0 },
-      { q: "The power transmitted by a shaft is proportional to:", 
+        answer: 0,
+        explanation: "The center of gravity of a composite body is the weighted average of individual centroids, weighted by their masses."
+      },
+      { 
+        q: "The power transmitted by a shaft is proportional to:", 
         options: ["Torque and angular velocity", "Torque only", "Angular velocity only", "Shaft diameter"], 
-        answer: 0 },
-      { q: "The trajectory of a projectile in the absence of air resistance is:", 
+        answer: 0,
+        explanation: "Power transmitted by a shaft is P = Tω, proportional to torque (T) and angular velocity (ω). Diameter affects strength, not power directly."
+      },
+      { 
+        q: "The trajectory of a projectile in the absence of air resistance is:", 
         options: ["Parabolic", "Linear", "Circular", "Elliptical"], 
-        answer: 0 },
-      { q: "The coefficient of static friction is generally:", 
+        answer: 0,
+        explanation: "A projectile’s trajectory without air resistance is parabolic due to constant horizontal velocity and vertical acceleration from gravity."
+      },
+      { 
+        q: "The coefficient of static friction is generally:", 
         options: ["Greater than dynamic friction", "Equal to dynamic friction", "Less than dynamic friction", "Zero"], 
-        answer: 0 },
-      { q: "The work done by a torque is equal to:", 
+        answer: 0,
+        explanation: "Static friction coefficient is typically greater than dynamic, as more force is needed to initiate motion than to maintain it."
+      },
+      { 
+        q: "The work done by a torque is equal to:", 
         options: ["Torque times angular displacement", "Torque divided by angular velocity", "Torque times linear displacement", "Torque divided by time"], 
-        answer: 0 },
-      { q: "The law of conservation of energy states that:", 
+        answer: 0,
+        explanation: "Work done by torque is torque × angular displacement (W = Tθ), analogous to force × distance in linear motion."
+      },
+      { 
+        q: "The law of conservation of energy states that:", 
         options: ["Total energy remains constant in an isolated system", "Energy can be created", "Energy can be destroyed", "Energy is proportional to mass"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "The law of conservation of energy states that total energy in an isolated system remains constant, neither created nor destroyed."
+      },
 
       // Thermodynamics (8 MCQs)
-      { q: "The efficiency of a Carnot engine operating between 400 K and 300 K is:", 
+      { 
+        q: "The efficiency of a Carnot engine operating between 400 K and 300 K is:", 
         options: ["25%", "33.3%", "50%", "75%"], 
-        answer: 0 },
-      { q: "The specific heat at constant pressure for an ideal gas is related to that at constant volume by:", 
+        answer: 0,
+        explanation: "Carnot efficiency is 1 - (T_cold / T_hot) = 1 - (300/400) = 0.25 or 25%. Other values are incorrect."
+      },
+      { 
+        q: "The specific heat at constant pressure for an ideal gas is related to that at constant volume by:", 
         options: ["C_p = C_v + R", "C_p = C_v - R", "C_p = C_v / R", "C_p = R - C_v"], 
-        answer: 0 },
-      { q: "The entropy of a system in an isolated system:", 
+        answer: 0,
+        explanation: "For an ideal gas, C_p = C_v + R, where R is the gas constant, due to work done at constant pressure."
+      },
+      { 
+        q: "The entropy of a system in an isolated system:", 
         options: ["Never decreases", "Always decreases", "Remains constant", "Is zero"], 
-        answer: 0 },
-      { q: "The polytropic process follows the relation:", 
+        answer: 0,
+        explanation: "The second law states that entropy in an isolated system never decreases; it increases for irreversible processes or stays constant for reversible ones."
+      },
+      { 
+        q: "The polytropic process follows the relation:", 
         options: ["PV^n = constant", "PV = constant", "P/V = constant", "P^nV = constant"], 
-        answer: 0 },
-      { q: "The internal energy of an ideal gas depends only on:", 
+        answer: 0,
+        explanation: "A polytropic process follows PV^n = constant, where n is the polytropic index. PV = constant is for isothermal processes."
+      },
+      { 
+        q: "The internal energy of an ideal gas depends only on:", 
         options: ["Temperature", "Pressure", "Volume", "Mass"], 
-        answer: 0 },
-      { q: "The work done in an isothermal process for an ideal gas is:", 
+        answer: 0,
+        explanation: "For an ideal gas, internal energy depends only on temperature (U = f(T)), as pressure and volume effects cancel out."
+      },
+      { 
+        q: "The work done in an isothermal process for an ideal gas is:", 
         options: ["nRT ln(V₂/V₁)", "nRT (V₂ - V₁)", "nRT (P₂ - P₁)", "Zero"], 
-        answer: 0 },
-      { q: "The second law of thermodynamics is concerned with:", 
+        answer: 0,
+        explanation: "Work in an isothermal process is W = nRT ln(V₂/V₁), derived from integrating P dV for an ideal gas."
+      },
+      { 
+        q: "The second law of thermodynamics is concerned with:", 
         options: ["Direction of energy transfer", "Conservation of energy", "Creation of energy", "Destruction of energy"], 
-        answer: 0 },
-      { q: "The mixed cycle in a diesel engine combines:", 
+        answer: 0,
+        explanation: "The second law governs the direction of energy transfer, ensuring entropy increases or remains constant, not energy conservation."
+      },
+      { 
+        q: "The mixed cycle in a diesel engine combines:", 
         options: ["Constant volume and constant pressure", "Constant volume and isothermal", "Constant pressure and adiabatic", "Isothermal and adiabatic"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "The diesel dual cycle combines constant volume (heat addition) and constant pressure (further heat addition) processes."
+      },
 
       // Machine Drawing (7 MCQs)
-      { q: "The purpose of a knuckle joint in machine drawing is to:", 
+      { 
+        q: "The purpose of a knuckle joint in machine drawing is to:", 
         options: ["Connect rods with angular movement", "Join flat plates", "Transmit torque", "Hold gears in place"], 
-        answer: 0 },
-      { q: "The symbol for a fillet weld in a drawing is:", 
+        answer: 0,
+        explanation: "A knuckle joint allows angular movement between rods, accommodating misalignment. It doesn’t join plates, transmit torque, or hold gears."
+      },
+      { 
+        q: "The symbol for a fillet weld in a drawing is:", 
         options: ["Triangle below reference line", "Circle at junction", "Arrow with tail", "Square with cross"], 
-        answer: 0 },
-      { q: "The missing view of a prismatic workpiece is found using:", 
+        answer: 0,
+        explanation: "A fillet weld is symbolized by a triangle below the reference line, indicating the weld shape. Other symbols are for different welds or features."
+      },
+      { 
+        q: "The missing view of a prismatic workpiece is found using:", 
         options: ["Orthographic projection principles", "Isometric projection", "Perspective projection", "Oblique projection"], 
-        answer: 0 },
-      { q: "The standard line type for a cutting plane is:", 
+        answer: 0,
+        explanation: "Orthographic projection principles are used to deduce missing views by projecting edges perpendicular to planes."
+      },
+      { 
+        q: "The standard line type for a cutting plane is:", 
         options: ["Thick dashed line with arrows", "Thin solid line", "Chain line", "Dotted line"], 
-        answer: 0 },
-      { q: "The purpose of a cotter joint is to:", 
+        answer: 0,
+        explanation: "A cutting plane uses a thick dashed line with arrows to show where a section is cut. Other lines serve different purposes."
+      },
+      { 
+        q: "The purpose of a cotter joint is to:", 
         options: ["Connect rods axially", "Join flat plates", "Transmit rotary motion", "Hold gears"], 
-        answer: 0 },
-      { q: "The isometric view of a circle appears as:", 
+        answer: 0,
+        explanation: "A cotter joint connects rods axially, preventing relative motion. It’s not for plates, rotary motion, or gears."
+      },
+      { 
+        q: "The isometric view of a circle appears as:", 
         options: ["An ellipse", "A circle", "A parabola", "A hyperbola"], 
-        answer: 0 },
-      { q: "The purpose of a dimensioning tolerance is to:", 
+        answer: 0,
+        explanation: "In isometric projection, a circle appears as an ellipse due to the 30° axis angles distorting circular shapes."
+      },
+      { 
+        q: "The purpose of a dimensioning tolerance is to:", 
         options: ["Specify acceptable limits of variation", "Show material type", "Indicate assembly sequence", "Show hidden features"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Dimensioning tolerances specify acceptable variation limits for manufacturing, ensuring parts fit. Other options are unrelated."
+      },
 
       // Electro-Mechanical (3 MCQs)
-      { q: "The main difference between a series and shunt DC motor is:", 
+      { 
+        q: "The main difference between a series and shunt DC motor is:", 
         options: ["Field winding connection", "Armature resistance", "Commutator design", "Rotor material"], 
-        answer: 0 },
-      { q: "The function of a field coil in a DC generator is to:", 
+        answer: 0,
+        explanation: "Series DC motors have field windings in series with the armature, while shunt motors have them in parallel, affecting torque and speed characteristics."
+      },
+      { 
+        q: "The function of a field coil in a DC generator is to:", 
         options: ["Produce magnetic flux", "Collect current", "Increase voltage", "Reduce resistance"], 
-        answer: 0 },
-      { q: "The power factor of an AC motor is improved by:", 
+        answer: 0,
+        explanation: "Field coils in a DC generator create magnetic flux, inducing voltage in the armature. Current collection is done by brushes."
+      },
+      { 
+        q: "The power factor of an AC motor is improved by:", 
         options: ["Adding capacitors", "Increasing load", "Reducing voltage", "Changing frequency"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Adding capacitors corrects the power factor of AC motors by compensating for inductive lag, improving efficiency."
+      },
 
       // Industrial Boiler (5 MCQs)
-      { q: "The main purpose of a water level indicator in a boiler is to:", 
+      { 
+        q: "The main purpose of a water level indicator in a boiler is to:", 
         options: ["Monitor water level", "Increase steam pressure", "Regulate fuel supply", "Cool the flue gases"], 
-        answer: 0 },
-      { q: "The efficiency of a boiler is primarily affected by:", 
+        answer: 0,
+        explanation: "Water level indicators monitor boiler water levels to prevent dry firing or overfilling, ensuring safe operation."
+      },
+      { 
+        q: "The efficiency of a boiler is primarily affected by:", 
         options: ["Heat losses in flue gases", "Steam pressure", "Fuel type only", "Boiler size"], 
-        answer: 0 },
-      { q: "The main advantage of a Lancashire boiler is:", 
+        answer: 0,
+        explanation: "Heat losses in flue gases are the primary factor reducing boiler efficiency, as they carry away usable heat."
+      },
+      { 
+        q: "The main advantage of a Lancashire boiler is:", 
         options: ["Simple design and reliability", "High pressure capability", "Compact size", "Low fuel consumption"], 
-        answer: 0 },
-      { q: "The function of a stop valve in a boiler is to:", 
+        answer: 0,
+        explanation: "Lancashire boilers are valued for their simple, reliable design, suitable for low-pressure applications, not high pressure or compactness."
+      },
+      { 
+        q: "The function of a stop valve in a boiler is to:", 
         options: ["Control steam flow to the system", "Remove condensate", "Increase fuel combustion", "Preheat feedwater"], 
-        answer: 0 },
-      { q: "The primary fuel for industrial boilers is typically:", 
+        answer: 0,
+        explanation: "Stop valves control steam flow from the boiler to the system, isolating it when needed. Other functions are handled by different components."
+      },
+      { 
+        q: "The primary fuel for industrial boilers is typically:", 
         options: ["Coal or natural gas", "Wood only", "Nuclear energy", "Solar energy"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Industrial boilers commonly use coal or natural gas for their high energy content and availability. Nuclear and solar are less common."
+      },
 
       // Heat Engines (5 MCQs)
-      { q: "The thermal efficiency of a Diesel cycle is generally:", 
+      { 
+        q: "The thermal efficiency of a Diesel cycle is generally:", 
         options: ["Higher than Otto cycle for same compression ratio", "Lower than Otto cycle", "Equal to Otto cycle", "Zero"], 
-        answer: 0 },
-      { q: "The main function of a camshaft in an engine is to:", 
+        answer: 0,
+        explanation: "Diesel cycle efficiency is higher than Otto for the same compression ratio due to higher expansion ratios, though it depends on cutoff ratio."
+      },
+      { 
+        q: "The main function of a camshaft in an engine is to:", 
         options: ["Control valve timing", "Transmit torque", "Cool the engine", "Ignite the fuel"], 
-        answer: 0 },
-      { q: "The primary difference between a steam engine and an automotive engine is:", 
+        answer: 0,
+        explanation: "The camshaft controls valve timing, opening and closing valves in sync with the engine cycle. Other functions are handled elsewhere."
+      },
+      { 
+        q: "The primary difference between a steam engine and an automotive engine is:", 
         options: ["External vs. internal combustion", "Fuel type", "Cycle efficiency", "Power output"], 
-        answer: 0 },
-      { q: "The power plant used in civil aircraft is typically:", 
+        answer: 0,
+        explanation: "Steam engines use external combustion (heat applied externally), while automotive engines use internal combustion (fuel burned inside)."
+      },
+      { 
+        q: "The power plant used in civil aircraft is typically:", 
         options: ["Gas turbine engine", "Steam engine", "Diesel engine", "Two-stroke engine"], 
-        answer: 0 },
-      { q: "The main purpose of a throttle valve in an engine is to:", 
+        answer: 0,
+        explanation: "Civil aircraft use gas turbine engines (jet engines) for their high power-to-weight ratio. Other engines are impractical for aviation."
+      },
+      { 
+        q: "The main purpose of a throttle valve in an engine is to:", 
         options: ["Regulate air-fuel mixture", "Ignite the fuel", "Cool the engine", "Increase exhaust pressure"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Throttle valves regulate the air-fuel mixture entering the engine, controlling power output. Other functions are unrelated."
+      },
 
       // Industrial Management (6 MCQs)
-      { q: "The main function of the International Labour Organization (ILO) is to:", 
+      { 
+        q: "The main function of the International Labour Organization (ILO) is to:", 
         options: ["Promote workers’ rights and standards", "Regulate international trade", "Develop aviation standards", "Manage environmental policies"], 
-        answer: 0 },
-      { q: "The primary purpose of a labor law is to:", 
+        answer: 0,
+        explanation: "The ILO promotes workers’ rights, labor standards, and decent work globally. It doesn’t regulate trade, aviation, or environmental policies."
+      },
+      { 
+        q: "The primary purpose of a labor law is to:", 
         options: ["Protect employee rights", "Increase production costs", "Reduce market competition", "Develop new technologies"], 
-        answer: 0 },
-      { q: "The main objective of industrial hygiene is to:", 
+        answer: 0,
+        explanation: "Labor laws protect employee rights, ensuring fair wages, safety, and conditions. They don’t aim to increase costs or reduce competition."
+      },
+      { 
+        q: "The main objective of industrial hygiene is to:", 
         options: ["Prevent workplace health hazards", "Increase employee workload", "Reduce product quality", "Develop marketing strategies"], 
-        answer: 0 },
-      { q: "The function of the International Civil Aviation Organization (ICAO) is to:", 
+        answer: 0,
+        explanation: "Industrial hygiene prevents workplace health hazards, like exposure to chemicals or noise, ensuring worker safety."
+      },
+      { 
+        q: "The function of the International Civil Aviation Organization (ICAO) is to:", 
         options: ["Set global aviation standards", "Manage labor unions", "Regulate industrial safety", "Promote environmental policies"], 
-        answer: 0 },
-      { q: "The main purpose of a collective bargaining agreement is to:", 
+        answer: 0,
+        explanation: "ICAO sets global aviation standards for safety and navigation. It doesn’t manage unions, industrial safety, or environmental policies."
+      },
+      { 
+        q: "The main purpose of a collective bargaining agreement is to:", 
         options: ["Negotiate worker terms with management", "Increase production costs", "Develop new products", "Reduce market share"], 
-        answer: 0 },
-      { q: "The primary goal of workplace safety regulations is to:", 
+        answer: 0,
+        explanation: "Collective bargaining agreements negotiate terms like wages and conditions between workers and management, not costs or products."
+      },
+      { 
+        q: "The primary goal of workplace safety regulations is to:", 
         options: ["Minimize occupational hazards", "Maximize employee workload", "Increase production costs", "Develop new technologies"], 
-        answer: 0 },
+        answer: 0,
+        explanation: "Workplace safety regulations aim to minimize occupational hazards, protecting workers from injury or illness."
+      },
 
       // Estimating and Costing (3 MCQs)
-      { q: "The break-even point is the level of production where:", 
+      { 
+        q: "The break-even point is the level of production where:", 
         options: ["Total revenue equals total cost", "Profit is maximized", "Costs are minimized", "Revenue is zero"], 
-        answer: 0 },
-      { q: "The main purpose of depreciation in costing is to:", 
+        answer: 0,
+        explanation: "The break-even point is where total revenue equals total cost, resulting in no profit or loss. Other options are incorrect."
+      },
+      { 
+        q: "The main purpose of depreciation in costing is to:", 
         options: ["Allocate asset cost over its useful life", "Increase asset value", "Reduce tax liability", "Calculate profit"], 
-        answer: 0 },
-      { q: "The return on investment (ROI) measures:", 
+        answer: 0,
+        explanation: "Depreciation allocates an asset’s cost over its useful life for accounting accuracy. It doesn’t increase value or directly calculate profit."
+      },
+      { 
+        q: "The return on investment (ROI) measures:", 
         options: ["Profit relative to investment cost", "Total revenue", "Fixed cost percentage", "Variable cost ratio"], 
-        answer: 0 }
+        answer: 0,
+        explanation: "ROI measures profit as a percentage of investment cost, assessing investment efficiency. It’s not about revenue or cost ratios."
+      }
     ];
 
     let currentPage = 0;
@@ -386,7 +571,7 @@
     let timerSeconds = 0;
     let timerInterval;
     const QUESTIONS_PER_PAGE = 5;
-    const ANSWER_DELAY = 1500; // 1.5 seconds delay
+    const ANSWER_DELAY = 1500;
 
     const quizEl = document.getElementById("quiz");
     const scoreEl = document.getElementById("score");
@@ -402,10 +587,10 @@
       const saved = localStorage.getItem("quizProgress14");
       if (saved) {
         const { currentPage: savedPage, score: savedScore, skipped: savedSkipped, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
-        currentPage = savedPage;
-        score = savedScore;
-        skipped = savedSkipped;
-        userAnswers = savedAnswers || Array(questions.length).fill(null);
+        currentPage = savedPage || 0;
+        score = savedScore || 0;
+        skipped = savedSkipped || [];
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
         timerSeconds = savedTime || 0;
       }
     }
@@ -435,6 +620,10 @@
 
     // Start timer
     function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
       timerInterval = setInterval(() => {
         timerSeconds++;
         const minutes = Math.floor(timerSeconds / 60);
@@ -445,8 +634,24 @@
 
     // Update progress bar
     function updateProgress() {
-      const percentage = ((currentPage * QUESTIONS_PER_PAGE) / questions.length) * 100;
+      const answeredOrSkipped = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answeredOrSkipped / questions.length) * 100;
       progressEl.style.width = `${percentage}%`;
+    }
+
+    // Escape special characters for JavaScript string
+    function escapeJsString(str) {
+      return str
+        .replace(/'/g, "\\'")
+        .replace(/\u2212/g, '-') // Mathematical minus to hyphen
+        .replace(/ᵥ/g, 'v')
+        .replace(/ₚ/g, 'p')
+        .replace(/\u2019/g, "'") // Curly apostrophe to straight
+        .replace(/\u00B0/g, "°") // Degree symbol
+        .replace(/\u00B2/g, "²") // Superscript 2
+        .replace(/\//g, "/") // Forward slash
+        .replace(/₂/g, "₂") // Subscript 2
+        .replace(/\u2022/g, "·"); // Middle dot
     }
 
     // Show questions for the current page
@@ -458,12 +663,13 @@
         const q = shuffledQuestions[i];
         const shuffledOptions = shuffle([...q.options].map((opt, j) => ({ text: opt, index: j })));
         const options = shuffledOptions
-          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${opt.text.replace(/'/g, "\\'")}')">${opt.text}</button>`)
+          .map(opt => `<button onclick="checkAnswer(this, ${i}, ${opt.index}, '${escapeJsString(opt.text)}')">${opt.text}</button>`)
           .join('');
         html += `
           <div class="question" data-index="${i}">
             <p>Q${i + 1}. ${q.q}</p>
             <div class="options">${options}</div>
+            <div class="explanation">${q.explanation}</div>
             <button class="skip-button" onclick="skipQuestion(${i})">Skip</button>
           </div>
         `;
@@ -484,7 +690,8 @@
       const buttons = button.parentElement.querySelectorAll("button");
       buttons.forEach((btn) => {
         btn.disabled = true;
-        if (q.options.indexOf(btn.innerText) === correct) btn.classList.add("correct");
+        const originalIndex = q.options.indexOf(btn.innerText);
+        if (originalIndex === correct) btn.classList.add("correct");
         if (btn === button && selected !== correct) btn.classList.add("wrong");
       });
 
@@ -496,18 +703,33 @@
         wrongSound.play().catch(() => console.log("Audio playback failed"));
       }
 
-      saveProgress();
-      checkNextButton();
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
+      setTimeout(() => {
+        saveProgress();
+        checkNextButton();
+      }, ANSWER_DELAY);
     }
 
     // Skip question
     function skipQuestion(questionIndex) {
-      if (!skipped.includes(shuffledQuestions[questionIndex])) {
-        skipped.push(shuffledQuestions[questionIndex]);
+      if (!skipped.includes(questionIndex)) {
+        skipped.push(questionIndex);
         userAnswers[questionIndex] = "Skipped";
       }
       const buttons = document.querySelector(`.question[data-index="${questionIndex}"] .options`).querySelectorAll("button");
       buttons.forEach(btn => btn.disabled = true);
+
+      // Show explanation
+      const explanationEl = document.querySelector(`.question[data-index="${questionIndex}"] .explanation`);
+      if (explanationEl) {
+        explanationEl.style.display = 'block';
+      }
+
       saveProgress();
       checkNextButton();
     }
@@ -560,6 +782,7 @@
             <td>${userAnswer}</td>
             <td>${correctAnswer}</td>
             <td class="${status.toLowerCase()}">${status}</td>
+            <td>${q.explanation}</td>
           </tr>
         `;
       }).join('');
