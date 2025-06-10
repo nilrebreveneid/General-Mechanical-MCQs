@@ -356,121 +356,686 @@
 
   <script>
     const questions = [
-      { q: "The unit of temperature is based on:", options: ["Boiling point of mercury", "Triple point of water"], answer: 1, explanation: "The Kelvin scale is defined using the triple point of water." },
-      { q: "Absolute zero temperature is taken as:", options: ["237°C", "-273°C"], answer: 1, explanation: "Absolute zero is approximately -273.15°C, where molecular motion stops." },
-      { q: "Essential condition for heat transfer is:", options: ["Difference in conductivity", "Difference in temperature"], answer: 1, explanation: "Heat flows from higher to lower temperature." },
-      { q: "A constant volume air thermometer works on:", options: ["Archimedes’ principle", "Charles’ Law"], answer: 1, explanation: "Charles’ Law relates pressure to temperature at constant volume." },
-      { q: "The greater the temperature difference:", options: ["Lower is the heat transfer rate", "Higher is the heat transfer rate"], answer: 1, explanation: "Larger temperature differences increase heat transfer rate." },
-      { q: "The calorific value of gaseous fuel is expressed in:", options: ["kcal/min", "kcal/m³"], answer: 1, explanation: "Calorific value for gases is often in kcal/m³." },
-      { q: "When expansion/compression follows PVⁿ = constant, it is:", options: ["Hyperbolic process", "Polytropic process"], answer: 1, explanation: "PVⁿ = constant defines a polytropic process." },
-      { q: "Change in enthalpy equals heat supplied at:", options: ["Constant temperature", "Constant pressure"], answer: 1, explanation: "Enthalpy change equals heat at constant pressure." },
-      { q: "The value of Cp/Cv for air is:", options: ["1.2", "1.4"], answer: 1, explanation: "For air, Cp/Cv is approximately 1.4." },
-      { q: "Isothermal and adiabatic processes are identical at:", options: ["Saturation temperature", "Critical temperature"], answer: 1, explanation: "At critical temperature, processes may coincide." },
-      { q: "The property of a working substance that increases or decreases as heat is supplied or removed:", options: ["External energy", "Internal energy"], answer: 1, explanation: "Internal energy changes with heat addition/removal." },
-      { q: "A gas behaves as an ideal gas at:", options: ["Very high pressure", "Low pressure"], answer: 1, explanation: "Ideal gas behavior is best at low pressure." },
-      { q: "The efficiency of the Joule cycle is:", options: ["Greater than Carnot cycle", "Less than Carnot cycle"], answer: 1, explanation: "Joule cycle is less efficient than Carnot." },
-      { q: "In water cooling, water in the jacket obtains heat due to:", options: ["Radiation", "All of the above"], answer: 1, explanation: "Heat transfer includes conduction, convection, and radiation." },
-      { q: "Heat engine attains 100% thermal efficiency: it violates:", options: ["First law of thermodynamics", "Second law of thermodynamics"], answer: 1, explanation: "100% efficiency violates the second law." },
-      { q: "Suction, compression, expansion, and exhaust strokes take place in:", options: ["Steam engine", "Diesel engine"], answer: 1, explanation: "Diesel engines have these strokes." },
-      { q: "Which power plant engine is rarely used in civil aircraft?", options: ["None of the above", "Turbo propeller engine"], answer: 1, explanation: "Turbo props are less common in civil aircraft." },
-      { q: "Second law of thermodynamics defines:", options: ["Work", "Entropy"], answer: 1, explanation: "The second law introduces entropy." },
-      { q: "Internal energy and enthalpy of ideal gas are the function of:", options: ["Pressure only", "Temperature only"], answer: 1, explanation: "For ideal gases, U and H depend on temperature." },
-      { q: "When a process undergoes a complete cycle, the change of entropy is:", options: ["Positive", "Zero"], answer: 1, explanation: "Entropy change is zero for a reversible cycle." },
-      { q: "The specific heat of air at constant volume is equal to:", options: ["0.17", "0.21"], answer: 0, explanation: "Specific heat at constant volume for air is approximately 0.17 kcal/kg·K." },
-      { q: "The change in enthalpy of an ideal gas during an adiabatic process is:", options: ["mCᵥ(T₂ − T₁)", "mCₚ(T₂ − T₁)"], answer: 1, explanation: "Enthalpy change in adiabatic process is mCₚ(T₂ − T₁)." },
-      { q: "Heat transferred to a closed system during an isochoric process is equal to:", options: ["Change in enthalpy", "Change in internal energy"], answer: 1, explanation: "Heat equals change in internal energy at constant volume." },
-      { q: "Gas heated such that PV = const, heat supplied is equal to:", options: ["Change in internal energy", "Product of pressure and volume"], answer: 0, explanation: "For PV = constant, heat equals internal energy change." },
-      { q: "Water at 48 kg/cm² and 160°C when exposed to atmosphere will:", options: ["Cool down", "Flash i.e. get converted into steam"], answer: 1, explanation: "High-pressure water flashes to steam at atmospheric pressure." },
-      { q: "The device that converts heat energy into work during cyclic process is:", options: ["Heat pump", "Heat engine"], answer: 1, explanation: "Heat engines convert heat to work." },
-      { q: "Work done in a free expansion process is:", options: ["Positive", "Zero"], answer: 1, explanation: "No work is done in free expansion." },
-      { q: "Which coal has the highest calorific value?", options: ["Bituminous coal", "Anthracite coal"], answer: 1, explanation: "Anthracite has the highest calorific value." },
-      { q: "In an isothermal process:", options: ["There is no change in enthalpy", "All of the above"], answer: 0, explanation: "Enthalpy is constant in an isothermal process for ideal gases." },
-      { q: "According to the 1st Law of Thermodynamics:", options: ["Mass and light are mutually convertible", "Heat and work are mutually convertible"], answer: 1, explanation: "First law states heat and work are convertible." },
-      { q: "Which parameter changes during an isothermal process?", options: ["Pressure or volume", "Temperature"], answer: 0, explanation: "Temperature is constant; pressure and volume change." },
-      { q: "Which characteristic does not change in a reversible isothermal process?", options: ["Enthalpy", "Entropy"], answer: 0, explanation: "Enthalpy is constant in reversible isothermal processes." },
-      { q: "For any natural process, the entropy change would be:", options: ["Negative", "Positive"], answer: 1, explanation: "Entropy increases in natural processes." },
-      { q: "Which laws apply to behavior of perfect gas?", options: ["Boyle’s law", "Both Boyle’s law and Charles’s law"], answer: 1, explanation: "Both laws apply to ideal gases." },
-      { q: "Water at standard atmospheric conditions:", options: ["Is mostly liquid", "Behaves as an ideal gas"], answer: 0, explanation: "Water is liquid at standard conditions." },
-      { q: "Increase in entropy of a system means:", options: ["Increase in availability of energy", "Degradation of energy"], answer: 1, explanation: "Entropy increase indicates energy degradation." },
-      { q: "Step 2 in Carnot cycle is:", options: ["Isentropic expansion", "Isothermal expansion"], answer: 1, explanation: "Step 2 is isothermal expansion." },
-      { q: "Thermal power plants operate on which cycle?", options: ["Otto cycle", "Rankine cycle"], answer: 1, explanation: "Thermal plants use the Rankine cycle." },
-      { q: "Carnot cycle has maximum efficiency for:", options: ["Irreversible engine", "Reversible engine"], answer: 1, explanation: "Carnot cycle is most efficient for reversible engines." },
-      { q: "General gas equation is:", options: ["PV = mRT", "PV = nRT"], answer: 1, explanation: "The ideal gas law is PV = nRT." },
-      { q: "Change in enthalpy of a system is the heat supplied at:", options: ["Constant temperature", "Constant pressure"], answer: 1, explanation: "Enthalpy change equals heat at constant pressure." },
-      { q: "Energy can neither be created nor destroyed. This is:", options: ["3rd law of thermodynamics", "1st law of thermodynamics"], answer: 1, explanation: "First law is conservation of energy." },
-      { q: "Water is a ____ fluid.", options: ["Real", "Ideal"], answer: 0, explanation: "Water is a real fluid with complex behavior." },
-      { q: "As octane number increases, knocking tendency of petrol engine:", options: ["Remains same", "Decreases"], answer: 1, explanation: "Higher octane reduces knocking." },
-      { q: "Bar is the unit of:", options: ["Power", "Pressure"], answer: 1, explanation: "Bar measures pressure." },
-      { q: "Which refrigerant has the highest latent heat?", options: ["Freon-12", "Ammonia"], answer: 1, explanation: "Ammonia has high latent heat." },
-      { q: "Closeness of measured value to true value is:", options: ["Accuracy", "Precision"], answer: 0, explanation: "Accuracy measures closeness to true value." },
-      { q: "Product of pressure and volume constant (PV = const):", options: ["Gas law", "Boyle’s law"], answer: 1, explanation: "Boyle’s law states PV = constant." },
-      { q: "As temperature of I.C. engine increases, efficiency will:", options: ["Decrease", "Increase"], answer: 1, explanation: "Higher temperatures can improve efficiency." },
-      { q: "Nepal Vehicle Mass Emission Standard 2069 is equivalent to:", options: ["ISO 9001", "Euro III"], answer: 1, explanation: "Nepal’s standard aligns with Euro III." },
-      { q: "The two basic types of internal combustion engines are:", options: ["Piston and reciprocating", "Reciprocating and rotary"], answer: 1, explanation: "IC engines are reciprocating or rotary." },
-      { q: "If hot and cold water are mixed, the entropy of the system will:", options: ["Decrease", "Increase"], answer: 1, explanation: "Mixing increases entropy." },
-      { q: "The change in internal energy of an ideal gas during an adiabatic process is:", options: ["mCp ln(T₂ / T₁)", "mCv(T₂ − T₁)"], answer: 1, explanation: "Internal energy change is mCv(T₂ − T₁)." },
-      { q: "The heating and expanding of a gas is called:", options: ["Thermodynamic system", "Thermodynamic process"], answer: 1, explanation: "This describes a thermodynamic process." },
-      { q: "In an irreversible process there is:", options: ["No loss of heat", "Loss of heat"], answer: 1, explanation: "Irreversible processes involve losses." },
-      { q: "Equation of state gives relationship between:", options: ["Volume and temperature", "Pressure, volume, and temperature"], answer: 1, explanation: "Equation of state relates P, V, T." },
-      { q: "The constant volume cycle is also called:", options: ["Carnot cycle", "Otto cycle"], answer: 1, explanation: "Otto cycle is constant volume." },
-      { q: "Specific fuel consumption is defined as:", options: ["Fuel consumption per BHP", "Fuel consumption per hour"], answer: 0, explanation: "SFC is fuel per unit power." },
-      { q: "The expression which does not give the efficiency of Otto cycle is:", options: ["Temperature after compression", "Temperature before expansion"], answer: 0, explanation: "Efficiency depends on compression ratio." },
-      { q: "Any process in which no heat can flow into or out of the system is called:", options: ["Isothermal process", "Adiabatic process"], answer: 1, explanation: "Adiabatic processes have no heat transfer." },
-      { q: "First law of thermodynamics deals with:", options: ["Conservation of mass", "Conservation of energy"], answer: 1, explanation: "First law is energy conservation." },
-      { q: "Internal energy of a substance depends on:", options: ["Volume", "Temperature"], answer: 1, explanation: "Internal energy depends on temperature for ideal gases." },
-      { q: "A thermodynamic system refers to:", options: ["Any defined region in space", "A prescribed and identifiable quantity of matter"], answer: 1, explanation: "A system is a defined quantity of matter." },
-      { q: "Enthalpy is defined as the sum of:", options: ["Volume and pressure", "Internal energy and the product of pressure and volume"], answer: 1, explanation: "Enthalpy is U + PV." },
-      { q: "Heat transferred during an isobaric process is equal to:", options: ["Change in internal energy", "Change in enthalpy"], answer: 1, explanation: "Heat equals enthalpy change at constant pressure." },
-      { q: "Which does not change during reversible adiabatic process?", options: ["Internal energy", "Entropy"], answer: 1, explanation: "Entropy is constant in reversible adiabatic processes." },
-      { q: "Most gases behave as ideal gases at:", options: ["High pressure and low temperature", "Low pressure and high temperature"], answer: 1, explanation: "Ideal gas behavior occurs at low pressure, high temperature." },
-      { q: "Which is not a property of thermodynamic system?", options: ["Heat", "Thermal conductivity"], answer: 1, explanation: "Thermal conductivity is not a state property." },
-      { q: "Entropy is a property of the system because:", options: ["It depends on path", "It has same value at each equilibrium state"], answer: 1, explanation: "Entropy is a state function." },
-      { q: "Temperature of a gas is due to:", options: ["Its heating value", "Kinetic energy of molecules"], answer: 1, explanation: "Temperature reflects molecular kinetic energy." },
-      { q: "When expansion/compression occurs under PVⁿ = constant:", options: ["Adiabatic process", "Polytropic process"], answer: 1, explanation: "PVⁿ = constant is polytropic." },
-      { q: "Which of the following is not an external combustion engine?", options: ["Steam engine", "Pelton turbine"], answer: 1, explanation: "Pelton turbine is not an engine." },
-      { q: "The engine in which fuel combusts inside the cylinder is called:", options: ["Internal combustion engine", "Both A and B"], answer: 0, explanation: "IC engines burn fuel internally." },
-      { q: "Compression ratio of diesel engine:", options: ["10 to 15", "16 to 20"], answer: 1, explanation: "Diesel engines have higher compression ratios." },
-      { q: "Otto cycle is also known as:", options: ["Constant pressure cycle", "Constant volume cycle"], answer: 1, explanation: "Otto cycle is constant volume." },
-      { q: "Diesel engine operates on:", options: ["Constant volume cycle", "Constant pressure cycle"], answer: 1, explanation: "Diesel cycle is constant pressure." },
-      { q: "Which of the following is not an internal combustion engine?", options: ["Diesel engine", "Gas turbine"], answer: 0, explanation: "Both are internal combustion engines." },
-      { q: "A reversible cycle means:", options: ["Irreversible cycle", "Reversible cycle"], answer: 1, explanation: "Reversible cycles return to initial state without losses." },
-      { q: "Under what condition does enthalpy change equal heat supplied?", options: ["Constant volume", "Constant pressure"], answer: 1, explanation: "Enthalpy change equals heat at constant pressure." },
-      { q: "Gas laws are least valid for:", options: ["Mono-atomic gases", "Real gases"], answer: 1, explanation: "Real gases deviate from ideal gas laws." },
-      { q: "As compared to real gas at high pressure, ideal gas occupies:", options: ["More volume", "Less volume"], answer: 0, explanation: "Ideal gases occupy more volume at high pressure." },
-      { q: "Condensing steam engine is:", options: ["Slow speed engine", "Condensing steam engine"], answer: 1, explanation: "Condensing steam engines use condensers." },
-      { q: "Steam engines are:", options: ["Internal combustion engine", "External combustion engine"], answer: 1, explanation: "Steam engines are external combustion." },
-      { q: "Steam vs automotive engine:", options: ["Otto vs Rankine cycle", "I.C. vs external combustion"], answer: 1, explanation: "Steam is external; automotive is internal." },
-      { q: "All steam engines follow:", options: ["Zeroth law of thermodynamics", "Second law of thermodynamics"], answer: 1, explanation: "Steam engines obey the second law." },
-      { q: "Chemically correct air-fuel ratio is:", options: ["7:1", "15:1"], answer: 1, explanation: "Stoichiometric ratio is around 15:1 for petrol." },
-      { q: "Heat cannot flow from cold to hot body by itself. This is:", options: ["Zeroth law", "Second law of thermodynamics"], answer: 1, explanation: "Second law governs heat flow direction." },
-      { q: "Two constant volume + two adiabatic processes = ?", options: ["Joule cycle", "Otto cycle"], answer: 1, explanation: "Otto cycle includes these processes." },
-      { q: "At TDC, volume above piston is:", options: ["Compression ratio", "Clearance volume"], answer: 1, explanation: "TDC volume is clearance volume." },
-      { q: "Suction, compression, exhaust strokes happen in:", options: ["Diesel engine", "Petrol engine"], answer: 1, explanation: "Both engines have these strokes." },
-      { q: "Heat during polytropic process is:", options: ["Product of pressure and volume", "Change in entropy"], answer: 0, explanation: "Heat depends on process specifics." },
-      { q: "No heat exchange, only work transfer:", options: ["Isothermal", "Adiabatic"], answer: 1, explanation: "Adiabatic processes involve no heat transfer." },
-      { q: "Study of energy transfer and conversion:", options: ["Heat transfer", "Thermodynamics"], answer: 1, explanation: "Thermodynamics studies energy transfer." },
-      { q: "In adiabatic process, which stays constant:", options: ["Temperature", "Total heat of system"], answer: 1, explanation: "Heat is constant in adiabatic processes." },
-      { q: "Entropy change between two points via any path is:", options: ["Different", "Same"], answer: 1, explanation: "Entropy is a state function." },
-      { q: "Ideal gas behavior is shown best at:", options: ["High pressure & temp", "Low pressure & high temperature"], answer: 1, explanation: "Ideal gases behave best at low pressure, high temperature." },
-      { q: "Not a property of thermodynamic system:", options: ["Pressure", "Thermal conductivity"], answer: 1, explanation: "Thermal conductivity is not a state property." },
-      { q: "Entropy is a property because:", options: ["Depends on path", "Has same value at equilibrium"], answer: 1, explanation: "Entropy is a state function." },
-      { q: "Temperature of gas comes from:", options: ["Its heating value", "Kinetic energy of molecules"], answer: 1, explanation: "Temperature reflects molecular kinetic energy." },
-      { q: "PVⁿ = constant process is:", options: ["Adiabatic", "Polytropic"], answer: 1, explanation: "PVⁿ = constant is polytropic." },
-      { q: "Internal energy depends on:", options: ["Volume", "Temperature"], answer: 1, explanation: "Internal energy depends on temperature for ideal gases." },
-      { q: "Thermodynamic system is:", options: ["Region in space", "Defined quantity of matter"], answer: 1, explanation: "A system is a defined quantity of matter." },
-      { q: "Modes of heat transfer:", options: ["Conduction", "All of the above"], answer: 1, explanation: "Heat transfer includes conduction, convection, radiation." },
-      { q: "SI unit of compressibility:", options: ["Nsec²", "N/m²"], answer: 1, explanation: "Compressibility relates to pressure (N/m²)." },
-      { q: "Correct about flow meters:", options: ["Orifice more accurate than nozzle", "Venturi meter more accurate"], answer: 1, explanation: "Venturi meters are more accurate." },
-      { q: "Cycle used in gas turbines:", options: ["Otto", "Brayton"], answer: 1, explanation: "Gas turbines use the Brayton cycle." },
-      { q: "Heat to raise 1kg by 1°C:", options: ["Heat treatment", "Specific heat capacity"], answer: 1, explanation: "Specific heat capacity is heat per kg per °C." },
-      { q: "1st law of thermodynamics:", options: ["dQ = dU - dW", "dQ = dU + dW"], answer: 1, explanation: "First law is dQ = dU + dW." },
-      { q: "No heat flow, but work occurs:", options: ["Reversible", "Adiabatic"], answer: 1, explanation: "Adiabatic processes involve work, no heat." },
-      { q: "Boyle’s Law is:", options: ["Charles’s law", "P ∝ 1/V"], answer: 1, explanation: "Boyle’s law states P ∝ 1/V." },
-      { q: "Open thermodynamic system example:", options: ["Pressure cooker", "Centrifugal pump"], answer: 1, explanation: "Centrifugal pumps are open systems." },
-      { q: "Compression ratio definition:", options: ["Swept volume / cylinder volume", "Volume before / after compression"], answer: 1, explanation: "Compression ratio is total volume / clearance volume." },
-      { q: "Gas constant (R) is:", options: ["Sum of Cp & Cv", "Difference of Cp & Cv"], answer: 1, explanation: "R = Cp - Cv for ideal gases." }
-    ];
-
+  {
+    "q": "The unit of temperature is based on:",
+    "options": ["Boiling point of mercury", "Triple point of water", "Freezing point of alcohol", "Melting point of ice"],
+    "answer": 1,
+    "explanation": "The Kelvin scale is defined using the triple point of water (273.16 K). Boiling mercury, freezing alcohol, and melting ice are not standard references for temperature units."
+  },
+  {
+    "q": "Absolute zero temperature is taken as:",
+    "options": ["237°C", "-273°C", "0°C", "-237°C"],
+    "answer": 1,
+    "explanation": "Absolute zero is approximately -273.15°C, where molecular motion theoretically stops. Other values are incorrect and do not represent absolute zero."
+  },
+  {
+    "q": "Essential condition for heat transfer is:",
+    "options": ["Difference in conductivity", "Difference in temperature", "Same temperature", "High pressure"],
+    "answer": 1,
+    "explanation": "Heat flows from higher to lower temperature per thermodynamic principles. Conductivity affects the rate, same temperature prevents flow, and pressure is secondary."
+  },
+  {
+    "q": "A constant volume air thermometer works on:",
+    "options": ["Archimedes’ principle", "Charles’ Law", "Boyle’s Law", "Avogadro’s Law"],
+    "answer": 1,
+    "explanation": "Charles’ Law (P ∝ T at constant volume) governs constant volume thermometers. Archimedes’ principle is unrelated, Boyle’s Law applies to constant temperature, and Avogadro’s Law involves moles."
+  },
+  {
+    "q": "The greater the temperature difference:",
+    "options": ["Lower is the heat transfer rate", "Higher is the heat transfer rate", "No effect on rate", "Inversely proportional"],
+    "answer": 1,
+    "explanation": "Larger temperature differences increase heat transfer rate per Fourier’s or Newton’s laws. Lower rate, no effect, or inverse proportionality contradict thermodynamics."
+  },
+  {
+    "q": "The calorific value of gaseous fuel is expressed in:",
+    "options": ["kcal/min", "kcal/m³", "kcal/kg", "kcal/s"],
+    "answer": 1,
+    "explanation": "Calorific value for gases is typically in kcal/m³, reflecting energy per unit volume. kcal/kg is for solids/liquids, and kcal/min or kcal/s are rates, not energy content."
+  },
+  {
+    "q": "When expansion/compression follows PVⁿ = constant, it is:",
+    "options": ["Hyperbolic process", "Polytropic process", "Isothermal process", "Adiabatic process"],
+    "answer": 1,
+    "explanation": "PVⁿ = constant defines a polytropic process, encompassing various processes depending on n. Hyperbolic is PV = constant, isothermal is T constant, and adiabatic has a specific n."
+  },
+  {
+    "q": "Change in enthalpy equals heat supplied at:",
+    "options": ["Constant temperature", "Constant pressure", "Constant volume", "Adiabatic conditions"],
+    "answer": 1,
+    "explanation": "Enthalpy change (ΔH = Q) occurs at constant pressure per the first law (Q = ΔU + PΔV). Constant volume relates to internal energy, constant temperature is not specific, and adiabatic implies no heat."
+  },
+  {
+    "q": "The value of Cp/Cv for air is:",
+    "options": ["1.2", "1.4", "1.0", "1.6"],
+    "answer": 1,
+    "explanation": "For air (a diatomic gas), Cp/Cv (γ) is approximately 1.4 at standard conditions. 1.0 implies isothermal behavior, and 1.2 or 1.6 are incorrect for air."
+  },
+  {
+    "q": "Isothermal and adiabatic processes are identical at:",
+    "options": ["Saturation temperature", "Critical temperature", "Absolute zero", "Boiling point"],
+    "answer": 1,
+    "explanation": "At the critical temperature, gas properties may cause isothermal and adiabatic processes to exhibit similar behavior due to minimal state changes. Saturation temperature, absolute zero, and boiling point are unrelated."
+  },
+  {
+    "q": "The property of a working substance that increases or decreases as heat is supplied or removed:",
+    "options": ["External energy", "Internal energy", "Kinetic energy", "Potential energy"],
+    "answer": 1,
+    "explanation": "Internal energy changes with heat addition or removal per the first law (ΔU = Q - W). External, kinetic, and potential energies are not directly tied to heat transfer in this context."
+  },
+  {
+    "q": "A gas behaves as an ideal gas at:",
+    "options": ["Very high pressure", "Low pressure", "High temperature only", "Low temperature"],
+    "answer": 1,
+    "explanation": "Ideal gas behavior is best at low pressure and high temperature, where intermolecular forces are negligible. High pressure or low temperature causes deviations, and temperature alone is insufficient."
+  },
+  {
+    "q": "The efficiency of the Joule cycle is:",
+    "options": ["Greater than Carnot cycle", "Less than Carnot cycle", "Equal to Carnot cycle", "Independent of temperature"],
+    "answer": 1,
+    "explanation": "The Joule (Brayton) cycle is less efficient than the Carnot cycle, which sets the maximum efficiency limit. Equality or independence from temperature is incorrect."
+  },
+  {
+    "q": "In water cooling, water in the jacket obtains heat due to:",
+    "options": ["Radiation", "All of the above", "Conduction only", "Convection only"],
+    "answer": 1,
+    "explanation": "Heat transfer to cooling water involves conduction (through cylinder walls), convection (within the jacket), and minor radiation. ‘All of the above’ is correct."
+  },
+  {
+    "q": "Heat engine attains 100% thermal efficiency: it violates:",
+    "options": ["First law of thermodynamics", "Second law of thermodynamics", "Zeroth law", "Third law"],
+    "answer": 1,
+    "explanation": "100% efficiency violates the second law, which states some heat must be rejected to a cold reservoir. The first law concerns energy conservation, and zeroth/third laws are unrelated."
+  },
+  {
+    "q": "Suction, compression, expansion, and exhaust strokes take place in:",
+    "options": ["Steam engine", "Diesel engine", "Gas turbine", "Rankine cycle engine"],
+    "answer": 1,
+    "explanation": "Diesel engines operate with these four strokes in a four-stroke cycle. Steam engines and Rankine cycle engines use continuous processes, and gas turbines lack distinct strokes."
+  },
+  {
+    "q": "Which power plant engine is rarely used in civil aircraft?",
+    "options": ["None of the above", "Turbo propeller engine", "Turbojet engine", "Turbofan engine"],
+    "answer": 1,
+    "explanation": "Turbo propeller engines are less common in modern civil aircraft, which favor turbojets or turbofans for efficiency and speed. ‘None of the above’ is incorrect."
+  },
+  {
+    "q": "Second law of thermodynamics defines:",
+    "options": ["Work", "Entropy", "Internal energy", "Enthalpy"],
+    "answer": 1,
+    "explanation": "The second law introduces entropy, a measure of disorder. Work, internal energy, and enthalpy are defined by the first law or other principles."
+  },
+  {
+    "q": "Internal energy and enthalpy of ideal gas are the function of:",
+    "options": ["Pressure only", "Temperature only", "Volume only", "Pressure and volume"],
+    "answer": 1,
+    "explanation": "For ideal gases, internal energy (U) and enthalpy (H = U + PV) depend only on temperature, as PV = nRT eliminates other dependencies."
+  },
+  {
+    "q": "When a process undergoes a complete cycle, the change of entropy is:",
+    "options": ["Positive", "Zero", "Negative", "Infinite"],
+    "answer": 1,
+    "explanation": "For a reversible cycle, entropy change is zero as the system returns to its initial state. Irreversible cycles increase entropy, but the question implies reversibility."
+  },
+  {
+    "q": "The specific heat of air at constant volume is equal to:",
+    "options": ["0.17 kcal/kg·K", "0.21 kcal/kg·K", "0.24 kcal/kg·K", "0.15 kcal/kg·K"],
+    "answer": 0,
+    "explanation": "Specific heat at constant volume for air is approximately 0.17 kcal/kg·K (~0.718 kJ/kg·K in SI units). Other values are incorrect or approximate Cp."
+  },
+  {
+    "q": "The change in enthalpy of an ideal gas during an adiabatic process is:",
+    "options": ["mCᵥ(T₂ − T₁)", "mCₚ(T₂ − T₁)", "Zero", "mR(T₂ − T₁)"],
+    "answer": 1,
+    "explanation": "Enthalpy change for an ideal gas is ΔH = mCₚ(T₂ − T₁), even in adiabatic processes, as H depends on temperature. Cᵥ relates to internal energy, zero is incorrect, and R is the gas constant."
+  },
+  {
+    "q": "Heat transferred to a closed system during an isochoric process is equal to:",
+    "options": ["Change in enthalpy", "Change in internal energy", "Change in work", "Zero"],
+    "answer": 1,
+    "explanation": "For an isochoric (constant volume) process, Q = ΔU (first law, W = 0). Enthalpy change applies to constant pressure, work is zero, and heat is not zero unless specified."
+  },
+  {
+    "q": "Gas heated such that PV = constant, heat supplied is equal to:",
+    "options": ["Work done", "Product of pressure and volume", "Change in enthalpy", "Zero"],
+    "answer": 0,
+    "explanation": "For an isothermal process (PV = constant, T constant), ΔU = 0 for an ideal gas, so Q = W (first law). Work is the heat supplied, not PV, enthalpy, or zero."
+  },
+  {
+    "q": "Water at 48 kg/cm² and 160°C when exposed to atmosphere will:",
+    "options": ["Cool down", "Flash i.e. get converted into steam", "Remain liquid", "Freeze"],
+    "answer": 1,
+    "explanation": "Water at 48 kg/cm² (~4.7 MPa) and 160°C is under high pressure. At atmospheric pressure (~0.1 MPa), it flashes to steam due to lower boiling point (~100°C). Cooling, remaining liquid, or freezing is unlikely."
+  },
+  {
+    "q": "The device that converts heat energy into work during a cyclic process is:",
+    "options": ["Heat pump", "Heat engine", "Refrigerator", "Compressor"],
+    "answer": 1,
+    "explanation": "Heat engines convert heat to work in a cyclic process, operating on cycles like Carnot Carnot or Rankine cycle. Heat pumps and refrigerators move heat, refrigerators move heat and compressors do work, not heat-to-work conversion."
+  },
+  {
+    "q": "Work done in a free expansion process is:",
+    "options": ["Positive", "Zero", "Negative", "Infinite"],
+    "answer": 1,
+    "explanation": "In free expansion (expansion into a vacuum), no external pressure is exerted, so W = PΔV = 0. Positive, negative, or infinite work are incorrect as no work is done."
+  },
+  {
+    "q": "Which coal has the highest calorific value?",
+    "options": ["Bituminous coal", "Anthracite coal", "Lignite coal", "Peat coal"],
+    "answer": "coal", "coal": 1,
+    "answer": 1,
+    "explanation": "Anthracite coal has the highest calorific value due to its high carbon content (~90%). Bituminous (~70%), lignite (~50%), and peat (~40%) have lower values."
+  },
+  {
+    "q": "In an isothermal process:",
+    "options": ["There is no change in enthalpy", "All of the above", "Change in internal energy", "Change in entropy"],
+    "answer": 0,
+    "explanation": "For an ideal gas in an isothermal process (T constant), ΔH = 0 as H depends on temperature. ΔU = 0, but entropy may change. ‘All of the above’ is incorrect."
+  },
+  {
+    "q": "According to the 1st Law of Thermodynamics:",
+    "options": ["Mass and light are mutually convertible", "Heat and work are mutually convertible", "Energy is destroyed", "Entropy is conserved"],
+    "answer": 1,
+    "explanation": "The first law states that heat and work are mutually convertible (Q = ΔU + W). Mass-light conversion is relativity, energy is conserved, and entropy relates to the second law."
+  },
+  {
+    "q": "Which parameter changes during an isothermal process?",
+    "options": ["Pressure or volume", "Temperature", "Internal energy", "Enthalpy"],
+    "answer": 0,
+    "explanation": "In an isothermal process, temperature is constant, so pressure and volume change (PV = nRT). Internal energy and enthalpy remain constant for ideal gases."
+  },
+  {
+    "q": "Which characteristic does not change in a reversible isothermal process?",
+    "options": ["Enthalpy", "Entropy", "Pressure", "Volume"],
+    "answer": 0,
+    "explanation": "For an ideal gas in a reversible isothermal process, enthalpy (H = U + PV) is constant as T is constant. Entropy, pressure, and volume may change."
+  },
+  {
+    "q": "For any natural process, the entropy change would be:",
+    "options": ["Negative", "Positive", "Zero", "Infinite"],
+    "answer": 1,
+    "explanation": "The second law states that entropy increases (ΔS > 0) for natural (irreversible) processes in an isolated system. Negative or zero applies to specific cases, and infinite is impossible."
+  },
+  {
+    "q": "Which laws apply to behavior of perfect gas?",
+    "options": ["Boyle’s law", "Both Boyle’s law and Charles’s law", "Dalton’s law", "Gay-Lussac’s law"],
+    "answer": 1,
+    "explanation": "Boyle’s law (PV = constant) and Charles’s law (V/T = constant) apply to ideal gases, combined in PV = nRT. Dalton’s and Gay-Lussac’s laws are supplementary."
+  },
+  {
+    "q": "Water at standard atmospheric conditions:",
+    "options": ["Is mostly liquid", "Behaves as an ideal gas", "Is mostly vapor", "Is solid"],
+    "answer": 0,
+    "explanation": "At standard conditions (1 atm, 25°C), water is liquid. It does not behave as an ideal gas, is not vapor unless heated, and is not solid unless cooled."
+  },
+  {
+    "q": "Increase in entropy of a system means:",
+    "options": ["Increase in availability of energy", "Degradation of energy", "Constant energy", "Increase in work"],
+    "answer": 1,
+    "explanation": "Increased entropy indicates energy degradation (less available for work) per the second law. Availability decreases, energy is conserved, and work is not directly increased."
+  },
+  {
+    "q": "Step 2 in Carnot cycle is:",
+    "options": ["Isentropic expansion", "Isothermal expansion", "Isentropic compression", "Isothermal compression"],
+    "answer": 1,
+    "explanation": "The Carnot cycle’s second step is isothermal expansion, where heat is absorbed at constant temperature. Other steps involve isentropic or compression processes."
+  },
+  {
+    "q": "Thermal power plants operate on which cycle?",
+    "options": ["Otto cycle", "Rankine cycle", "Brayton cycle", "Diesel cycle"],
+    "answer": 1,
+    "explanation": "Thermal power plants use the Rankine cycle, typically with steam. Otto and Diesel are for IC engines, and Brayton is for gas turbines."
+  },
+  {
+    "q": "Carnot cycle has maximum efficiency for:",
+    "options": ["Irreversible engine", "Reversible engine", "Gas turbine", "Steam engine"],
+    "answer": 1,
+    "explanation": "The Carnot cycle achieves maximum efficiency for a reversible engine, as irreversibilities reduce efficiency. Gas turbines and steam engines are less efficient."
+  },
+  {
+    "q": "General gas equation is:",
+    "options": ["PV = mRT", "PV = nRT", "P = RT/V", "V = nR/P"],
+    "answer": 1,
+    "explanation": "The ideal gas law is PV = nRT, where n is moles. PV = mRT uses mass, and other forms are rearrangements but not the standard equation."
+  },
+  {
+    "q": "Change in enthalpy of a system is the heat supplied at:",
+    "options": ["Constant temperature", "Constant pressure", "Constant volume", "Adiabatic conditions"],
+    "answer": 1,
+    "explanation": "Enthalpy change equals heat supplied at constant pressure (ΔH = Q). Constant volume relates to internal energy, constant temperature is non-specific, and adiabatic means no heat."
+  },
+  {
+    "q": "Energy can neither be created nor destroyed. This is:",
+    "options": ["3rd law of thermodynamics", "1st law of thermodynamics", "2nd law of thermodynamics", "Zeroth law"],
+    "answer": 1,
+    "explanation": "The first law is the conservation of energy. The third law concerns absolute zero, the second law involves entropy, and the zeroth law defines thermal equilibrium."
+  },
+  {
+    "q": "Water is a ____ fluid.",
+    "options": ["Real", "Ideal", "Perfect", "Inviscid"],
+    "answer": 0,
+    "explanation": "Water is a real fluid with viscosity and compressibility. Ideal, perfect, and inviscid fluids are theoretical simplifications."
+  },
+  {
+    "q": "As octane number increases, knocking tendency of petrol engine:",
+    "options": ["Remains same", "Decreases", "Increases", "Becomes zero"],
+    "answer": 1,
+    "explanation": "Higher octane numbers reduce knocking in petrol engines by improving combustion stability. Knocking doesn’t remain same, increase, or become zero."
+  },
+  {
+    "q": "Bar is the unit of:",
+    "options": ["Power", "Pressure", "Energy", "Force"],
+    "answer": 1,
+    "explanation": "Bar is a unit of pressure (1 bar ≈ 100 kPa). Power is watts, energy is joules, and force is newtons."
+  },
+  {
+    "q": "Which refrigerant has the highest latent heat?",
+    "options": ["Freon-12", "Ammonia", "Carbon dioxide", "R-134a"],
+    "answer": 1,
+    "explanation": "Ammonia has a high latent heat of vaporization, making it effective in refrigeration. Freon-12, CO₂, and R-134a have lower latent heats."
+  },
+  {
+    "q": "Closeness of measured value to true value is:",
+    "options": ["Accuracy", "Precision", "Repeatability", "Sensitivity"],
+    "answer": 0,
+    "explanation": "Accuracy measures how close a value is to the true value. Precision is consistency, repeatability is reproducibility, and sensitivity is response to change."
+  },
+  {
+    "q": "Product of pressure and volume constant (PV = const):",
+    "options": ["Gas law", "Boyle’s law", "Charles’ law", "Ideal gas law"],
+    "answer": 1,
+    "explanation": "Boyle’s law states PV = constant at constant temperature. Charles’ law involves volume and temperature, and the ideal gas law is PV = nRT."
+  },
+  {
+    "q": "As temperature of I.C. engine increases, efficiency will:",
+    "options": ["Decrease", "Increase", "Remain constant", "Become zero"],
+    "answer": 1,
+    "explanation": "Higher combustion temperatures in IC engines can improve thermal efficiency (per Carnot principles). Efficiency doesn’t decrease, stay constant, or become zero."
+  },
+  {
+    "q": "Nepal Vehicle Mass Emission Standard 2069 is equivalent to:",
+    "options": ["ISO 9001", "Euro III", "Bharat Stage II", "EPA Tier 1"],
+    "answer": 1,
+    "explanation": "Nepal’s Vehicle Mass Emission Standard 2069 aligns with Euro III standards. ISO 9001 is quality management, and other standards are different."
+  },
+  {
+    "q": "The two basic types of internal combustion engines are:",
+    "options": ["Piston and reciprocating", "Reciprocating and rotary", "Diesel and petrol", "Two-stroke and four-stroke"],
+    "answer": 1,
+    "explanation": "IC engines are classified as reciprocating (e.g., piston-cylinder) or rotary (e.g., Wankel). Piston and reciprocating are not distinct, and diesel/petrol or stroke types are subcategories."
+  },
+  {
+    "q": "If hot and cold water are mixed, the entropy of the system will:",
+    "options": ["Decrease", "Increase", "Remain constant", "Become zero"],
+    "answer": 1,
+    "explanation": "Mixing hot and cold water increases entropy due to increased disorder (second law). Entropy doesn’t decrease, stay constant, or become zero."
+  },
+  {
+    "q": "The change in internal energy of an ideal gas during an adiabatic process is:",
+    "options": ["mCp ln(T₂ / T₁)", "mCv(T₂ − T₁)", "Zero", "mR(T₂ − T₁)"],
+    "answer": 1,
+    "explanation": "For an ideal gas, internal energy change is ΔU = mCv(T₂ − T₁), even in adiabatic processes (Q = 0, ΔU = -W). Cp is for enthalpy, zero is incorrect, and R is the gas constant."
+  },
+  {
+    "q": "The heating and expanding of a gas is called:",
+    "options": ["Thermodynamic system", "Thermodynamic process", "Thermodynamic cycle", "Thermodynamic state"],
+    "answer": 1,
+    "explanation": "Heating and expanding a gas is a thermodynamic process. A system is the matter, a cycle is a series of processes, and a state is a condition."
+  },
+  {
+    "q": "In an irreversible process there is:",
+    "options": ["No loss of heat", "Loss of heat", "Constant heat", "Infinite heat"],
+    "answer": 1,
+    "explanation": "Irreversible processes involve losses (e.g., heat dissipation, friction), increasing entropy. No loss, constant, or infinite heat are incorrect."
+  },
+  {
+    "q": "Equation of state gives relationship between:",
+    "options": ["Volume and temperature", "Pressure, volume, and temperature", "Pressure and temperature", "Mass and volume"],
+    "answer": 1,
+    "explanation": "The equation of state (e.g., PV = nRT) relates pressure, volume, and temperature for a gas. Other options are partial relationships."
+  },
+  {
+    "q": "The constant volume cycle is also called:",
+    "options": ["Carnot cycle", "Otto cycle", "Rankine cycle", "Brayton cycle"],
+    "answer": 1,
+    "explanation": "The Otto cycle is a constant volume cycle (combustion at constant volume). Carnot is reversible, Rankine is for steam, and Brayton is constant pressure."
+  },
+  {
+    "q": "Specific fuel consumption is defined as:",
+    "options": ["Fuel consumption per BHP", "Fuel consumption per hour", "Fuel per km", "Fuel per cycle"],
+    "answer": 0,
+    "explanation": "Specific fuel consumption (SFC) is fuel consumed per unit power (e.g., kg/BHP·hr). Per hour, km, or cycle are not standard definitions."
+  },
+  {
+    "q": "The expression which does not give the efficiency of Otto cycle is:",
+    "options": ["Temperature after compression", "Temperature before expansion", "Compression ratio", "1 - (T₁/T₂)"],
+    "answer": 0,
+    "explanation": "Otto cycle efficiency is η = 1 - (1/r^(γ-1)), where r is compression ratio. Temperature after compression alone doesn’t give efficiency; other options relate to it."
+  },
+  {
+    "q": "Any process in which no heat can flow into or out of the system is called:",
+    "options": ["Isothermal process", "Adiabatic process", "Isobaric process", "Isochoric process"],
+    "answer": 1,
+    "explanation": "Adiabatic processes have no heat transfer (Q = 0). Isothermal is constant temperature, isobaric is constant pressure, and isochoric is constant volume."
+  },
+  {
+    "q": "First law of thermodynamics deals with:",
+    "options": ["Conservation of mass", "Conservation of energy", "Entropy increase", "Thermal equilibrium"],
+    "answer": 1,
+    "explanation": "The first law is conservation of energy (Q = ΔU + W). Mass conservation is separate, entropy is second law, and equilibrium is zeroth law."
+  },
+  {
+    "q": "Internal energy of a substance depends on:",
+    "options": ["Volume", "Temperature", "Pressure", "Mass"],
+    "answer": 1,
+    "explanation": "For an ideal gas, internal energy depends only on temperature (U = f(T)). Volume and pressure affect state but not U directly, and mass is extensive."
+  },
+  {
+    "q": "A thermodynamic system refers to:",
+    "options": ["Any defined region in space", "A prescribed and identifiable quantity of matter", "A heat reservoir", "A work device"],
+    "answer": 1,
+    "explanation": "A thermodynamic system is a defined quantity of matter with boundaries. A region in space is too vague, and reservoirs or devices are specific components."
+  },
+  {
+    "q": "Enthalpy is defined as the sum of:",
+    "options": ["Volume and pressure", "Internal energy and the product of pressure and volume", "Temperature and entropy", "Work and heat"],
+    "answer": 1,
+    "explanation": "Enthalpy is H = U + PV, where U is internal energy and PV is pressure-volume work. Other combinations are incorrect."
+  },
+  {
+    "q": "Heat transferred during an isobaric process is equal to:",
+    "options": ["Change in internal energy", "Change in enthalpy", "Change in work", "Zero"],
+    "answer": 1,
+    "explanation": "For an isobaric process (constant pressure), Q = ΔH (first law, Q = ΔU + PΔV = ΔH). Internal energy, work, or zero are incorrect."
+  },
+  {
+    "q": "Which does not change during reversible adiabatic process?",
+    "options": ["Internal energy", "Entropy", "Temperature", "Volume"],
+    "answer": 1,
+    "explanation": "In a reversible adiabatic process, entropy is constant (ΔS = 0). Internal energy, temperature, and volume typically change."
+  },
+  {
+    "q": "Most gases behave as ideal gases at:",
+    "options": ["High pressure and low temperature", "Low pressure and high temperature", "High pressure and high temperature", "Low pressure and low temperature"],
+    "answer": 1,
+    "explanation": "Ideal gas behavior is best at low pressure and high temperature, where intermolecular forces are negligible. Other conditions cause deviations."
+  },
+  {
+    "q": "Which is not a property of thermodynamic system?",
+    "options": ["Heat", "Thermal conductivity", "Pressure", "Temperature"],
+    "answer": 1,
+    "explanation": "Thermal conductivity is a material property, not a state property of a system. Heat is a path function, but pressure and temperature are state properties."
+  },
+  {
+    "q": "Entropy is a property of the system because:",
+    "options": ["It depends on path", "It has same value at each equilibrium state", "It is constant always", "It is a path function"],
+    "answer": 1,
+    "explanation": "Entropy is a state function, having the same value at each equilibrium state regardless of path. It’s not path-dependent, not always constant, and not a path function."
+  },
+  {
+    "q": "Temperature of a gas is due to:",
+    "options": ["Its heating value", "Kinetic energy of molecules", "Potential energy", "Chemical energy"],
+    "answer": 1,
+    "explanation": "Temperature reflects the average kinetic energy of gas molecules. Heating value, potential, and chemical energy are unrelated to temperature."
+  },
+  {
+    "q": "When expansion/compression occurs under PVⁿ = constant:",
+    "options": ["Adiabatic process", "Polytropic process", "Isothermal process", "Isobaric process"],
+    "answer": 1,
+    "explanation": "PVⁿ = constant defines a polytropic process. Adiabatic, isothermal, and isobaric are specific cases or different processes."
+  },
+  {
+    "q": "Which of the following is not an external combustion engine?",
+    "options": ["Steam engine", "Pelton turbine", "Stirling engine", "Rankine engine"],
+    "answer": 1,
+    "explanation": "Pelton turbine is a hydraulic turbine, not an engine. Steam, Stirling, and Rankine engines are external combustion engines."
+  },
+  {
+    "q": "The engine in which fuel combusts inside the cylinder is called:",
+    "options": ["Internal combustion engine", "External combustion engine", "Steam engine", "Turbine engine"],
+    "answer": 0,
+    "explanation": "Internal combustion engines burn fuel inside the cylinder. External combustion (e.g., steam) burns fuel outside, and turbines are broader."
+  },
+  {
+    "q": "Compression ratio of diesel engine:",
+    "options": ["10 to 15", "16 to 20", "5 to 10", "20 to 25"],
+    "answer": 1,
+    "explanation": "Diesel engines typically have compression ratios of 16 to 20 for efficient combustion. Lower or higher ratios are less common."
+  },
+  {
+    "q": "Otto cycle is also known as:",
+    "options": ["Constant pressure cycle", "Constant volume cycle", "Constant temperature cycle", "Adiabatic cycle"],
+    "answer": 1,
+    "explanation": "The Otto cycle is a constant volume cycle, with combustion at constant volume. Constant pressure is Diesel, and others are incorrect."
+  },
+  {
+    "q": "Diesel engine operates on:",
+    "options": ["Constant volume cycle", "Constant pressure cycle", "Constant temperature cycle", "Adiabatic cycle"],
+    "answer": 1,
+    "explanation": "The Diesel cycle involves combustion at constant pressure. Constant volume is Otto, and others are incorrect."
+  },
+  {
+    "q": "Which of the following is not an internal combustion engine?",
+    "options": ["Diesel engine", "Gas turbine", "Steam engine", "Petrol engine"],
+    "answer": 2,
+    "explanation": "Steam engines are external combustion engines. Diesel, gas turbines, and petrol engines are internal combustion engines."
+  },
+  {
+    "q": "A reversible cycle means:",
+    "options": ["Irreversible cycle", "Reversible cycle", "Adiabatic cycle", "Isothermal cycle"],
+    "answer": 1,
+    "explanation": "A reversible cycle returns to its initial state without entropy increase. Irreversible cycles have losses, and adiabatic/isothermal are processes."
+  },
+  {
+    "q": "Under what condition does enthalpy change equal heat supplied?",
+    "options": ["Constant volume", "Constant pressure", "Adiabatic", "Isothermal"],
+    "answer": 1,
+    "explanation": "Enthalpy change equals heat supplied at constant pressure (ΔH = Q). Constant volume relates to internal energy, adiabatic has no heat, and isothermal is temperature-based."
+  },
+  {
+    "q": "Gas laws are least valid for:",
+    "options": ["Mono-atomic gases", "Real gases", "Ideal gases", "Diatomic gases"],
+    "answer": 1,
+    "explanation": "Real gases deviate from ideal gas laws at high pressure or low temperature. Mono-atomic, ideal, and diatomic gases better follow gas laws."
+  },
+  {
+    "q": "As compared to real gas at high pressure, ideal gas occupies:",
+    "options": ["More volume", "Less volume", "Same volume", "No volume"],
+    "answer": 0,
+    "explanation": "At high pressure, real gases occupy less volume due to intermolecular forces, while ideal gases assume more volume per PV = nRT."
+  },
+  {
+    "q": "Condensing steam engine is:",
+    "options": ["Slow speed engine", "Condensing steam engine", "High speed engine", "Non-condensing engine"],
+    "answer": 1,
+    "explanation": "Condensing steam engines use a condenser to improve efficiency. Speed or non-condensing status are not defining features."
+  },
+  {
+    "q": "Steam engines are:",
+    "options": ["Internal combustion engine", "External combustion engine", "Rotary engine", "Reciprocating engine"],
+    "answer": 1,
+    "explanation": "Steam engines are external combustion, burning fuel outside the working fluid. They may be reciprocating but are not internal combustion or rotary."
+  },
+  {
+    "q": "Steam vs automotive engine:",
+    "options": ["Otto vs Rankine cycle", "I.C. vs external combustion", "Diesel vs Rankine cycle", "Brayton vs Otto cycle"],
+    "answer": 1,
+    "explanation": "Steam engines are external combustion (Rankine cycle), while automotive engines are internal combustion (Otto/Diesel). Other comparisons are incorrect."
+  },
+  {
+    "q": "All steam engines follow:",
+    "options": ["Zeroth law of thermodynamics", "Second law of thermodynamics", "First law only", "Third law"],
+    "answer": 1,
+    "explanation": "Steam engines obey the second law, which governs heat-to-work conversion and entropy. All laws apply, but the second is critical."
+  },
+  {
+    "q": "Chemically correct air-fuel ratio is:",
+    "options": ["7:1", "15:1", "10:1", "20:1"],
+    "answer": 1,
+    "explanation": "The stoichiometric air-fuel ratio for petrol is ~15:1 for complete combustion. Other ratios are too lean or rich."
+  },
+  {
+    "q": "Heat cannot flow from cold to hot body by itself. This is:",
+    "options": ["Zeroth law", "Second law of thermodynamics", "First law", "Third law"],
+    "answer": 1,
+    "explanation": "The second law states heat cannot flow from a cold to a hot body without work (Clausius statement). Other laws address equilibrium, energy, or absolute zero."
+  },
+  {
+    "q": "Two constant volume + two adiabatic processes = ?",
+    "options": ["Joule cycle", "Otto cycle", "Rankine cycle", "Carnot cycle"],
+    "answer": 1,
+    "explanation": "The Otto cycle consists of two constant volume (combustion, exhaust) and two adiabatic (compression, expansion) processes. Joule is Brayton, and others differ."
+  },
+  {
+    "q": "At TDC, volume above piston is:",
+    "options": ["Compression ratio", "Clearance volume", "Swept volume", "Total volume"],
+    "answer": 1,
+    "explanation": "At top dead center (TDC), the volume above the piston is the clearance volume. Compression ratio is a ratio, swept volume is displaced volume, and total volume includes both."
+  },
+  {
+    "q": "Suction, compression, exhaust strokes happen in:",
+    "options": ["Diesel engine", "Petrol engine", "Steam engine", "Gas turbine"],
+    "answer": 1,
+    "explanation": "Both diesel and petrol engines (four-stroke) have suction, compression, and exhaust strokes. Steam engines and gas turbines lack these distinct strokes."
+  },
+  {
+    "q": "Heat during polytropic process is:",
+    "options": ["Q = mCn(T₂ − T₁)", "Change in entropy", "Zero", "PV"],
+    "answer": 0,
+    "explanation": "Heat in a polytropic process is Q = mCn(T₂ − T₁), where Cn is specific heat for the process. Entropy change is a result, zero is for adiabatic, and PV is work-related."
+  },
+  {
+    "q": "No heat exchange, only work transfer:",
+    "options": ["Isothermal", "Adiabatic", "Isobaric", "Isochoric"],
+    "answer": 1,
+    "explanation": "Adiabatic processes involve no heat exchange (Q = 0), only work transfer (W = -ΔU). Other processes involve heat or different constraints."
+  },
+  {
+    "q": "Study of energy transfer and conversion:",
+    "options": ["Heat transfer", "Thermodynamics", "Mechanics", "Fluid dynamics"],
+    "answer": 1,
+    "explanation": "Thermodynamics studies energy transfer and conversion across systems. Heat transfer is a subset, and mechanics/fluid dynamics are distinct fields."
+  },
+  {
+    "q": "In adiabatic process, which stays constant:",
+    "options": ["Temperature", "Total heat of system", "Pressure", "Volume"],
+    "answer": 1,
+    "explanation": "In an adiabatic process, total heat is constant (Q = 0). Temperature, pressure, and volume typically change unless specified."
+  },
+  {
+    "q": "Entropy change between two points via any path is:",
+    "options": ["Different", "Same", "Zero", "Infinite"],
+    "answer": 1,
+    "explanation": "Entropy is a state function, so its change between two points is the same regardless of path. Different applies to path functions, and zero/infinite are incorrect."
+  },
+  {
+    "q": "Ideal gas behavior is shown best at:",
+    "options": ["High pressure and temperature", "Low pressure and high temperature", "High pressure and low temperature", "Low pressure and low temperature"],
+    "answer": 1,
+    "explanation": "Ideal gas behavior is best at low pressure and high temperature, minimizing intermolecular forces. Other conditions cause deviations."
+  },
+  {
+    "q": "Not a property of thermodynamic system:",
+    "options": ["Pressure", "Thermal conductivity", "Temperature", "Volume"],
+    "answer": 1,
+    "explanation": "Thermal conductivity is a material property, not a state property of a system. Pressure, temperature, and volume are state properties."
+  },
+  {
+    "q": "Entropy is a property because:",
+    "options": ["It depends on path", "It has same value at equilibrium", "It is constant", "It is path-dependent"],
+    "answer": 1,
+    "explanation": "Entropy is a state function, having the same value at each equilibrium state. It’s not path-dependent, not always constant, and not a path function."
+  },
+  {
+    "q": "Temperature of gas comes from:",
+    "options": ["Its heating value", "Kinetic energy of molecules", "Chemical energy", "Potential energy"],
+    "answer": 1,
+    "explanation": "Temperature is a measure of the average kinetic energy of gas molecules. Heating value, chemical, and potential energy are unrelated."
+  },
+  {
+    "q": "PVⁿ = constant process is:",
+    "options": ["Adiabatic", "Polytropic", "Isothermal", "Isobaric"],
+    "answer": 1,
+    "explanation": "PVⁿ = constant is a polytropic process, encompassing various processes. Adiabatic, isothermal, and isobaric are specific cases or different."
+  },
+  {
+    "q": "Internal energy depends on:",
+    "options": ["Volume", "Temperature", "Pressure", "Mass"],
+    "answer": 1,
+    "explanation": "For an ideal gas, internal energy depends only on temperature (U = f(T)). Volume and pressure affect state, and mass is extensive."
+  },
+  {
+    "q": "Thermodynamic system is:",
+    "options": ["Region in space", "Defined quantity of matter", "Heat reservoir", "Work device"],
+    "answer": 1,
+    "explanation": "A thermodynamic system is a defined quantity of matter with boundaries. A region in space is vague, and reservoirs/devices are components."
+  },
+  {
+    "q": "Modes of heat transfer:",
+    "options": ["Conduction", "All of the above", "Convection only", "Radiation only"],
+    "answer": 1,
+    "explanation": "Heat transfer occurs via conduction, convection, and radiation, making ‘all of the above’ correct. Single modes are incomplete."
+  },
+  {
+    "q": "SI unit of compressibility:",
+    "options": ["Nsec²", "N/m²", "m²/N", "Pa·s"],
+    "answer": 2,
+    "explanation": "Compressibility (β = -(1/V)(∂V/∂P)) has units of m²/N (inverse of pressure, N/m²). Nsec² and Pa·s are incorrect, and N/m² is pressure."
+  },
+  {
+    "q": "Correct about flow meters:",
+    "options": ["Orifice more accurate than nozzle", "Venturi meter more accurate", "Nozzle more accurate than venturi", "All are equally accurate"],
+    "answer": 1,
+    "explanation": "Venturi meters are more accurate than orifice plates or nozzles due to lower pressure loss and precise measurement. Other options are incorrect."
+  },
+  {
+    "q": "Cycle used in gas turbines:",
+    "options": ["Otto", "Brayton", "Rankine", "Diesel"],
+    "answer": 1,
+    "explanation": "Gas turbines operate on the Brayton cycle (constant pressure). Otto and Diesel are for IC engines, and Rankine is for steam."
+  },
+  {
+    "q": "Heat to raise 1kg by 1°C:",
+    "options": ["Heat treatment", "Specific heat capacity", "Latent heat", "Thermal conductivity"],
+    "answer": 1,
+    "explanation": "Specific heat capacity is the heat required to raise 1 kg by 1°C. Latent heat is for phase change, and others are unrelated."
+  },
+  {
+    "q": "1st law of thermodynamics:",
+    "options": ["dQ = dU - dW", "dQ = dU + dW", "dQ = dH + dW", "dQ = dS - dW"],
+    "answer": 1,
+    "explanation": "The first law is dQ = dU + dW, where dQ is heat, dU is internal energy change, and dW is work. Other forms are incorrect."
+  },
+  {
+    "q": "No heat flow, but work occurs:",
+    "options": ["Reversible", "Adiabatic", "Isothermal", "Isobaric"],
+    "answer": 1,
+    "explanation": "Adiabatic processes have no heat flow (Q = 0), only work (W = -ΔU). Reversible is a condition, and isothermal/isobaric involve heat."
+  },
+  {
+    "q": "Boyle’s Law is:",
+    "options": ["Charles’s law", "P ∝ 1/V", "V ∝ T", "P ∝ T"],
+    "answer": 1,
+    "explanation": "Boyle’s law states P ∝ 1/V (PV = constant) at constant temperature. Charles’s law is V ∝ T, and others are different gas laws."
+  },
+  {
+    "q": "Open thermodynamic system example:",
+    "options": ["Pressure cooker", "Centrifugal pump", "Insulated tank", "Sealed bottle"],
+    "answer": 1,
+    "explanation": "Centrifugal pumps are open systems, allowing mass and energy flow. Pressure cookers, insulated tanks, and sealed bottles are closed or isolated."
+  },
+  {
+    "q": "Compression ratio definition:",
+    "options": ["Swept volume / cylinder volume", "Volume before / after compression", "Clearance volume / total volume", "Piston displacement / clearance"],
+    "answer": 1,
+    "explanation": "Compression ratio is the ratio of total volume (V₁) to clearance volume (V₂) before/after compression. Other options misrepresent the definition."
+  },
+  {
+    "q": "Gas constant (R) is:",
+    "options": ["Sum of Cp & Cv", "Difference of Cp & Cv", "Ratio of Cp/Cv", "Product of Cp and Cv"],
+    "answer": 1,
+    "explanation": "For an ideal gas, R = Cp - Cv, where Cp and Cv are specific heats. Sum, ratio, or product are incorrect relationships."
+  }
+]
     let score = 0;
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
