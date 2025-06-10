@@ -356,79 +356,433 @@
 
   <script>
     const questions = [
-      { q: "Which is the correct conventional representation of a splined hole per BS 308?", options: ["Circle with vertical line", "Circle with zig-zag and center marking"], answer: 1, explanation: "Per BS 308, a splined hole is represented by a circle with a zig-zag pattern and center marking to indicate the spline geometry." },
-      { q: "A drawing instrument set typically includes all except:", options: ["Bow compass", "Extra lead"], answer: 1, explanation: "A drawing instrument set includes tools like a bow compass, but extra lead is a consumable, not a standard instrument." },
-      { q: "A title block contains all the following information except:", options: ["Part list", "Drawing number"], answer: 0, explanation: "The title block includes drawing number, title, and scale, but the part list is typically in a separate bill of materials." },
-      { q: "Which projection uses 45° lines to represent depth?", options: ["Oblique projection", "Isometric projection"], answer: 0, explanation: "Oblique projection uses 45° lines for depth, while isometric uses 30° angles for axes." },
-      { q: "What is the standard angle between isometric axes?", options: ["120°", "90°"], answer: 0, explanation: "Isometric axes are spaced at 120° to represent three-dimensional objects equally." },
-      { q: "Which symbol denotes surface roughness in machine drawing?", options: ["Check mark (✓)", "Tick with triangle (⏜✓)"], answer: 1, explanation: "The tick with triangle symbol indicates surface roughness, specifying texture requirements." },
-      { q: "Which of the following is not a type of section?", options: ["Offset section", "Rough section"], answer: 1, explanation: "Offset sections are valid, but 'rough section' is not a recognized type in technical drawing." },
-      { q: "Which component lists part name, material, and quantity?", options: ["Bill of Materials", "Title Block"], answer: 0, explanation: "The Bill of Materials lists part details, while the title block contains drawing metadata." },
-      { q: "In assembly drawings, hatching is used to show:", options: ["Material cut in section", "Hole center lines"], answer: 0, explanation: "Hatching indicates cut surfaces in sectional views to reveal internal features." },
-      { q: "Which drawing represents the exact shape and size of an object?", options: ["Scale drawing", "Freehand sketch"], answer: 0, explanation: "Scale drawings provide precise, proportional representations, unlike freehand sketches." },
-      { q: "Which is not typically included in a machine drawing set?", options: ["Production schedule", "Detail drawing"], answer: 0, explanation: "Production schedules are planning documents, not part of a drawing set." },
-      { q: "In AutoCAD, what does ORTHO mode do?", options: ["Constrains cursor to 90° angles", "Mirrors the object"], answer: 0, explanation: "ORTHO mode restricts cursor movement to horizontal and vertical (90°) for precise drawing." },
-      { q: "Which method develops a cone’s surface?", options: ["Radial line development", "Parallel line development"], answer: 0, explanation: "Radial line development is used for conical surfaces, dividing the cone into radial segments." },
-      { q: "Threads in drawings are represented using:", options: ["Thick solid lines", "Thin continuous lines with zigzag"], answer: 1, explanation: "Threads are shown with thin continuous lines and zigzag patterns to indicate threading." },
-      { q: "What is the typical symbol for a counterbore?", options: ["⌀", "⏃"], answer: 1, explanation: "The counterbore symbol (⏃) indicates a cylindrical hole with a larger diameter at the surface." },
-      { q: "What does the ⌀ symbol represent in machine drawing?", options: ["Radius", "Diameter"], answer: 1, explanation: "The ⌀ symbol denotes the diameter of a circular feature, such as a hole." },
-      { q: "What is a break line used for in drawings?", options: ["Show removed portion", "Indicate center"], answer: 0, explanation: "Break lines indicate where a portion of an object is removed to shorten the view." },
-      { q: "Which line type represents hidden features?", options: ["Dashed line", "Solid line"], answer: 0, explanation: "Dashed lines show edges that are not directly visible, such as hidden features." },
-      { q: "Which of the following is a permanent joint?", options: ["Welded joint", "Nut and bolt"], answer: 0, explanation: "Welded joints are permanent, while nuts and bolts allow disassembly." },
-      { q: "Section lines are generally drawn at an angle of:", options: ["45°", "60°"], answer: 0, explanation: "Hatching lines are typically drawn at 45° to indicate cut surfaces in sections." },
-      { q: "A drawing scale of 2:1 means:", options: ["Drawing is half size", "Drawing is double size"], answer: 1, explanation: "A 2:1 scale means the drawing is twice the size of the actual object." },
-      { q: "Which view is typically considered the front view?", options: ["Longest and most detailed side", "Top view"], answer: 0, explanation: "The front view shows the most detailed and longest side for clarity." },
-      { q: "Center lines are represented by:", options: ["Chain thin lines", "Thick solid lines"], answer: 0, explanation: "Chain thin lines (alternating long and short dashes) indicate centers of circles or symmetry." },
-      { q: "Which line indicates symmetry in a drawing?", options: ["Centerline", "Object line"], answer: 0, explanation: "Centerlines show axes of symmetry for circular or symmetrical features." },
-      { q: "Which tool is used to draw large circles?", options: ["Beam compass", "Divider"], answer: 0, explanation: "A beam compass is designed for drawing large circles, unlike dividers." },
-      { q: "Why are sectional views used in drawings?", options: ["To show internal features", "To reduce drawing size"], answer: 0, explanation: "Sectional views reveal internal features by cutting through the object." },
-      { q: "What does a 'chain' line represent?", options: ["Center of gravity", "Pitch circle diameter"], answer: 1, explanation: "Chain lines often indicate pitch circle diameters in gear drawings." },
-      { q: "In drawing, the term 'R' stands for:", options: ["Radius", "Revolution"], answer: 0, explanation: "The 'R' prefix denotes the radius of a circular feature, e.g., R10 for 10 mm radius." },
-      { q: "Sectional views are shown using:", options: ["Hatching lines", "Dimension lines"], answer: 0, explanation: "Hatching lines fill cut areas to distinguish materials in sectional views." },
-      { q: "A projection showing three faces equally is:", options: ["Isometric projection", "Orthographic projection"], answer: 0, explanation: "Isometric projection shows three faces at 120° angles, equally foreshortened." },
-      { q: "Which AutoCAD command copies objects?", options: ["COPY", "MIRROR"], answer: 0, explanation: "The COPY command duplicates objects, while MIRROR creates a mirrored copy." },
-      { q: "What is a taper in machine drawing?", options: ["Gradual reduction in diameter", "Notch in shaft"], answer: 0, explanation: "A taper is a gradual reduction in diameter, often for fitting components." },
-      { q: "A dimension with ⌀ symbol refers to:", options: ["Radius", "Diameter"], answer: 1, explanation: "The ⌀ symbol indicates the diameter of a circular feature." },
-      { q: "The projection method used in Nepal is:", options: ["First angle", "Third angle"], answer: 0, explanation: "Nepal uses first-angle projection, where views are placed opposite the projection plane." },
-      { q: "Which drawing is used for manufacturing individual parts?", options: ["Detail drawing", "Assembly drawing"], answer: 0, explanation: "Detail drawings specify individual part dimensions for manufacturing." },
-      { q: "Which instrument measures angles?", options: ["Protractor", "Divider"], answer: 0, explanation: "A protractor measures angles, while dividers measure distances." },
-      { q: "Which line type is thin and light?", options: ["All of the above", "Construction lines"], answer: 1, explanation: "Construction lines are thin and light, used for layout and not part of the final drawing." },
-      { q: "Which line is specific to section drawings?", options: ["Break lines", "Cutting plane lines"], answer: 1, explanation: "Cutting plane lines indicate where a section is cut to reveal internal features." },
-      { q: "Projection with parallel lines perpendicular to the plane is:", options: ["Perspective projection", "Orthographic projection"], answer: 1, explanation: "Orthographic projection uses parallel lines perpendicular to the projection plane." },
-      { q: "The correct layout for third-angle projection is:", options: ["Option D", "Option B"], answer: 1, explanation: "Third-angle projection places the top view above the front view, typically option B in standard layouts." },
-      { q: "The top view of a given solid is:", options: ["Option A", "Option C"], answer: 1, explanation: "The top view (option C) shows the plan view of the solid as projected orthographically." },
-      { q: "A circle in an isometric drawing appears as:", options: ["Circle", "Ellipse"], answer: 1, explanation: "Circles appear as ellipses in isometric drawings due to the angled projection." },
-      { q: "Which is not a pictorial drawing?", options: ["Isometric", "Multiview"], answer: 1, explanation: "Multiview drawings are orthographic, not pictorial like isometric drawings." },
-      { q: "Hidden lines are drawn as:", options: ["Dashed wide lines", "Dashed narrow lines"], answer: 1, explanation: "Hidden lines are dashed narrow lines to indicate non-visible edges." },
-      { q: "Common projection angles in technical drawing are:", options: ["1st and 2nd", "1st and 3rd"], answer: 1, explanation: "First and third-angle projections are standard in technical drawing." },
-      { q: "An assembly drawing should start with:", options: ["Title block", "Part list"], answer: 1, explanation: "The part list (bill of materials) is essential to identify components in an assembly drawing." },
-      { q: "The axial advance of a screw thread per turn is called:", options: ["Turn", "Lead"], answer: 1, explanation: "Lead is the distance a screw thread advances axially in one turn." },
-      { q: "The lead in screw threads refers to:", options: ["Parallel axis distance", "Axial advance per turn"], answer: 1, explanation: "Lead is the axial distance advanced by the thread in one revolution." },
-      { q: "Which is not a practical welded joint?", options: ["Butt joint", "Tree joint"], answer: 1, explanation: "Tree joint is not a recognized welded joint; butt joints are standard." },
-      { q: "The notation Ø50 H7 denotes:", options: ["Shaft basis clearance fit", "Hole basis interference fit"], answer: 1, explanation: "Ø50 H7 indicates a hole basis interference fit, where H7 is the hole tolerance." },
-      { q: "A loading error in measurements is classified as:", options: ["Systematic error", "Random error"], answer: 1, explanation: "Loading errors, caused by inconsistent forces, are random errors." },
-      { q: "Orthographic projection includes:", options: ["Side view projection", "All views"], answer: 1, explanation: "Orthographic projection includes all views (front, top, side) projected perpendicularly." },
-      { q: "Which is not a personal safety device?", options: ["Shoe", "Fan belt cover"], answer: 1, explanation: "Fan belt covers are machine safety devices, not personal protective equipment." },
-      { q: "The correct top view for a given object is:", options: ["Option B", "Option C"], answer: 1, explanation: "Option C correctly represents the top view based on orthographic projection principles." },
-      { q: "The taper magnitude of keys is typically:", options: ["1:100", "1:50"], answer: 0, explanation: "Keys typically have a taper of 1:100 for secure fitting." },
-      { q: "The line type for hidden outlines is:", options: ["Continuous thick", "Short dashed narrow"], answer: 1, explanation: "Short dashed narrow lines represent hidden outlines in drawings." },
-      { q: "A pictorial drawing is best described as:", options: ["Orthographic", "Axonometric"], answer: 1, explanation: "Axonometric drawings (e.g., isometric) are pictorial, showing 3D views." },
-      { q: "The angle for hatching lines is typically:", options: ["30°", "45°"], answer: 1, explanation: "Hatching lines are drawn at 45° to indicate cut surfaces in sections." },
-      { q: "Required elements of a welding symbol include:", options: ["Arrow and finish symbol", "Arrow and weld symbol"], answer: 1, explanation: "A welding symbol includes an arrow pointing to the weld and the weld symbol itself." },
-      { q: "The importance of a sectional view is:", options: ["To beautify the drawing", "To see internal details"], answer: 1, explanation: "Sectional views reveal internal details by cutting through the object." },
-      { q: "Orthographic projection is commonly done in:", options: ["Second and third angle", "First and third angle"], answer: 1, explanation: "First and third-angle projections are standard for orthographic drawings." },
-      { q: "A plane parallel to the projection plane appears:", options: ["Foreshortened", "True size"], answer: 1, explanation: "A plane parallel to the projection plane is shown in its true size and shape." },
-      { q: "The key used for shifting gears is typically:", options: ["Flat key", "Square key"], answer: 1, explanation: "Square keys are commonly used in gear-shifting mechanisms for strength." },
-      { q: "If an axis is perpendicular to the horizontal plane (HP):", options: ["Front view drawn first", "Top view drawn first"], answer: 1, explanation: "The top view is prioritized when the axis is perpendicular to the HP in projection." },
-      { q: "Projection for a three-view object is:", options: ["Perspective", "Orthographic"], answer: 1, explanation: "Orthographic projection is used for three-view drawings (front, top, side)." },
-      { q: "The BS 308 symbol for a splined hole is:", options: ["Vertical line", "Zig-zag with center"], answer: 1, explanation: "BS 308 specifies a zig-zag with center marking for splined holes." },
-      { q: "A drawing instrument set typically lacks:", options: ["Bow compass", "Extra lead"], answer: 1, explanation: "Extra lead is not an instrument, unlike a bow compass." },
-      { q: "Information typically missing from a title block is:", options: ["Part list", "Drawing number"], answer: 0, explanation: "The part list is separate from the title block, which includes the drawing number." },
-      { q: "Which statement about assembly drawings is true?", options: ["No dimensions included", "Balloon numbers in sequence"], answer: 1, explanation: "Balloon numbers sequentially identify parts in assembly drawings." },
-      { q: "A circle in an isometric drawing appears as:", options: ["Circle", "Ellipse"], answer: 1, explanation: "Circles are drawn as ellipses in isometric projections due to the angled view." },
-      { q: "The two main types of projection are:", options: ["Parallel and Convergent", "Perspective and Parallel"], answer: 1, explanation: "Perspective (convergent) and parallel (e.g., orthographic) are the main projection types." }
-    ];
-
+  {
+    "q": "Which is the correct conventional representation of a splined hole per BS 308?",
+    "options": ["Circle with vertical line", "Circle with zig-zag and center marking", "Circle with dashed lines", "Circle with crosshatch"],
+    "answer": 1,
+    "explanation": "Per BS 308, a splined hole is represented by a circle with a zig-zag pattern and center marking to indicate spline geometry. Vertical lines, dashed lines, or crosshatching are not used for splines."
+  },
+  {
+    "q": "A drawing instrument set typically includes all except:",
+    "options": ["Bow compass", "Extra lead", "Protractor", "Divider"],
+    "answer": 1,
+    "explanation": "A drawing instrument set includes tools like bow compass, protractor, and divider. Extra lead is a consumable, not a standard instrument."
+  },
+  {
+    "q": "A title block contains all the following information except:",
+    "options": ["Part list", "Drawing number", "Scale", "Title"],
+    "answer": 0,
+    "explanation": "The title block includes drawing number, scale, and title, but the part list is in a separate bill of materials (BOM)."
+  },
+  {
+    "q": "Which projection uses 45° lines to represent depth?",
+    "options": ["Oblique projection", "Isometric projection", "Perspective projection", "Orthographic projection"],
+    "answer": 0,
+    "explanation": "Oblique projection uses 45° lines for depth. Isometric uses 30° angles, perspective has converging lines, and orthographic has no depth lines."
+  },
+  {
+    "q": "What is the standard angle between isometric axes?",
+    "options": ["120°", "90°", "60°", "45°"],
+    "answer": 0,
+    "explanation": "Isometric axes are spaced at 120° to represent 3D objects equally. 90° is for orthographic, and 60° or 45° are incorrect."
+  },
+  {
+    "q": "Which symbol denotes surface roughness in machine drawing?",
+    "options": ["Check mark (✓)", "Tick with triangle (⏜✓)", "Circle with slash", "Square with cross"],
+    "answer": 1,
+    "explanation": "The tick with triangle (⏜✓) indicates surface roughness, specifying texture requirements. Other symbols are not standard for roughness."
+  },
+  {
+    "q": "Which of the following is not a type of section?",
+    "options": ["Offset section", "Rough section", "Full section", "Half section"],
+    "answer": 1,
+    "explanation": "Offset, full, and half sections are valid types. ‘Rough section’ is not a recognized term in technical drawing."
+  },
+  {
+    "q": "Which component lists part name, material, and quantity?",
+    "options": ["Bill of Materials", "Title Block", "Dimension Table", "Notes Block"],
+    "answer": 0,
+    "explanation": "The Bill of Materials (BOM) lists part details like name, material, and quantity. Title block contains metadata, and others are unrelated."
+  },
+  {
+    "q": "In assembly drawings, hatching is used to show:",
+    "options": ["Material cut in section", "Hole center lines", "Surface texture", "External edges"],
+    "answer": 0,
+    "explanation": "Hatching indicates cut surfaces in sectional views to show internal features. Other options represent different drawing elements."
+  },
+  {
+    "q": "Which drawing represents the exact shape and size of an object?",
+    "options": ["Scale drawing", "Freehand sketch", "Perspective drawing", "Isometric drawing"],
+    "answer": 0,
+    "explanation": "Scale drawings provide precise, proportional representations. Freehand sketches lack precision, perspective distorts, and isometric foreshortens."
+  },
+  {
+    "q": "Which is not typically included in a machine drawing set?",
+    "options": ["Production schedule", "Detail drawing", "Assembly drawing", "Sectional view"],
+    "answer": 0,
+    "explanation": "Production schedules are planning documents, not part of a drawing set. Detail, assembly, and sectional drawings are standard components."
+  },
+  {
+    "q": "In AutoCAD, what does ORTHO mode do?",
+    "options": ["Constrains cursor to 90° angles", "Mirrors the object", "Zooms the view", "Rotates the drawing"],
+    "answer": 0,
+    "explanation": "ORTHO mode restricts cursor movement to 90° (horizontal/vertical) for precision. Mirror, zoom, and rotate are separate commands."
+  },
+  {
+    "q": "Which method develops a cone’s surface?",
+    "options": ["Radial line development", "Parallel line development", "Triangulation method", "Approximation method"],
+    "answer": 0,
+    "explanation": "Radial line development divides a cone into radial segments for surface development. Parallel lines suit cylinders, and others are less relevant."
+  },
+  {
+    "q": "Threads in drawings are represented using:",
+    "options": ["Thick solid lines", "Thin continuous lines with zigzag", "Dashed lines", "Chain lines"],
+    "answer": 1,
+    "explanation": "Threads are shown with thin continuous lines and zigzag patterns. Thick solid, dashed, or chain lines represent other features."
+  },
+  {
+    "q": "What is the typical symbol for a counterbore?",
+    "options": ["⌀", "⏃", "⌴", "R"],
+    "answer": 1,
+    "explanation": "The counterbore symbol (⏃) indicates a cylindrical hole with a larger surface diameter. ⌀ is diameter, ⌴ is countersink, and R is radius."
+  },
+  {
+    "q": "What does the ⌀ symbol represent in machine drawing?",
+    "options": ["Radius", "Diameter", "Depth", "Angle"],
+    "answer": 1,
+    "explanation": "The ⌀ symbol denotes the diameter of a circular feature, such as a hole. Radius is denoted by R, and depth/angle use other notations."
+  },
+  {
+    "q": "What is a break line used for in drawings?",
+    "options": ["Show removed portion", "Indicate center", "Mark dimensions", "Show hidden edges"],
+    "answer": 0,
+    "explanation": "Break lines indicate where a portion is removed to shorten the view. Center lines mark centers, dimension lines show sizes, and dashed lines show hidden edges."
+  },
+  {
+    "q": "Which line type represents hidden features?",
+    "options": ["Dashed line", "Solid line", "Chain line", "Phantom line"],
+    "answer": 0,
+    "explanation": "Dashed lines show non-visible edges. Solid lines are visible edges, chain lines mark centers, and phantom lines show alternate positions."
+  },
+  {
+    "q": "Which of the following is a permanent joint?",
+    "options": ["Welded joint", "Nut and bolt", "Screwed joint", "Cotter joint"],
+    "answer": 0,
+    "explanation": "Welded joints are permanent, while nuts and bolts, screwed, and cotter joints allow disassembly."
+  },
+  {
+    "q": "Section lines are generally drawn at an angle of:",
+    "options": ["45°", "60°", "30°", "90°"],
+    "answer": 0,
+    "explanation": "Hatching lines are drawn at 45° to indicate cut surfaces in sections. Other angles are less standard."
+  },
+  {
+    "q": "A drawing scale of 2:1 means:",
+    "options": ["Drawing is half size", "Drawing is double size", "Drawing is same size", "Drawing is quarter size"],
+    "answer": 1,
+    "explanation": "A 2:1 scale means the drawing is twice the object’s size. 1:2 is half, 1:1 is same, and 1:4 is quarter."
+  },
+  {
+    "q": "Which view is typically considered the front view?",
+    "options": ["Longest and most detailed side", "Top view", "Right side view", "Shortest side"],
+    "answer": 0,
+    "explanation": "The front view shows the most detailed and longest side for clarity. Top and side views are secondary, and shortest side is avoided."
+  },
+  {
+    "q": "Center lines are represented by:",
+    "options": ["Chain thin lines", "Thick solid lines", "Dashed lines", "Phantom lines"],
+    "answer": 0,
+    "explanation": "Chain thin lines (long-short dashes) indicate centers or symmetry. Thick solid, dashed, and phantom lines represent other features."
+  },
+  {
+    "q": "Which line indicates symmetry in a drawing?",
+    "options": ["Centerline", "Object line", "Dimension line", "Break line"],
+    "answer": 0,
+    "explanation": "Centerlines show axes of symmetry for circular or symmetrical features. Object lines are edges, dimension lines show sizes, and break lines shorten views."
+  },
+  {
+    "q": "Which tool is used to draw large circles?",
+    "options": ["Beam compass", "Divider", "Protractor", "Bow compass"],
+    "answer": 0,
+    "explanation": "A beam compass draws large circles, unlike dividers (measuring), protractors (angles), or bow compasses (smaller circles)."
+  },
+  {
+    "q": "Why are sectional views used in drawings?",
+    "options": ["To show internal features", "To reduce drawing size", "To add aesthetic appeal", "To mark external edges"],
+    "answer": 0,
+    "explanation": "Sectional views reveal internal features by cutting through the object. They don’t reduce size, enhance aesthetics, or mark external edges."
+  },
+  {
+    "q": "What does a 'chain' line represent?",
+    "options": ["Center of gravity", "Pitch circle diameter", "Hidden edges", "Cutting plane"],
+    "answer": 1,
+    "explanation": "Chain lines often indicate pitch circle diameters in gear drawings. Center of gravity, hidden edges, and cutting planes use other lines."
+  },
+  {
+    "q": "In drawing, the term 'R' stands for:",
+    "options": ["Radius", "Revolution", "Ratio", "Reference"],
+    "answer": 0,
+    "explanation": "The 'R' prefix denotes the radius of a circular feature (e.g., R10). Revolution, ratio, and reference are unrelated."
+  },
+  {
+    "q": "Sectional views are shown using:",
+    "options": ["Hatching lines", "Dimension lines", "Centerlines", "Break lines"],
+    "answer": 0,
+    "explanation": "Hatching lines fill cut areas to distinguish materials in sectional views. Other lines serve different purposes."
+  },
+  {
+    "q": "A projection showing three faces equally is:",
+    "options": ["Isometric projection", "Orthographic projection", "Oblique projection", "Perspective projection"],
+    "answer": 0,
+    "explanation": "Isometric projection shows three faces at 120° angles, equally foreshortened. Orthographic shows one face, oblique distorts, and perspective converges."
+  },
+  {
+    "q": "Which AutoCAD command copies objects?",
+    "options": ["COPY", "MIRROR", "MOVE", "OFFSET"],
+    "answer": 0,
+    "explanation": "The COPY command duplicates objects. MIRROR creates a mirrored copy, MOVE relocates, and OFFSET creates parallel copies."
+  },
+  {
+    "q": "What is a taper in machine drawing?",
+    "options": ["Gradual reduction in diameter", "Notch in shaft", "Threaded groove", "Flat surface"],
+    "answer": 0,
+    "explanation": "A taper is a gradual reduction in diameter for fitting components. Notches, threads, and flat surfaces are different features."
+  },
+  {
+    "q": "A dimension with ⌀ symbol refers to:",
+    "options": ["Radius", "Diameter", "Depth", "Angle"],
+    "answer": 1,
+    "explanation": "The ⌀ symbol indicates the diameter of a circular feature. Radius uses R, and depth/angle use other notations."
+  },
+  {
+    "q": "The projection method used in Nepal is:",
+    "options": ["First angle", "Third angle", "Second angle", "Fourth angle"],
+    "answer": 0,
+    "explanation": "Nepal uses first-angle projection, where views are placed opposite the projection plane. Third angle is common elsewhere, and second/fourth are rare."
+  },
+  {
+    "q": "Which drawing is used for manufacturing individual parts?",
+    "options": ["Detail drawing", "Assembly drawing", "Isometric drawing", "Schematic drawing"],
+    "answer": 0,
+    "explanation": "Detail drawings specify individual part dimensions for manufacturing. Assembly shows components together, isometric is pictorial, and schematic shows systems."
+  },
+  {
+    "q": "Which instrument measures angles?",
+    "options": ["Protractor", "Divider", "Compass", "Scale"],
+    "answer": 0,
+    "explanation": "A protractor measures angles. Dividers measure distances, compasses draw circles, and scales measure lengths."
+  },
+  {
+    "q": "Which line type is thin and light?",
+    "options": ["All of the above", "Construction lines", "Dimension lines", "Centerlines"],
+    "answer": 1,
+    "explanation": "Construction lines are thin and light, used for layout and not final. Dimension and centerlines are also thin but distinct, and ‘all’ is too broad."
+  },
+  {
+    "q": "Which line is specific to section drawings?",
+    "options": ["Break lines", "Cutting plane lines", "Hidden lines", "Phantom lines"],
+    "answer": 1,
+    "explanation": "Cutting plane lines indicate where a section is cut to reveal internal features. Break, hidden, and phantom lines serve other purposes."
+  },
+  {
+    "q": "Projection with parallel lines perpendicular to the plane is:",
+    "options": ["Perspective projection", "Orthographic projection", "Oblique projection", "Isometric projection"],
+    "answer": 1,
+    "explanation": "Orthographic projection uses parallel lines perpendicular to the plane. Perspective converges, oblique uses angled lines, and isometric is pictorial."
+  },
+  {
+    "q": "The correct layout for third-angle projection is:",
+    "options": ["Top view below front view", "Top view above front view", "Right view above front view", "Left view below front view"],
+    "answer": 1,
+    "explanation": "In third-angle projection, the top view is above the front view. Other layouts are incorrect or align with first-angle projection."
+  },
+  {
+    "q": "The top view of a given solid is:",
+    "options": ["Circle", "Rectangle", "Triangle", "Hexagon"],
+    "answer": 1,
+    "explanation": "Assuming a standard solid (e.g., cuboid), the top view is a rectangle in orthographic projection. Other shapes depend on the solid’s orientation."
+  },
+  {
+    "q": "A circle in an isometric drawing appears as:",
+    "options": ["Circle", "Ellipse", "Square", "Parabola"],
+    "answer": 1,
+    "explanation": "Circles appear as ellipses in isometric drawings due to the 30° angled projection. Other shapes are incorrect."
+  },
+  {
+    "q": "Which is not a pictorial drawing?",
+    "options": ["Isometric", "Multiview", "Oblique", "Perspective"],
+    "answer": 1,
+    "explanation": "Multiview drawings are orthographic, showing multiple 2D views. Isometric, oblique, and perspective are pictorial, showing 3D."
+  },
+  {
+    "q": "Hidden lines are drawn as:",
+    "options": ["Dashed wide lines", "Dashed narrow lines", "Solid thick lines", "Chain thin lines"],
+    "answer": 1,
+    "explanation": "Hidden lines are dashed narrow lines for non-visible edges. Wide dashes, solid, or chain lines represent other features."
+  },
+  {
+    "q": "Common projection angles in technical drawing are:",
+    "options": ["1st and 2nd", "1st and 3rd", "2nd and 3rd", "3rd and 4th"],
+    "answer": 1,
+    "explanation": "First and third-angle projections are standard in technical drawing. Second and fourth angles are rarely used."
+  },
+  {
+    "q": "An assembly drawing should start with:",
+    "options": ["Title block", "Part list", "Overall view", "Sectional view"],
+    "answer": 1,
+    "explanation": "The part list (BOM) identifies components in an assembly drawing. Title block, overall, and sectional views are secondary."
+  },
+  {
+    "q": "The axial advance of a screw thread per turn is called:",
+    "options": ["Turn", "Lead", "Pitch", "Crest"],
+    "answer": 1,
+    "explanation": "Lead is the axial distance a screw thread advances in one turn. Pitch is the distance between threads, and crest/turn are unrelated."
+  },
+  {
+    "q": "The lead in screw threads refers to:",
+    "options": ["Parallel axis distance", "Axial advance per turn", "Thread depth", "Thread angle"],
+    "answer": 1,
+    "explanation": "Lead is the axial distance advanced by the thread in one revolution. Other options describe different thread properties."
+  },
+  {
+    "q": "Which is not a practical welded joint?",
+    "options": ["Butt joint", "Tree joint", "Lap joint", "T-joint"],
+    "answer": 1,
+    "explanation": "Tree joint is not a recognized welded joint. Butt, lap, and T-joints are standard welding types."
+  },
+  {
+    "q": "The notation Ø50 H7 denotes:",
+    "options": ["Shaft basis clearance fit", "Hole basis interference fit", "Shaft basis interference fit", "Hole basis clearance fit"],
+    "answer": 1,
+    "explanation": "Ø50 H7 indicates a hole basis interference fit, where H7 is the hole tolerance. Shaft basis or clearance fits use different notations."
+  },
+  {
+    "q": "A loading error in measurements is classified as:",
+    "options": ["Systematic error", "Random error", "Gross error", "Instrumental error"],
+    "answer": 1,
+    "explanation": "Loading errors, due to inconsistent forces, are random errors. Systematic errors are consistent, gross errors are blunders, and instrumental errors are device-related."
+  },
+  {
+    "q": "Orthographic projection includes:",
+    "options": ["Side view projection", "All views", "Isometric view", "Perspective view"],
+    "answer": 1,
+    "explanation": "Orthographic projection includes all views (front, top, side) projected perpendicularly. Isometric and perspective are pictorial."
+  },
+  {
+    "q": "Which is not a personal safety device?",
+    "options": ["Shoe", "Fan belt cover", "Safety goggles", "Gloves"],
+    "answer": 1,
+    "explanation": "Fan belt covers are machine guards, not personal protective equipment (PPE). Shoes, goggles, and gloves are PPE."
+  },
+  {
+    "q": "The correct top view for a given object is:",
+    "options": ["Circle", "Rectangle", "Triangle", "Hexagon"],
+    "answer": 1,
+    "explanation": "Assuming a standard object (e.g., cuboid), the top view is a rectangle in orthographic projection. Other shapes depend on the object."
+  },
+  {
+    "q": "The taper magnitude of keys is typically:",
+    "options": ["1:100", "1:50", "1:25", "1:10"],
+    "answer": 0,
+    "explanation": "Keys typically have a taper of 1:100 for secure fitting. Higher tapers like 1:50 or 1:25 are less common."
+  },
+  {
+    "q": "The line type for hidden outlines is:",
+    "options": ["Continuous thick", "Short dashed narrow", "Long dashed wide", "Chain thick"],
+    "answer": 1,
+    "explanation": "Short dashed narrow lines represent hidden outlines. Continuous thick, long dashed, and chain lines are for other features."
+  },
+  {
+    "q": "A pictorial drawing is best described as:",
+    "options": ["Orthographic", "Axonometric", "Multiview", "Schematic"],
+    "answer": 1,
+    "explanation": "Axonometric drawings (e.g., isometric) are pictorial, showing 3D views. Orthographic and multiview are 2D, and schematic shows systems."
+  },
+  {
+    "q": "The angle for hatching lines is typically:",
+    "options": ["30°", "45°", "60°", "90°"],
+    "answer": 1,
+    "explanation": "Hatching lines are drawn at 45° to indicate cut surfaces. Other angles are non-standard."
+  },
+  {
+    "q": "Required elements of a welding symbol include:",
+    "options": ["Arrow and finish symbol", "Arrow and weld symbol", "Reference line and tail", "Finish symbol and tail"],
+    "answer": 1,
+    "explanation": "A welding symbol includes an arrow pointing to the weld and the weld symbol. Finish symbols, reference lines, and tails are optional or secondary."
+  },
+  {
+    "q": "The importance of a sectional view is:",
+    "options": ["To beautify the drawing", "To see internal details", "To reduce paper size", "To mark external features"],
+    "answer": 1,
+    "explanation": "Sectional views reveal internal details by cutting through the object. They don’t beautify, reduce size, or mark external features."
+  },
+  {
+    "q": "Orthographic projection is commonly done in:",
+    "options": ["Second and third angle", "First and third angle", "First and second angle", "Third and fourth angle"],
+    "answer": 1,
+    "explanation": "First and third-angle projections are standard. Second and fourth angles are rarely used."
+  },
+  {
+    "q": "A plane parallel to the projection plane appears:",
+    "options": ["Foreshortened", "True size", "Distorted", "Angled"],
+    "answer": 1,
+    "explanation": "A plane parallel to the projection plane is shown in its true size and shape. Foreshortening, distortion, or angling occurs otherwise."
+  },
+  {
+    "q": "The key used for shifting gears is typically:",
+    "options": ["Flat key", "Square key", "Gib head key", "Taper key"],
+    "answer": 1,
+    "explanation": "Square keys are used in gear-shifting mechanisms for strength. Flat, gib head, and taper keys have different applications."
+  },
+  {
+    "q": "If an axis is perpendicular to the horizontal plane (HP):",
+    "options": ["Front view drawn first", "Top view drawn first", "Side view drawn first", "All views drawn simultaneously"],
+    "answer": 1,
+    "explanation": "The top view is prioritized when the axis is perpendicular to the HP in orthographic projection. Other views follow."
+  },
+  {
+    "q": "Projection for a three-view object is:",
+    "options": ["Perspective", "Orthographic", "Isometric", "Oblique"],
+    "answer": 1,
+    "explanation": "Orthographic projection is used for three-view drawings (front, top, side). Perspective, isometric, and oblique are pictorial."
+  },
+  {
+    "q": "The BS 308 symbol for a splined hole is:",
+    "options": ["Vertical line", "Zig-zag with center", "Dashed circle", "Crosshatch"],
+    "answer": 1,
+    "explanation": "BS 308 specifies a zig-zag with center marking for splined holes. Other options are incorrect."
+  },
+  {
+    "q": "A drawing instrument set typically lacks:",
+    "options": ["Bow compass", "Extra lead", "Protractor", "Divider"],
+    "answer": 1,
+    "explanation": "Extra lead is a consumable, not an instrument. Bow compass, protractor, and divider are standard tools."
+  },
+  {
+    "q": "Information typically missing from a title block is:",
+    "options": ["Part list", "Drawing number", "Scale", "Title"],
+    "answer": 0,
+    "explanation": "The part list is separate from the title block, which includes drawing number, scale, and title."
+  },
+  {
+    "q": "Which statement about assembly drawings is true?",
+    "options": ["No dimensions included", "Balloon numbers in sequence", "Only sectional views", "No part list required"],
+    "answer": 1,
+    "explanation": "Balloon numbers sequentially identify parts in assembly drawings per BS 308. Dimensions may be included, sectional views are optional, and part lists are required."
+  },
+  {
+    "q": "A circle in an isometric drawing appears as:",
+    "options": ["Circle", "Ellipse", "Square", "Parabola"],
+    "answer": 1,
+    "explanation": "Circles appear as ellipses in isometric drawings due to the 30° projection. Other shapes are incorrect."
+  },
+  {
+    "q": "The two main types of projection are:",
+    "options": ["Parallel and Convergent", "Perspective and Parallel", "Orthographic and Isometric", "Oblique and Perspective"],
+    "answer": 1,
+    "explanation": "Perspective (convergent) and parallel (e.g., orthographic) are the main projection types. Other pairs are subsets or incorrect."
+  }
+]
     let score = 0;
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
