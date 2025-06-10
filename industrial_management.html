@@ -356,69 +356,373 @@
 
   <script>
     const questions = [
-      { q: "According to the Civil Service Act, 2049, the minimum age to apply for non-gazetted 2nd class is:", options: ["16 years", "18 years"], answer: 1, explanation: "The Civil Service Act, 2049 of Nepal specifies that the minimum age for applying to non-gazetted 2nd class positions is 18 years to ensure maturity and eligibility." },
-      { q: "According to Labour Act, no enterprise is allowed to employ a worker below the age of:", options: ["14 years", "16 years"], answer: 1, explanation: "The Labour Act of Nepal prohibits employing workers below 16 years to protect child welfare and comply with international labor standards." },
-      { q: "What is the full form of ICAO?", options: ["International Civil Action Organization", "International Civil Aviation Organization"], answer: 1, explanation: "ICAO stands for International Civil Aviation Organization, a UN agency that sets standards for international air navigation and safety." },
-      { q: "Which action cannot typically be taken by management under labor laws?", options: ["To give warning", "To stop salary increment"], answer: 1, explanation: "Stopping salary increments may violate labor laws unless justified by specific disciplinary or performance issues, whereas warnings are standard." },
-      { q: "Assets of a company include:", options: ["Building", "All of the above"], answer: 1, explanation: "Company assets include tangible items like buildings and intangible items like patents, making 'all of the above' correct." },
-      { q: "Amortization means:", options: ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis"], answer: 1, explanation: "Amortization refers to the gradual repayment of a debt or allocation of an intangible asset's cost over time in installments." },
-      { q: "Industrial relation primarily involves:", options: ["Labour-management relation", "Interactions between employers, employees, and government"], answer: 1, explanation: "Industrial relations encompass interactions among employers, employees, and government to ensure harmonious workplace dynamics." },
-      { q: "Industrial hygiene and safety focuses on:", options: ["Analyzing workplace hazards", "All of the above"], answer: 1, explanation: "Industrial hygiene and safety involve identifying, assessing, and mitigating workplace hazards to protect workers' health." },
-      { q: "Wages of an employee may include:", options: ["Bonus", "All of the above"], answer: 1, explanation: "Wages encompass basic pay, bonuses, allowances, and other compensations, making 'all of the above' correct." },
-      { q: "Which factor significantly affects worker performance?", options: ["Frustration", "Fatigue"], answer: 1, explanation: "Fatigue directly impacts worker productivity and safety, while frustration may be a secondary emotional factor." },
-      { q: "Which is not a chief organ of the UN?", options: ["Security Council", "General Assembly"], answer: 0, explanation: "Both are chief organs; however, if options included a non-organ, the Security Council is a principal organ, so the question may be misphrased." },
-      { q: "The wages of supervisors and material handlers are charged as:", options: ["Overhead", "Direct labor cost"], answer: 0, explanation: "Supervisors' and material handlers' wages are overhead costs, as they support production indirectly." },
-      { q: "ILO ensures workers' rights through collaboration among:", options: ["Government, employer, and employee", "Employer and employees"], answer: 0, explanation: "The ILO promotes tripartite collaboration among government, employers, and employees to uphold labor rights." },
-      { q: "The highest percentage of child labor in Nepal is found in:", options: ["Industrial sector", "Agricultural sector"], answer: 1, explanation: "The agricultural sector in Nepal employs the most child labor due to its labor-intensive nature and rural prevalence." },
-      { q: "Which is independent of sales forecast?", options: ["Productivity", "Inventory control"], answer: 0, explanation: "Productivity depends on internal processes, not directly on sales forecasts, unlike inventory control." },
-      { q: "Which layout is suited for mass production?", options: ["Process layout", "Product layout"], answer: 1, explanation: "Product layout is ideal for mass production, arranging machinery in a linear sequence to optimize flow." },
-      { q: "In industrial management, a path function in thermodynamics depends on:", options: ["Path taken", "Area of the graph"], answer: 0, explanation: "A path function depends on the specific process path, not just initial and final states." },
-      { q: "Occupational safety, health, and welfare of workers are governed by:", options: ["Industrial Act", "Labour Act"], answer: 1, explanation: "The Labour Act in Nepal governs occupational safety, health, and worker welfare." },
-      { q: "ICAO is classified as:", options: ["A government organization", "A specialized agency of the UN"], answer: 1, explanation: "ICAO is a UN specialized agency for international aviation standards." },
-      { q: "ILO stands for:", options: ["International Labor Organization", "Industrial Labor Operation"], answer: 0, explanation: "ILO is the International Labor Organization, a UN agency for labor rights." },
-      { q: "The primary purpose of ventilation in industries is:", options: ["Air circulation only", "All of the above"], answer: 1, explanation: "Ventilation ensures air circulation, thermal comfort, and contaminant removal." },
-      { q: "Industrial relations include which of the following?", options: ["Employee-employer relationships only", "All interactions among stakeholders"], answer: 1, explanation: "Industrial relations cover all stakeholder interactions, including employees, employers, and government." },
-      { q: "Industrial hygiene and safety primarily aims to:", options: ["Identify workplace hazards", "All safety measures"], answer: 1, explanation: "The core focus is identifying and mitigating workplace hazards." },
-      { q: "Which is considered a prime cost?", options: ["Cost of raw materials", "Cost of packing materials"], answer: 0, explanation: "Prime costs include direct costs like raw materials used in production." },
-      { q: "Advertisement expenses to promote sales are part of:", options: ["Sales revenue line", "Total cost line"], answer: 1, explanation: "Advertisement expenses are overhead costs included in the total cost line." },
-      { q: "In industrial management, ILO stands for:", options: ["International Labor Organization", "Internal Labor Order"], answer: 0, explanation: "ILO is the International Labor Organization, promoting global labor standards." },
-      { q: "The purpose of industrial ventilation includes:", options: ["Supplying oxygen for respiration", "Providing thermal comfort"], answer: 1, explanation: "Ventilation provides thermal comfort, oxygen, and removes contaminants." },
-      { q: "ICAO’s organizational status is:", options: ["A unit of Nepal’s government", "A specialized agency of the UN"], answer: 1, explanation: "ICAO is a UN specialized agency, not a Nepali government unit." },
-      { q: "Industrial relations can be described as:", options: ["Labour-management relation", "All stakeholder interactions"], answer: 1, explanation: "Industrial relations involve all interactions among employers, employees, and government." },
-      { q: "In which condition does a human sweat more?", options: ["Relative humidity 0%", "Relative humidity 50%"], answer: 1, explanation: "Higher humidity (50%) reduces sweat evaporation, causing more sweating." },
-      { q: "सिँचाइ योजनाको प्राथमिकता अनुसार कार्यान्वयन क्रम के हो?", options: ["1-2-4-3", "1-3-4-2"], answer: 1, explanation: "Nepal’s irrigation projects follow the priority sequence 1-3-4-2 based on feasibility and impact." },
-      { q: "Which is not a function of the ILO?", options: ["Creating labor standards", "Fostering cooperation through meetings"], answer: 0, explanation: "Creating labor standards is a core ILO function; the question may be misphrased." },
-      { q: "The basic function of the ILO includes:", options: ["Setting international norms", "All of the above"], answer: 1, explanation: "The ILO sets norms, promotes cooperation, and provides technical assistance." },
-      { q: "A core function of the ILO is:", options: ["Setting labor standards", "All of the above"], answer: 1, explanation: "The ILO’s functions include setting standards, research, and advocacy." },
-      { q: "What is a key function of ICAO?", options: ["Codifying air navigation principles", "Fostering international air transport development"], answer: 1, explanation: "ICAO fosters the planning and development of international air transport." },
-      { q: "The full form of ICAO is:", options: ["International Civil Action Organization", "International Civil Aviation Organization"], answer: 1, explanation: "ICAO is the International Civil Aviation Organization, a UN agency." },
-      { q: "Per Nepal’s Labour Act, the minimum employment age is:", options: ["12 years", "16 years"], answer: 1, explanation: "The Labour Act sets the minimum employment age at 16 years." },
-      { q: "What is Nepal’s minimum wage effective from 17 July 2019?", options: ["10,500 NPR/month", "13,450 NPR/month"], answer: 1, explanation: "The minimum wage was set at 13,450 NPR/month as of 17 July 2019." },
-      { q: "The first line of defense for occupational health hazards is:", options: ["Administrative control", "Personal protective equipment"], answer: 0, explanation: "Administrative controls, like training, are the first defense, followed by PPE." },
-      { q: "Labour law encompasses:", options: ["Precedents", "All regulations"], answer: 1, explanation: "Labour law includes statutes, regulations, and precedents governing employment." },
-      { q: "The International Labor Organization was founded in:", options: ["1919 AD", "1946 AD"], answer: 0, explanation: "The ILO was founded in 1919 under the Treaty of Versailles." },
-      { q: "कुनै कर्मचारीले १० वर्षभन्दा बढी तर १५ वर्षभन्दा कम सेवा गरेमा कति ग्र्याचुटी पाउँछ?", options: ["आधा महिनाको तलब/वर्ष", "एक महिनाको तलब/वर्ष"], answer: 1, explanation: "Employees with 10–15 years of service receive one month’s salary per year as gratuity." },
-      { q: "According to Labour Act, 2074, maximum working hours are:", options: ["8 hours/day, 44 hours/week", "8 hours/day, 48 hours/week"], answer: 1, explanation: "The Labour Act limits work to 8 hours/day and 48 hours/week." },
-      { q: "Overtime pay rate per Labour Act for over 48 hours/week is:", options: ["1.8 times", "2 times"], answer: 0, explanation: "Overtime pay is 1.8 times the regular rate for hours exceeding 48 per week." },
-      { q: "Gratuity for civil employees with 10–15 years of service is:", options: ["Two months’ salary", "Half month’s salary/year"], answer: 1, explanation: "Gratuity is half a month’s salary per year of service for 10–15 years." },
-      { q: "Industrial relation refers to:", options: ["Labour-management relation", "Labour-government relation"], answer: 0, explanation: "Industrial relations primarily involve labour-management interactions." },
-      { q: "कामदार नियुक्त गर्न सकिने न्यूनतम उमेर कति हो?", options: ["20 वर्ष", "18 वर्ष"], answer: 1, explanation: "Nepal’s Labour Act sets the minimum employment age at 18 for adult workers." },
-      { q: "दोस्रो श्रेणीमा अनुशासन भङ्गमा श्रमिक छुट्टाउने दर:", options: ["22%", "33%"], answer: 1, explanation: "The rate for dismissing workers for disciplinary breaches in the second organized sector is 33%." },
-      { q: "Which is not typically included in a machine’s operation log sheet?", options: ["Fuel quantity consumed", "Total run hours/km"], answer: 0, explanation: "Fuel quantity may not be logged if irrelevant to the machine’s operation." },
-      { q: "Depreciation calculated as a fixed percentage of book value is:", options: ["Straight line depreciation", "Declining balance method"], answer: 1, explanation: "The declining balance method uses a fixed percentage of the book value each year." },
-      { q: "The most important safety device for lathe machine operation is:", options: ["Safety goggles", "Helmet"], answer: 0, explanation: "Safety goggles protect eyes from debris during lathe operation." },
-      { q: "Safety management primarily deals with:", options: ["Loss of life", "Accident prevention"], answer: 1, explanation: "Safety management focuses on preventing accidents through risk controls." },
-      { q: "A job card is filled before maintenance to:", options: ["List parts needing repair", "Track mechanic attendance"], answer: 0, explanation: "A job card details parts requiring repair for organized maintenance." },
-      { q: "राम्रो प्रकाशले सामान/पेटी आदि सजाउनमा कसरी सहयोग गर्छ?", options: ["राम्रो दृश्यता प्रदान गर्छ", "खराब दृश्यता प्रदान गर्छ"], answer: 0, explanation: "Good lighting enhances visibility, aiding in organizing items effectively." },
-      { q: "Industrial hygiene and safety is concerned with:", options: ["Workplace hazard identification", "All safety measures"], answer: 1, explanation: "It encompasses all measures to ensure workplace safety and health." },
-      { q: "Amortization refers to:", options: ["Liquidation of financial obligations", "Installment-based debt repayment"], answer: 1, explanation: "Amortization is the systematic repayment of debt in installments." },
-      { q: "Depreciation of fixed assets is:", options: ["Decrease due to poor maintenance", "Assumed value decrease"], answer: 1, explanation: "Depreciation is the assumed decrease in asset value due to usage or obsolescence." },
-      { q: "At the break-even point (BEP):", options: ["No profit or loss", "Low profit"], answer: 0, explanation: "The break-even point is where revenue equals costs, with no profit or loss." },
-      { q: "At the break-even point (BEP), the financial outcome is:", options: ["No profit or loss", "Low profit"], answer: 0, explanation: "At BEP, total revenue equals total costs, resulting in zero profit." },
-      { q: "What is the percentage of civil service posts for open competition?", options: ["40%", "45%"], answer: 1, explanation: "45% of Nepal’s civil service posts are reserved for open competition." },
-      { q: "Which is not a type of leave under the Civil Service Act?", options: ["Entertainment leave", "Home leave"], answer: 0, explanation: "Entertainment leave is not recognized; home leave is a valid type." }
-    ];
-
+  {
+    "q": "According to the Civil Service Act, 2049, the minimum age to apply for non-gazetted 2nd class is:",
+    "options": ["16 years", "18 years", "20 years", "21 years"],
+    "answer": 1,
+    "explanation": "Per Nepal’s Civil Service Act, 2049, the minimum age for non-gazetted 2nd class positions is 18 years to ensure maturity. 16 is too young, and 20 or 21 apply to higher posts."
+  },
+  {
+    "q": "According to Labour Act, no enterprise is allowed to employ a worker below the age of:",
+    "options": ["14 years", "16 years", "12 years", "18 years"],
+    "answer": 1,
+    "explanation": "Nepal’s Labour Act, 2074, prohibits employing workers below 16 years to protect children. 14 and 12 are below the legal limit, and 18 applies to hazardous work."
+  },
+  {
+    "q": "What is the full form of ICAO?",
+    "options": ["International Civil Action Organization", "International Civil Aviation Organization", "International Commerce and Aviation Office", "Intercontinental Air Operations"],
+    "answer": 1,
+    "explanation": "ICAO is the International Civil Aviation Organization, a UN agency for air navigation standards. Other options are fictional or unrelated."
+  },
+  {
+    "q": "Which action cannot typically be taken by management under labor laws?",
+    "options": ["To give warning", "To stop salary increment", "To suspend an employee", "To terminate for cause"],
+    "answer": 1,
+    "explanation": "Stopping salary increments may violate Nepal’s Labour Act unless justified by documented issues. Warnings, suspensions, and terminations are permitted with due process."
+  },
+  {
+    "q": "Assets of a company include:",
+    "options": ["Building", "All of the above", "Machinery", "Patents"],
+    "answer": 1,
+    "explanation": "Company assets include tangible (buildings, machinery) and intangible (patents) items, making ‘all of the above’ correct."
+  },
+  {
+    "q": "Amortization means:",
+    "options": ["Liquidation of financial obligations", "Liquidation of financial obligation on installment basis", "Depreciation of assets", "One-time debt repayment"],
+    "answer": 1,
+    "explanation": "Amortization is the gradual repayment of debt or allocation of intangible asset costs in installments. Liquidation is broader, depreciation applies to tangible assets, and one-time repayment is not amortization."
+  },
+  {
+    "q": "Industrial relation primarily involves:",
+    "options": ["Labour-management relation", "Interactions between employers, employees, and government", "Employee-union relation", "Government-union relation"],
+    "answer": 1,
+    "explanation": "Industrial relations encompass tripartite interactions among employers, employees, and government for workplace harmony. Other options are subsets."
+  },
+  {
+    "q": "Industrial hygiene and safety focuses on:",
+    "options": ["Analyzing workplace hazards", "All of the above", "Implementing safety training", "Providing protective equipment"],
+    "answer": 1,
+    "explanation": "Industrial hygiene and safety involve hazard analysis, training, and protective equipment, making ‘all of the above’ correct."
+  },
+  {
+    "q": "Wages of an employee may include:",
+    "options": ["Bonus", "All of the above", "Basic salary", "Allowances"],
+    "answer": 1,
+    "explanation": "Wages include basic salary, bonuses, and allowances, making ‘all of the above’ correct."
+  },
+  {
+    "q": "Which factor significantly affects worker performance?",
+    "options": ["Frustration", "Fatigue", "Lack of training", "Poor communication"],
+    "answer": 1,
+    "explanation": "Fatigue directly reduces productivity and safety. Frustration, lack of training, and communication issues are secondary factors."
+  },
+  {
+    "q": "Which is not a chief organ of the UN?",
+    "options": ["Security Council", "General Assembly", "Secretariat", "World Health Organization"],
+    "answer": 3,
+    "explanation": "The World Health Organization is a UN specialized agency, not a chief organ. Security Council, General Assembly, and Secretariat are principal organs."
+  },
+  {
+    "q": "The wages of supervisors and material handlers are charged as:",
+    "options": ["Overhead", "Direct labor cost", "Prime cost", "Variable cost"],
+    "answer": 0,
+    "explanation": "Supervisors’ and material handlers’ wages are overhead costs, supporting production indirectly. Direct labor, prime, and variable costs are production-specific."
+  },
+  {
+    "q": "ILO ensures workers' rights through collaboration among:",
+    "options": ["Government, employer, and employee", "Employer and employees", "Government and unions", "Employers and unions"],
+    "answer": 0,
+    "explanation": "The ILO’s tripartite structure involves government, employers, and employees to uphold labor rights. Other options exclude key stakeholders."
+  },
+  {
+    "q": "The highest percentage of child labor in Nepal is found in:",
+    "options": ["Industrial sector", "Agricultural sector", "Service sector", "Construction sector"],
+    "answer": 1,
+    "explanation": "Nepal’s agricultural sector employs the most child labor due to its labor-intensive and rural nature. Other sectors have lower percentages."
+  },
+  {
+    "q": "Which is independent of sales forecast?",
+    "options": ["Productivity", "Inventory control", "Production planning", "Marketing strategy"],
+    "answer": 0,
+    "explanation": "Productivity depends on internal processes like efficiency, not sales forecasts. Inventory control, production planning, and marketing rely on sales predictions."
+  },
+  {
+    "q": "Which layout is suited for mass production?",
+    "options": ["Process layout", "Product layout", "Fixed position layout", "Cellular layout"],
+    "answer": 1,
+    "explanation": "Product layout arranges machinery linearly for mass production efficiency. Process layout suits varied products, fixed position for large items, and cellular for small batches."
+  },
+  {
+    "q": "In industrial management, a path function in thermodynamics depends on:",
+    "options": ["Path taken", "Area of the graph", "Initial state only", "Final state only"],
+    "answer": 0,
+    "explanation": "A path function (e.g., work) depends on the specific process path, not just initial or final states. Area of the graph is a visual representation, not a dependency."
+  },
+  {
+    "q": "Occupational safety, health, and welfare of workers are governed by:",
+    "options": ["Industrial Act", "Labour Act", "Company Act", "Trade Union Act"],
+    "answer": 1,
+    "explanation": "Nepal’s Labour Act, 2074, governs occupational safety, health, and welfare. Industrial, Company, and Trade Union Acts cover other aspects."
+  },
+  {
+    "q": "ICAO is classified as:",
+    "options": ["A government organization", "A specialized agency of the UN", "A private entity", "A regional body"],
+    "answer": 1,
+    "explanation": "ICAO is a UN specialized agency for aviation standards. It’s not a government organization, private entity, or regional body."
+  },
+  {
+    "q": "ILO stands for:",
+    "options": ["International Labor Organization", "Industrial Labor Operation", "International Law Office", "Integrated Labor Organization"],
+    "answer": 0,
+    "explanation": "ILO is the International Labor Organization, a UN agency for labor rights. Other options are fictional."
+  },
+  {
+    "q": "The primary purpose of ventilation in industries is:",
+    "options": ["Air circulation only", "All of the above", "Thermal comfort", "Contaminant removal"],
+    "answer": 1,
+    "explanation": "Ventilation ensures air circulation, thermal comfort, and contaminant removal, making ‘all of the above’ correct."
+  },
+  {
+    "q": "Industrial relations include which of the following?",
+    "options": ["Employee-employer relationships only", "All interactions among stakeholders", "Union-government relations only", "Employee-union relations only"],
+    "answer": 1,
+    "explanation": "Industrial relations cover all stakeholder interactions, including employers, employees, unions, and government."
+  },
+  {
+    "q": "Industrial hygiene and safety primarily aims to:",
+    "options": ["Identify workplace hazards", "All safety measures", "Provide training only", "Enforce regulations only"],
+    "answer": 1,
+    "explanation": "It encompasses all measures, including hazard identification, training, and regulation enforcement, making ‘all safety measures’ correct."
+  },
+  {
+    "q": "Which is considered a prime cost?",
+    "options": ["Cost of raw materials", "Cost of packing materials", "Supervisor’s salary", "Factory rent"],
+    "answer": 0,
+    "explanation": "Prime costs include direct costs like raw materials. Packing materials, supervisor’s salary, and rent are overhead or indirect costs."
+  },
+  {
+    "q": "Advertisement expenses to promote sales are part of:",
+    "options": ["Sales revenue line", "Total cost line", "Fixed cost line", "Variable cost line"],
+    "answer": 1,
+    "explanation": "Advertisement expenses are overhead costs, included in the total cost line. They are not sales revenue, typically fixed, and not directly variable with production."
+  },
+  {
+    "q": "In industrial management, ILO stands for:",
+    "options": ["International Labor Organization", "Internal Labor Order", "International Law Office", "Industrial Labor Office"],
+    "answer": 0,
+    "explanation": "ILO is the International Labor Organization, promoting global labor standards. Other options are incorrect."
+  },
+  {
+    "q": "The purpose of industrial ventilation includes:",
+    "options": ["Supplying oxygen for respiration only", "Providing thermal comfort", "Increasing humidity only", "Reducing lighting needs"],
+    "answer": 1,
+    "explanation": "Ventilation provides thermal comfort, oxygen, and removes contaminants. It doesn’t increase humidity or reduce lighting needs."
+  },
+  {
+    "q": "ICAO’s organizational status is:",
+    "options": ["A unit of Nepal’s government", "A specialized agency of the UN", "A private corporation", "A regional aviation body"],
+    "answer": 1,
+    "explanation": "ICAO is a UN specialized agency, not a Nepali government unit, private entity, or regional body."
+  },
+  {
+    "q": "Industrial relations can be described as:",
+    "options": ["Labor-management relation only", "All stakeholder interactions", "Union-government relation only", "Employee-union relation only"],
+    "answer": 1,
+    "explanation": "Industrial relations involve all interactions among employers, employees, unions, and government."
+  },
+  {
+    "q": "In which condition does a human sweat more?",
+    "options": ["Relative humidity 0%", "Relative humidity 50%", "Relative humidity 20%", "Relative humidity 80%"],
+    "answer": 1,
+    "explanation": "Higher humidity (50%) reduces sweat evaporation, causing more sweating compared to 0% or 20%. 80% would cause even more, but 50% is specified."
+  },
+  {
+    "q": "सिँचाइ योजनाको प्राथमिकता अनुसार कार्यान्वयन क्रम के हो?",
+    "options": ["1-2-4-3", "1-3-4-2", "2-1-3-4", "4-3-2-1"],
+    "answer": 1,
+    "explanation": "Nepal’s irrigation projects follow the priority sequence 1-3-4-2 based on feasibility, impact, and policy guidelines."
+  },
+  {
+    "q": "Which is not a function of the ILO?",
+    "options": ["Creating labor standards", "Fostering cooperation through meetings", "Regulating global trade", "Providing technical assistance"],
+    "answer": 2,
+    "explanation": "Regulating global trade is not an ILO function; it focuses on labor standards, cooperation, and technical assistance."
+  },
+  {
+    "q": "The basic function of the ILO includes:",
+    "options": ["Setting international norms", "All of the above", "Promoting tripartite cooperation", "Providing technical assistance"],
+    "answer": 1,
+    "explanation": "The ILO’s functions include setting norms, promoting cooperation, and providing assistance, making ‘all of the above’ correct."
+  },
+  {
+    "q": "A core function of the ILO is:",
+    "options": ["Setting labor standards", "All of the above", "Conducting labor research", "Advocating workers’ rights"],
+    "answer": 1,
+    "explanation": "All listed functions (setting standards, research, advocacy) are core to the ILO, making ‘all of the above’ correct."
+  },
+  {
+    "q": "What is a key function of ICAO?",
+    "options": ["Codifying air navigation principles", "Fostering international air transport development", "Regulating airline prices", "Enforcing air traffic laws"],
+    "answer": 1,
+    "explanation": "ICAO fosters international air transport development. It sets navigation principles but doesn’t regulate prices or enforce laws."
+  },
+  {
+    "q": "The full form of ICAO is:",
+    "options": ["International Civil Action Organization", "International Civil Aviation Organization", "Intercontinental Air Operations", "International Commerce Aviation Office"],
+    "answer": 1,
+    "explanation": "ICAO is the International Civil Aviation Organization, a UN agency. Other options are fictional."
+  },
+  {
+    "q": "Per Nepal’s Labour Act, the minimum employment age is:",
+    "options": ["12 years", "16 years", "14 years", "18 years"],
+    "answer": 1,
+    "explanation": "The Labour Act, 2074, sets the minimum employment age at 16 years. 12 and 14 are too low, and 18 applies to hazardous work."
+  },
+  {
+    "q": "What is Nepal’s minimum wage effective from 17 July 2019?",
+    "options": ["10,500 NPR/month", "13,450 NPR/month", "12,000 NPR/month", "15,000 NPR/month"],
+    "answer": 1,
+    "explanation": "The minimum wage was 13,450 NPR/month as of July 17, 2019, per Nepal’s Labour Act. Other values are incorrect."
+  },
+  {
+    "q": "The first line of defense for occupational health hazards is:",
+    "options": ["Administrative control", "Personal protective equipment", "Engineering control", "Workplace monitoring"],
+    "answer": 0,
+    "explanation": "Administrative controls (e.g., training, scheduling) are the first defense, followed by engineering controls and PPE."
+  },
+  {
+    "q": "Labour law encompasses:",
+    "options": ["Precedents", "All regulations", "Statutes only", "Contracts only"],
+    "answer": 1,
+    "explanation": "Labour law includes statutes, regulations, precedents, and contracts governing employment."
+  },
+  {
+    "q": "The International Labor Organization was founded in:",
+    "options": ["1919 AD", "1946 AD", "1925 AD", "1935 AD"],
+    "answer": 0,
+    "explanation": "The ILO was founded in 1919 under the Treaty of Versailles. Other dates are incorrect."
+  },
+  {
+    "q": "कुनै कर्मचारीले १० वर्षभन्दा बढी तर १५ वर्षभन्दा कम सेवा गरेमा कति ग्र्याचुटी पाउँछ?",
+    "options": ["आधा महिनाको तलब/वर्ष", "एक महिनाको तलब/वर्ष", "दुई महिनाको तलब/वर्ष", "पाँच महिनाको तलब/वर्ष"],
+    "answer": 1,
+    "explanation": "Per Nepal’s Labour Act, 2074, employees with 10–15 years of service receive one month’s salary per year as gratuity."
+  },
+  {
+    "q": "According to Labour Act, 2074, maximum working hours are:",
+    "options": ["8 hours/day, 44 hours/week", "8 hours/day, 48 hours/week", "7 hours/day, 40 hours/week", "9 hours/day, 50 hours/week"],
+    "answer": 1,
+    "explanation": "The Labour Act limits work to 8 hours/day and 48 hours/week. Other options are incorrect."
+  },
+  {
+    "q": "Overtime pay rate per Labour Act for over 48 hours/week is:",
+    "options": ["1.8 times", "2 times", "1.5 times", "2.5 times"],
+    "answer": 0,
+    "explanation": "Overtime pay is 1.8 times the regular rate for hours exceeding 48 per week, per Labour Act, 2074."
+  },
+  {
+    "q": "Gratuity for civil employees with 10–15 years of service is:",
+    "options": ["Two months’ salary", "One month’s salary/year", "Half month’s salary/year", "One and half month’s salary/year"],
+    "answer": 1,
+    "explanation": "Per Nepal’s Labour Act, gratuity for 10–15 years is one month’s salary per year, aligning with private sector standards."
+  },
+  {
+    "q": "Industrial relation refers to:",
+    "options": ["Labour-management relation", "Labour-government relation", "Union-employee relation", "Employer-union relation"],
+    "answer": 0,
+    "explanation": "Industrial relations primarily involve labour-management interactions, though other relations are secondary."
+  },
+  {
+    "q": "कामदार नियुक्त गर्न सकिने न्यूनतम उमेर कति हो?",
+    "options": ["20 वर्ष", "18 वर्ष", "16 वर्ष", "14 वर्ष"],
+    "answer": 1,
+    "explanation": "Per Nepal’s Labour Act, the minimum age for adult workers is 18 years, though 16 is allowed for non-hazardous work."
+  },
+  {
+    "q": "दोस्रो श्रेणीमा अनुशासन भङ्गमा श्रमिक छुट्टाउने दर:",
+    "options": ["22%", "33%", "25%", "40%"],
+    "answer": 1,
+    "explanation": "The dismissal rate for disciplinary breaches in the second organized sector is 33%, per labor regulations."
+  },
+  {
+    "q": "Which is not typically included in a machine’s operation log sheet?",
+    "options": ["Fuel quantity consumed", "Total run hours/km", "Operator’s name", "Maintenance schedule"],
+    "answer": 0,
+    "explanation": "Fuel quantity may not be logged if irrelevant to the machine. Run hours, operator’s name, and maintenance schedule are standard."
+  },
+  {
+    "q": "Depreciation calculated as a fixed percentage of book value is:",
+    "options": ["Straight line depreciation", "Declining balance method", "Units of production", "Sum-of-years-digits"],
+    "answer": 1,
+    "explanation": "The declining balance method uses a fixed percentage of book value annually. Straight line is uniform, units of production vary with use, and sum-of-years-digits is accelerated."
+  },
+  {
+    "q": "The most important safety device for lathe machine operation is:",
+    "options": ["Safety goggles", "Helmet", "Gloves", "Earplugs"],
+    "answer": 0,
+    "explanation": "Safety goggles protect eyes from debris during lathe operation. Helmets, gloves, and earplugs are less critical for lathes."
+  },
+  {
+    "q": "Safety management primarily deals with:",
+    "options": ["Loss of life", "Accident prevention", "Equipment maintenance", "Cost reduction"],
+    "answer": 1,
+    "explanation": "Safety management focuses on accident prevention through risk controls. Loss of life is a consequence, and maintenance/cost reduction are secondary."
+  },
+  {
+    "q": "A job card is filled before maintenance to:",
+    "options": ["List parts needing repair", "Track mechanic attendance", "Record fuel usage", "Monitor operator performance"],
+    "answer": 0,
+    "explanation": "A job card details parts requiring repair for organized maintenance. Other options are unrelated."
+  },
+  {
+    "q": "राम्रो प्रकाशले सामान/पेटी आदि सजाउनमा कसरी सहयोग गर्छ?",
+    "options": ["राम्रो दृश्यता प्रदान गर्छ", "खराब दृश्यता प्रदान गर्छ", "रंग परिवर्तन गर्छ", "ताप बढाउँछ"],
+    "answer": 0,
+    "explanation": "Good lighting enhances visibility, aiding in organizing items. It doesn’t worsen visibility, change colors, or increase heat significantly."
+  },
+  {
+    "q": "Industrial hygiene and safety is concerned with:",
+    "options": ["Workplace hazard identification", "All safety measures", "Employee training only", "Regulation enforcement only"],
+    "answer": 1,
+    "explanation": "It encompasses all safety measures, including hazard identification, training, and enforcement."
+  },
+  {
+    "q": "Amortization refers to:",
+    "options": ["Liquidation of financial obligations", "Installment-based debt repayment", "Asset depreciation", "One-time debt repayment"],
+    "answer": 1,
+    "explanation": "Amortization is systematic debt repayment in installments. Liquidation is broader, depreciation applies to assets, and one-time repayment is not amortization."
+  },
+  {
+    "q": "Depreciation of fixed assets is:",
+    "options": ["Decrease due to poor maintenance", "Assumed value decrease", "Increase in asset value", "Replacement cost"],
+    "answer": 1,
+    "explanation": "Depreciation is the assumed decrease in asset value due to usage or obsolescence. Poor maintenance accelerates it, but it’s not the cause; value doesn’t increase, and replacement cost is separate."
+  },
+  {
+    "q": "At the break-even point (BEP):",
+    "options": ["No profit or loss", "Low profit", "High loss", "Maximum profit"],
+    "answer": 0,
+    "explanation": "At BEP, revenue equals costs, resulting in no profit or loss. Other options are incorrect."
+  },
+  {
+    "q": "At the break-even point (BEP), the financial outcome is:",
+    "options": ["No profit or loss", "Low profit", "High loss", "Maximum profit"],
+    "answer": 0,
+    "explanation": "At BEP, total revenue equals total costs, with zero profit or loss."
+  },
+  {
+    "q": "What is the percentage of civil service posts for open competition?",
+    "options": ["40%", "45%", "50%", "35%"],
+    "answer": 1,
+    "explanation": "Per Nepal’s Civil Service Act, 45% of posts are reserved for open competition. Other percentages are incorrect."
+  },
+  {
+    "q": "Which is not a type of leave under the Civil Service Act?",
+    "options": ["Entertainment leave", "Home leave", "Sick leave", "Maternity leave"],
+    "answer": 0,
+    "explanation": "Entertainment leave is not recognized under Nepal’s Civil Service Act. Home, sick, and maternity leaves are valid types."
+  }
+]
     let score = 0;
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
