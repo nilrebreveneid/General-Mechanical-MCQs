@@ -356,29 +356,139 @@
 
   <script>
     const quizData = [
-      { q: "Depreciation is a process of:", options: ["Maintenance", "Valuation", "Allocation of cost over time", "Asset disposal"], answer: 2, explanation: "Depreciation is the process of allocating the cost of a tangible asset over its useful life, reflecting its usage and wear." },
-      { q: "Depreciation arises because of:", options: ["Physical wear and tear", "Fall in the market value of an asset", "Change in technology", "Inflation"], answer: 0, explanation: "Depreciation primarily occurs due to physical wear and tear from usage, though obsolescence and time can also contribute." },
-      { q: "Following cost is variable cost:", options: ["Cost of raw material", "Depreciation of plant", "Rent of factory", "Manager’s salary"], answer: 0, explanation: "Variable costs, like raw material costs, change with production levels, unlike fixed costs such as depreciation or rent." },
-      { q: "The price of goods which depends on price of goods:", options: ["Obtained on bad debt loss", "Solid order", "Market demand", "Competitor pricing"], answer: 2, explanation: "The price of goods is influenced by market demand, which drives supply and pricing dynamics." },
-      { q: "Return on Investment (ROI) =", options: ["Net profit / Total assets × 100", "Gross profit / Net sales × 100", "Net sales / Total assets × 100", "Gross profit / Total assets × 100"], answer: 0, explanation: "ROI is calculated as Net profit divided by Total assets, multiplied by 100, to measure investment efficiency." },
-      { q: "The main objective of depreciation?", options: ["To show previous profit", "To calculate net profit", "To allocate asset cost", "To increase asset value"], answer: 2, explanation: "The main objective of depreciation is to allocate the cost of an asset over its useful life for accurate financial reporting." },
-      { q: "Break-even analysis can be used for:", options: ["Short run analysis", "Long run analysis", "Market forecasting", "Employee performance"], answer: 0, explanation: "Break-even analysis is primarily used for short-run analysis to determine the point where total revenue equals total costs." },
-      { q: "Depreciation of machines, according to income tax regulation is calculated on the basis of:", options: ["Declining balance", "Rate of returns", "Straight-line method", "Units of production"], answer: 0, explanation: "Income tax regulations often allow depreciation using the declining balance method, accelerating cost allocation." },
-      { q: "What is depreciation?", options: ["Cost of a fixed asset", "Position of fixed asset’s cost consumed during the current accounting period", "Total asset value", "Asset appreciation"], answer: 1, explanation: "Depreciation represents the portion of a fixed asset’s cost consumed during an accounting period due to usage or obsolescence." },
-      { q: "Pricing of a product is based on:", options: ["Total cost incurred for production", "All of the above", "Market demand", "Competitor pricing"], answer: 1, explanation: "Product pricing considers total production costs, market demand, and competitor pricing, making 'all of the above' correct." },
-      { q: "A book published by manufacturers containing parts, numbers and diagrams is called:", options: ["Owner’s manual", "Service manual", "Parts catalog", "User guide"], answer: 2, explanation: "A parts catalog lists parts, numbers, and diagrams for equipment, aiding maintenance and repairs." },
-      { q: "Civil Service Act pension formula:", options: ["Fixed interest × No. of years", "No. of years of service × latest salary ÷ 50", "Latest salary ÷ No. of years", "Total contributions × interest rate"], answer: 1, explanation: "The Civil Service Act pension formula calculates pension as years of service times latest salary divided by 50." },
-      { q: "Depreciation of fixed assets is:", options: ["The amount by which its value is assumed to decrease because of the asset being used", "Full value retained", "Asset appreciation", "Cost of replacement"], answer: 0, explanation: "Depreciation reflects the decrease in an asset’s value due to usage, wear, or obsolescence over time." },
-      { q: "Depreciation of machines is categorized under the head:", options: ["Direct expenses", "Indirect expenses", "Capital expenses", "Operating expenses"], answer: 1, explanation: "Depreciation is an indirect expense, as it’s not directly tied to production but affects overall costs." },
-      { q: "A variable cost is a cost that:", options: ["Varies directly with the level of activity", "Does not change with level of activity", "Is fixed per unit", "Decreases with activity"], answer: 0, explanation: "Variable costs, like raw materials, vary directly with production or activity levels." },
-      { q: "Pick the element of the cost from the following:", options: ["Overhead", "All of these", "Direct labor", "Direct materials"], answer: 1, explanation: "All listed options (overhead, direct labor, direct materials) are elements of cost in production." },
-      { q: "The total cost is the sum of fixed cost and:", options: ["Accounting cost", "Variable cost", "Sunk cost", "Opportunity cost"], answer: 1, explanation: "Total cost comprises fixed costs (e.g., rent) and variable costs (e.g., materials) incurred in production." },
-      { q: "A cost that has already been made and cannot be recovered is called:", options: ["Fixed cost", "Sunk cost", "Variable cost", "Opportunity cost"], answer: 1, explanation: "Sunk costs are past expenditures that cannot be recovered, like research costs already spent." },
-      { q: "A variable cost is a cost that:", options: ["Varies out at every level of activity", "Occurs at various times during the year", "Is fixed annually", "Decreases with production"], answer: 0, explanation: "Variable costs change with activity levels, such as costs for materials used in production." },
-      { q: "Depreciation of machines is categorized under the head:", options: ["Direct expenses", "Indirect expenses", "Capital expenses", "Revenue expenses"], answer: 1, explanation: "Machine depreciation is an indirect expense, allocated over time rather than tied directly to production." },
-      { q: "The main objective of depreciation?", options: ["To show previous profit", "To calculate net profit", "To allocate asset cost", "To reduce tax liability"], answer: 2, explanation: "Depreciation’s primary goal is to allocate an asset’s cost over its useful life for accurate accounting." },
-      { q: "Return on Investment (ROI) =", options: ["Net profit / Total assets × 100", "Gross profit / Net sales × 100", "Net sales / Total assets × 100", "Gross profit / Total assets × 100"], answer: 0, explanation: "ROI measures investment efficiency as Net profit divided by Total assets, expressed as a percentage." }
-    ];
+  {
+    "q": "Depreciation is a process of:",
+    "options": ["Maintenance", "Valuation", "Allocation of cost over time", "Asset disposal"],
+    "answer": 2,
+    "explanation": "Depreciation allocates the cost of a tangible asset over its useful life, reflecting usage and wear. Maintenance involves upkeep, valuation assesses worth, and asset disposal is selling or discarding assets."
+  },
+  {
+    "q": "Depreciation arises because of:",
+    "options": ["Physical wear and tear", "Fall in the market value of an asset", "Change in technology", "Inflation"],
+    "answer": 0,
+    "explanation": "Depreciation primarily occurs due to physical wear and tear from usage. Market value decline, technological obsolescence, and inflation may influence value but are not the primary causes."
+  },
+  {
+    "q": "Following cost is variable cost:",
+    "options": ["Cost of raw material", "Depreciation of plant", "Rent of factory", "Manager’s salary"],
+    "answer": 0,
+    "explanation": "Variable costs, like raw material costs, vary with production levels. Depreciation, rent, and manager’s salary are fixed costs, not changing with production volume."
+  },
+  {
+    "q": "The price of goods which depends on price of goods:",
+    "options": ["Obtained on bad debt loss", "Solid order", "Market demand", "Competitor pricing"],
+    "answer": 2,
+    "explanation": "The price of goods is driven by market demand, which influences supply and pricing dynamics. Bad debt loss, solid orders, and competitor pricing are secondary factors."
+  },
+  {
+    "q": "Return on Investment (ROI) =",
+    "options": ["Net profit / Total assets × 100", "Gross profit / Net sales × 100", "Net sales / Total assets × 100", "Gross profit / Total assets × 100"],
+    "answer": 0,
+    "explanation": "ROI is calculated as Net profit divided by Total assets, multiplied by 100, to measure investment efficiency. Other formulas represent different metrics like profit margin or asset turnover."
+  },
+  {
+    "q": "The main objective of depreciation?",
+    "options": ["To show previous profit", "To calculate net profit", "To allocate asset cost", "To increase asset value"],
+    "answer": 2,
+    "explanation": "Depreciation allocates an asset’s cost over its useful life for accurate financial reporting. It does not show profit, calculate net profit directly, or increase asset value."
+  },
+  {
+    "q": "Break-even analysis can be used for:",
+    "options": ["Short run analysis", "Long run analysis", "Market forecasting", "Employee performance"],
+    "answer": 0,
+    "explanation": "Break-even analysis determines the point where revenue equals costs, used for short-run planning. Long-run analysis, market forecasting, and employee performance are unrelated applications."
+  },
+  {
+    "q": "Depreciation of machines, according to income tax regulation is calculated on the basis of:",
+    "options": ["Declining balance", "Rate of returns", "Straight-line method", "Units of production"],
+    "answer": 0,
+    "explanation": "Income tax regulations often use the declining balance method for accelerated depreciation. Rate of returns is unrelated, straight-line is common but slower, and units of production depend on usage."
+  },
+  {
+    "q": "What is depreciation?",
+    "options": ["Cost of a fixed asset", "Position of fixed asset’s cost consumed during the current accounting period", "Total asset value", "Asset appreciation"],
+    "answer": 1,
+    "explanation": "Depreciation is the portion of a fixed asset’s cost consumed in an accounting period due to usage or obsolescence. It is not the total cost, value, or appreciation of the asset."
+  },
+  {
+    "q": "Pricing of a product is based on:",
+    "options": ["Total cost incurred for production", "All of the above", "Market demand", "Competitor pricing"],
+    "answer": 1,
+    "explanation": "Product pricing considers production costs, market demand, and competitor pricing, making ‘all of the above’ correct. No single factor alone determines pricing."
+  },
+  {
+    "q": "A book published by manufacturers containing parts, numbers and diagrams is called:",
+    "options": ["Owner’s manual", "Service manual", "Parts catalog", "User guide"],
+    "answer": 2,
+    "explanation": "A parts catalog lists parts, numbers, and diagrams for equipment maintenance. Owner’s manuals and user guides focus on usage, while service manuals detail repair procedures."
+  },
+  {
+    "q": "Civil Service Act pension formula:",
+    "options": ["Fixed interest × No. of years", "No. of years of service × latest salary ÷ 50", "Latest salary ÷ No. of years", "Total contributions × interest rate"],
+    "answer": 1,
+    "explanation": "In Nepal’s Civil Service Act, pension is calculated as years of service × latest salary ÷ 50. Other options do not reflect the standard formula."
+  },
+  {
+    "q": "Depreciation of fixed assets is:",
+    "options": ["The amount by which its value is assumed to decrease because of the asset being used", "Full value retained", "Asset appreciation", "Cost of replacement"],
+    "answer": 0,
+    "explanation": "Depreciation reflects the decrease in an asset’s value due to usage or obsolescence. Assets do not retain full value, appreciate, or account for replacement costs via depreciation."
+  },
+  {
+    "q": "Depreciation of machines is categorized under the head:",
+    "options": ["Direct expenses", "Indirect expenses", "Capital expenses", "Operating expenses"],
+    "answer": 1,
+    "explanation": "Depreciation is an indirect expense, not directly tied to production but affecting overall costs. Direct expenses are production-specific, capital expenses are for asset acquisition, and operating expenses are broader."
+  },
+  {
+    "q": "A variable cost is a cost that:",
+    "options": ["Varies directly with the level of activity", "Does not change with level of activity", "Is fixed per unit", "Decreases with activity"],
+    "answer": 0,
+    "explanation": "Variable costs, like raw materials, vary directly with production levels. Fixed costs remain constant, fixed per unit is incorrect, and costs don’t typically decrease with activity."
+  },
+  {
+    "q": "Pick the element of the cost from the following:",
+    "options": ["Overhead", "All of these", "Direct labor", "Direct materials"],
+    "answer": 1,
+    "explanation": "Overhead, direct labor, and direct materials are all elements of production cost, making ‘all of these’ correct."
+  },
+  {
+    "q": "The total cost is the sum of fixed cost and:",
+    "options": ["Accounting cost", "Variable cost", "Sunk cost", "Opportunity cost"],
+    "answer": 1,
+    "explanation": "Total cost is the sum of fixed costs (e.g., rent) and variable costs (e.g., materials). Accounting, sunk, and opportunity costs are not directly summed in this context."
+  },
+  {
+    "q": "A cost that has already been made and cannot be recovered is called:",
+    "options": ["Fixed cost", "Sunk cost", "Variable cost", "Opportunity cost"],
+    "answer": 1,
+    "explanation": "Sunk costs are past, non-recoverable expenditures (e.g., spent research costs). Fixed and variable costs are ongoing, and opportunity cost is the value of foregone alternatives."
+  },
+  {
+    "q": "A variable cost is a cost that:",
+    "options": ["Varies out at every level of activity", "Occurs at various times during the year", "Is fixed annually", "Decreases with production"],
+    "answer": 0,
+    "explanation": "Variable costs vary directly with activity levels (e.g., material costs). They don’t occur sporadically, aren’t fixed annually, and don’t decrease with production."
+  },
+  {
+    "q": "Depreciation of machines is categorized under the head:",
+    "options": ["Direct expenses", "Indirect expenses", "Capital expenses", "Revenue expenses"],
+    "answer": 1,
+    "explanation": "Depreciation is an indirect expense, allocated over time. Direct expenses are production-specific, capital expenses are for asset acquisition, and revenue expenses are operational but not specific to depreciation."
+  },
+  {
+    "q": "The main objective of depreciation?",
+    "options": ["To show previous profit", "To calculate net profit", "To allocate asset cost", "To reduce tax liability"],
+    "answer": 2,
+    "explanation": "Depreciation allocates an asset’s cost over its useful life. It doesn’t directly show profit, calculate net profit, or aim to reduce tax (though it may have tax benefits)."
+  },
+  {
+    "q": "Return on Investment (ROI) =",
+    "options": ["Net profit / Total assets × 100", "Gross profit / Net sales × 100", "Net sales / Total assets × 100", "Gross profit / Total assets × 100"],
+    "answer": 0,
+    "explanation": "ROI is Net profit divided by Total assets, multiplied by 100, measuring investment efficiency. Other options represent different financial metrics."
+  }
+]
 
     let score = 0;
     let userAnswers = Array(quizData.length).fill(null);
