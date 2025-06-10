@@ -258,149 +258,848 @@
   <button class="restart-button hidden" id="restart-button" aria-label="Restart quiz">Restart Quiz</button>
 
   <script>
-    const questions = [
-      { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Coplanar force", "Moment"], answer: 1, explanation: "Turning a key applies a moment (torque), a rotational force." },
-      { q: "The maximum frictional force experienced when a body just begins to slide is:", options: ["Dynamic friction", "Static friction"], answer: 1, explanation: "Static friction is the maximum force before sliding begins." },
-      { q: "Which of the following is not a vector quantity?", options: ["Acceleration", "Work"], answer: 1, explanation: "Work is a scalar; acceleration is a vector." },
-      { q: "The force which does not meet at one point but their lines of action lie on the same plane are:", options: ["Non-coplanar non-concurrent", "Coplanar non-concurrent"], answer: 1, explanation: "Coplanar non-concurrent forces lie in the same plane but do not meet." },
-      { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Torque", "Moment"], answer: 1, explanation: "Moment (or torque) is the rotational force applied." },
-      { q: "The maximum frictional force experienced by a body when it just begins to slide is known as:", options: ["Dynamic friction", "Static friction"], answer: 1, explanation: "Static friction acts before motion begins." },
-      { q: "The linear acceleration of a rotating body is given by the relation:", options: ["a = α r²", "a = r × α"], answer: 1, explanation: "Tangential acceleration is a = r × α." },
-      { q: "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?", options: ["Acceleration", "Speed"], answer: 1, explanation: "In uniform circular motion, speed is constant." },
-      { q: "Watt is SI unit of:", options: ["Distance", "Power"], answer: 1, explanation: "Watt is the SI unit of power (J/s)." },
-      { q: "The C.G. of a triangle lies at the point of intersections of:", options: ["Bisectors of angles", "Medians"], answer: 1, explanation: "The centroid (C.G.) is at the intersection of medians." },
-      { q: "Which of the following is not a projectile?", options: ["Ball thrown upwards", "Car moving on a road"], answer: 1, explanation: "A car on a road does not follow projectile motion." },
-      { q: "Which of the following is not a vector quantity?", options: ["Acceleration", "Work"], answer: 1, explanation: "Work is a scalar quantity." },
-      { q: "The acceleration of a body sliding down an inclined surface is:", options: ["g cos θ", "g sin θ"], answer: 1, explanation: "Acceleration on a frictionless incline is g sin θ." },
-      { q: "According to equilibrium law, two forces can be in equilibrium if:", options: ["Equal in magnitude", "Equal in magnitude and opposite in direction"], answer: 1, explanation: "Forces must be equal and opposite for equilibrium." },
-      { q: "Forces not meeting at a point and not lying on the same plane are called:", options: ["Non-coplanar concurrent", "Non-coplanar non-concurrent"], answer: 1, explanation: "Non-coplanar non-concurrent forces do not meet and are not in the same plane." },
-      { q: "SI Unit of force is:", options: ["Dyne", "Newton"], answer: 1, explanation: "Newton is the SI unit of force." },
-      { q: "A force is completely defined when we specify:", options: ["Point of application", "Magnitude, direction, and point of application"], answer: 1, explanation: "A force requires all three to be fully defined." },
-      { q: "The equation of trajectory is:", options: ["y = x cos α", "y = x tan α - gx² / (2u² cos² α)"], answer: 1, explanation: "The trajectory equation for a projectile is y = x tan α - gx² / (2u² cos² α)." },
-      { q: "Which of the following is the fixed cost?", options: ["Cost of raw materials", "Rent of factory"], answer: 1, explanation: "Rent is a fixed cost, independent of production." },
-      { q: "The breakeven point is the point where:", options: ["Fixed and variable cost lines intersect", "Total cost and revenue lines intersect"], answer: 1, explanation: "Breakeven occurs where total cost equals revenue." },
-      { q: "A company spends considerable amount on publicity to promote sales. This expenditure in break-even chart is shown below the:", options: ["Fixed cost line", "Sales revenue line"], answer: 0, explanation: "Publicity costs are typically fixed or semi-variable, shown below fixed cost line." },
-      { q: "Break-even analysis consists of:", options: ["Fixed costs", "Fixed and variable costs"], answer: 1, explanation: "Break-even analysis includes both cost types." },
-      { q: "If the velocity of 1 m/s is accelerated by 1 m/s² then the velocity after 1 sec will be:", options: ["2 m/s", "3 m/s"], answer: 0, explanation: "Using v = u + at, v = 1 + 1·1 = 2 m/s." },
-      { q: "The velocity ratio of simple wheel and axle with D and d as diameters of effort wheel and load axle is:", options: ["D+d", "D/d"], answer: 1, explanation: "Velocity ratio is D/d for a wheel and axle." },
-      { q: "The C.G. of a plane lamina will not be at its geometrical center if it is a:", options: ["Equilateral triangle", "Right-angled triangle"], answer: 1, explanation: "C.G. of a right-angled triangle is not at its geometric center." },
-      { q: "Force acting on a mass of one gramme creating an acceleration of one cm per sec² is called:", options: ["Watt", "Dyne"], answer: 1, explanation: "Dyne is the CGS unit of force." },
-      { q: "Centre of gravity of triangle lies at:", options: ["Intersection of bisectors of angles", "Concurrence of the medians"], answer: 1, explanation: "C.G. is at the intersection of medians." },
-      { q: "Which of the following do not meet and do not lie on the same plane?", options: ["Coplanar concurrent forces", "Non-coplanar non-concurrent forces"], answer: 1, explanation: "Non-coplanar non-concurrent forces are not in the same plane." },
-      { q: "A system of three forces acts on a body and keeps it in equilibrium. The forces need to be:", options: ["Coplanar only", "Coplanar and concurrent"], answer: 1, explanation: "Forces must be coplanar and concurrent for equilibrium." },
-      { q: "Which of the following situation constitutes a projectile?", options: ["Lifting of a balloon", "Throwing of a cricket ball"], answer: 1, explanation: "A cricket ball follows projectile motion." },
-      { q: "A stationary object of 10 kg mass is acted upon by 20 N force for 5 seconds. The object will attain final velocity:", options: ["10 m/s", "20 m/s"], answer: 0, explanation: "Using v = u + at, a = 20/10 = 2 m/s², v = 0 + 2·5 = 10 m/s." },
-      { q: "The resultant of two forces P and Q (such that P > Q) acting along the same straight line but in opposite directions is:", options: ["Q - P", "P - Q"], answer: 1, explanation: "Resultant is P - Q for opposite directions." },
-      { q: "The point through which the whole weight of the body acts, irrespective of its position is known as:", options: ["Centre of percussion", "Centre of gravity"], answer: 1, explanation: "C.G. is where the weight acts." },
-      { q: "The product of pressure and volume is constant for a fixed mass of a real gas at constant temperature i.e. PV = constant. This is:", options: ["Graham’s law", "Boyle’s law"], answer: 1, explanation: "Boyle’s law states PV = constant at constant temperature." },
-      { q: "Energy can neither be created nor destroyed. This is:", options: ["1st law of thermodynamics", "2nd law of thermodynamics"], answer: 0, explanation: "The 1st law is conservation of energy." },
-      { q: "There is no acceleration or lift if:", options: ["W = (T – W/g)", "W = T"], answer: 1, explanation: "No acceleration when tension equals weight." },
-      { q: "A force may:", options: ["Retard its motion", "All of the above"], answer: 1, explanation: "A force can accelerate, retard, or change direction." },
-      { q: "The rate of doing work is known as:", options: ["Kinetic energy", "Power"], answer: 1, explanation: "Power is the rate of doing work." },
-      { q: "The wheels of a moving car possess:", options: ["Kinetic energy of rotation only", "Kinetic energy of translation and rotation"], answer: 1, explanation: "Car wheels have both types of kinetic energy." },
-      { q: "The motion of a wheel of a car is:", options: ["Purely rotational", "Combined translation and rotational"], answer: 1, explanation: "Car wheels exhibit both motions." },
-      { q: "If the force acting on the body, m is the mass and a is the acceleration, Newton’s 2nd law is:", options: ["F × ma = 0", "F = ma"], answer: 1, explanation: "Newton’s 2nd law is F = ma." },
-      { q: "If the value of moment of arm is zero, what is torque produced?", options: ["1", "0"], answer: 1, explanation: "Torque is zero when the moment arm is zero." },
-      { q: "Centre of gravity of solid cone lies at:", options: ["One third of its height", "One fourth of its height"], answer: 1, explanation: "C.G. of a cone is at h/4 from the base." },
-      { q: "Velocity is defined as:", options: ["Distance covered per unit time", "Displacement covered per unit time"], answer: 1, explanation: "Velocity is displacement per unit time." },
-      { q: "The work done is said to be zero when:", options: ["No force acts on a body, but displacement is zero", "Force and displacement are perpendicular"], answer: 1, explanation: "Work is zero when force and displacement are perpendicular." },
-      { q: "Which law states Energy can neither be created nor destroyed:", options: ["Newton’s first law", "First law of thermodynamics"], answer: 1, explanation: "The 1st law of thermodynamics is conservation of energy." },
-      { q: "Which of the following is a vector quantity?", options: ["Energy", "Momentum"], answer: 1, explanation: "Momentum is a vector; energy is a scalar." },
-      { q: "The center of gravity of a uniform lamina lies at:", options: ["Anywhere depending on material", "The midpoint of its axis"], answer: 1, explanation: "C.G. is at the geometric center for uniform lamina." },
-      { q: "Which of the following does not have identical dimensions?", options: ["Momentum & impulse", "Moment of force & angular momentum"], answer: 1, explanation: "Moment of force and angular momentum have different dimensions." },
-      { q: "In drawing when all three standard views are aligned, the drawing is:", options: ["Orthographic", "Isometric"], answer: 0, explanation: "Orthographic drawings show aligned views." },
-      { q: "When a sphere is viewed in any direction its shape will be:", options: ["Circle of radius equal to radius of sphere", "Triangle"], answer: 0, explanation: "A sphere’s projection is a circle." },
-      { q: "The radial component of velocity for a particle moving in a circular path is:", options: ["Zero", "Variable"], answer: 0, explanation: "Radial velocity is zero in uniform circular motion." },
-      { q: "The motion of a bicycle wheel is:", options: ["Rotary and translatory", "Rotary"], answer: 0, explanation: "Bicycle wheels have both motions." },
-      { q: "Newton’s Law of Motion gives relation between:", options: ["Force and acceleration", "Force and weight"], answer: 0, explanation: "Newton’s 2nd law relates force and acceleration." },
-      { q: "In a couple, the lines of action of the forces are:", options: ["Perpendicular", "Parallel"], answer: 0, explanation: "A couple consists of parallel forces." },
-      { q: "The term ‘Centroid’ is:", options: ["Same as center of gravity", "Point of suspension"], answer: 0, explanation: "Centroid is the same as C.G. for uniform objects." },
-      { q: "Where will the center of gravity of a uniform rod lie?", options: ["At its middle", "At its end"], answer: 0, explanation: "C.G. is at the midpoint of a uniform rod." },
-      { q: "On a ladder leaning against a smooth vertical wall, the friction acts:", options: ["Zero at its upper end", "Upward at its upper end"], answer: 0, explanation: "Friction is zero against a smooth wall." },
-      { q: "Effect of a force on a body depends upon:", options: ["All of the above", "Magnitude"], answer: 0, explanation: "Force effects depend on magnitude, direction, and point of application." },
-      { q: "Two non-collinear parallel equal forces in opposite direction:", options: ["Constitute a couple", "Balance each other"], answer: 0, explanation: "Opposite parallel forces form a couple." },
-      { q: "Coefficient of friction depends upon:", options: ["Both A and B", "Nature of surfaces only"], answer: 0, explanation: "Friction depends on surface nature and normal force." },
-      { q: "A rigid body is in a stable equilibrium if the application of any force:", options: ["Can raise the CG of the body but cannot lower it", "Tends to lower the CG of the body"], answer: 0, explanation: "Stable equilibrium prevents lowering of C.G." },
-      { q: "In actual machines mechanical advantage is:", options: ["Less than velocity ratio", "Unity"], answer: 0, explanation: "Mechanical advantage is less due to losses." },
-      { q: "The point through which the whole weight of the body acts is known as:", options: ["Center of gravity", "Moment of inertia"], answer: 0, explanation: "C.G. is where weight acts." },
-      { q: "Due to the creep of belts, in a belt-driven system there will be:", options: ["Loss of power to be transmitted", "Loss of motion"], answer: 0, explanation: "Belt creep causes power loss." },
-      { q: "Which of the following is not a scalar quantity:", options: ["Acceleration", "Time"], answer: 0, explanation: "Acceleration is a vector; time is a scalar." },
-      { q: "FPS unit ‘Pound’ is the unit to measure:", options: ["Length", "Weight"], answer: 1, explanation: "Pound is a unit of weight in FPS." },
-      { q: "The center of gravity of a plane lamina will not be at its geometric center if it is a:", options: ["Rectangle", "Right-angled triangle"], answer: 1, explanation: "C.G. of a right-angled triangle is not at its geometric center." },
-      { q: "Force acting on 1 gram mass creating 1 cm/sec² acceleration is called:", options: ["Horsepower", "Dyne"], answer: 1, explanation: "Dyne is the CGS unit of force." },
-      { q: "The center of gravity of a triangle lies at:", options: ["Concurrence of bisectors of angles", "Concurrence of the medians"], answer: 1, explanation: "C.G. is at the intersection of medians." },
-      { q: "Non-coplanar forces are those which:", options: ["Coplanar concurrent forces", "Do not lie in the same plane"], answer: 1, explanation: "Non-coplanar forces are not in the same plane." },
-      { q: "A system of three forces keeps a body in equilibrium, then the forces are:", options: ["Coplanar only", "Concurrent only"], answer: 1, explanation: "Forces must be concurrent for equilibrium." },
-      { q: "Which situation is a projectile?", options: ["Lifting of a bag", "Throwing of a cricket ball"], answer: 1, explanation: "A cricket ball follows projectile motion." },
-      { q: "A 10 kg object acted upon by 20 N for 5 sec, final velocity:", options: ["1 m/s", "10 m/s"], answer: 1, explanation: "Using v = u + at, a = 20/10 = 2 m/s², v = 0 + 2·5 = 10 m/s." },
-      { q: "Resultant of two forces P and Q (P > Q) in opposite direction is:", options: ["P + Q", "P - Q"], answer: 1, explanation: "Resultant is P - Q for opposite directions." },
-      { q: "The point through which whole weight acts is:", options: ["Movement of inertia", "Centre of gravity"], answer: 1, explanation: "C.G. is where weight acts." },
-      { q: "Young’s modulus of elasticity of a perfectly plastic body is:", options: ["One", "Zero"], answer: 1, explanation: "A perfectly plastic body has zero Young’s modulus." },
-      { q: "If wire A is more elastic than B, then:", options: ["B is more elastic than A", "A is more elastic than B"], answer: 1, explanation: "A is more elastic than B." },
-      { q: "The value of acceleration due to gravity (g) on earth’s surface is:", options: ["8.9 m/s²", "9.81 m/s²"], answer: 1, explanation: "g is approximately 9.81 m/s²." },
-      { q: "Stress is directly proportional to strain within elastic limit refers to:", options: ["Charles’ law", "Hooke’s law"], answer: 1, explanation: "Hooke’s law states stress ∝ strain." },
-      { q: "If the angle of contact of a drop of liquid is acute:", options: ["Cohesion is more than adhesion", "Adhesion is more than cohesion"], answer: 1, explanation: "Acute contact angle indicates adhesion > cohesion." },
-      { q: "Forces always exist in pairs and are equal but opposite:", options: ["Newton’s second law", "Newton’s third law"], answer: 1, explanation: "Newton’s third law describes action-reaction pairs." },
-      { q: "The rate of doing work is known as:", options: ["Energy", "Power"], answer: 1, explanation: "Power is the rate of doing work." },
-      { q: "The motion of a wheel of a car is:", options: ["Translation only", "Combined translation and rotational"], answer: 1, explanation: "Car wheels have both motions." },
-      { q: "Time variation of the position of a particle (rectilinear motion):", options: ["v = 0, a = 0", "v ≠ 0, a ≠ 0"], answer: 0, explanation: "Rectilinear motion can have zero velocity and acceleration." },
-      { q: "Newton’s second law:", options: ["F = m·a", "p = m·a = 0"], answer: 1, explanation: "Newton’s 2nd law is F = ma." },
-      { q: "If the value of moment of arm is zero what is torque produced:", options: ["1", "0"], answer: 1, explanation: "Torque is zero when the moment arm is zero." },
-      { q: "Centre of gravity of solid cone lies at:", options: ["One third of its height", "One fourth of its height"], answer: 1, explanation: "C.G. is at h/4 from the base." },
-      { q: "Velocity is defined as:", options: ["Distance covered per unit time", "Displacement covered per unit time"], answer: 1, explanation: "Velocity is displacement per unit time." },
-      { q: "When the axis is perpendicular to the horizontal plane:", options: ["The front view should be drawn first", "The top view should be drawn first"], answer: 1, explanation: "Top view is prioritized in this orientation." },
-      { q: "Projection of an object shown by three views is:", options: ["Isometric", "Orthographic"], answer: 1, explanation: "Orthographic projection shows three views." },
-      { q: "There is neither profit nor loss:", options: ["Break-even point", "Gross profit"], answer: 0, explanation: "Break-even point is where profit and loss are zero." },
-      { q: "Pair with same dimensions:", options: ["Force and Power", "Energy and Work"], answer: 0, explanation: "Energy and work have the same dimensions (Joules)." },
-      { q: "According to law of conservation of energy:", options: ["Energy can neither be created nor destroyed", "Both A and B"], answer: 0, explanation: "The 1st law of thermodynamics is conservation of energy." },
-      { q: "To every action there is equal and opposite reaction:", options: ["Newton’s first law", "Newton’s third law of motion"], answer: 1, explanation: "Newton’s third law describes action-reaction pairs." },
-      { q: "Force applied on 100kg body to accelerate at 5 m/s²:", options: ["100N", "500N"], answer: 1, explanation: "Using F = ma, F = 100·5 = 500 N." },
-      { q: "Maximum range of a particle is at angle:", options: ["30°", "45°"], answer: 1, explanation: "Maximum range occurs at 45°." },
-      { q: "One Newton produces acceleration:", options: ["1 m/s² in 1 gm", "1 m/s² in 1 kg"], answer: 1, explanation: "One Newton produces 1 m/s² in 1 kg." },
-      { q: "Which is not a vector quantity:", options: ["Mass", "Acceleration"], answer: 0, explanation: "Mass is a scalar; acceleration is a vector." },
-      { q: "A body moves only when:", options: ["Force of friction equals applied force", "Force of friction is less than applied force"], answer: 1, explanation: "Motion occurs when applied force exceeds friction." },
-      { q: "Which is not a vector quantity:", options: ["Speed", "Velocity"], answer: 0, explanation: "Speed is a scalar; velocity is a vector." },
-      { q: "The coefficient of friction depends on:", options: ["Area of contact", "Nature of surfaces"], answer: 1, explanation: "Friction depends on surface properties." },
-      { q: "Tension in a cable supporting a lift, when lift is going down is:", options: ["W + f = mg", "W - f = mg"], answer: 1, explanation: "Tension is reduced when the lift moves downward." },
-      { q: "Force when carried by tire:", options: ["Introduce internal stress", "Retard its motion"], answer: 1, explanation: "Force on a tire can retard motion." },
-      { q: "Which of the following physical quantity is not a vector quantity?", options: ["Mass", "Momentum"], answer: 0, explanation: "Mass is a scalar; momentum is a vector." },
-      { q: "A body will move only when", options: ["Force of friction = applied force", "Force of friction < applied force"], answer: 1, explanation: "Motion requires applied force to exceed friction." },
-      { q: "Following term is not a vector quantity", options: ["Speed", "Velocity"], answer: 0, explanation: "Speed is a scalar; velocity is a vector." },
-      { q: "The center of gravity of a plane will not be at its geometrical center if it is a", options: ["Circle", "Right-angled triangle"], answer: 1, explanation: "C.G. of a right-angled triangle is not at its geometric center." },
-      { q: "What is the total percent of reservation of posts that are to be fulfilled by open competition?", options: ["Forty-five percent", "Forty percent"], answer: 0, explanation: "Assuming Nepal’s civil service context, 45% is typical for open competition." },
-      { q: "Which is not a type of leave in Civil Service Act?", options: ["Sickness leave", "Entertainments leave"], answer: 1, explanation: "Entertainment leave is not standard." },
-      { q: "The angle of hatching line is kept as:", options: ["30°", "45°"], answer: 1, explanation: "Hatching lines are typically at 45°." },
-      { q: "In a four-stroke engine, the working cycle is in:", options: ["Four revolutions of the crankshaft", "Two revolutions of the crankshaft"], answer: 1, explanation: "A four-stroke cycle requires two revolutions." },
-      { q: "Joule is the unit of:", options: ["Work", "Power"], answer: 0, explanation: "Joule is the SI unit of work or energy." },
-      { q: "Identify the pair which has same dimensions:", options: ["Force and Power", "Energy and Work"], answer: 1, explanation: "Energy and work have the same dimensions (Joules)." },
-      { q: "According to law of conservation of energy:", options: ["Energy can neither be created nor destroyed", "Both A and B"], answer: 0, explanation: "The 1st law of thermodynamics is conservation of energy." },
-      { q: "To every action there is equal and opposite reaction is:", options: ["Newton’s first law of motion", "Newton’s third law of motion"], answer: 1, explanation: "Newton’s third law describes action-reaction pairs." },
-      { q: "The force applied on a body of mass 100 kg to produce an acceleration of 5 m/s² is:", options: ["100 N", "500 N"], answer: 1, explanation: "Using F = ma, F = 100·5 = 500 N." },
-      { q: "For the maximum range of a particle, the angle of projection should be:", options: ["30°", "45°"], answer: 1, explanation: "Maximum range occurs at 45°." },
-      { q: "One Newton is that force which produces an acceleration of:", options: ["1 m/s² in a mass of 1 gm", "1 m/s² in a mass of 1 kg"], answer: 1, explanation: "One Newton produces 1 m/s² in 1 kg." },
-      { q: "केन्द्र गुरुत्व त्रिभुजको के हुन्छ ?", options: ["Intersection of diagonals", "Concurrence of the medians"], answer: 1, explanation: "The C.G. of a triangle is at the intersection of medians." },
-      { q: "The product of pressure and volume is constant for fixed mass at constant temperature:", options: ["Gas law", "Boyle’s Law"], answer: 1, explanation: "Boyle’s law states PV = constant." },
-      { q: "An attempt to turn a key into a lock manifests in the application of:", options: ["Coplanar force", "Couple"], answer: 1, explanation: "A couple is two parallel forces creating rotation." },
-      { q: "The maximum frictional force experienced by a body when it just begins to slide:", options: ["Dynamic friction", "Static friction"], answer: 1, explanation: "Static friction is maximum before sliding." },
-      { q: "The linear acceleration of a rotating body is given by:", options: ["a = v²/r", "αr"], answer: 1, explanation: "Tangential acceleration is a = αr." },
-      { q: "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?", options: ["Acceleration", "Speed"], answer: 1, explanation: "Speed is constant in uniform circular motion." },
-      { q: "Watt is SI unit of:", options: ["Force", "Power"], answer: 1, explanation: "Watt is the SI unit of power." },
-      { q: "The C.G. (centroid) of a triangle lies at the intersection of:", options: ["None of the above", "Medians"], answer: 1, explanation: "C.G. is at the intersection of medians." },
-      { q: "कुन वस्तु projectile होइन?", options: ["A bullet fired from the gun", "A car moving on a road"], answer: 1, explanation: "A car does not follow projectile motion." },
-      { q: "Work is not a vector quantity:", options: ["Force", "Work"], answer: 1, explanation: "Work is a scalar quantity." },
-      { q: "The acceleration of a body sliding down an inclined surface is given by:", options: ["2g", "g sin θ"], answer: 1, explanation: "Acceleration on a frictionless incline is g sin θ." },
-      { q: "According to the law of equilibrium, two equal and opposite forces will be in equilibrium if:", options: ["Opposite in direction", "Equal in magnitude and opposite in direction"], answer: 1, explanation: "Forces must be equal and opposite for equilibrium." },
-      { q: "The forces which do not meet at one point and their lines of action do not lie on the same plane are:", options: ["Coplanar concurrent", "Non-coplanar non-concurrent"], answer: 1, explanation: "Non-coplanar non-concurrent forces do not meet or lie in the same plane." },
-      { q: "Power is equal to:", options: ["Work done per minute", "Work done per second"], answer: 1, explanation: "Power is work done per second." },
-      { q: "In SI system, the unit of force is:", options: ["Dyne", "Newton"], answer: 1, explanation: "Newton is the SI unit of force." },
-      { q: "Equation of trajectory is written as:", options: ["x = u cos θ t", "y = x tan θ - (gx² / 2u² cos²θ)"], answer: 1, explanation: "The trajectory equation is y = x tan θ - (gx² / 2u² cos²θ)." },
-      { q: "The force of friction which exists when the body is in motion is called:", options: ["Static friction", "Dynamic friction"], answer: 1, explanation: "Dynamic friction acts during motion." },
-      { q: "The purpose of transmission in an automobile is:", options: ["To vary the vibration and shock to rider", "To vary the torque at the road wheels"], answer: 1, explanation: "Transmission varies torque to the wheels." },
-      { q: "The statement 'forces always exist in pairs and to every action there is equal but opposite reaction' is:", options: ["Newton’s first law of motion", "Newton’s third law of motion"], answer: 1, explanation: "Newton’s third law describes action-reaction pairs." },
-      { q: "Value of acceleration due to gravity (g) on earth’s surface is:", options: ["10 m/s²", "9.8 m/s²"], answer: 1, explanation: "g is approximately 9.8 m/s²." },
-      { q: "The statement 'stress is directly proportional to strain within elastic limit' refers to:", options: ["Pascal’s law", "Hooke’s law"], answer: 1, explanation: "Hooke’s law states stress ∝ strain." }
-    ];
-
+     const questions = [
+  {
+    "q": "An attempt to turn a key into a lock manifests in the application of:",
+    "options": ["Coplanar force", "Moment", "Linear force", "Shear force"],
+    "answer": 1,
+    "explanation": "Turning a key applies a moment (torque), a rotational force, not a linear or shear force."
+  },
+  {
+    "q": "The maximum frictional force experienced when a body just begins to slide is:",
+    "options": ["Dynamic friction", "Static friction", "Kinetic friction", "Rolling friction"],
+    "answer": 1,
+    "explanation": "Static friction is the maximum force that acts just before a body begins to slide."
+  },
+  {
+    "q": "Which of the following is not a vector quantity?",
+    "options": ["Acceleration", "Work", "Velocity", "Momentum"],
+    "answer": 1,
+    "explanation": "Work is a scalar quantity; acceleration, velocity, and momentum are vectors."
+  },
+  {
+    "q": "The force which does not meet at one point but their lines of action lie on the same plane are:",
+    "options": ["Non-coplanar non-concurrent", "Coplanar non-concurrent", "Concurrent forces", "Parallel forces"],
+    "answer": 1,
+    "explanation": "Coplanar non-concurrent forces lie in the same plane but do not meet at one point."
+  },
+  {
+    "q": "An attempt to turn a key into a lock manifests in the application of:",
+    "options": ["Torque", "Moment", "Linear force", "Shear force"],
+    "answer": 1,
+    "explanation": "Moment (or torque) is the rotational force applied when turning a key."
+  },
+  {
+    "q": "The maximum frictional force experienced by a body when it just begins to slide is known as:",
+    "options": ["Dynamic friction", "Static friction", "Kinetic friction", "Rolling friction"],
+    "answer": 1,
+    "explanation": "Static friction acts just before a body begins to slide."
+  },
+  {
+    "q": "The linear acceleration of a rotating body is given by the relation:",
+    "options": ["a = α r²", "a = r × α", "a = v²/r", "a = ω²r"],
+    "answer": 1,
+    "explanation": "Tangential acceleration of a rotating body is given by a = r × α."
+  },
+  {
+    "q": "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?",
+    "options": ["Acceleration", "Speed", "Velocity", "Displacement"],
+    "answer": 1,
+    "explanation": "In uniform circular motion, speed remains constant, while velocity and acceleration change due to direction."
+  },
+  {
+    "q": "Watt is SI unit of:",
+    "options": ["Distance", "Power", "Force", "Energy"],
+    "answer": 1,
+    "explanation": "Watt is the SI unit of power, measured in joules per second."
+  },
+  {
+    "q": "The C.G. of a triangle lies at the point of intersections of:",
+    "options": ["Bisectors of angles", "Medians", "Perpendicular bisectors", "Altitudes"],
+    "answer": 1,
+    "explanation": "The centroid (C.G.) of a triangle is at the intersection of its medians."
+  },
+  {
+    "q": "Which of the following is not a projectile?",
+    "options": ["Ball thrown upwards", "Car moving on a road", "Bullet fired from a gun", "Arrow shot from a bow"],
+    "answer": 1,
+    "explanation": "A car on a road does not follow projectile motion, unlike the others."
+  },
+  {
+    "q": "Which of the following is not a vector quantity?",
+    "options": ["Acceleration", "Work", "Velocity", "Momentum"],
+    "answer": 1,
+    "explanation": "Work is a scalar quantity; acceleration, velocity, and momentum are vectors."
+  },
+  {
+    "q": "The acceleration of a body sliding down an inclined surface is:",
+    "options": ["g cos θ", "g sin θ", "g tan θ", "g"],
+    "answer": 1,
+    "explanation": "Acceleration on a frictionless inclined surface is g sin θ."
+  },
+  {
+    "q": "According to equilibrium law, two forces can be in equilibrium if:",
+    "options": ["Equal in magnitude", "Equal in magnitude and opposite in direction", "Parallel to each other", "Perpendicular to each other"],
+    "answer": 1,
+    "explanation": "Two forces are in equilibrium if they are equal in magnitude and opposite in direction."
+  },
+  {
+    "q": "Forces not meeting at a point and not lying on the same plane are called:",
+    "options": ["Non-coplanar concurrent", "Non-coplanar non-concurrent", "Coplanar concurrent", "Coplanar non-concurrent"],
+    "answer": 1,
+    "explanation": "Non-coplanar non-concurrent forces do not meet and are not in the same plane."
+  },
+  {
+    "q": "SI Unit of force is:",
+    "options": ["Dyne", "Newton", "Pound", "Kilogram"],
+    "answer": 1,
+    "explanation": "Newton is the SI unit of force."
+  },
+  {
+    "q": "A force is completely defined when we specify:",
+    "options": ["Point of application", "Magnitude, direction, and point of application", "Magnitude only", "Direction only"],
+    "answer": 1,
+    "explanation": "A force is fully defined by its magnitude, direction, and point of application."
+  },
+  {
+    "q": "The equation of trajectory is:",
+    "options": ["y = x cos α", "y = x tan α - gx² / (2u² cos² α)", "y = x sin α", "y = gx² / (2u²)"],
+    "answer": 1,
+    "explanation": "The trajectory equation for a projectile is y = x tan α - gx² / (2u² cos² α)."
+  },
+  {
+    "q": "Which of the following is the fixed cost?",
+    "options": ["Cost of raw materials", "Rent of factory", "Wages of workers", "Fuel cost"],
+    "answer": 1,
+    "explanation": "Rent is a fixed cost, independent of production volume."
+  },
+  {
+    "q": "The breakeven point is the point where:",
+    "options": ["Fixed and variable cost lines intersect", "Total cost and revenue lines intersect", "Fixed cost and sales lines intersect", "Variable cost and revenue lines intersect"],
+    "answer": 1,
+    "explanation": "Breakeven occurs where total cost equals total revenue."
+  },
+  {
+    "q": "A company spends considerable amount on publicity to promote sales. This expenditure in break-even chart is shown below the:",
+    "options": ["Fixed cost line", "Sales revenue line", "Variable cost line", "Total cost line"],
+    "answer": 0,
+    "explanation": "Publicity costs are typically fixed or semi-variable, shown below the fixed cost line in a break-even chart."
+  },
+  {
+    "q": "Break-even analysis consists of:",
+    "options": ["Fixed costs", "Fixed and variable costs", "Variable costs only", "Revenue costs only"],
+    "answer": 1,
+    "explanation": "Break-even analysis includes both fixed and variable costs."
+  },
+  {
+    "q": "If the velocity of 1 m/s is accelerated by 1 m/s² then the velocity after 1 sec will be:",
+    "options": ["2 m/s", "3 m/s", "1 m/s", "4 m/s"],
+    "answer": 0,
+    "explanation": "Using v = u + at, v = 1 + 1·1 = 2 m/s."
+  },
+  {
+    "q": "The velocity ratio of simple wheel and axle with D and d as diameters of effort wheel and load axle is:",
+    "options": ["D+d", "D/d", "d/D", "D-d"],
+    "answer": 1,
+    "explanation": "Velocity ratio of a wheel and axle is D/d, where D is the diameter of the effort wheel and d is the diameter of the load axle."
+  },
+  {
+    "q": "The C.G. of a plane lamina will not be at its geometrical center if it is a:",
+    "options": ["Equilateral triangle", "Right-angled triangle", "Square", "Circle"],
+    "answer": 1,
+    "explanation": "The C.G. of a right-angled triangle is not at its geometric center, unlike symmetric shapes."
+  },
+  {
+    "q": "Force acting on a mass of one gramme creating an acceleration of one cm per sec² is called:",
+    "options": ["Watt", "Dyne", "Newton", "Joule"],
+    "answer": 1,
+    "explanation": "Dyne is the CGS unit of force, defined as the force causing 1 cm/s² acceleration on a 1-gram mass."
+  },
+  {
+    "q": "Centre of gravity of triangle lies at:",
+    "options": ["Intersection of bisectors of angles", "Concurrence of the medians", "Intersection of altitudes", "Intersection of perpendicular bisectors"],
+    "answer": 1,
+    "explanation": "The center of gravity (centroid) of a triangle is at the intersection of its medians."
+  },
+  {
+    "q": "Which of the following do not meet and do not lie on the same plane?",
+    "options": ["Coplanar concurrent forces", "Non-coplanar non-concurrent forces", "Coplanar non-concurrent forces", "Non-coplanar concurrent forces"],
+    "answer": 1,
+    "explanation": "Non-coplanar non-concurrent forces do not lie in the same plane and do not meet at a point."
+  },
+  {
+    "q": "A system of three forces acts on a body and keeps it in equilibrium. The forces need to be:",
+    "options": ["Coplanar only", "Coplanar and concurrent", "Non-coplanar", "Parallel only"],
+    "answer": 1,
+    "explanation": "For equilibrium, three forces must be coplanar and concurrent, meeting at a point and balancing."
+  },
+  {
+    "q": "Which of the following situation constitutes a projectile?",
+    "options": ["Lifting of a balloon", "Throwing of a cricket ball", "Car moving on a road", "Elevator moving upward"],
+    "answer": 1,
+    "explanation": "Throwing a cricket ball follows projectile motion, unlike the other scenarios."
+  },
+  {
+    "q": "A stationary object of 10 kg mass is acted upon by 20 N force for 5 seconds. The object will attain final velocity:",
+    "options": ["10 m/s", "20 m/s", "5 m/s", "15 m/s"],
+    "answer": 0,
+    "explanation": "Using v = u + at, a = 20/10 = 2 m/s², v = 0 + 2·5 = 10 m/s."
+  },
+  {
+    "q": "The resultant of two forces P and Q (such that P > Q) acting along the same straight line but in opposite directions is:",
+    "options": ["Q - P", "P - Q", "P + Q", "P × Q"],
+    "answer": 1,
+    "explanation": "For forces in opposite directions, the resultant is P - Q."
+  },
+  {
+    "q": "The point through which the whole weight of the body acts, irrespective of its position is known as:",
+    "options": ["Centre of percussion", "Centre of gravity", "Centre of mass", "Moment of inertia"],
+    "answer": 1,
+    "explanation": "The center of gravity is where the entire weight of the body acts."
+  },
+  {
+    "q": "The product of pressure and volume is constant for a fixed mass of a real gas at constant temperature i.e. PV = constant. This is:",
+    "options": ["Graham’s law", "Boyle’s law", "Charles’ law", "Avogadro’s law"],
+    "answer": 1,
+    "explanation": "Boyle’s law states that PV = constant for a fixed mass of gas at constant temperature."
+  },
+  {
+    "q": "Energy can neither be created nor destroyed. This is:",
+    "options": ["1st law of thermodynamics", "2nd law of thermodynamics", "3rd law of thermodynamics", "Zeroth law of thermodynamics"],
+    "answer": 0,
+    "explanation": "The 1st law of thermodynamics states that energy is conserved."
+  },
+  {
+    "q": "There is no acceleration or lift if:",
+    "options": ["W = (T – W/g)", "W = T", "T = W/g", "T = mg + a"],
+    "answer": 1,
+    "explanation": "No acceleration occurs when tension (T) equals the weight (W), balancing the forces."
+  },
+  {
+    "q": "A force may:",
+    "options": ["Retard its motion", "All of the above", "Accelerate motion", "Change direction"],
+    "answer": 1,
+    "explanation": "A force can accelerate, retard, or change the direction of motion, so all options apply."
+  },
+  {
+    "q": "The rate of doing work is known as:",
+    "options": ["Kinetic energy", "Power", "Work", "Force"],
+    "answer": 1,
+    "explanation": "Power is defined as the rate of doing work, measured in watts."
+  },
+  {
+    "q": "The wheels of a moving car possess:",
+    "options": ["Kinetic energy of rotation only", "Kinetic energy of translation and rotation", "Potential energy only", "Thermal energy"],
+    "answer": 1,
+    "explanation": "Car wheels have both translational and rotational kinetic energy due to their motion."
+  },
+  {
+    "q": "The motion of a wheel of a car is:",
+    "options": ["Purely rotational", "Combined translation and rotational", "Purely translational", "Oscillatory"],
+    "answer": 1,
+    "explanation": "Car wheels exhibit both translational and rotational motion."
+  },
+  {
+    "q": "If the force acting on the body, m is the mass and a is the acceleration, Newton’s 2nd law is:",
+    "options": ["F × ma = 0", "F = ma", "F = m/a", "F = m + a"],
+    "answer": 1,
+    "explanation": "Newton’s 2nd law states that force equals mass times acceleration (F = ma)."
+  },
+  {
+    "q": "If the value of moment of arm is zero, what is torque produced?",
+    "options": ["1", "0", "Infinity", "Negative"],
+    "answer": 1,
+    "explanation": "Torque is zero when the moment arm is zero, as torque = force × moment arm."
+  },
+  {
+    "q": "Centre of gravity of solid cone lies at:",
+    "options": ["One third of its height", "One fourth of its height", "Half of its height", "At the apex"],
+    "answer": 1,
+    "explanation": "The center of gravity of a solid cone is at one-fourth of its height from the base."
+  },
+  {
+    "q": "Velocity is defined as:",
+    "options": ["Distance covered per unit time", "Displacement covered per unit time", "Speed in a direction", "Acceleration per unit time"],
+    "answer": 1,
+    "explanation": "Velocity is defined as displacement per unit time, a vector quantity."
+  },
+  {
+    "q": "The work done is said to be zero when:",
+    "options": ["No force acts on a body, but displacement is zero", "Force and displacement are perpendicular", "Force is zero", "Displacement is zero"],
+    "answer": 1,
+    "explanation": "Work is zero when force and displacement are perpendicular, as work = F·d·cosθ."
+  },
+  {
+    "q": "Which law states Energy can neither be created nor destroyed:",
+    "options": ["Newton’s first law", "First law of thermodynamics", "Newton’s third law", "Second law of thermodynamics"],
+    "answer": 1,
+    "explanation": "The 1st law of thermodynamics states that energy is conserved."
+  },
+  {
+    "q": "Which of the following is a vector quantity?",
+    "options": ["Energy", "Momentum", "Power", "Work"],
+    "answer": 1,
+    "explanation": "Momentum is a vector quantity; energy, power, and work are scalars."
+  },
+  {
+    "q": "The center of gravity of a uniform lamina lies at:",
+    "options": ["Anywhere depending on material", "The midpoint of its axis", "Its geometric center", "Its edge"],
+    "answer": 1,
+    "explanation": "For a uniform lamina, the center of gravity is at the midpoint of its axis or geometric center."
+  },
+  {
+    "q": "Which of the following does not have identical dimensions?",
+    "options": ["Momentum & impulse", "Moment of force & angular momentum", "Work & energy", "Force & weight"],
+    "answer": 1,
+    "explanation": "Moment of force (N·m) and angular momentum (kg·m²/s) have different dimensions."
+  },
+  {
+    "q": "In drawing when all three standard views are aligned, the drawing is:",
+    "options": ["Orthographic", "Isometric", "Perspective", "Oblique"],
+    "answer": 0,
+    "explanation": "Orthographic drawings show three aligned views (front, top, side)."
+  },
+  {
+    "q": "When a sphere is viewed in any direction its shape will be:",
+    "options": ["Circle of radius equal to radius of sphere", "Triangle", "Ellipse", "Square"],
+    "answer": 0,
+    "explanation": "A sphere’s projection in any direction is a circle with the same radius."
+  },
+  {
+    "q": "The radial component of velocity for a particle moving in a circular path is:",
+    "options": ["Zero", "Variable", "Constant", "Equal to tangential velocity"],
+    "answer": 0,
+    "explanation": "In uniform circular motion, the radial velocity component is zero."
+  },
+  {
+    "q": "The motion of a bicycle wheel is:",
+    "options": ["Rotary and translatory", "Rotary", "Translatory", "Oscillatory"],
+    "answer": 0,
+    "explanation": "Bicycle wheels exhibit both rotary (rotational) and translatory motion."
+  },
+  {
+    "q": "Newton’s Law of Motion gives relation between:",
+    "options": ["Force and acceleration", "Force and weight", "Force and velocity", "Force and momentum"],
+    "answer": 0,
+    "explanation": "Newton’s 2nd law relates force and acceleration (F = ma)."
+  },
+  {
+    "q": "In a couple, the lines of action of the forces are:",
+    "options": ["Perpendicular", "Parallel", "Collinear", "Concurrent"],
+    "answer": 0,
+    "explanation": "A couple consists of two equal and opposite parallel forces."
+  },
+  {
+    "q": "The term ‘Centroid’ is:",
+    "options": ["Same as center of gravity", "Point of suspension", "Point of rotation", "Point of equilibrium"],
+    "answer": 0,
+    "explanation": "The centroid is the same as the center of gravity for uniform objects."
+  },
+  {
+    "q": "Where will the center of gravity of a uniform rod lie?",
+    "options": ["At its middle", "At its end", "At one-third length", "At one-fourth length"],
+    "answer": 0,
+    "explanation": "The center of gravity of a uniform rod lies at its midpoint."
+  },
+  {
+    "q": "On a ladder leaning against a smooth vertical wall, the friction acts:",
+    "options": ["Zero at its upper end", "Upward at its upper end", "Downward at its upper end", "Horizontal at its upper end"],
+    "answer": 0,
+    "explanation": "Friction is zero at the upper end against a smooth vertical wall."
+  },
+  {
+    "q": "Effect of a force on a body depends upon:",
+    "options": ["All of the above", "Magnitude", "Direction", "Point of application"],
+    "answer": 0,
+    "explanation": "The effect of a force depends on its magnitude, direction, and point of application."
+  },
+  {
+    "q": "Two non-collinear parallel equal forces in opposite direction:",
+    "options": ["Constitute a couple", "Balance each other", "Produce linear motion", "Produce no motion"],
+    "answer": 0,
+    "explanation": "Two equal, opposite, non-collinear parallel forces form a couple, causing rotation."
+  },
+  {
+    "q": "Coefficient of friction depends upon:",
+    "options": ["Both A and B", "Nature of surfaces only", "Area of contact", "Shape of the body"],
+    "answer": 0,
+    "explanation": "The coefficient of friction depends on the nature of surfaces and normal force."
+  },
+  {
+    "q": "A rigid body is in a stable equilibrium if the application of any force:",
+    "options": ["Can raise the CG of the body but cannot lower it", "Tends to lower the CG of the body", "Moves the CG horizontally", "Does not affect the CG"],
+    "answer": 0,
+    "explanation": "In stable equilibrium, forces raise the center of gravity, resisting lowering."
+  },
+  {
+    "q": "In actual machines mechanical advantage is:",
+    "options": ["Less than velocity ratio", "Unity", "Greater than velocity ratio", "Zero"],
+    "answer": 0,
+    "explanation": "Mechanical advantage is less than velocity ratio due to energy losses."
+  },
+  {
+    "q": "The point through which the whole weight of the body acts is known as:",
+    "options": ["Center of gravity", "Moment of inertia", "Center of percussion", "Center of mass"],
+    "answer": 0,
+    "explanation": "The center of gravity is where the entire weight of the body acts."
+  },
+  {
+    "q": "Due to the creep of belts, in a belt-driven system there will be:",
+    "options": ["Loss of power to be transmitted", "Loss of motion", "Increase in speed", "Increase in efficiency"],
+    "answer": 0,
+    "explanation": "Belt creep causes a loss of power transmission due to slippage."
+  },
+  {
+    "q": "Which of the following is not a scalar quantity:",
+    "options": ["Acceleration", "Time", "Energy", "Work"],
+    "answer": 0,
+    "explanation": "Acceleration is a vector quantity; time, energy, and work are scalars."
+  },
+  {
+    "q": "FPS unit ‘Pound’ is the unit to measure:",
+    "options": ["Length", "Weight", "Mass", "Force"],
+    "answer": 1,
+    "explanation": "In the FPS system, pound is a unit of weight (force)."
+  },
+  {
+    "q": "The center of gravity of a plane lamina will not be at its geometric center if it is a:",
+    "options": ["Rectangle", "Right-angled triangle", "Circle", "Square"],
+    "answer": 1,
+    "explanation": "The C.G. of a right-angled triangle is not at its geometric center."
+  },
+  {
+    "q": "Force acting on 1 gram mass creating 1 cm/sec² acceleration is called:",
+    "options": ["Horsepower", "Dyne", "Newton", "Joule"],
+    "answer": 1,
+    "explanation": "Dyne is the CGS unit of force, causing 1 cm/s² acceleration on a 1-gram mass."
+  },
+  {
+    "q": "The center of gravity of a triangle lies at:",
+    "options": ["Concurrence of bisectors of angles", "Concurrence of the medians", "Intersection of altitudes", "Intersection of perpendicular bisectors"],
+    "answer": 1,
+    "explanation": "The C.G. of a triangle is at the intersection of its medians."
+  },
+  {
+    "q": "Non-coplanar forces are those which:",
+    "options": ["Coplanar concurrent forces", "Do not lie in the same plane", "Lie in the same plane", "Meet at a point"],
+    "answer": 1,
+    "explanation": "Non-coplanar forces do not lie in the same plane."
+  },
+  {
+    "q": "A system of three forces keeps a body in equilibrium, then the forces are:",
+    "options": ["Coplanar only", "Concurrent only", "Coplanar and concurrent", "Non-coplanar"],
+    "answer": 1,
+    "explanation": "For equilibrium, three forces must be concurrent and typically coplanar."
+  },
+  {
+    "q": "Which situation is a projectile?",
+    "options": ["Lifting of a bag", "Throwing of a cricket ball", "Car moving on a road", "Elevator moving upward"],
+    "answer": 1,
+    "explanation": "Throwing a cricket ball follows projectile motion."
+  },
+  {
+    "q": "A 10 kg object acted upon by 20 N for 5 sec, final velocity:",
+    "options": ["1 m/s", "10 m/s", "5 m/s", "20 m/s"],
+    "answer": 1,
+    "explanation": "Using v = u + at, a = 20/10 = 2 m/s², v = 0 + 2·5 = 10 m/s."
+  },
+  {
+    "q": "Resultant of two forces P and Q (P > Q) in opposite direction is:",
+    "options": ["P + Q", "P - Q", "Q - P", "P × Q"],
+    "answer": 1,
+    "explanation": "The resultant of two forces in opposite directions is P - Q."
+  },
+  {
+    "q": "The point through which whole weight acts is:",
+    "options": ["Movement of inertia", "Centre of gravity", "Centre of percussion", "Centre of mass"],
+    "answer": 1,
+    "explanation": "The center of gravity is where the entire weight of the body acts."
+  },
+  {
+    "q": "Young’s modulus of elasticity of a perfectly plastic body is:",
+    "options": ["One", "Zero", "Infinity", "Negative"],
+    "answer": 1,
+    "explanation": "A perfectly plastic body does not return to its original shape, so Young’s modulus is zero."
+  },
+  {
+    "q": "If wire A is more elastic than B, then:",
+    "options": ["B is more elastic than A", "A is more elastic than B", "Both are equally elastic", "Elasticity cannot be compared"],
+    "answer": 1,
+    "explanation": "If wire A is more elastic, it has a higher Young’s modulus than B."
+  },
+  {
+    "q": "The value of acceleration due to gravity (g) on earth’s surface is:",
+    "options": ["8.9 m/s²", "9.81 m/s²", "10 m/s²", "9 m/s²"],
+    "answer": 1,
+    "explanation": "The acceleration due to gravity on Earth’s surface is approximately 9.81 m/s²."
+  },
+  {
+    "q": "Stress is directly proportional to strain within elastic limit refers to:",
+    "options": ["Charles’ law", "Hooke’s law", "Boyle’s law", "Pascal’s law"],
+    "answer": 1,
+    "explanation": "Hooke’s law states that stress is proportional to strain within the elastic limit."
+  },
+  {
+    "q": "If the angle of contact of a drop of liquid is acute:",
+    "options": ["Cohesion is more than adhesion", "Adhesion is more than cohesion", "Cohesion equals adhesion", "No relation between cohesion and adhesion"],
+    "answer": 1,
+    "explanation": "An acute contact angle indicates that adhesion is greater than cohesion."
+  },
+  {
+    "q": "Forces always exist in pairs and are equal but opposite:",
+    "options": ["Newton’s second law", "Newton’s third law", "Newton’s first law", "Law of gravitation"],
+    "answer": 1,
+    "explanation": "Newton’s third law states that every action has an equal and opposite reaction."
+  },
+  {
+    "q": "The rate of doing work is known as:",
+    "options": ["Energy", "Power", "Force", "Work"],
+    "answer": 1,
+    "explanation": "Power is the rate of doing work, measured in watts."
+  },
+  {
+    "q": "The motion of a wheel of a car is:",
+    "options": ["Translation only", "Combined translation and rotational", "Rotation only", "Oscillatory"],
+    "answer": 1,
+    "explanation": "Car wheels exhibit both translational and rotational motion."
+  },
+  {
+    "q": "Time variation of the position of a particle (rectilinear motion):",
+    "options": ["v = 0, a = 0", "v ≠ 0, a ≠ 0", "v = 0, a ≠ 0", "v ≠ 0, a = 0"],
+    "answer": 0,
+    "explanation": "In rectilinear motion, both velocity and acceleration can be zero if the particle is at rest."
+  },
+  {
+    "q": "Newton’s second law:",
+    "options": ["F = m·a", "p = m·a = 0", "F = m/a", "F = m + a"],
+    "answer": 1,
+    "explanation": "Newton’s second law is F = ma, relating force, mass, and acceleration."
+  },
+  {
+    "q": "If the value of moment of arm is zero what is torque produced:",
+    "options": ["1", "0", "Infinity", "Negative"],
+    "answer": 1,
+    "explanation": "Torque is zero when the moment arm is zero, as torque = force × moment arm."
+  },
+  {
+    "q": "Centre of gravity of solid cone lies at:",
+    "options": ["One third of its height", "One fourth of its height", "Half of its height", "At the apex"],
+    "answer": 1,
+    "explanation": "The center of gravity of a solid cone is at one-fourth of its height from the base."
+  },
+  {
+    "q": "Velocity is defined as:",
+    "options": ["Distance covered per unit time", "Displacement covered per unit time", "Speed in a direction", "Acceleration per unit time"],
+    "answer": 1,
+    "explanation": "Velocity is displacement per unit time, a vector quantity."
+  },
+  {
+    "q": "When the axis is perpendicular to the horizontal plane:",
+    "options": ["The front view should be drawn first", "The top view should be drawn first", "The side view should be drawn first", "All views are drawn simultaneously"],
+    "answer": 1,
+    "explanation": "When the axis is perpendicular to the horizontal plane, the top view is prioritized in technical drawing."
+  },
+  {
+    "q": "Projection of an object shown by three views is:",
+    "options": ["Isometric", "Orthographic", "Perspective", "Oblique"],
+    "answer": 1,
+    "explanation": "Orthographic projection shows an object in three views (front, top, side)."
+  },
+  {
+    "q": "There is neither profit nor loss:",
+    "options": ["Break-even point", "Gross profit", "Net profit", "Fixed cost point"],
+    "answer": 0,
+    "explanation": "The break-even point is where total revenue equals total cost, resulting in no profit or loss."
+  },
+  {
+    "q": "Pair with same dimensions:",
+    "options": ["Force and Power", "Energy and Work", "Momentum and Force", "Power and Work"],
+    "answer": 1,
+    "explanation": "Energy and work both have dimensions of joules (kg·m²/s²)."
+  },
+  {
+    "q": "According to law of conservation of energy:",
+    "options": ["Energy can neither be created nor destroyed", "Both A and B", "Energy can be created", "Energy can be destroyed"],
+    "answer": 0,
+    "explanation": "The 1st law of thermodynamics states that energy is conserved."
+  },
+  {
+    "q": "To every action there is equal and opposite reaction:",
+    "options": ["Newton’s first law", "Newton’s third law of motion", "Newton’s second law", "Law of gravitation"],
+    "answer": 1,
+    "explanation": "Newton’s third law states that every action has an equal and opposite reaction."
+  },
+  {
+    "q": "Force applied on 100kg body to accelerate at 5 m/s²:",
+    "options": ["100N", "500N", "250N", "1000N"],
+    "answer": 1,
+    "explanation": "Using F = ma, F = 100·5 = 500 N."
+  },
+  {
+    "q": "Maximum range of a particle is at angle:",
+    "options": ["30°", "45°", "60°", "90°"],
+    "answer": 1,
+    "explanation": "The maximum range of a projectile occurs at a projection angle of 45°."
+  },
+  {
+    "q": "One Newton produces acceleration:",
+    "options": ["1 m/s² in 1 gm", "1 m/s² in 1 kg", "1 cm/s² in 1 kg", "1 m/s² in 100 gm"],
+    "answer": 1,
+    "explanation": "One Newton produces an acceleration of 1 m/s² in a mass of 1 kg."
+  },
+  {
+    "q": "Which is not a vector quantity:",
+    "options": ["Mass", "Acceleration", "Velocity", "Momentum"],
+    "answer": 0,
+    "explanation": "Mass is a scalar quantity; acceleration, velocity, and momentum are vectors."
+  },
+  {
+    "q": "A body moves only when:",
+    "options": ["Force of friction equals applied force", "Force of friction is less than applied force", "Force of friction is zero", "Applied force is zero"],
+    "answer": 1,
+    "explanation": "Motion occurs when the applied force exceeds the force of friction."
+  },
+  {
+    "q": "Which is not a vector quantity:",
+    "options": ["Speed", "Velocity", "Acceleration", "Momentum"],
+    "answer": 0,
+    "explanation": "Speed is a scalar quantity; velocity, acceleration, and momentum are vectors."
+  },
+  {
+    "q": "The coefficient of friction depends on:",
+    "options": ["Area of contact", "Nature of surfaces", "Shape of the body", "Size of the body"],
+    "answer": 1,
+    "explanation": "The coefficient of friction depends on the nature of the surfaces in contact."
+  },
+  {
+    "q": "Tension in a cable supporting a lift, when lift is going down is:",
+    "options": ["W + f = mg", "W - f = mg", "T = mg + a", "T = mg - a"],
+    "answer": 1,
+    "explanation": "When a lift moves downward, tension is reduced: T = mg - ma."
+  },
+  {
+    "q": "Force when carried by tire:",
+    "options": ["Introduce internal stress", "Retard its motion", "Increase its speed", "Change its shape"],
+    "answer": 1,
+    "explanation": "A force on a tire, such as friction, can retard its motion."
+  },
+  {
+    "q": "Which of the following physical quantity is not a vector quantity?",
+    "options": ["Mass", "Momentum", "Velocity", "Acceleration"],
+    "answer": 0,
+    "explanation": "Mass is a scalar quantity; momentum, velocity, and acceleration are vectors."
+  },
+  {
+    "q": "A body will move only when",
+    "options": ["Force of friction = applied force", "Force of friction < applied force", "Force of friction > applied force", "No force is applied"],
+    "answer": 1,
+    "explanation": "A body moves when the applied force exceeds the force of friction."
+  },
+  {
+    "q": "Following term is not a vector quantity",
+    "options": ["Speed", "Velocity", "Acceleration", "Momentum"],
+    "answer": 0,
+    "explanation": "Speed is a scalar quantity; velocity, acceleration, and momentum are vectors."
+  },
+  {
+    "q": "The center of gravity of a plane will not be at its geometrical center if it is a",
+    "options": ["Circle", "Right-angled triangle", "Square", "Rectangle"],
+    "answer": 1,
+    "explanation": "The C.G. of a right-angled triangle is not at its geometric center."
+  },
+  {
+    "q": "What is the total percent of reservation of posts that are to be fulfilled by open competition?",
+    "options": ["Forty-five percent", "Forty percent", "Fifty percent", "Thirty-five percent"],
+    "answer": 0,
+    "explanation": "In Nepal’s civil service (Lok Sewa) context, 45% of posts are typically reserved for open competition."
+  },
+  {
+    "q": "Which is not a type of leave in Civil Service Act?",
+    "options": ["Sickness leave", "Entertainments leave", "Maternity leave", "Study leave"],
+    "answer": 1,
+    "explanation": "Entertainment leave is not a standard type of leave in Nepal’s Civil Service Act."
+  },
+  {
+    "q": "The angle of hatching line is kept as:",
+    "options": ["30°", "45°", "60°", "90°"],
+    "answer": 1,
+    "explanation": "Hatching lines in technical drawings are typically drawn at 45°."
+  },
+  {
+    "q": "In a four-stroke engine, the working cycle is in:",
+    "options": ["Four revolutions of the crankshaft", "Two revolutions of the crankshaft", "One revolution of the crankshaft", "Three revolutions of the crankshaft"],
+    "answer": 1,
+    "explanation": "A four-stroke engine completes its cycle in two revolutions of the crankshaft."
+  },
+  {
+    "q": "Joule is the unit of:",
+    "options": ["Work", "Power", "Force", "Acceleration"],
+    "answer": 0,
+    "explanation": "Joule is the SI unit of work or energy."
+  },
+  {
+    "q": "Identify the pair which has same dimensions:",
+    "options": ["Force and Power", "Energy and Work", "Momentum and Force", "Power and Work"],
+    "answer": 1,
+    "explanation": "Energy and work both have the same dimensions (kg·m²/s²)."
+  },
+  {
+    "q": "According to law of conservation of energy:",
+    "options": ["Energy can neither be created nor destroyed", "Both A and B", "Energy can be created", "Energy can be destroyed"],
+    "answer": 0,
+    "explanation": "The 1st law of thermodynamics states that energy is conserved."
+  },
+  {
+    "q": "To every action there is equal and opposite reaction is:",
+    "options": ["Newton’s first law of motion", "Newton’s third law of motion", "Newton’s second law", "Law of gravitation"],
+    "answer": 1,
+    "explanation": "Newton’s third law states that every action has an equal and opposite reaction."
+  },
+  {
+    "q": "The force applied on a body of mass 100 kg to produce an acceleration of 5 m/s² is:",
+    "options": ["100 N", "500 N", "250 N", "1000 N"],
+    "answer": 1,
+    "explanation": "Using F = ma, F = 100·5 = 500 N."
+  },
+  {
+    "q": "For the maximum range of a particle, the angle of projection should be:",
+    "options": ["30°", "45°", "60°", "90°"],
+    "answer": 1,
+    "explanation": "The maximum range of a projectile occurs at a projection angle of 45°."
+  },
+  {
+    "q": "One Newton is that force which produces an acceleration of:",
+    "options": ["1 m/s² in a mass of 1 gm", "1 m/s² in a mass of 1 kg", "1 cm/s² in a mass of 1 kg", "1 m/s² in a mass of 100 gm"],
+    "answer": 1,
+    "explanation": "One Newton produces an acceleration of 1 m/s² in a mass of 1 kg."
+  },
+  {
+    "q": "केन्द्र गुरुत्व त्रिभुजको के हुन्छ ?",
+    "options": ["Intersection of diagonals", "Concurrence of the medians", "Intersection of altitudes", "Intersection of perpendicular bisectors"],
+    "answer": 1,
+    "explanation": "The center of gravity of a triangle is at the intersection of its medians."
+  },
+  {
+    "q": "The product of pressure and volume is constant for fixed mass at constant temperature:",
+    "options": ["Gas law", "Boyle’s Law", "Charles’ Law", "Avogadro’s Law"],
+    "answer": 1,
+    "explanation": "Boyle’s law states that PV = constant for a fixed mass at constant temperature."
+  },
+  {
+    "q": "An attempt to turn a key into a lock manifests in the application of:",
+    "options": ["Coplanar force", "Couple", "Linear force", "Shear force"],
+    "answer": 1,
+    "explanation": "A couple, consisting of two parallel forces, creates the rotational effect when turning a key."
+  },
+  {
+    "q": "The maximum frictional force experienced by a body when it just begins to slide:",
+    "options": ["Dynamic friction", "Static friction", "Kinetic friction", "Rolling friction"],
+    "answer": 1,
+    "explanation": "Static friction is the maximum force just before a body begins to slide."
+  },
+  {
+    "q": "The linear acceleration of a rotating body is given by:",
+    "options": ["a = v²/r", "αr", "a = ω²r", "a = v/r"],
+    "answer": 1,
+    "explanation": "The tangential acceleration of a rotating body is given by a = αr."
+  },
+  {
+    "q": "A particle covers equal distance around a circular path in equal interval of time. Which parameter remains constant?",
+    "options": ["Acceleration", "Speed", "Velocity", "Displacement"],
+    "answer": 1,
+    "explanation": "In uniform circular motion, speed remains constant, while velocity changes due to direction."
+  },
+  {
+    "q": "Watt is SI unit of:",
+    "options": ["Force", "Power", "Energy", "Work"],
+    "answer": 1,
+    "explanation": "Watt is the SI unit of power, measured in joules per second."
+  },
+  {
+    "q": "The C.G. (centroid) of a triangle lies at the intersection of:",
+    "options": ["None of the above", "Medians", "Altitudes", "Perpendicular bisectors"],
+    "answer": 1,
+    "explanation": "The centroid (C.G.) of a triangle is at the intersection of its medians."
+  },
+  {
+    "q": "कुन वस्तु projectile होइन?",
+    "options": ["A bullet fired from the gun", "A car moving on a road", "An arrow shot from a bow", "A ball thrown upwards"],
+    "answer": 1,
+    "explanation": "A car moving on a road does not follow projectile motion."
+  },
+  {
+    "q": "Work is not a vector quantity:",
+    "options": ["Force", "Work", "Velocity", "Momentum"],
+    "answer": 1,
+    "explanation": "Work is a scalar quantity, while force, velocity, and momentum are vectors."
+  },
+  {
+    "q": "The acceleration of a body sliding down an inclined surface is given by:",
+    "options": ["2g", "g sin θ", "g cos θ", "g tan θ"],
+    "answer": 1,
+    "explanation": "Acceleration on a frictionless inclined surface is g sin θ."
+  },
+  {
+    "q": "According to the law of equilibrium, two equal and opposite forces will be in equilibrium if:",
+    "options": ["Opposite in direction", "Equal in magnitude and opposite in direction", "Parallel to each other", "Perpendicular to each other"],
+    "answer": 1,
+    "explanation": "Two forces are in equilibrium if they are equal in magnitude and opposite in direction."
+  },
+  {
+    "q": "The forces which do not meet at one point and their lines of action do not lie on the same plane are:",
+    "options": ["Coplanar concurrent", "Non-coplanar non-concurrent", "Coplanar non-concurrent", "Non-coplanar concurrent"],
+    "answer": 1,
+    "explanation": "Non-coplanar non-concurrent forces do not meet and are not in the same plane."
+  },
+  {
+    "q": "Power is equal to:",
+    "options": ["Work done per minute", "Work done per second", "Work done per hour", "Work done per day"],
+    "answer": 1,
+    "explanation": "Power is defined as work done per second, measured in watts."
+  },
+  {
+    "q": "In SI system, the unit of force is:",
+    "options": ["Dyne", "Newton", "Pound", "Kilogram"],
+    "answer": 1,
+    "explanation": "Newton is the SI unit of force."
+  },
+  {
+    "q": "Equation of trajectory is written as:",
+    "options": ["x = u cos θ t", "y = x tan θ - (gx² / 2u² cos²θ)", "y = x sin θ", "y = gx² / (2u²)"],
+    "answer": 1,
+    "explanation": "The trajectory equation for a projectile is y = x tan θ - (gx² / 2u² cos²θ)."
+  },
+  {
+    "q": "The force of friction which exists when the body is in motion is called:",
+    "options": ["Static friction", "Dynamic friction", "Limiting friction", "Rolling friction"],
+    "answer": 1,
+    "explanation": "Dynamic (or kinetic) friction acts when a body is in motion."
+  },
+  {
+    "q": "The purpose of transmission in an automobile is:",
+    "options": ["To vary the vibration and shock to rider", "To vary the torque at the road wheels", "To increase fuel efficiency", "To reduce engine speed"],
+    "answer": 1,
+    "explanation": "The transmission varies the torque delivered to the road wheels."
+  },
+  {
+    "q": "The statement 'forces always exist in pairs and to every action there is equal but opposite reaction' is:",
+    "options": ["Newton’s first law of motion", "Newton’s third law of motion", "Newton’s second law", "Law of gravitation"],
+    "answer": 1,
+    "explanation": "Newton’s third law describes action-reaction pairs."
+  },
+  {
+    "q": "Value of acceleration due to gravity (g) on earth’s surface is:",
+    "options": ["10 m/s²", "9.8 m/s²", "8.9 m/s²", "11 m/s²"],
+    "answer": 1,
+    "explanation": "The acceleration due to gravity is approximately 9.8 m/s²."
+  },
+  {
+    "q": "The statement 'stress is directly proportional to strain within elastic limit' refers to:",
+    "options": ["Pascal’s law", "Hooke’s law", "Boyle’s law", "Charles’ law"],
+    "answer": 1,
+    "explanation": "Hooke’s law states that stress is proportional to strain within the elastic limit."
+  }
+]
     let score = 0;
     let userAnswers = Array(questions.length).fill(null);
     let timerSeconds = 0;
