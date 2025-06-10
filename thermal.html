@@ -356,61 +356,331 @@
 
   <script>
     const thermalQuestions = [
-      { q: "The Otto cycle is related to:", options: ["Diesel engine", "Petrol engine"], answer: 1, explanation: "The Otto cycle is the thermodynamic cycle used in spark-ignition petrol engines, characterized by constant volume heat addition." },
-      { q: "Air is compressed to high pressure and fuel is injected at nearly constant pressure. This cycle is called:", options: ["Otto cycle", "Diesel cycle"], answer: 1, explanation: "The Diesel cycle involves compression ignition with fuel injected at nearly constant pressure during combustion, unlike the Otto cycle." },
-      { q: "Energy can neither be created nor destroyed. This is:", options: ["Third law of thermodynamics", "First law of thermodynamics"], answer: 1, explanation: "The first law, or law of energy conservation, states that energy cannot be created or destroyed, only converted." },
-      { q: "Heat transferred to a closed system during an isobaric process is equal to:", options: ["Change in internal energy", "Change in enthalpy"], answer: 1, explanation: "In an isobaric (constant pressure) process, heat transfer equals the change in enthalpy (H = U + PV)." },
-      { q: "A process where PV = constant is known as:", options: ["Isothermal process", "Isobaric process"], answer: 0, explanation: "A process where PV = constant is isothermal, maintaining constant temperature for an ideal gas." },
-      { q: "Which law states the entropy of the universe always increases?", options: ["Second law", "First law"], answer: 0, explanation: "The second law states that the total entropy of an isolated system or universe always increases over time." },
-      { q: "The most efficient cycle for a given temperature range is:", options: ["Carnot cycle", "Otto cycle"], answer: 0, explanation: "The Carnot cycle is the most efficient for a given temperature range, operating between two isothermal processes." },
-      { q: "Specific heat at constant volume for air is approximately:", options: ["0.717 kJ/kg·K", "1.005 kJ/kg·K"], answer: 0, explanation: "The specific heat of air at constant volume (Cv) is about 0.717 kJ/kg·K, while Cp is 1.005 kJ/kg·K." },
-      { q: "The general gas equation is:", options: ["PV = nRT", "PV = mRT"], answer: 1, explanation: "The general gas equation for an ideal gas is PV = mRT, where m is mass and R is the specific gas constant." },
-      { q: "Internal energy of an ideal gas is a function of:", options: ["Temperature", "Pressure"], answer: 0, explanation: "For an ideal gas, internal energy depends only on temperature, as it is a function of kinetic energy." },
-      { q: "Superheated vapor behaves:", options: ["As a liquid", "As a gas"], answer: 1, explanation: "Superheated vapor, heated beyond its saturation point, behaves like a gas with no liquid content." },
-      { q: "Entropy is a measure of:", options: ["Energy", "Disorder"], answer: 1, explanation: "Entropy quantifies the disorder or randomness of a system’s molecular arrangement." },
-      { q: "In a Carnot cycle, expansion is:", options: ["Isothermal and isentropic", "Isobaric"], answer: 0, explanation: "The Carnot cycle includes isothermal expansion (constant temperature) and isentropic expansion (no entropy change)." },
-      { q: "The absolute zero temperature is:", options: ["-273.15°C", "0°C"], answer: 0, explanation: "Absolute zero is -273.15°C (0 K), where molecular motion theoretically ceases." },
-      { q: "Boiler efficiency is the ratio of:", options: ["Steam pressure / Fuel input", "Heat used / Heat input"], answer: 1, explanation: "Boiler efficiency is the ratio of heat utilized (to produce steam) to the total heat input from fuel." },
-      { q: "The calorific value of a fuel is:", options: ["Mass per heat release", "Heat released per unit mass"], answer: 1, explanation: "Calorific value is the heat energy released per unit mass of fuel during complete combustion." },
-      { q: "The compression ratio of a diesel engine is typically:", options: ["8:1 to 12:1", "16:1 to 20:1"], answer: 1, explanation: "Diesel engines use high compression ratios (16:1 to 20:1) to achieve ignition without a spark." },
-      { q: "In an adiabatic process, heat exchange is:", options: ["Zero", "Infinite"], answer: 0, explanation: "An adiabatic process involves no heat exchange with the surroundings, only work transfer." },
-      { q: "A reversible process has:", options: ["No energy loss", "High friction"], answer: 0, explanation: "Reversible processes are idealized with no energy losses, occurring without irreversibilities like friction." },
-      { q: "The Rankine cycle is used in:", options: ["Gas turbines", "Steam power plants"], answer: 1, explanation: "The Rankine cycle is the thermodynamic cycle used in steam power plants to generate electricity." },
-      { q: "The Diesel cycle assumes:", options: ["Constant pressure heat addition", "Constant volume heat addition"], answer: 0, explanation: "The Diesel cycle involves heat addition at constant pressure during fuel injection and combustion." },
-      { q: "The critical point is where:", options: ["Liquid and vapor phases become indistinguishable", "Boiling point is lowest"], answer: 0, explanation: "The critical point is where liquid and vapor phases merge, with no distinct phase boundary." },
-      { q: "Entropy change in a cyclic process is:", options: ["Zero", "Maximum"], answer: 0, explanation: "In a cyclic process, the system returns to its initial state, so the net entropy change is zero." },
-      { q: "An isothermal process has constant:", options: ["Pressure", "Temperature"], answer: 1, explanation: "An isothermal process maintains constant temperature, with PV = constant for an ideal gas." },
-      { q: "Steam pressure is typically measured in:", options: ["Bar", "Calorie"], answer: 0, explanation: "Steam pressure is measured in bar, a unit of pressure, while calorie measures energy." },
-      { q: "The gas constant R is:", options: ["Different for different gases", "Universal constant"], answer: 0, explanation: "The specific gas constant R varies for different gases, derived from the universal gas constant divided by molar mass." },
-      { q: "Steam tables are used to find:", options: ["Properties of steam", "Boiler design"], answer: 0, explanation: "Steam tables provide thermodynamic properties like enthalpy, entropy, and specific volume of steam." },
-      { q: "Enthalpy is defined as:", options: ["U + PV", "P + UV"], answer: 0, explanation: "Enthalpy (H) is defined as H = U + PV, where U is internal energy, P is pressure, and V is volume." },
-      { q: "Maximum efficiency of a Carnot cycle depends on:", options: ["Temperature limits", "Fuel used"], answer: 0, explanation: "Carnot efficiency depends on the temperature difference between the hot and cold reservoirs (1 - T_cold/T_hot)." },
-      { q: "A process with no heat exchange is:", options: ["Adiabatic", "Isothermal"], answer: 0, explanation: "An adiabatic process has no heat exchange, unlike an isothermal process which maintains constant temperature." },
-      { q: "Work done in an isochoric process is:", options: ["Zero", "Maximum"], answer: 0, explanation: "In an isochoric (constant volume) process, work done is zero since W = PΔV and ΔV = 0." },
-      { q: "The unit of heat is:", options: ["Joule", "Watt"], answer: 0, explanation: "Heat is measured in joules (J), a unit of energy, while watt measures power." },
-      { q: "For an ideal gas, PV/T is:", options: ["Variable", "Constant"], answer: 1, explanation: "For an ideal gas, PV/T = mR (constant) per the ideal gas law PV = mRT." },
-      { q: "The second law of thermodynamics introduces the concept of:", options: ["Entropy", "Internal energy"], answer: 0, explanation: "The second law introduces entropy, a measure of disorder and energy unavailability." },
-      { q: "An isobaric process means:", options: ["Constant temperature", "Constant pressure"], answer: 1, explanation: "An isobaric process occurs at constant pressure, with heat transfer affecting volume and temperature." },
-      { q: "The efficiency of a Carnot engine depends on:", options: ["Pressure", "Temperature"], answer: 1, explanation: "Carnot engine efficiency depends on the absolute temperatures of the hot and cold reservoirs." },
-      { q: "Latent heat is:", options: ["Heat to change temperature", "Heat to change phase"], answer: 1, explanation: "Latent heat is the energy required to change a substance’s phase (e.g., liquid to vapor) without temperature change." },
-      { q: "A perfect gas satisfies:", options: ["Ideal gas equation", "Real gas law"], answer: 0, explanation: "A perfect (ideal) gas follows the ideal gas equation PV = nRT, assuming no intermolecular forces." },
-      { q: "The unit of entropy is:", options: ["J", "J/K"], answer: 1, explanation: "Entropy is measured in joules per kelvin (J/K), reflecting energy dispersion per unit temperature." },
-      { q: "The lowest possible temperature is:", options: ["0 K", "-100°C"], answer: 0, explanation: "The lowest possible temperature is 0 K (-273.15°C), known as absolute zero." },
-      { q: "Dry saturated steam is steam:", options: ["Without moisture", "With high pressure"], answer: 0, explanation: "Dry saturated steam contains no liquid water droplets, existing at the saturation point without superheating." },
-      { q: "Specific volume is volume per:", options: ["Unit area", "Unit mass"], answer: 1, explanation: "Specific volume is the volume occupied per unit mass of a substance, measured in m³/kg." },
-      { q: "The triple point is where:", options: ["All three phases coexist", "Critical temperature exists"], answer: 0, explanation: "The triple point is where solid, liquid, and vapor phases of a substance coexist in equilibrium." },
-      { q: "One kilocalorie equals:", options: ["1000 J", "4186 J"], answer: 1, explanation: "One kilocalorie (kcal) equals 4186 joules, as 1 cal = 4.186 J." },
-      { q: "No engine can be 100% efficient because of:", options: ["Second law of thermodynamics", "First law of thermodynamics"], answer: 0, explanation: "The second law limits efficiency, as some energy is always lost as unusable heat." },
-      { q: "The S.I. unit of pressure is:", options: ["Pascal", "Bar"], answer: 0, explanation: "The SI unit of pressure is the pascal (Pa), equivalent to N/m²; bar is a non-SI unit." },
-      { q: "Real gases differ most from ideal gases at:", options: ["High pressure and low temperature", "Low pressure and high temperature"], answer: 0, explanation: "Real gases deviate from ideal behavior at high pressure and low temperature due to intermolecular forces." },
-      { q: "The boiling point of a liquid increases with:", options: ["Volume", "Pressure"], answer: 1, explanation: "Higher pressure raises the boiling point by requiring more energy to overcome intermolecular forces." },
-      { q: "One tonne of refrigeration is equivalent to:", options: ["1.5 kW", "3.5 kW"], answer: 1, explanation: "One tonne of refrigeration equals 3.5 kW, the cooling effect of melting one ton of ice in 24 hours." },
-      { q: "Absolute pressure equals gauge pressure plus:", options: ["Atmospheric pressure", "Steam pressure"], answer: 0, explanation: "Absolute pressure is gauge pressure plus atmospheric pressure (typically 101.325 kPa)." },
-      { q: "The SI unit of specific heat is:", options: ["J/kg·K", "J/kg"], answer: 0, explanation: "Specific heat is measured in J/kg·K, indicating energy per unit mass per degree temperature change." },
-      { q: "Which of the following is an intensive property?", options: ["Mass", "Temperature"], answer: 1, explanation: "Temperature is an intensive property, independent of system size, unlike mass (extensive)." },
-      { q: "At constant temperature, the relation between pressure and volume is:", options: ["Direct", "Inverse"], answer: 1, explanation: "Boyle’s law states that at constant temperature, pressure and volume are inversely proportional (PV = constant)." },
-      { q: "Sensible heat is the heat that:", options: ["Changes phase", "Raises temperature"], answer: 1, explanation: "Sensible heat causes a temperature change without altering the phase of a substance." }
-    ];
+  {
+    "q": "The Otto cycle is related to:",
+    "options": ["Diesel engine", "Petrol engine", "Steam turbine", "Gas turbine"],
+    "answer": 1,
+    "explanation": "The Otto cycle is the thermodynamic cycle used in spark-ignition petrol engines, characterized by constant volume heat addition."
+  },
+  {
+    "q": "Air is compressed to high pressure and fuel is injected at nearly constant pressure. This cycle is called:",
+    "options": ["Otto cycle", "Diesel cycle", "Rankine cycle", "Brayton cycle"],
+    "answer": 1,
+    "explanation": "The Diesel cycle involves compression ignition with fuel injected at nearly constant pressure during combustion, unlike the Otto cycle."
+  },
+  {
+    "q": "Energy can neither be created nor destroyed. This is:",
+    "options": ["Zeroth law of thermodynamics", "First law of thermodynamics", "Second law of thermodynamics", "Third law of thermodynamics"],
+    "answer": 1,
+    "explanation": "The first law, or law of energy conservation, states that energy cannot be created or destroyed, only converted."
+  },
+  {
+    "q": "Heat transferred to a closed system during an isobaric process is equal to:",
+    "options": ["Change in internal energy", "Change in enthalpy", "Change in entropy", "Work done"],
+    "answer": 1,
+    "explanation": "In an isobaric (constant pressure) process, heat transfer equals the change in enthalpy (H = U + PV)."
+  },
+  {
+    "q": "A process where PV = constant is known as:",
+    "options": ["Isothermal process", "Isobaric process", "Isochoric process", "Adiabatic process"],
+    "answer": 0,
+    "explanation": "A process where PV = constant is isothermal, maintaining constant temperature for an ideal gas."
+  },
+  {
+    "q": "Which law states the entropy of the universe always increases?",
+    "options": ["Second law", "First law", "Zeroth law", "Third law"],
+    "answer": 0,
+    "explanation": "The second law states that the total entropy of an isolated system or universe always increases over time."
+  },
+  {
+    "q": "The most efficient cycle for a given temperature range is:",
+    "options": ["Carnot cycle", "Otto cycle", "Diesel cycle", "Rankine cycle"],
+    "answer": 0,
+    "explanation": "The Carnot cycle is the most efficient for a given temperature range, operating between two isothermal processes."
+  },
+  {
+    "q": "Specific heat at constant volume for air is approximately:",
+    "options": ["0.717 kJ/kg·K", "1.005 kJ/kg·K", "1.4 kJ/kg·K", "2.0 kJ/kg·K"],
+    "answer": 0,
+    "explanation": "The specific heat of air at constant volume (Cv) is about 0.717 kJ/kg·K, while Cp is 1.005 kJ/kg·K."
+  },
+  {
+    "q": "The general gas equation is:",
+    "options": ["PV = nRT", "PV = mRT", "P = nRT/V", "V = mRT/P"],
+    "answer": 1,
+    "explanation": "The general gas equation for an ideal gas is PV = mRT, where m is mass and R is the specific gas constant."
+  },
+  {
+    "q": "Internal energy of an ideal gas is a function of:",
+    "options": ["Temperature", "Pressure", "Volume", "Entropy"],
+    "answer": 0,
+    "explanation": "For an ideal gas, internal energy depends only on temperature, as it is a function of kinetic energy."
+  },
+  {
+    "q": "Superheated vapor behaves:",
+    "options": ["As a liquid", "As a gas", "As a solid", "As a plasma"],
+    "answer": 1,
+    "explanation": "Superheated vapor, heated beyond its saturation point, behaves like a gas with no liquid content."
+  },
+  {
+    "q": "Entropy is a measure of:",
+    "options": ["Energy", "Disorder", "Pressure", "Temperature"],
+    "answer": 1,
+    "explanation": "Entropy quantifies the disorder or randomness of a system’s molecular arrangement."
+  },
+  {
+    "q": "In a Carnot cycle, expansion is:",
+    "options": ["Isothermal and isentropic", "Isobaric", "Isochoric", "Adiabatic only"],
+    "answer": 0,
+    "explanation": "The Carnot cycle includes isothermal expansion (constant temperature) and isentropic expansion (no entropy change)."
+  },
+  {
+    "q": "The absolute zero temperature is:",
+    "options": ["-273.15°C", "0°C", "-100°C", "100 K"],
+    "answer": 0,
+    "explanation": "Absolute zero is -273.15°C (0 K), where molecular motion theoretically ceases."
+  },
+  {
+    "q": "Boiler efficiency is the ratio of:",
+    "options": ["Steam pressure / Fuel input", "Heat used / Heat input", "Work output / Heat input", "Steam output / Fuel mass"],
+    "answer": 1,
+    "explanation": "Boiler efficiency is the ratio of heat utilized (to produce steam) to the total heat input from fuel."
+  },
+  {
+    "q": "The calorific value of a fuel is:",
+    "options": ["Mass per heat release", "Heat released per unit mass", "Heat per unit volume", "Energy per unit pressure"],
+    "answer": 1,
+    "explanation": "Calorific value is the heat energy released per unit mass of fuel during complete combustion."
+  },
+  {
+    "q": "The compression ratio of a diesel engine is typically:",
+    "options": ["8:1 to 12:1", "16:1 to 20:1", "5:1 to 8:1", "20:1 to 25:1"],
+    "answer": 1,
+    "explanation": "Diesel engines use high compression ratios (16:1 to 20:1) to achieve ignition without a spark."
+  },
+  {
+    "q": "In an adiabatic process, heat exchange is:",
+    "options": ["Zero", "Infinite", "Constant", "Variable"],
+    "answer": 0,
+    "explanation": "An adiabatic process involves no heat exchange with the surroundings, only work transfer."
+  },
+  {
+    "q": "A reversible process has:",
+    "options": ["No energy loss", "High friction", "Constant entropy", "Maximum heat loss"],
+    "answer": 0,
+    "explanation": "Reversible processes are idealized with no energy losses, occurring without irreversibilities like friction."
+  },
+  {
+    "q": "The Rankine cycle is used in:",
+    "options": ["Gas turbines", "Steam power plants", "Diesel engines", "Refrigeration systems"],
+    "answer": 1,
+    "explanation": "The Rankine cycle is the thermodynamic cycle used in steam power plants to generate electricity."
+  },
+  {
+    "q": "The Diesel cycle assumes:",
+    "options": ["Constant pressure heat addition", "Constant volume heat addition", "Isothermal heat addition", "Isentropic heat addition"],
+    "answer": 0,
+    "explanation": "The Diesel cycle involves heat addition at constant pressure during fuel injection and combustion."
+  },
+  {
+    "q": "The critical point is where:",
+    "options": ["Liquid and vapor phases become indistinguishable", "Boiling point is lowest", "Solid phase disappears", "Pressure is minimum"],
+    "answer": 0,
+    "explanation": "The critical point is where liquid and vapor phases merge, with no distinct phase boundary."
+  },
+  {
+    "q": "Entropy change in a cyclic process is:",
+    "options": ["Zero", "Maximum", "Minimum", "Constant"],
+    "answer": 0,
+    "explanation": "In a cyclic process, the system returns to its initial state, so the net entropy change is zero."
+  },
+  {
+    "q": "An isothermal process has constant:",
+    "options": ["Pressure", "Temperature", "Volume", "Entropy"],
+    "answer": 1,
+    "explanation": "An isothermal process maintains constant temperature, with PV = constant for an ideal gas."
+  },
+  {
+    "q": "Steam pressure is typically measured in:",
+    "options": ["Bar", "Calorie", "Joule", "Watt"],
+    "answer": 0,
+    "explanation": "Steam pressure is measured in bar, a unit of pressure, while calorie measures energy."
+  },
+  {
+    "q": "The gas constant R is:",
+    "options": ["Different for different gases", "Universal constant", "Same for all gases", "Zero for ideal gases"],
+    "answer": 0,
+    "explanation": "The specific gas constant R varies for different gases, derived from the universal gas constant divided by molar mass."
+  },
+  {
+    "q": "Steam tables are used to find:",
+    "options": ["Properties of steam", "Boiler design", "Fuel efficiency", "Gas constant"],
+    "answer": 0,
+    "explanation": "Steam tables provide thermodynamic properties like enthalpy, entropy, and specific volume of steam."
+  },
+  {
+    "q": "Enthalpy is defined as:",
+    "options": ["U + PV", "P + UV", "U + PT", "V + UT"],
+    "answer": 0,
+    "explanation": "Enthalpy (H) is defined as H = U + PV, where U is internal energy, P is pressure, and V is volume."
+  },
+  {
+    "q": "Maximum efficiency of a Carnot cycle depends on:",
+    "options": ["Temperature limits", "Fuel used", "Pressure limits", "Volume changes"],
+    "answer": 0,
+    "explanation": "Carnot efficiency depends on the temperature difference between the hot and cold reservoirs (1 - T_cold/T_hot)."
+  },
+  {
+    "q": "A process with no heat exchange is:",
+    "options": ["Adiabatic", "Isothermal", "Isobaric", "Isochoric"],
+    "answer": 0,
+    "explanation": "An adiabatic process has no heat exchange, unlike an isothermal process which maintains constant temperature."
+  },
+  {
+    "q": "Work done in an isochoric process is:",
+    "options": ["Zero", "Maximum", "Constant", "Variable"],
+    "answer": 0,
+    "explanation": "In an isochoric (constant volume) process, work done is zero since W = PΔV and ΔV = 0."
+  },
+  {
+    "q": "The unit of heat is:",
+    "options": ["Joule", "Watt", "Pascal", "Kelvin"],
+    "answer": 0,
+    "explanation": "Heat is measured in joules (J), a unit of energy, while watt measures power."
+  },
+  {
+    "q": "For an ideal gas, PV/T is:",
+    "options": ["Variable", "Constant", "Zero", "Infinite"],
+    "answer": 1,
+    "explanation": "For an ideal gas, PV/T = mR (constant) per the ideal gas law PV = mRT."
+  },
+  {
+    "q": "The second law of thermodynamics introduces the concept of:",
+    "options": ["Entropy", "Internal energy", "Enthalpy", "Work"],
+    "answer": 0,
+    "explanation": "The second law introduces entropy, a measure of disorder and energy unavailability."
+  },
+  {
+    "q": "An isobaric process means:",
+    "options": ["Constant temperature", "Constant pressure", "Constant volume", "Constant entropy"],
+    "answer": 1,
+    "explanation": "An isobaric process occurs at constant pressure, with heat transfer affecting volume and temperature."
+  },
+  {
+    "q": "The efficiency of a Carnot engine depends on:",
+    "options": ["Pressure", "Temperature", "Volume", "Mass"],
+    "answer": 1,
+    "explanation": "Carnot engine efficiency depends on the absolute temperatures of the hot and cold reservoirs."
+  },
+  {
+    "q": "Latent heat is:",
+    "options": ["Heat to change temperature", "Heat to change phase", "Heat to change volume", "Heat to change pressure"],
+    "answer": 1,
+    "explanation": "Latent heat is the energy required to change a substance’s phase (e.g., liquid to vapor) without temperature change."
+  },
+  {
+    "q": "A perfect gas satisfies:",
+    "options": ["Ideal gas equation", "Real gas law", "Van der Waals equation", "Boyle’s law only"],
+    "answer": 0,
+    "explanation": "A perfect (ideal) gas follows the ideal gas equation PV = nRT, assuming no intermolecular forces."
+  },
+  {
+    "q": "The unit of entropy is:",
+    "options": ["J", "J/K", "J/kg", "W/K"],
+    "answer": 1,
+    "explanation": "Entropy is measured in joules per kelvin (J/K), reflecting energy dispersion per unit temperature."
+  },
+  {
+    "q": "The lowest possible temperature is:",
+    "options": ["0 K", "-100°C", "0°C", "-273°C"],
+    "answer": 0,
+    "explanation": "The lowest possible temperature is 0 K (-273.15°C), known as absolute zero."
+  },
+  {
+    "q": "Dry saturated steam is steam:",
+    "options": ["Without moisture", "With high pressure", "With superheating", "At critical point"],
+    "answer": 0,
+    "explanation": "Dry saturated steam contains no liquid water droplets, existing at the saturation point without superheating."
+  },
+  {
+    "q": "Specific volume is volume per:",
+    "options": ["Unit area", "Unit mass", "Unit pressure", "Unit temperature"],
+    "answer": 1,
+    "explanation": "Specific volume is the volume occupied per unit mass of a substance, measured in m³/kg."
+  },
+  {
+    "q": "The triple point is where:",
+    "options": ["All three phases coexist", "Critical temperature exists", "Vapor phase disappears", "Liquid phase freezes"],
+    "answer": 0,
+    "explanation": "The triple point is where solid, liquid, and vapor phases of a substance coexist in equilibrium."
+  },
+  {
+    "q": "One kilocalorie equals:",
+    "options": ["1000 J", "4186 J", "100 J", "10,000 J"],
+    "answer": 1,
+    "explanation": "One kilocalorie (kcal) equals 4186 joules, as 1 cal = 4.186 J."
+  },
+  {
+    "q": "No engine can be 100% efficient because of:",
+    "options": ["Second law of thermodynamics", "First law of thermodynamics", "Zeroth law", "Third law"],
+    "answer": 0,
+    "explanation": "The second law limits efficiency, as some energy is always lost as unusable heat."
+  },
+  {
+    "q": "The S.I. unit of pressure is:",
+    "options": ["Pascal", "Bar", "Atmosphere", "Torr"],
+    "answer": 0,
+    "explanation": "The SI unit of pressure is the pascal (Pa), equivalent to N/m²; bar is a non-SI unit."
+  },
+  {
+    "q": "Real gases differ most from ideal gases at:",
+    "options": ["High pressure and low temperature", "Low pressure and high temperature", "High pressure and high temperature", "Low pressure and low temperature"],
+    "answer": 0,
+    "explanation": "Real gases deviate from ideal behavior at high pressure and low temperature due to intermolecular forces."
+  },
+  {
+    "q": "The boiling point of a liquid increases with:",
+    "options": ["Volume", "Pressure", "Temperature", "Mass"],
+    "answer": 1,
+    "explanation": "Higher pressure raises the boiling point by requiring more energy to overcome intermolecular forces."
+  },
+  {
+    "q": "One tonne of refrigeration is equivalent to:",
+    "options": ["1.5 kW", "3.5 kW", "5.0 kW", "2.0 kW"],
+    "answer": 1,
+    "explanation": "One tonne of refrigeration equals 3.5 kW, the cooling effect of melting one ton of ice in 24 hours."
+  },
+  {
+    "q": "Absolute pressure equals gauge pressure plus:",
+    "options": ["Atmospheric pressure", "Steam pressure", "Vacuum pressure", "Critical pressure"],
+    "answer": 0,
+    "explanation": "Absolute pressure is gauge pressure plus atmospheric pressure (typically 101.325 kPa)."
+  },
+  {
+    "q": "The SI unit of specific heat is:",
+    "options": ["J/kg·K", "J/kg", "W/kg·K", "J/m³·K"],
+    "answer": 0,
+    "explanation": "Specific heat is measured in J/kg·K, indicating energy per unit mass per degree temperature change."
+  },
+  {
+    "q": "Which of the following is an intensive property?",
+    "options": ["Mass", "Temperature", "Volume", "Energy"],
+    "answer": 1,
+    "explanation": "Temperature is an intensive property, independent of system size, unlike mass (extensive)."
+  },
+  {
+    "q": "At constant temperature, the relation between pressure and volume is:",
+    "options": ["Direct", "Inverse", "Constant", "Exponential"],
+    "answer": 1,
+    "explanation": "Boyle’s law states that at constant temperature, pressure and volume are inversely proportional (PV = constant)."
+  },
+  {
+    "q": "Sensible heat is the heat that:",
+    "options": ["Changes phase", "Raises temperature", "Increases pressure", "Reduces volume"],
+    "answer": 1,
+    "explanation": "Sensible heat causes a temperature change without altering the phase of a substance."
+  }
+]
 
     let score = 0;
     let userAnswers = Array(thermalQuestions.length).fill(null);
