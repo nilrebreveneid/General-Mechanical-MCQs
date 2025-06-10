@@ -355,30 +355,145 @@
 
   <script>
     const questions = [
-      { q: "An equipment or device used to convert electrical energy into mechanical energy is called:", options: ["Motor", "Generator"], answer: 0, explanation: "A motor converts electrical energy into mechanical energy through electromagnetic interactions, while a generator does the opposite." },
-      { q: "The power factor of an alternator depends on:", options: ["Load", "Alternate loss"], answer: 0, explanation: "The power factor of an alternator is determined by the nature of the load (resistive, inductive, or capacitive), not alternate losses, which are unrelated to power factor." },
-      { q: "Which D.C. motor is used in machine tools?", options: ["Series motor", "Shunt motor"], answer: 1, explanation: "Shunt motors are used in machine tools due to their constant speed characteristics under varying loads, unlike series motors which have variable speed." },
-      { q: "Difference in speed between stator field and rotor is:", options: ["No load speed", "Slip"], answer: 1, explanation: "Slip is the difference between the stator's synchronous speed and the rotor's actual speed in an induction motor, expressed as a percentage." },
-      { q: "The operation of the electric generator and motor is based on the interaction between:", options: ["Magnetic field and electric current", "Electric field and law of induction"], answer: 0, explanation: "Motors and generators operate on the interaction between a magnetic field and electric current, producing force (motor) or voltage (generator) via electromagnetic principles." },
-      { q: "The nature of the current flowing in the armature of the DC machine is:", options: ["DC", "AC"], answer: 1, explanation: "In a DC machine, the armature current is AC but is converted to DC via the commutator for external circuits." },
-      { q: "In a hydropower plant, what converts mechanical energy into electrical energy?", options: ["Generator", "Pump"], answer: 0, explanation: "A generator in a hydropower plant converts the mechanical energy from the turbine into electrical energy through electromagnetic induction." },
-      { q: "In generators, what principle is used to convert mechanical motion to electrical energy?", options: ["Magnetic induction", "Magnetic repulsion"], answer: 0, explanation: "Magnetic induction, as per Faraday's law, induces an electromotive force in a conductor moving through a magnetic field, generating electricity." },
-      { q: "When you use left-hand rule for generators, what is indicated by the middle finger?", options: ["Direction of the magnetic field", "Direction of current flow"], answer: 1, explanation: "In the left-hand rule for generators, the middle finger indicates the direction of current flow, while the thumb shows motion and the index finger shows the magnetic field." },
-      { q: "A machine that converts mechanical energy into electrical energy is known as:", options: ["A.C. generator", "D.C. motor"], answer: 0, explanation: "An A.C. generator (alternator) converts mechanical energy into electrical energy, producing alternating current, unlike a D.C. motor which consumes electricity." },
-      { q: "Which one of the following is a part of D.C. motor?", options: ["Armature", "Draft Tube"], answer: 0, explanation: "The armature is the rotating coil in a D.C. motor where current flows, producing motion. A draft tube is part of a turbine, not a motor." },
-      { q: "The current in electric resistance welding can be regulated by:", options: ["All of the above", "Varying the input supply"], answer: 0, explanation: "Electric resistance welding current can be regulated by varying input supply, adjusting transformer taps, or controlling the welding circuit, hence all methods apply." },
-      { q: "Electrolyte को Specific Gravity मापन गर्न प्रयोग हुने उपकरण के हो?", options: ["हाइड्रोमीटर", "स्पीडोमीटर"], answer: 0, explanation: "हाइड्रोमीटर measures the specific gravity of an electrolyte, indicating battery charge state, while a स्पीडोमीटर measures speed." },
-      { q: "Lead Acid Battery मा कुल सेल्ल संख्या कति हुन्छ?", options: ["6", "4"], answer: 0, explanation: "A standard lead-acid battery for automotive use has 6 cells, each producing about 2.1V, totaling approximately 12.6V." },
-      { q: "A machine that converts mechanical energy into electrical energy is known as:", options: ["D.C. Generator", "D.C. Motor"], answer: 0, explanation: "A D.C. generator converts mechanical energy into direct current electrical energy, while a D.C. motor converts electrical energy into mechanical energy." },
-      { q: "Which one of the following is a part of D.C. motor?", options: ["Armature", "Mother Board"], answer: 0, explanation: "The armature is a key component of a D.C. motor, carrying current to produce motion. A motherboard is unrelated, typically found in electronics." },
-      { q: "कम्युटेटर कुन मेसिनमा प्रयोग हुन्छ?", options: ["डीसी मोटर", "एसी मोटर"], answer: 0, explanation: "कम्युटेटर is used in डीसी मोटर to reverse current direction in the armature, ensuring continuous rotation, unlike AC motors which typically use slip rings." },
-      { q: "What type of current flows in a DC machine’s armature?", options: ["DC", "AC"], answer: 1, explanation: "The armature of a DC machine carries AC, which is rectified to DC by the commutator for external output." },
-      { q: "In generators, which principle is responsible for electricity generation?", options: ["Magnetic induction", "Magnetic repulsion"], answer: 0, explanation: "Magnetic induction generates electricity in generators by inducing voltage in coils moving relative to a magnetic field, per Faraday's law." },
-      { q: "What part of a generator/motor ensures current direction control?", options: ["Commutator", "Brushless ring"], answer: 0, explanation: "The commutator in a generator or motor reverses current direction to maintain consistent rotation or output, unlike brushless rings used in some AC systems." },
-      { q: "Which one of the following is used to measure the specific gravity of electrolyte?", options: ["Hydrometer", "Speedometer"], answer: 0, explanation: "A hydrometer measures the specific gravity of an electrolyte in batteries, indicating charge level, while a speedometer measures vehicle speed." },
-      { q: "The power factor of an alternator depends on:", options: ["Load", "Speed of motor"], answer: 0, explanation: "The power factor depends on the load's electrical characteristics (e.g., inductive or capacitive), not the motor's speed." },
-      { q: "Which D.C. motor is used in machine tools?", options: ["Series motor", "Shunt motor"], answer: 1, explanation: "Shunt motors provide stable speed under varying loads, making them ideal for machine tools, unlike series motors with variable speed." }
-    ];
+  {
+    "q": "An equipment or device used to convert electrical energy into mechanical energy is called:",
+    "options": ["Motor", "Generator", "Transformer", "Rectifier"],
+    "answer": 0,
+    "explanation": "A motor converts electrical energy into mechanical energy via electromagnetic interactions. A generator converts mechanical to electrical energy, a transformer changes voltage levels, and a rectifier converts AC to DC, none of which produce mechanical energy."
+  },
+  {
+    "q": "The power factor of an alternator depends on:",
+    "options": ["Load", "Alternate loss", "Rotor speed", "Armature resistance"],
+    "answer": 0,
+    "explanation": "The power factor of an alternator depends on the load's nature (resistive, inductive, or capacitive), as it affects the phase difference between voltage and current. Alternate loss, rotor speed, and armature resistance do not directly determine power factor."
+  },
+  {
+    "q": "Which D.C. motor is used in machine tools?",
+    "options": ["Series motor", "Shunt motor", "Compound motor", "Permanent magnet motor"],
+    "answer": 1,
+    "explanation": "Shunt motors are used in machine tools due to their constant speed under varying loads. Series motors have variable speed, compound motors combine characteristics, and permanent magnet motors are less common in machine tools."
+  },
+  {
+    "q": "Difference in speed between stator field and rotor is:",
+    "options": ["No load speed", "Slip", "Synchronous speed", "Rotor torque"],
+    "answer": 1,
+    "explanation": "Slip is the difference between the stator’s synchronous speed and the rotor’s actual speed in an induction motor, expressed as a percentage. No load speed, synchronous speed, and rotor torque are not measures of this difference."
+  },
+  {
+    "q": "The operation of the electric generator and motor is based on the interaction between:",
+    "options": ["Magnetic field and electric current", "Electric field and law of induction", "Magnetic field and voltage", "Electric current and resistance"],
+    "answer": 0,
+    "explanation": "Motors and generators operate via the interaction between a magnetic field and electric current, producing force (motor) or voltage (generator). Electric fields, voltage, or resistance alone do not drive this interaction."
+  },
+  {
+    "q": "The nature of the current flowing in the armature of the DC machine is:",
+    "options": ["DC", "AC", "Pulsed DC", "Alternating voltage"],
+    "answer": 1,
+    "explanation": "In a DC machine, the armature current is AC due to the rotating coil in a magnetic field, but the commutator converts it to DC for external circuits. Pulsed DC and alternating voltage are incorrect descriptions."
+  },
+  {
+    "q": "In a hydropower plant, what converts mechanical energy into electrical energy?",
+    "options": ["Generator", "Pump", "Turbine", "Penstock"],
+    "answer": 0,
+    "explanation": "A generator converts mechanical energy from the turbine into electrical energy via electromagnetic induction. A pump moves fluids, a turbine converts water energy to mechanical energy, and a penstock directs water flow."
+  },
+  {
+    "q": "In generators, what principle is used to convert mechanical motion to electrical energy?",
+    "options": ["Magnetic induction", "Magnetic repulsion", "Electrostatic induction", "Thermal conduction"],
+    "answer": 0,
+    "explanation": "Magnetic induction, per Faraday’s law, induces an electromotive force in a conductor moving through a magnetic field. Magnetic repulsion, electrostatic induction, and thermal conduction are not used in generators."
+  },
+  {
+    "q": "When you use left-hand rule for generators, what is indicated by the middle finger?",
+    "options": ["Direction of the magnetic field", "Direction of current flow", "Direction of motion", "Direction of force"],
+    "answer": 1,
+    "explanation": "In the left-hand rule for generators, the middle finger indicates the direction of current flow, the thumb shows motion, and the index finger shows the magnetic field. Force is relevant for motors, not generators."
+  },
+  {
+    "q": "A machine that converts mechanical energy into electrical energy is known as:",
+    "options": ["A.C. generator", "D.C. motor", "Transformer", "Inverter"],
+    "answer": 0,
+    "explanation": "An A.C. generator (alternator) converts mechanical energy into electrical energy as AC. A D.C. motor consumes electricity, a transformer changes voltage, and an inverter converts DC to AC."
+  },
+  {
+    "q": "Which one of the following is a part of D.C. motor?",
+    "options": ["Armature", "Draft Tube", "Stator core", "Slip rings"],
+    "answer": 0,
+    "explanation": "The armature is the rotating coil in a D.C. motor that produces motion. A draft tube is part of a turbine, stator core is in AC machines, and slip rings are used in AC motors, not DC."
+  },
+  {
+    "q": "The current in electric resistance welding can be regulated by:",
+    "options": ["All of the above", "Varying the input supply", "Adjusting electrode pressure", "Changing welding time"],
+    "answer": 0,
+    "explanation": "Electric resistance welding current can be regulated by varying input supply, adjusting transformer taps, electrode pressure, or welding time, so all methods apply."
+  },
+  {
+    "q": "Electrolyte को Specific Gravity मापन गर्न प्रयोग हुने उपकरण के हो?",
+    "options": ["हाइड्रोमीटर", "स्पीडोमीटर", "एम्मीटर", "थर्मोमीटर"],
+    "answer": 0,
+    "explanation": "हाइड्रोमीटर measures the specific gravity of an electrolyte, indicating battery charge. स्पीडोमीटर measures speed, एम्मीटर measures current, and थर्मोमीटर measures temperature."
+  },
+  {
+    "q": "Lead Acid Battery मा कुल सेल्ल संख्या कति हुन्छ?",
+    "options": ["6", "4", "8", "12"],
+    "answer": 0,
+    "explanation": "A standard lead-acid battery for automotive use has 6 cells, each producing about 2.1V, totaling ~12.6V. 4, 8, or 12 cells are not standard configurations."
+  },
+  {
+    "q": "A machine that converts mechanical energy into electrical energy is known as:",
+    "options": ["D.C. Generator", "D.C. Motor", "Transformer", "Rectifier"],
+    "answer": 0,
+    "explanation": "A D.C. generator converts mechanical energy into DC electrical energy. A D.C. motor consumes electricity, a transformer changes voltage, and a rectifier converts AC to DC."
+  },
+  {
+    "q": "Which one of the following is a part of D.C. motor?",
+    "options": ["Armature", "Mother Board", "Slip rings", "Rotor core"],
+    "answer": 0,
+    "explanation": "The armature is a key component of a D.C. motor, carrying current to produce motion. Motherboards are in electronics, slip rings are in AC motors, and rotor core is less specific to DC motors."
+  },
+  {
+    "q": "कम्युटेटर कुन मेसिनमा प्रयोग हुन्छ?",
+    "options": ["डीसी मोटर", "एसी मोटर", "ट्रान्सफर्मर", "इन्भर्टर"],
+    "answer": 0,
+    "explanation": "कम्युटेटर is used in डीसी मोटर to reverse current direction in the armature for continuous rotation. एसी मोटर uses slip rings, ट्रान्सफर्मर changes voltage, and इन्भर्टर converts DC to AC."
+  },
+  {
+    "q": "What type of current flows in a DC machine’s armature?",
+    "options": ["DC", "AC", "Pulsed DC", "Alternating voltage"],
+    "answer": 1,
+    "explanation": "The armature of a DC machine carries AC due to the rotating coil, but the commutator converts it to DC externally. Pulsed DC and alternating voltage are incorrect."
+  },
+  {
+    "q": "In generators, which principle is responsible for electricity generation?",
+    "options": ["Magnetic induction", "Magnetic repulsion", "Electrostatic induction", "Thermal conduction"],
+    "answer": 0,
+    "explanation": "Magnetic induction, per Faraday’s law, generates electricity in generators. Magnetic repulsion, electrostatic induction, and thermal conduction are not applicable."
+  },
+  {
+    "q": "What part of a generator/motor ensures current direction control?",
+    "options": ["Commutator", "Brushless ring", "Stator winding", "Rotor shaft"],
+    "answer": 0,
+    "explanation": "The commutator reverses current direction in DC generators/motors for consistent operation. Brushless rings, stator windings, and rotor shafts do not control current direction."
+  },
+  {
+    "q": "Which one of the following is used to measure the specific gravity of electrolyte?",
+    "options": ["Hydrometer", "Speedometer", "Ammeter", "Voltmeter"],
+    "answer": 0,
+    "explanation": "A hydrometer measures the specific gravity of an electrolyte in batteries. Speedometer measures speed, ammeter measures current, and voltmeter measures voltage."
+  },
+  {
+    "q": "The power factor of an alternator depends on:",
+    "options": ["Load", "Speed of motor", "Armature resistance", "Frequency"],
+    "answer": 0,
+    "explanation": "The power factor depends on the load’s electrical characteristics (e.g., inductive or capacitive). Motor speed, armature resistance, and frequency do not directly affect power factor."
+  },
+  {
+    "q": "Which D.C. motor is used in machine tools?",
+    "options": ["Series motor", "Shunt motor", "Compound motor", "Permanent magnet motor"],
+    "answer": 1,
+    "explanation": "Shunt motors provide stable speed for machine tools. Series motors have variable speed, compound motors combine characteristics, and permanent magnet motors are less common."
+  }
+]
 
     let score = 0;
     let userAnswers = Array(questions.length).fill(null);
