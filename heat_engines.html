@@ -356,51 +356,271 @@
 
   <script>
     const questions = [
-      { q: "Which cycle is used in petrol engines?", options: ["Diesel cycle", "Otto cycle"], answer: 1, explanation: "Petrol engines operate on the Otto cycle, characterized by constant-volume combustion, unlike the Diesel cycle used in diesel engines." },
-      { q: "Compression ratio of diesel engine is?", options: ["10:1", "20:1"], answer: 1, explanation: "Diesel engines typically have a high compression ratio, around 20:1, to achieve auto-ignition of fuel without a spark plug." },
-      { q: "Fuel is ignited in CI engine by?", options: ["Spark plug", "Compression"], answer: 1, explanation: "In Compression Ignition (CI) engines, fuel ignites due to high compression, unlike Spark Ignition (SI) engines that use a spark plug." },
-      { q: "The unit of brake power is:", options: ["kW", "N.m"], answer: 0, explanation: "Brake power, the actual power output of an engine, is measured in kilowatts (kW), while N.m measures torque." },
-      { q: "Which component controls the air-fuel ratio in a carburetor?", options: ["Float chamber", "Venturi"], answer: 1, explanation: "The Venturi in a carburetor creates a pressure drop to mix air and fuel in the correct ratio, while the float chamber regulates fuel level." },
-      { q: "In which stroke is the spark plug fired in a petrol engine?", options: ["Compression stroke", "Exhaust stroke"], answer: 0, explanation: "In a petrol engine, the spark plug fires near the end of the compression stroke to ignite the air-fuel mixture." },
-      { q: "Which part of the engine connects piston and crankshaft?", options: ["Connecting rod", "Camshaft"], answer: 0, explanation: "The connecting rod links the piston to the crankshaft, converting linear motion to rotational motion." },
-      { q: "Thermal efficiency of an ideal diesel cycle is?", options: ["Less than Otto cycle", "More than Otto cycle"], answer: 0, explanation: "For the same compression ratio, the Diesel cycle is less efficient than the Otto cycle due to constant-pressure heat addition." },
-      { q: "What does BHP stand for?", options: ["Brake Horse Power", "Basic Heat Pressure"], answer: 0, explanation: "BHP stands for Brake Horse Power, a measure of an engine’s output power without losses from auxiliary components." },
-      { q: "Which of the following is a four-stroke engine?", options: ["Petrol engine", "Steam engine"], answer: 0, explanation: "Petrol engines typically operate on a four-stroke cycle (intake, compression, power, exhaust), unlike steam engines." },
-      { q: "Which cycle is used in diesel engines?", options: ["Otto cycle", "Diesel cycle"], answer: 1, explanation: "Diesel engines use the Diesel cycle, involving constant-pressure combustion, distinct from the Otto cycle used in petrol engines." },
-      { q: "Air standard efficiency of Otto cycle depends on?", options: ["Compression ratio", "Stroke length"], answer: 0, explanation: "The efficiency of an Otto cycle increases with a higher compression ratio, not directly on stroke length." },
-      { q: "In SI engines, ignition is caused by?", options: ["Compression", "Spark"], answer: 1, explanation: "Spark Ignition (SI) engines use a spark from a spark plug to ignite the air-fuel mixture, unlike CI engines." },
-      { q: "Which part opens and closes the valves?", options: ["Camshaft", "Crankshaft"], answer: 0, explanation: "The camshaft controls the opening and closing of engine valves, while the crankshaft drives the pistons." },
-      { q: "Diesel cycle consists of how many processes?", options: ["Four", "Three"], answer: 0, explanation: "The Diesel cycle includes four processes: compression, heat addition, expansion, and heat rejection." },
-      { q: "Scavenging is used in?", options: ["Two stroke engines", "Four stroke engines"], answer: 0, explanation: "Scavenging, the process of clearing exhaust gases, is primarily used in two-stroke engines to improve efficiency." },
-      { q: "The main function of a carburetor is to?", options: ["Mix air and fuel", "Cool the engine"], answer: 0, explanation: "A carburetor mixes air and fuel in the correct ratio for combustion in a petrol engine." },
-      { q: "Which device is used to cool the engine?", options: ["Radiator", "Flywheel"], answer: 0, explanation: "The radiator dissipates heat from the engine coolant, while the flywheel maintains rotational momentum." },
-      { q: "Which of the following is a CI engine?", options: ["Diesel engine", "Petrol engine"], answer: 0, explanation: "Diesel engines are Compression Ignition (CI) engines, igniting fuel via compression, unlike petrol engines (SI)." },
-      { q: "Which stroke removes burnt gases?", options: ["Exhaust stroke", "Intake stroke"], answer: 0, explanation: "The exhaust stroke expels burnt gases from the cylinder, preparing it for the next cycle." },
-      { q: "All steam engines are:", options: ["External combustion engine", "Internal combustion engine"], answer: 0, explanation: "Steam engines are external combustion engines, as heat is applied externally to produce steam, unlike internal combustion engines." },
-      { q: "What is the difference between steam engine and automotive engine?", options: ["Automotive engines work on the Otto cycle, whereas steam engines work on the Rankine cycle", "Automotive engines are I.C. Engine, whereas steam engines are external combustion engine"], answer: 1, explanation: "Automotive engines are internal combustion engines (e.g., Otto cycle), while steam engines are external combustion engines using the Rankine cycle." },
-      { q: "All steam engines work on:", options: ["Zeroth law of thermodynamics", "First law of thermodynamics"], answer: 1, explanation: "Steam engines operate based on the First Law of Thermodynamics, converting heat into work while conserving energy." },
-      { q: "A 4-stroke petrol engine is:", options: ["Diesel engine", "An internal combustion engine"], answer: 1, explanation: "A 4-stroke petrol engine is an internal combustion engine, using spark ignition to convert fuel energy into mechanical work." },
-      { q: "A cycle that restores initial conditions at the end is called:", options: ["Reversible cycle", "Irreversible cycle"], answer: 0, explanation: "A reversible cycle restores initial conditions, theoretically allowing the system to return to its starting state without losses." },
-      { q: "Cylinder, piston rings, valves, crankshaft, connecting rod, governors, indicators etc. were first developed in:", options: ["Petrol Engine", "Gas Engine"], answer: 0, explanation: "These components were first developed for early petrol engines, which evolved into modern internal combustion engines." },
-      { q: "Two-stroke petrol engines are used in:", options: ["Four-stroke petrol engine", "Motorcycle"], answer: 1, explanation: "Two-stroke petrol engines are commonly used in motorcycles due to their simplicity and high power-to-weight ratio." },
-      { q: "What is the correct sequence of components in a petrol engine?", options: ["Inlet valve, exhaust valve, piston, spark plug etc.", "Piston and carburetor only"], answer: 0, explanation: "A petrol engine includes components like inlet valve, exhaust valve, piston, and spark plug, working in a specific sequence during the cycle." },
-      { q: "Unit of velocity is:", options: ["ft/sec", "m/sec"], answer: 1, explanation: "The SI unit of velocity is meters per second (m/sec), while ft/sec is used in the imperial system." },
-      { q: "The fuel injection system injects fuel into the combustion chamber in a diesel engine when the piston reaches:", options: ["None of the above", "Near top dead center"], answer: 1, explanation: "In a diesel engine, fuel is injected near top dead center during the compression stroke for optimal combustion." },
-      { q: "Maximum energy loss in boiler occurs due to:", options: ["Radiation losses", "Unburnt carbon in ash"], answer: 1, explanation: "Unburnt carbon in ash represents a significant energy loss in boilers, as it indicates incomplete combustion." },
-      { q: "The thermal efficiency of a well-maintained boiler will be of the order:", options: ["40%", "90%"], answer: 1, explanation: "A well-maintained boiler can achieve thermal efficiencies around 90%, depending on design and operation." },
-      { q: "Which type of boiler can meet rapid changes of load?", options: ["Vertical fire tube type", "Forced circulation type"], answer: 1, explanation: "Forced circulation boilers can respond quickly to load changes due to enhanced water flow and heat transfer." },
-      { q: "Ratio of Indicated H.P. and Brake H.P. is known as:", options: ["Mechanical efficiency", "Isothermal efficiency"], answer: 0, explanation: "Mechanical efficiency is the ratio of Brake Horse Power (actual output) to Indicated Horse Power (theoretical power)." },
-      { q: "For the same temperature limits and heat input, the most efficient cycle is:", options: ["Carnot", "Brayton"], answer: 0, explanation: "The Carnot cycle is the most efficient theoretical cycle for given temperature limits, as it operates reversibly." },
-      { q: "Water tube boilers are more effective in heat transfer since the hot gases flow:", options: ["Inside the tubes", "Over the tubes"], answer: 1, explanation: "In water tube boilers, hot gases flow over the tubes containing water, enhancing heat transfer efficiency." },
-      { q: "All heat engines utilize:", options: ["Low heat value of fuel", "Internal energy of fuel"], answer: 0, explanation: "Heat engines utilize the low heat value (net calorific value) of fuel, accounting for energy available after losses." },
-      { q: "The crown of the fire box is made hemispherical in order to:", options: ["Give maximum space", "Give maximum strength"], answer: 1, explanation: "A hemispherical firebox crown provides maximum strength to withstand high pressure and temperature." },
-      { q: "The system with fixed mass and no heat/work transfer across boundary is called:", options: ["Isolated system", "Closed system"], answer: 0, explanation: "An isolated system has no heat or work transfer across its boundaries, unlike a closed system which allows energy transfer." },
-      { q: "For same compression ratio and same heat added:", options: ["Otto cycle is more efficient than Diesel cycle", "Diesel cycle is more efficient than Otto cycle"], answer: 0, explanation: "For the same compression ratio, the Otto cycle is more efficient due to constant-volume heat addition." },
-      { q: "Water at pressure of 4kg/cm² and 160°C temperature when exposed to atmosphere will:", options: ["Remain as it was", "Flash i.e., get converted into steam"], answer: 1, explanation: "At 4 kg/cm² and 160°C, water is superheated; when exposed to atmospheric pressure, it flashes into steam due to lower boiling point." },
-      { q: "The device, which converts heat energy into useful work in a cyclic process, is known as:", options: ["Compressor", "Heat engine"], answer: 1, explanation: "A heat engine converts heat energy into mechanical work through a cyclic process, unlike a compressor." },
-      { q: "Work done in a free expansion process is:", options: ["Minimum", "Zero"], answer: 1, explanation: "In a free expansion process, no work is done (W=0) as the gas expands into a vacuum without external resistance." },
-      { q: "Which of the following is not an external combustion heat engine?", options: ["Steam engine", "Pelton turbine"], answer: 1, explanation: "A Pelton turbine is a hydraulic turbine, not a heat engine, while steam engines are external combustion heat engines." }
-    ];
+  {
+    "q": "Which cycle is used in petrol engines?",
+    "options": ["Diesel cycle", "Otto cycle", "Brayton cycle", "Rankine cycle"],
+    "answer": 1,
+    "explanation": "Petrol engines operate on the Otto cycle, characterized by constant-volume combustion. Diesel cycle is for diesel engines, Brayton for gas turbines, and Rankine for steam engines."
+  },
+  {
+    "q": "Compression ratio of diesel engine is?",
+    "options": ["10:1", "20:1", "8:1", "15:1"],
+    "answer": 1,
+    "explanation": "Diesel engines have a high compression ratio, typically around 20:1, for auto-ignition. Lower ratios like 10:1 or 8:1 are common in petrol engines, and 15:1 is less typical."
+  },
+  {
+    "q": "Fuel is ignited in CI engine by?",
+    "options": ["Spark plug", "Compression", "Glow plug", "Fuel injector"],
+    "answer": 1,
+    "explanation": "Compression Ignition (CI) engines ignite fuel via high compression. Spark plugs are used in SI engines, glow plugs assist cold starts in some diesels, and injectors deliver fuel."
+  },
+  {
+    "q": "The unit of brake power is:",
+    "options": ["kW", "N.m", "J/s", "kg.m/s²"],
+    "answer": 0,
+    "explanation": "Brake power, the engine’s actual power output, is measured in kilowatts (kW). N.m measures torque, J/s is equivalent to watts but less specific, and kg.m/s² is force (N)."
+  },
+  {
+    "q": "Which component controls the air-fuel ratio in a carburetor?",
+    "options": ["Float chamber", "Venturi", "Throttle valve", "Choke valve"],
+    "answer": 1,
+    "explanation": "The Venturi creates a pressure drop to mix air and fuel in the correct ratio. Float chamber regulates fuel level, throttle valve controls airflow, and choke valve enriches the mixture."
+  },
+  {
+    "q": "In which stroke is the spark plug fired in a petrol engine?",
+    "options": ["Compression stroke", "Exhaust stroke", "Intake stroke", "Power stroke"],
+    "answer": 0,
+    "explanation": "The spark plug fires near the end of the compression stroke to ignite the mixture. Exhaust, intake, and power strokes have different functions."
+  },
+  {
+    "q": "Which part of the engine connects piston and crankshaft?",
+    "options": ["Connecting rod", "Camshaft", "Flywheel", "Piston pin"],
+    "answer": 0,
+    "explanation": "The connecting rod links the piston to the crankshaft, converting linear to rotational motion. Camshaft controls valves, flywheel stores momentum, and piston pin connects piston to rod."
+  },
+  {
+    "q": "Thermal efficiency of an ideal diesel cycle is?",
+    "options": ["Less than Otto cycle", "More than Otto cycle", "Equal to Otto cycle", "Independent of Otto cycle"],
+    "answer": 0,
+    "explanation": "For the same compression ratio, Diesel cycle efficiency is lower due to constant-pressure heat addition. Otto cycle’s constant-volume combustion yields higher efficiency."
+  },
+  {
+    "q": "What does BHP stand for?",
+    "options": ["Brake Horse Power", "Basic Heat Pressure", "Boiler Horse Power", "Boosted Hydraulic Pressure"],
+    "answer": 0,
+    "explanation": "BHP stands for Brake Horse Power, measuring engine output without auxiliary losses. Other options are unrelated or incorrect."
+  },
+  {
+    "q": "Which of the following is a four-stroke engine?",
+    "options": ["Petrol engine", "Steam engine", "Two-stroke engine", "Jet engine"],
+    "answer": 0,
+    "explanation": "Petrol engines typically use a four-stroke cycle (intake, compression, power, exhaust). Steam engines are external combustion, two-stroke engines have two strokes, and jet engines use Brayton cycle."
+  },
+  {
+    "q": "Which cycle is used in diesel engines?",
+    "options": ["Otto cycle", "Diesel cycle", "Brayton cycle", "Rankine cycle"],
+    "answer": 1,
+    "explanation": "Diesel engines use the Diesel cycle with constant-pressure combustion. Otto is for petrol engines, Brayton for gas turbines, and Rankine for steam engines."
+  },
+  {
+    "q": "Air standard efficiency of Otto cycle depends on?",
+    "options": ["Compression ratio", "Stroke length", "Fuel type", "Engine speed"],
+    "answer": 0,
+    "explanation": "Otto cycle efficiency increases with higher compression ratio. Stroke length, fuel type, and engine speed affect performance but not air standard efficiency."
+  },
+  {
+    "q": "In SI engines, ignition is caused by?",
+    "options": ["Compression", "Spark", "Glow plug", "Fuel injection"],
+    "answer": 1,
+    "explanation": "Spark Ignition (SI) engines use a spark plug to ignite the mixture. Compression is for CI engines, glow plugs assist diesels, and fuel injection delivers fuel."
+  },
+  {
+    "q": "Which part opens and closes the valves?",
+    "options": ["Camshaft", "Crankshaft", "Rocker arm", "Timing belt"],
+    "answer": 0,
+    "explanation": "The camshaft controls valve opening and closing. Crankshaft drives pistons, rocker arms transfer cam motion, and timing belts synchronize camshaft and crankshaft."
+  },
+  {
+    "q": "Diesel cycle consists of how many processes?",
+    "options": ["Four", "Three", "Two", "Five"],
+    "answer": 0,
+    "explanation": "The Diesel cycle has four processes: compression, heat addition, expansion, and heat rejection. Other counts do not match the cycle."
+  },
+  {
+    "q": "Scavenging is used in?",
+    "options": ["Two stroke engines", "Four stroke engines", "Steam engines", "Jet engines"],
+    "answer": 0,
+    "explanation": "Scavenging clears exhaust gases in two-stroke engines to improve efficiency. Four-stroke engines use separate strokes, and steam/jet engines don’t use scavenging."
+  },
+  {
+    "q": "The main function of a carburetor is to?",
+    "options": ["Mix air and fuel", "Cool the engine", "Store fuel", "Ignite the mixture"],
+    "answer": 0,
+    "explanation": "A carburetor mixes air and fuel for combustion in petrol engines. Cooling is done by radiators, fuel storage by tanks, and ignition by spark plugs."
+  },
+  {
+    "q": "Which device is used to cool the engine?",
+    "options": ["Radiator", "Flywheel", "Carburetor", "Distributor"],
+    "answer": 0,
+    "explanation": "The radiator dissipates heat from engine coolant. Flywheel maintains momentum, carburetor mixes fuel, and distributor manages ignition timing."
+  },
+  {
+    "q": "Which of the following is a CI engine?",
+    "options": ["Diesel engine", "Petrol engine", "Gasoline engine", "Two-stroke engine"],
+    "answer": 0,
+    "explanation": "Diesel engines are Compression Ignition (CI) engines, igniting fuel via compression. Petrol and gasoline engines are SI, and two-stroke can be either."
+  },
+  {
+    "q": "Which stroke removes burnt gases?",
+    "options": ["Exhaust stroke", "Intake stroke", "Compression stroke", "Power stroke"],
+    "answer": 0,
+    "explanation": "The exhaust stroke expels burnt gases. Intake draws in fuel-air mixture, compression compresses it, and power delivers work."
+  },
+  {
+    "q": "All steam engines are:",
+    "options": ["External combustion engine", "Internal combustion engine", "Hybrid engine", "Electric engine"],
+    "answer": 0,
+    "explanation": "Steam engines are external combustion engines, with heat applied externally to produce steam. Internal combustion, hybrid, and electric engines are different."
+  },
+  {
+    "q": "What is the difference between steam engine and automotive engine?",
+    "options": ["Automotive engines work on the Otto cycle, whereas steam engines work on the Rankine cycle", "Automotive engines are I.C. Engine, whereas steam engines are external combustion engine", "Both use the same cycle", "Steam engines are internal combustion"],
+    "answer": 1,
+    "explanation": "Automotive engines are internal combustion (e.g., Otto cycle), while steam engines are external combustion (Rankine cycle). Other options are incorrect."
+  },
+  {
+    "q": "All steam engines work on:",
+    "options": ["Zeroth law of thermodynamics", "First law of thermodynamics", "Second law of thermodynamics", "Third law of thermodynamics"],
+    "answer": 1,
+    "explanation": "Steam engines operate per the First Law, converting heat into work while conserving energy. Other laws address equilibrium, entropy, or absolute zero."
+  },
+  {
+    "q": "A 4-stroke petrol engine is:",
+    "options": ["Diesel engine", "An internal combustion engine", "External combustion engine", "Steam engine"],
+    "answer": 1,
+    "explanation": "A 4-stroke petrol engine is an internal combustion engine using spark ignition. Diesel is CI, and steam/external combustion engines are different."
+  },
+  {
+    "q": "A cycle that restores initial conditions at the end is called:",
+    "options": ["Reversible cycle", "Irreversible cycle", "Open cycle", "Closed cycle"],
+    "answer": 0,
+    "explanation": "A reversible cycle restores initial conditions without losses theoretically. Irreversible cycles have losses, and open/closed cycles refer to mass flow."
+  },
+  {
+    "q": "Cylinder, piston rings, valves, crankshaft, connecting rod, governors, indicators etc. were first developed in:",
+    "options": ["Petrol Engine", "Gas Engine", "Steam Engine", "Diesel Engine"],
+    "answer": 0,
+    "explanation": "These components were first developed for early petrol engines, evolving into modern internal combustion engines. Steam engines used different components."
+  },
+  {
+    "q": "Two-stroke petrol engines are used in:",
+    "options": ["Four-stroke petrol engine", "Motorcycle", "Car engine", "Diesel truck"],
+    "answer": 1,
+    "explanation": "Two-stroke petrol engines are used in motorcycles for their high power-to-weight ratio. Four-stroke, car, and diesel engines typically use other configurations."
+  },
+  {
+    "q": "What is the correct sequence of components in a petrol engine?",
+    "options": ["Inlet valve, exhaust valve, piston, spark plug etc.", "Piston and carburetor only", "Carburetor, flywheel, radiator", "Crankshaft, camshaft, throttle"],
+    "answer": 0,
+    "explanation": "Petrol engines include inlet valve, exhaust valve, piston, and spark plug in a functional sequence. Other options list unrelated or incomplete components."
+  },
+  {
+    "q": "Unit of velocity is:",
+    "options": ["ft/sec", "m/sec", "m/s²", "km/h"],
+    "answer": 1,
+    "explanation": "The SI unit of velocity is meters per second (m/sec). ft/sec is imperial, m/s² is acceleration, and km/h is a derived unit."
+  },
+  {
+    "q": "The fuel injection system injects fuel into the combustion chamber in a diesel engine when the piston reaches:",
+    "options": ["None of the above", "Near top dead center", "Bottom dead center", "Mid-stroke"],
+    "answer": 1,
+    "explanation": "Fuel is injected near top dead center in diesel engines during compression for optimal combustion. Other positions are incorrect for ignition timing."
+  },
+  {
+    "q": "Maximum energy loss in boiler occurs due to:",
+    "options": ["Radiation losses", "Unburnt carbon in ash", "Flue gas losses", "Conduction losses"],
+    "answer": 1,
+    "explanation": "Unburnt carbon in ash indicates incomplete combustion, a major energy loss. Flue gas losses are significant, but unburnt carbon is often the primary issue."
+  },
+  {
+    "q": "The thermal efficiency of a well-maintained boiler will be of the order:",
+    "options": ["40%", "90%", "60%", "75%"],
+    "answer": 1,
+    "explanation": "Modern, well-maintained boilers achieve efficiencies of 80–90%. Lower values like 40% or 60% are unrealistic for well-maintained systems."
+  },
+  {
+    "q": "Which type of boiler can meet rapid changes of load?",
+    "options": ["Vertical fire tube type", "Forced circulation type", "Natural circulation type", "Lancashire boiler"],
+    "answer": 1,
+    "explanation": "Forced circulation boilers respond quickly to load changes due to enhanced water flow. Fire tube and natural circulation boilers are slower to adapt."
+  },
+  {
+    "q": "Ratio of Indicated H.P. and Brake H.P. is known as:",
+    "options": ["Mechanical efficiency", "Isothermal efficiency", "Thermal efficiency", "Volumetric efficiency"],
+    "answer": 0,
+    "explanation": "Mechanical efficiency is the ratio of Brake Horse Power (actual) to Indicated Horse Power (theoretical). Other efficiencies measure different aspects."
+  },
+  {
+    "q": "For the same temperature limits and heat input, the most efficient cycle is:",
+    "options": ["Carnot", "Brayton", "Otto", "Diesel"],
+    "answer": 0,
+    "explanation": "The Carnot cycle is the most efficient theoretical cycle for given temperature limits, operating reversibly. Other cycles have practical losses."
+  },
+  {
+    "q": "Water tube boilers are more effective in heat transfer since the hot gases flow:",
+    "options": ["Inside the tubes", "Over the tubes", "Through the shell", "Around the furnace"],
+    "answer": 1,
+    "explanation": "In water tube boilers, hot gases flow over tubes containing water, enhancing heat transfer. Gases don’t flow inside tubes or through the shell."
+  },
+  {
+    "q": "All heat engines utilize:",
+    "options": ["Low heat value of fuel", "Internal energy of fuel", "High heat value of fuel", "Chemical energy of air"],
+    "answer": 0,
+    "explanation": "Heat engines use the low heat value (net calorific value) of fuel, accounting for usable energy after losses. Internal energy is broader, and air’s chemical energy is irrelevant."
+  },
+  {
+    "q": "The crown of the fire box is made hemispherical in order to:",
+    "options": ["Give maximum space", "Give maximum strength", "Reduce heat loss", "Increase combustion"],
+    "answer": 1,
+    "explanation": "A hemispherical firebox crown maximizes strength against high pressure and temperature. It doesn’t primarily affect space, heat loss, or combustion."
+  },
+  {
+    "q": "The system with fixed mass and no heat/work transfer across boundary is called:",
+    "options": ["Isolated system", "Closed system", "Open system", "Adiabatic system"],
+    "answer": 0,
+    "explanation": "An isolated system has no heat or work transfer. Closed systems allow energy transfer, open systems allow mass transfer, and adiabatic systems prevent heat transfer."
+  },
+  {
+    "q": "For same compression ratio and same heat added:",
+    "options": ["Otto cycle is more efficient than Diesel cycle", "Diesel cycle is more efficient than Otto cycle", "Both are equally efficient", "Efficiency cannot be compared"],
+    "answer": 0,
+    "explanation": "For the same compression ratio, Otto cycle is more efficient due to constant-volume heat addition. Diesel’s constant-pressure addition reduces efficiency."
+  },
+  {
+    "q": "Water at pressure of 4kg/cm² and 160°C temperature when exposed to atmosphere will:",
+    "options": ["Remain as it was", "Flash i.e., get converted into steam", "Condense into liquid", "Superheat further"],
+    "answer": 1,
+    "explanation": "At 4 kg/cm² (~4 bar), water at 160°C is near its boiling point; at atmospheric pressure (1 bar), it flashes into steam as the boiling point drops to 100°C."
+  },
+  {
+    "q": "The device, which converts heat energy into useful work in a cyclic process, is known as:",
+    "options": ["Compressor", "Heat engine", "Refrigerator", "Turbine"],
+    "answer": 1,
+    "explanation": "A heat engine converts heat into mechanical work cyclically. Compressors use work, refrigerators transfer heat, and turbines are components, not complete cycles."
+  },
+  {
+    "q": "Work done in a free expansion process is:",
+    "options": ["Minimum", "Zero", "Maximum", "Negative"],
+    "answer": 1,
+    "explanation": "In free expansion, gas expands into a vacuum without external resistance, so work done is zero (W=0). Other options are incorrect."
+  },
+  {
+    "q": "Which of the following is not an external combustion heat engine?",
+    "options": ["Steam engine", "Pelton turbine", "Stirling engine", "Rankine cycle engine"],
+    "answer": 1,
+    "explanation": "Pelton turbine is a hydraulic turbine, not a heat engine. Steam, Stirling, and Rankine cycle engines are external combustion heat engines."
+  }
+]
 
     let score = 0;
     let userAnswers = Array(questions.length).fill(null);
