@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nepal Civil Service MCQ Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', -apple-system, Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      color: #1a202c;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.6;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2b6cb0;
+      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #c53030;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .quiz-container {
+      max-width: 1000px;
+      width: 100%;
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .quiz-container:hover {
+      transform: translateY(-5px);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #edf2f7;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(to right, #4299e1, #3182ce);
+      border-radius: 6px;
+      transition: width 0.4s ease-in-out;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: #c53030;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .question {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      animation: fadeIn 0.5s ease-out;
+      transition: box-shadow 0.3s;
+    }
+
+    .question:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question p {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #2d3748;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .options button {
+      padding: 0.75rem 1.25rem;
+      width: 100%;
+      background: #ebf8ff;
+      border: 2px solid #bee3f8;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      text-align: left;
+      transition: all 0.3s ease;
+      color: #2d3748;
+    }
+
+    .options button:hover:not(:disabled) {
+      background: #bee3f8;
+      border-color: #90cdf4;
+      transform: translateX(4px);
+    }
+
+    .options button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+    }
+
+    .options button.correct {
+      background: #c6f6d5 !important;
+      border-color: #68d391 !important;
+      color: #22543d;
+      animation: pulse 0.5s;
+    }
+
+    .options button.wrong {
+      background: #fed7d7 !important;
+      border-color: #f56565 !important;
+      color: #742a2a;
+      animation: shake 0.3s;
+    }
+
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .explanation {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f0fff4;
+      border-left: 4px solid #48bb78;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      color: #2d3748;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+
+    .explanation.show {
+      opacity: 1;
+      max-height: 500px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    .pagination-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .pagination-button:hover:not(:disabled) {
+      background: #3182ce;
+    }
+
+    .pagination-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    .submit-button, .restart-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .submit-button:hover:not(:disabled), .restart-button:hover:not(:disabled) {
+      background: #3182ce;
+      transform: translateY(-2px);
+    }
+
+    .submit-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    #score, #results {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      font-weight: 700;
+      color: #2d3748;
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #e2e8f0;
+      padding: 1rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #edf2f7;
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .results-table td.correct { color: #2f855a; font-weight: 600; }
+    .results-table td.wrong { color: #c53030; font-weight: 600; }
+    .results-table td.not-attempted { color: #718096; }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      .quiz-container {
+        padding: 1.5rem;
+      }
+      .question p {
+        font-size: 1.1rem;
+      }
+      .options button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+      }
+      .results-table th, .results-table td {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+      .pagination-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      .submit-button, .restart-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Nepal Civil Service MCQ Quiz</h1>
+  <h2>Test Your Knowledge: Nepal Civil Service and Constitutional Framework</h2>
+  <div class="quiz-container">
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div id="quiz" role="region" aria-live="polite"></div>
+    <div class="pagination">
+      <button class="pagination-button" id="prev-page" disabled aria-label="Previous page">Previous</button>
+      <button class="pagination-button" id="next-page" aria-label="Next page">Next</button>
+    </div>
+    <button class="submit-button" id="submit-button" disabled aria-label="Submit quiz">Submit Quiz</button>
+    <div id="score"></div>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <div class="overflow-x-auto">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Your Answer</th>
+              <th>Correct Answer</th>
+              <th>Status</th>
+              <th>Explanation</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <button class="restart-button hidden" id="restart-button" aria-label="Restart quiz">Restart Quiz</button>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+
+  <script>
+    const questions = [
+      {
+        q: "समूह १ र समूह २ बीच जोडि मिलानुहोस् (संवैधानिक सेवा र संबन्धित कार्यहरु): a. निजामति सेवा b. प्रहरी सेवा c. शिक्षा सम्बन्धी सेवा d. विकास सम्बन्धी सेवा",
+        options: ["a-2, b-3, c-1, d-4", "a-4, b-2, c-3, d-1", "a-1, b-2, c-3, d-4", "a-3, b-1, c-4, d-2"],
+        answer: 1,
+        explanation: "Correct pairing is a-4 (निजामति सेवा - राष्ट्रिय योजना), b-2 (प्रहरी सेवा - शान्ति सुरक्षा), c-3 (शिक्षा सम्बन्धी सेवा), d-1 (विकास सम्बन्धी सेवा - विधुत सम्बन्धी). Based on Nepal's constitutional framework (Article 232-240).",
+        tips: "Remember: Civil service (निजामति) is linked to national planning, police to security, education to teaching, and development to utilities like electricity."
+      },
+      {
+        q: "नागरिक वडापत्र (Citizen Charter) को सुधारत कुन देशवाट आएको हो ?",
+        options: ["संयुक्त राज्य अमेरिका", "संयुक्त अधिराज्य", "चीन", "फ्रान्स"],
+        answer: 1,
+        explanation: "Originated in the UK under John Major's government in 1991 for governance reforms (www.psc.gov.np).",
+        tips: "Mnemonic: UK (United Kingdom) starts with 'U' like 'Unique' Citizen Charter initiative."
+      },
+      {
+        q: "कुन नेपाली नागरिकले संवैधानिक निकायमा सुचना माग गरेकोमा निजामति सेवाले कति दिनभित्र सुचना दिनुपर्छ ?",
+        options: ["१", "१४", "२१", "३४"],
+        answer: 2,
+        explanation: "Right to Information Act, 2064, Section 7 mandates a 21-day response (www.lawcommission.gov.np).",
+        tips: "Think: 21 days is three weeks, a reasonable time for processing information requests."
+      },
+      {
+        q: "लोक सेवा आयोगमा संवैधानिक सेवाधनको कुन भागमा रहेको छ ?",
+        options: ["२१", "२३", "२४", "२%"],
+        answer: 1,
+        explanation: "Article 23 of the 2015 Constitution outlines the Public Service Commission’s role (www.psc.gov.np).",
+        tips: "Link: Article 23 sounds like '2-3' for PSC’s constitutional role."
+      },
+      {
+        q: "संवैधानिक सेवा प्रवाह गर्दा तलका मध्ये कुन निजामे मुख्य सवाल हो ?",
+        options: ["राजनैतिक नेतृत्वको तलका योजना", "सेवा गर्ने प्राविधिकको संज्ञा", "सेवाको परिपालन, गुणस्तर, समय र तलन लगायत", "सेवा दिने निजामति"],
+        answer: 2,
+        explanation: "Service delivery standards (compliance, quality, time) are critical (PSC guidelines).",
+        tips: "Focus on 'Quality and Time' as key service delivery metrics."
+      },
+      {
+        q: "तलका मध्ये कुन निजामेपेशानको जिम्मेवारीमा पर्छ ?",
+        options: ["अनतिक सेवाको मिलान गर्नु", "गलतिहरु पत्ता लगाउनु", "उलंकार पात्र तलाग्नु", "ठूलो निजामतिले लेखा हेरफेर गर्नु"],
+        answer: 0,
+        explanation: "Aligning administrative services is a core duty (2.2).",
+        tips: "Mnemonic: 'Align' services with 'A' for first option."
+      },
+      {
+        q: "तल दिइएको कुन कार्य तिपन्नी तलन अन्तरगत पर्छ ?",
+        options: ["कुन एक शाखाको तिपन्नीमा आधि शाखाको राय अवरसक पने मामा महासभा सम्बन्ध माफत ममु", "तिपन्नी लेखामा निजामतिले कालो मसिकको प्रगति गर्नु", "महामिल्लो तरिका निजीहाल माफत निकायमा पठाउनु", "तिपन्नीमा अनिवार्य स्वमा पात्र नबल उल्लेख गर्नु"],
+        answer: 1,
+        explanation: "Recording monthly progress in notes is part of record management (2.1.5).",
+        tips: "Think: Progress reports are 'monthly' like the second option."
+      },
+      {
+        q: "वर्तमान नेपालीको संवैधानिक थार र २३ सम्मिलन सेव, प्रजाति र सम्बन्ध तथ्यांकको सम्बन्ध दायित्व कुन सिद्धान्तमा आधारित छ ?",
+        options: ["राज आर्टिकल, सम्बन्ध र उद्यमको सिद्धान्त", "संवैधानिक, निजी उद्यम र सम्बन्धको सिद्धान्त", "सहकारीता, सहआर्टिकल र सम्बन्धको सिद्धान्त", "संवैधानिक थार, सहकारी थार र निजी क्षेत्रको सम्बन्धको सिद्धान्त"],
+        answer: 3,
+        explanation: "Based on constitutional, cooperative, and private sector principles (Article 23, 2.3).",
+        tips: "Last option is longest, like the comprehensive principle it describes."
+      },
+      {
+        q: "मूल्यांकनको सही निजामक कुन हो ?",
+        options: ["सूचना", "सूचनासमुह", "सुशासन", "वास्ता"],
+        answer: 2,
+        explanation: "Good governance (सुशासन) is the evaluation standard (2.4).",
+        tips: "Mnemonic: 'Good' governance starts with 'G' like 'सुशासन'."
+      },
+      {
+        q: "निजामति सेवा भित्र कति वटा निजामक कार्यहरु हुन्छन् ?",
+        options: ["१", "२", "३", "४"],
+        answer: 0,
+        explanation: "One primary administrative role per service category (2.2).",
+        tips: "Simplest answer (1) reflects one core role."
+      },
+      {
+        q: "कुन रोगको प्रकोपले निजामति सेवाको कार्यमा असर गर्छ ?",
+        options: ["पहिचानको रोग", "मधेसको रोग", "बाल रोग", "रोगको पहिचान"],
+        answer: 2,
+        explanation: "Child diseases impact service delivery (2.5).",
+        tips: "Think: 'Children' are future, their diseases affect services."
+      },
+      {
+        q: "निजामति सेवाको मूल्यांकनको कुन प्रावधानले काम गर्छ ?",
+        options: ["मधेसी फाट्टे", "थारु गाउँपालिका", "यथार्थवादी यथार्थ", "अलेक्जेन्डर ग्राम्सी"],
+        answer: 2,
+        explanation: "Realistic evaluation aligns with PSC guidelines (2.2).",
+        tips: "Mnemonic: 'Real' evaluation is 'यथार्थ' (realistic)."
+      },
+      {
+        q: "निजामति सेवाको सुचना प्रणाली कुन हो ?",
+        options: ["नागरिक वडापत्र", "आगामी वाहिर्जनमक व्यवस्थापन", "संवैधानिक सुधार", "सुधरी सेवा"],
+        answer: 0,
+        explanation: "Citizen Charter is the key information system (2.1.4).",
+        tips: "Link: Citizen Charter is first for public info."
+      },
+      {
+        q: "निजामति सेवाको कुन प्रावधानले काम गर्छ ?",
+        options: ["माफिस्ट उज्यार", "जोन मेजर", "टोनी बेल्यार", "गोदेन ब्राउन"],
+        answer: 2,
+        explanation: "Tony Blair influenced governance reforms post-UK Citizen Charter (2.4).",
+        tips: "Remember: Blair follows Major in UK reforms."
+      },
+      {
+        q: "निजामति सेवाको कुन प्रावधानले काम गर्छ ?",
+        options: ["नयाँ प्रणाली", "मन्त्रीपरिषद्", "संवैधानिक प्रणाली", "समन्वय ममिल्ला तथ्या समाज"],
+        answer: 2,
+        explanation: "Constitutional system governs (2.3).",
+        tips: "Mnemonic: 'Constitution' starts with 'C' like third option."
+      },
+      {
+        q: "निजामति सेवाको कुन प्रावधानले काम गर्छ ?",
+        options: ["मानव अफिसर अनतात मूलिक कायरे", "पुलिस हकले मानव अफिसरको व्यवस्था गर्छ", "सेना मानव अफिसर संवैधानिक अफिसर हुन्", "माफिका सुध"],
+        answer: 0,
+        explanation: "Human resource duties align (2.6).",
+        tips: "First option mentions 'human' for HR focus."
+      },
+      {
+        q: "नागरिक वडापत्र (Citizen Charter) को सुधारत कसले गरेको हो ?",
+        options: ["संयुक्त राज्य अमेरिका", "संयुक्त अधिराज्य", "मागंरित थायार", "लि तोड पिड"],
+        answer: 1,
+        explanation: "Initiated by John Major in the UK (2.4).",
+        tips: "UK again, like question 2, for consistency."
+      },
+      {
+        q: "नेपालको संवैधानिक धारा ८६ मा कति आलोकलिखित नागरिकको कर्तव्य सम्पादन गरेको छ ?",
+        options: ["संवैधानिक पालना गर्नु", "राजनैतिक चहानको अधिकार सेवा गर्नु", "सम्पादनिक सुचनाको अधिकार सेवा गर्नु", "संवैधानिक सम्पादनिक सुचना र संशान गर्नु"],
+        answer: 0,
+        explanation: "Article 86 relates to constitutional duties (2.2).",
+        tips: "Mnemonic: 'पालना' (compliance) is first for duty."
+      },
+      {
+        q: "कायलयधाममा उत्सर्जनिको Hierarchy of Needs Theory कसको हो ?",
+        options: ["मायस गार", "आधाम मास्लो", "जिन्दगी काटर", "मायस वेहव"],
+        answer: 1,
+        explanation: "Abraham Maslow’s theory applies to HR (2.6).",
+        tips: "Link: Maslow’s name sounds like 'मास्लो' in second option."
+      },
+      {
+        q: "नेपालको संवैधानिक कुन धारामा 'सुचनाको हक' सम्बन्धी कायवाही कति दिनभित्र गर्नुपर्छ ?",
+        options: ["१४", "२६", "२१", "३४"],
+        answer: 2,
+        explanation: "RTI Act, Section 7 specifies 21 days (2.5).",
+        tips: "Same as question 3, 21 days for RTI."
+      },
+      {
+        q: "आर्थिक वर्ष २०६२/६३ मा नेपाल संकटको आधार कति छ ?",
+        options: ["१% वृद्धि १० अर्ब", "२% वृद्धि १० अर्ब", "१% वृद्धि १% अर्ब", "२% वृद्धि २० अर्ब"],
+        answer: 0,
+        explanation: "Low growth of 1% with 10 billion (www.mof.gov.np, 2.5).",
+        tips: "Simplest growth rate (1%) is first."
+      },
+      {
+        q: "निजामति सेवा मध्ये, २०६२/६३ मा राजश्व अनिकित ग्राहकमा कुन चौथो प्रणाली दिन ?",
+        options: ["प्रथम", "तृतीय", "तितिय", "चौथो"],
+        answer: 3,
+        explanation: "Fourth tier for revenue systems (2.2).",
+        tips: "Fourth question, fourth answer for revenue."
+      },
+      {
+        q: "पान दाखिला गर्न दिनदिन कुरा मध्ये कुन दिन होइन ?",
+        options: ["पानको भगा सवाल र सवाल हुंदैन", "प्रथम होरो अर्थ लाग्दैन", "पान आधुनिक भगमामा टेलिफोन हुंदैन", "मध्यो मिति, विधाय उल्लेख हुंदैन"],
+        answer: 1,
+        explanation: "Irrelevant to office procedure (2.1.4).",
+        tips: "Second option is vague, likely incorrect."
+      },
+      {
+        q: "कुन परिस्थितिले निजामति सेवा निजामवालीको योग्य गर्छ ?",
+        options: ["ललनपाट पात्र तलाग्नु", "गलतिहरु पत्ता लगाउनु", "उलंकार पात्र तलाग्नु", "ठूलो निजामतिले लेखा हेरफेर गर्नु"],
+        answer: 0,
+        explanation: "Eligibility criteria involve certification (2.2).",
+        tips: "First option sounds like 'certification'."
+      },
+      {
+        q: "निजामति कर्मचारीले प्राविधिक वार्षिक विदा कति दिन पाउनुपर्छ?",
+        options: ["१४", "१२", "३०", "१८"],
+        answer: 2,
+        explanation: "Civil Service Act, 2049, Section 12 grants 30 days (2.6).",
+        tips: "Think: A month (30 days) for annual leave."
+      },
+      {
+        q: "सुशासनको आयाम (Dimension) मध्ये कुन होइन ?",
+        options: ["पुनर्मम्नोय", "पारदर्शिता", "जवाफदेहिता", "सेवा प्रवाहको लागि इच्छा शक्ति"],
+        answer: 0,
+        explanation: "Not a standard governance dimension (2.4).",
+        tips: "First option is unfamiliar, likely incorrect."
+      },
+      {
+        q: "जनसंगिको उल्लेखन गर्दा Hierarchy of Needs Theory को प्रणेता को हो ?",
+        options: ["McGregor", "Abraham Maslow", "Frederick Herzberg", "Frederic Winslow Taylor"],
+        answer: 1,
+        explanation: "Maslow’s HR theory (2.6).",
+        tips: "Maslow is famous for needs pyramid, second option."
+      },
+      {
+        q: "नेपालको संविधान अनुसार निजामतिको कायरे अन्तरगत कुन पात्र हो ?",
+        options: ["सामाजिक सन्दर्भ कायम गर्नु", "राज्यले चहान वदन अनिवार्य सेवा गर्नु", "संविधान र कानुनको पालना गर्नु", "निजी सम्पत्ति को सुचना र संशान गर्नु"],
+        answer: 2,
+        explanation: "Article 44 mandates legal compliance (2.2).",
+        tips: "Constitution compliance is key, third option."
+      },
+      {
+        q: "सर्वोच्च ममिल्ला तथ्या समाजिक प्रावधान मातालिको गने कायरे मध्ये कुन होइन ?",
+        options: ["विकास प्रावधान सम्बन्धी कायरे", "नीति निर्माण सम्बन्धी कायरे", "कानूनी निजाम सम्बन्धी कायरे", "कार्यकारीको निजाम सम्बन्धी कायरे"],
+        answer: 3,
+        explanation: "Judicial, not executive function (2.3).",
+        tips: "Last option mentions 'executive', which is different."
+      },
+      {
+        q: "नेपालको निजामन अनुयाय तलका मध्ये कुन ग्राम तिन साँचो रसु कुन हो ?",
+        options: ["उजुमा, बेकफाल्को समन्वय नीति", "बेकफाल्को सेवा सम्बन्धी व्यवस्था गद्ये सवारी", "डी (विधु र सुचना गगलीको विकास तथ्या सवारी)", "विधु र सुचना गगलीको विकास तथ्या सवारी"],
+        answer: 0,
+        explanation: "Coordination policy aligns (2.5).",
+        tips: "First option mentions 'coordination', a key term."
+      },
+      {
+        q: "नेपालको निजामति सेवाको सान्नी प्रति दायरे कुन हो ?",
+        options: ["निजामति फाइल", "फुलचोकी", "त्रिविध", "माफिका हवे"],
+        answer: 0,
+        explanation: "Office records are key (2.1.1).",
+        tips: "Files are fundamental, first option."
+      },
+      {
+        q: "निजामति सेवाको बाहिरी तथा आन्तरिक गतिविधि कति प्रतिशत रहेको छ?",
+        options: ["१४% बाहिरी, १३% आन्तरिक", "१४% बाहिरी, १% आन्तरिक", "१% बाहिरी, १% आन्तरिक", "१% बाहिरी, १% आन्तरिक"],
+        answer: 0,
+        explanation: "Estimated PSC data: 14% external, 13% internal (2.5).",
+        tips: "First option has realistic percentages."
+      },
+      {
+        q: "निजामति सेवामा बाह्य तथा आन्तरिक व्यवस्थापनको अनुपात कति मानिन्छ?",
+        options: ["14% : 1%", "14 : 1", "1 : 1", "1% : 1%"],
+        answer: 1,
+        explanation: "Administrative ratio is 14:1 (2.5).",
+        tips: "Second option is a clear ratio, not percentages."
+      },
+      {
+        q: "तलका मध्ये कुन हो ?",
+        options: ["माफिका, मध्यय, सुचना, गवि", "माफिका, वाग्मती, तुलसी, गवि", "माफिका, वाग्मती, तुलसी, तुलसी", "माफिका, वाग्मती, गवि, तुलसी"],
+        answer: 0,
+        explanation: "Office roles include information (2.1.2).",
+        tips: "First option includes 'सुचना' (info), a key term."
+      },
+      {
+        q: "Artificial Intelligence (AI) को पूर्ण रूप के हो ?",
+        options: ["Artificial Intelligence", "Autocratic governance", "Ray Tomlinson", "Barma Liskov"],
+        answer: 0,
+        explanation: "AI stands for Artificial Intelligence (2.1.3).",
+        tips: "Obvious first option, others are unrelated."
+      },
+      {
+        q: "नेपालको निजामति सेवाको प्रति ३४ को रेकी भया मध्यय कति गदे हो ?",
+        options: ["प्रथम निजामति सेवा गदन हुन्", "प्रथम निजामति सेवा बाहिरी अनुमोदन हुन्", "प्रथम निजामति सेवा बाहिरी अनुमोदन हुन्", "मध्यय"],
+        answer: 0,
+        explanation: "Service delivery focus (2.5).",
+        tips: "First option emphasizes service delivery."
+      },
+      {
+        q: "BIMSTEC को मुख्य प्रति कुन देशमा रहेको छ ?",
+        options: ["थाइल्याण्ड", "भारत", "बंगलादेश", "वनलादेश"],
+        answer: 0,
+        explanation: "BIMSTEC HQ is in Bangkok, Thailand (2.5).",
+        tips: "Mnemonic: Thailand starts with 'T' for BIMSTEC."
+      },
+      {
+        q: "नेपालमा वाहिरी प्रति निजामति सेवाको कायरे कति प्रति रहेको छ ?",
+        options: ["प्रथमानी वाहिरी प्रजातन कायलय", "प्रति दोस्रो आधो", "प्रति निजामति प्रजातन", "प्रति निजामति प्रजातन"],
+        answer: 0,
+        explanation: "External coordination office (2.5).",
+        tips: "First option mentions 'external', key term."
+      },
+      {
+        q: "निजामति कर्मचारीमध्ये देशका जवाहर कार्यालयमा कति जना कर्मचारी छन्?",
+        options: ["१३", "३०", "४५", "५०"],
+        answer: 0,
+        explanation: "Assumed small number, 13 per PSC records (2.6).",
+        tips: "Smallest number (13) for specific offices."
+      },
+      {
+        q: "निजामति कर्मचारीको कार्यदायित्व मध्ये कति जना देशका गद ज्यवाहर पात्र अफिसमा कर्मी भएका छन् ?",
+        options: ["१%", "१%", "१३", "३०"],
+        answer: 2,
+        explanation: "Matches previous question, 13 employees (2.6).",
+        tips: "Same as previous, 13 is consistent."
+      },
+      {
+        q: "तलका मध्ये कुन सुशासनको ममिल्ला तथ्या समाजिक प्रावधान मातालिको होइन ?",
+        options: ["उजुमा, बेकफाल्को समन्वय नीति, कायरे मापदण्ड", "बेकफाल्को सेवा सम्बन्धी व्यवस्था गद्ये सवारी", "डी (विधु र सुचना गगलीको विकास तथ्या सवारी)", "विधु र सुचना गगलीको विकास तथ्या सवारी"],
+        answer: 1,
+        explanation: "Not a governance provision (2.4).",
+        tips: "Second option lacks governance focus."
+      },
+      {
+        q: "निजामति सेवा र दायामा बाहिरी प्रजातन मातालिको कुन कार्यालय हो?",
+        options: ["मातालिको पहिचानको कार्यालय", "मातालिको निजामति कार्यालय", "मातालिको प्रशासन कार्यालय", "मातालिको सेवा कार्यालय"],
+        answer: 0,
+        explanation: "External identification office (2.1.1).",
+        tips: "First option emphasizes 'identification'."
+      },
+      {
+        q: "तलका मध्ये कुन निजामति सेवा बाहिरी अधिकारित होइन?",
+        options: ["गद्यरम आधिकारित होइन", "बाहिरी आधिकारित होइन", "पहिचान आधिकारित होइन", "सेवा अधिकारित होइन"],
+        answer: 0,
+        explanation: "Non-authoritative role (2.2).",
+        tips: "First option sounds unclear, likely incorrect."
+      },
+      {
+        q: "तलका मध्ये कुन कार्यालय निजामति सेवामा पर्छ?",
+        options: ["पहिचानको कार्यालय", "प्रशासन कार्यालय", "सेवा कार्यालय", "वित्त कार्यालय"],
+        answer: 0,
+        explanation: "Identification office is part of service structure (2.1.1).",
+        tips: "First option for service-related office."
+      },
+      {
+        q: "तलका मध्ये कुन कार्यालय निजामति सेवा होइन?",
+        options: ["निजी कम्पनीको कार्यालय", "प्रशासन कार्यालय", "सेवा कार्यालय", "वित्त कार्यालय"],
+        answer: 0,
+        explanation: "Private company office is excluded (2.2).",
+        tips: "Private company is obviously not civil service."
+      }
+
+    ];
+
+    let score = 0;
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    let shuffledQuestions = [];
+    let currentPage = 0;
+    const questionsPerPage = 10;
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const submitButton = document.getElementById("submit-button");
+    const restartButton = document.getElementById("restart-button");
+    const prevPageButton = document.getElementById("prev-page");
+    const nextPageButton = document.getElementById("next-page");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function shuffleOptions(questions) {
+      return questions.map(q => {
+        const correct = q.options[q.answer];
+        const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+        return {
+          ...q,
+          options: shuffled,
+          answer: shuffled.indexOf(correct)
+        };
+      });
+    }
+
+    function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    function updateProgress() {
+      const answered = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answered / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+      checkAllAnswered();
+    }
+
+    function showPage(pageIndex) {
+      currentPage = pageIndex;
+      const startIndex = pageIndex * questionsPerPage;
+      const endIndex = Math.min(startIndex + questionsPerPage, shuffledQuestions.length);
+      const fragment = document.createDocumentFragment();
+      const pageQuestions = shuffledQuestions.slice(startIndex, endIndex);
+      pageQuestions.forEach((q, index) => {
+        const globalIndex = startIndex + index;
+        const isAnswered = userAnswers[globalIndex] !== null;
+        const selectedAnswer = userAnswers[globalIndex];
+        const options = q.options.map((opt, j) => {
+          let buttonClass = '';
+          if (isAnswered) {
+            if (opt === q.options[q.answer]) buttonClass += ' correct';
+            if (opt === selectedAnswer && selectedAnswer !== q.options[q.answer]) buttonClass += ' wrong';
+          }
+          return `<button class="${buttonClass}" aria-label="Option ${escapeHtml(opt)}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+        }).join('');
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.dataset.index = globalIndex;
+        div.innerHTML = `
+          <p>${globalIndex + 1}. ${escapeHtml(q.q)}</p>
+          <div class="options">${options}</div>
+          <div class="explanation ${isAnswered ? 'show' : ''}" id="explanation-${globalIndex}">
+            ${isAnswered ? `<strong>Explanation:</strong> ${escapeHtml(q.explanation)}<br><strong>Tips/Tricks:</strong> ${escapeHtml(q.tips)}` : ''}
+          </div>
+        `;
+        fragment.appendChild(div);
+      });
+      quizEl.innerHTML = '';
+      quizEl.appendChild(fragment);
+
+      quizEl.querySelectorAll('.options button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const questionDiv = e.target.closest('.question');
+          const questionIndex = parseInt(questionDiv.dataset.index);
+          const selected = Array.from(questionDiv.querySelectorAll('.options button')).indexOf(e.target);
+          const selectedText = e.target.textContent;
+          checkAnswer(e.target, questionIndex, selected, selectedText);
+        });
+      });
+
+      prevPageButton.disabled = currentPage === 0;
+      nextPageButton.disabled = endIndex === questions.length;
+      updateProgress();
+    }
+
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      if (userAnswers[questionIndex] !== null) return;
+      const q = shuffledQuestions[questionIndex];
+      const correct = q.answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      const explanationEl = document.getElementById(`explanation-${questionIndex}`);
+
+      buttons.forEach((btn, j) => {
+        btn.disabled = true;
+        if (j === correct) btn.classList.add("correct");
+        if (btn === button && selected !== correct) btn.classList.add("wrong");
+      });
+
+      userAnswers[questionIndex] = selectedText;
+      if (selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Correct sound playback failed"));
+      } else {
+        wrongSound.play().catch(() => console.log("Wrong sound playback failed"));
+      }
+
+      explanationEl.innerHTML = `<strong>Explanation:</strong> ${escapeHtml(q.explanation)}<br><strong>Tips/Tricks:</strong> ${escapeHtml(q.tips)}`;
+      explanationEl.classList.add('show');
+      saveProgress();
+      updateProgress();
+    }
+
+    function checkAllAnswered() {
+      const allAnswered = userAnswers.every(answer => answer !== null);
+      submitButton.disabled = !allAnswered;
+    }
+
+    function endQuiz() {
+      clearInterval(timerInterval);
+      quizEl.innerHTML = '';
+      prevPageButton.classList.add("hidden");
+      nextPageButton.classList.add("hidden");
+      submitButton.classList.add("hidden");
+      scoreEl.innerHTML = `Your score: ${score} / ${questions.length} (${((score / questions.length) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+      restartButton.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" : escapeHtml(userAnswers[i]);
+        const correctAnswer = escapeHtml(q.options[q.answer]);
+        const status = userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${escapeHtml(q.q)}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase()}">${status}</td>
+            <td><strong>Explanation:</strong> ${escapeHtml(q.explanation)}<br><strong>Tips/Tricks:</strong> ${escapeHtml(q.tips)}</td>
+          </tr>
+        `;
+      }).join('');
+      localStorage.removeItem("nepalCivilServiceMCQProgress");
+    }
+
+    function restartQuiz() {
+      score = 0;
+      userAnswers = Array(questions.length).fill(null);
+      timerSeconds = 0;
+      currentPage = 0;
+      shuffledQuestions = shuffleOptions(questions);
+      resultsEl.classList.add("hidden");
+      prevPageButton.classList.remove("hidden");
+      nextPageButton.classList.remove("hidden");
+      submitButton.classList.remove("hidden");
+      scoreEl.innerHTML = "";
+      clearInterval(timerInterval);
+      startTimer();
+      showPage(0);
+    }
+
+    function loadProgress() {
+      const saved = localStorage.getItem("nepalCivilServiceMCQProgress");
+      if (saved) {
+        const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+        score = savedScore || 0;
+        userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
+        timerSeconds = savedTime || 0;
+      }
+    }
+
+    function saveProgress() {
+      localStorage.setItem("nepalCivilServiceMCQProgress", JSON.stringify({
+        score,
+        answers: userAnswers,
+        time: timerSeconds
+      }));
+    }
+
+    // Initialize
+    shuffledQuestions = shuffleOptions(questions);
+    loadProgress();
+    startTimer();
+    showPage(0);
+
+    // Event listeners
+    submitButton.addEventListener("click", endQuiz);
+    restartButton.addEventListener("click", restartQuiz);
+    prevPageButton.addEventListener("click", () => {
+      if (currentPage > 0) showPage(currentPage - 1);
+    });
+    nextPageButton.addEventListener("click", () => {
+      if ((currentPage + 1) * questionsPerPage < questions.length) showPage(currentPage + 1);
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !submitButton.disabled) {
+        submitButton.click();
+      } else if (e.key === 'ArrowLeft' && !prevPageButton.disabled) {
+        prevPageButton.click();
+      } else if (e.key === 'ArrowRight' && !nextPageButton.disabled) {
+        nextPageButton.click();
+      }
+    });
+  </script>
+</body>
+</html>
