@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>General Knowledge MCQ Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', -apple-system, Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #e0f7fa, #80deea);
+      color: #1a202c;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.6;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2b6cb0;
+      margin-bottom: 0.5rem;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #c53030;
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .quiz-container {
+      max-width: 1000px;
+      width: 100%;
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease;
+    }
+
+    .quiz-container:hover {
+      transform: translateY(-5px);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #edf2f7;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(to right, #4299e1, #3182ce);
+      border-radius: 6px;
+      transition: width 0.4s ease-in-out;
+    }
+
+    #timer {
+      text-align: right;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: #c53030;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .question {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      animation: fadeIn 0.5s ease-out;
+      transition: box-shadow 0.3s;
+    }
+
+    .question:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question p {
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: #2d3748;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .options button {
+      padding: 0.75rem 1.25rem;
+      width: 100%;
+      background: #ebf8ff;
+      border: 2px solid #bee3f8;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      text-align: left;
+      transition: all 0.3s ease;
+      color: #2d3748;
+    }
+
+    .options button:hover:not(:disabled) {
+      background: #bee3f8;
+      border-color: #90cdf4;
+      transform: translateX(4px);
+    }
+
+    .options button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+    }
+
+    .options button.correct {
+      background: #c6f6d5 !important;
+      border-color: #68d391 !important;
+      color: #22543d;
+      animation: pulse 0.5s;
+    }
+
+    .options button.wrong {
+      background: #fed7d7 !important;
+      border-color: #f56565 !important;
+      color: #742a2a;
+      animation: shake 0.3s;
+    }
+
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .explanation {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f0fff4;
+      border-left: 4px solid #48bb78;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      color: #2d3748;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease, max-height 0.3s ease;
+    }
+
+    .explanation.show {
+      opacity: 1;
+      max-height: 500px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      gap: 1rem;
+    }
+
+    .pagination-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .pagination-button:hover:not(:disabled) {
+      background: #3182ce;
+    }
+
+    .pagination-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    .submit-button, .restart-button {
+      background: #4299e1;
+      color: #fff;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .submit-button:hover:not(:disabled), .restart-button:hover:not(:disabled) {
+      background: #3182ce;
+      transform: translateY(-2px);
+    }
+
+    .submit-button:disabled {
+      background: #e2e8f0;
+      cursor: not-allowed;
+    }
+
+    #score, #results {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      font-weight: 700;
+      color: #2d3748;
+    }
+
+    .results-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #e2e8f0;
+      padding: 1rem;
+      text-align: left;
+    }
+
+    .results-table th {
+      background: #edf2f7;
+      font-weight: 600;
+      color: #2d3748;
+    }
+
+    .results-table td.correct { color: #2f855a; font-weight: 600; }
+    .results-table td.wrong { color: #c53030; font-weight: 600; }
+    .results-table td.not-attempted { color: #718096; }
+    .results-table td.not-scored { color: #718096; }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      .quiz-container {
+        padding: 1.5rem;
+      }
+      .question p {
+        font-size: 1.1rem;
+      }
+      .options button {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+      }
+      .results-table th, .results-table td {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+      .pagination-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      .submit-button, .restart-button {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>General Knowledge MCQ Quiz</h1>
+  <h2>Test Your Knowledge: International Relations, Nepal Constitution, and More</h2>
+  <div class="quiz-container">
+    <div id="timer">Time: 00:00</div>
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div id="quiz" role="region" aria-live="polite"></div>
+    <div class="pagination">
+      <button class="pagination-button" id="prev-page" disabled aria-label="Previous page">Previous</button>
+      <button class="pagination-button" id="next-page" aria-label="Next page">Next</button>
+    </div>
+    <button class="submit-button" id="submit-button" disabled aria-label="Submit quiz">Submit Quiz</button>
+    <div id="score"></div>
+    <div id="results" class="hidden">
+      <h2>Quiz Results</h2>
+      <div class="overflow-x-auto">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Question</th>
+              <th>Your Answer</th>
+              <th>Correct Answer</th>
+              <th>Status</th>
+              <th>Explanation</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <button class="restart-button hidden" id="restart-button" aria-label="Restart quiz">Restart Quiz</button>
+
+  <audio id="correct-sound" src="https://www.soundjay.com/buttons/beep-01a.mp3"></audio>
+  <audio id="wrong-sound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+
+  <script>
+    const questions = [
+      {
+        q: "समूह 20% को जनसंख्या BRICS को नयाँ सदस्यता प्राप्त गर्न पुग्नु हो?",
+        options: ["इण्डोनेशिया", "नाइजेरिया", "दक्षिण अफ्रिका", "भुटान"],
+        answer: 0,
+        explanation: "BRICS expanded in 2024 to include Egypt, Ethiopia, Iran, and UAE (effective January 1, 2024). Indonesia, with ~270 million people (~3.4% of global population), is a potential candidate due to its economy, but membership is unconfirmed as of June 2025. The '20%' likely misrepresents population context. Indonesia is the most plausible among options.",
+        tips: "Focus on BRICS expansion years (2024) and key candidates like Indonesia. Eliminate smaller nations like Bhutan."
+      },
+      {
+        q: "विभिन्न आर्थिक र सांस्कृतिक संयोजन (SAARC) को संबिधिलाई कुन देशले तोकेको हो?",
+        options: ["नेपाल", "पाकिस्तान", "बंगलादेश", "श्रीलंका"],
+        answer: 2,
+        explanation: "The SAARC Charter was signed in Dhaka, Bangladesh, on December 8, 1985. Nepal hosts the SAARC Secretariat, but the charter's establishment is credited to Bangladesh.",
+        tips: "Remember SAARC’s founding in Dhaka (1985). Nepal’s role is hosting, not initiating."
+      },
+      {
+        q: "नेपालले सुरक्षा परिषद् (UNSC) को स्थायी सदस्यता प्राप्त गर्न गाह्रो छ किन?",
+        options: ["सैन्य शक्ति अभाव", "वैश्विक समर्थनको कमी", "आर्थिक स्रोतको कमी", "भौगोलिक स्थिति"],
+        answer: 1,
+        explanation: "Nepal lacks global support for UNSC permanent membership due to geopolitical competition and absence of veto power. Military, economic, and geographic factors are secondary to political backing.",
+        tips: "UNSC permanent seats require global consensus. Focus on 'support' as the key barrier."
+      },
+      {
+        q: "नेपालको संविधानको कुन अनुच्छेदमा सम्प्रदाय र समुदायको आधारमा मतदान प्रणाली उल्लेख भएको छ?",
+        options: ["१", "६", "१९", "८६"],
+        answer: 3,
+        explanation: "Article 86 of Nepal’s 2015 Constitution provides for proportional representation to ensure inclusion of communities and groups in the electoral system.",
+        tips: "Link Article 86 to proportional representation. Article 19 is about freedom, not voting."
+      },
+      {
+        q: "नेपालमा हाल मतदाता (Maternal Mortality Rate) प्रति एक लाख जन्ममा कति रहेको छ?",
+        options: ["१५० प्रति १००,०००", "१८६ प्रति १००,०००", "२५० प्रति १००,०००", "३०० प्रति १००,०००"],
+        answer: 1,
+        explanation: "WHO data (2022) estimates Nepal’s Maternal Mortality Rate at ~186 per 100,000 live births, down from 258 in 2016. MMR is measured per 100,000, not in percentages.",
+        tips: "MMR uses per 100,000 live births. Memorize Nepal’s MMR as ~186 for recent exams."
+      },
+      {
+        q: "सबैभन्दा पहिला मधेसी थारुको आत्महत्याको कुरा?",
+        options: ["मधेसी फाट्टे", "थारु साहित्य", "सामाजिक अभियान", "ऐतिहासिक दस्तावेज"],
+        answer: null,
+        explanation: "No historical record specifies the first mention of Madhesi-Tharu suicide. The term 'मधेसी फाट्टे' lacks clear context and may be a cultural reference. Data is insufficient to verify.",
+        tips: "For unclear questions, note 'insufficient data' and move on. Check for cultural references."
+      },
+      {
+        q: "जलवायु परिवर्तन र ग्रिनहाउस ग्यास उत्सर्जनवाट प्रभावित हुन गइरहेकी जापानको Kyoto Protocol मा कसले हस्ताक्षर गरेको छ?",
+        options: ["११ सेप्टेम्बर १९९७", "१६ मार्च १९९८", "११ नोभेम्बर १९९७", "११ डिसेम्बर १९९७"],
+        answer: 3,
+        explanation: "The Kyoto Protocol was adopted on December 11, 1997, in Kyoto, Japan, and opened for signatures on March 16, 1998. Japan signed as the host nation.",
+        tips: "Memorize Kyoto Protocol’s adoption date (Dec 11, 1997). Japan is key as host."
+      },
+      {
+        q: "सोही परिवेशीय योगदान (??%) /??-??% / ??%) को अनुपात ग्रीनहाउस ग्यासको कारण जम्मा कति प्रतिशता पुग्याएको छ रेडियोफोनको हो?",
+        options: ["५%", "१०%", "१५%", "२०%"],
+        answer: null,
+        explanation: "The question is unclear, likely a typo. Greenhouse gas contributions (e.g., CO2 ~76%, CH4 ~16%) don’t align with given percentages or 'रेडियोफोन.' Data is insufficient.",
+        tips: "For garbled questions, select 'insufficient data.' Know CO2 (~76%) dominates GHG."
+      },
+      {
+        q: "पुरातन/जोति आर्थिक पुरातनता के भन्ने?",
+        options: ["नासो", "संस्कृति", "विज्ञान", "परम्परा"],
+        answer: 0,
+        explanation: "In Nepali, 'नासो' refers to ancestral property or tradition, fitting 'पुरातन आर्थिक पुरातनता' (ancient economic tradition).",
+        tips: "Link 'नासो' to ancestral wealth. Eliminate unrelated terms like 'विज्ञान' (science)."
+      },
+      {
+        q: "नेपालको प्रजातन्त्र सम्बन्धी मानक समावेशीताको लिदो रेकी हो?",
+        options: ["४, २० मिनेट", "४, ४० मिनेट", "५, ३० मिनेट", "३, ६० मिनेट"],
+        answer: null,
+        explanation: "The question is unclear, possibly a typo ('लिदो रेकी' for 'लोकतन्त्रको रेकर्ड'?). Democratic inclusion standards aren’t time-based. Data is insufficient.",
+        tips: "Skip time-based options for democracy questions unless context is clear."
+      },
+      {
+        q: "यो देशको मधेसमम आयोजन, तालिम वा अत्याधुनिक पुरा गोरखी ल्यापी निर्जनति कमजोरले नुनम कति अवधी सेता गुरुले आयाम निर्जनति सेता पुन, 20% वा उल्लेख गर्छ कि हो?",
+        options: ["६ महिना", "दुई वर्ष", "तीन वर्ष", "चार वर्ष"],
+        answer: null,
+        explanation: "The question is incoherent, possibly about Madhesi development projects. No specific duration or 'सेता गुरु' (white guru?) is documented. Data is insufficient.",
+        tips: "For unclear questions, note 'insufficient data' and focus on verifiable topics."
+      },
+      {
+        q: "नेपालमा सरकारी बन्देजलाई सहारा र विकास गर्छन् भनी कसले भनेको हो?",
+        options: ["नेपाली काङ्ग्रेस", "नेकपा", "विश्व बैंक", "संयुक्त राष्ट्र संघ"],
+        answer: null,
+        explanation: "The question is unclear; no specific quote matches this claim about government restrictions aiding development. Data is insufficient.",
+        tips: "For unattributed quotes, select 'insufficient data' unless a clear source exists."
+      },
+      {
+        q: "नेपालको हिमाली क्षेत्रमा समुद्री सतहबाट ६,००० मिटरभन्दा बढी उचाइको कतिवटा चुचुरा छन्?",
+        options: ["१३१०", "१२००", "१५००", "१०००"],
+        answer: 0,
+        explanation: "Nepal has over 1,310 peaks above 6,000m, as listed by the Nepal Mountaineering Association.",
+        tips: "Memorize ~1,310 peaks above 6,000m. Eliminate lower numbers."
+      },
+      {
+        q: "नेपालमा कति लेदोहरू छन्, जो सर्काको सुगा नेपाल सर्कारको लेज सुक गर्छन्?",
+        options: ["५० मध्ये २%", "१०० मध्ये ५%", "२०० मध्ये १%", "३०० मध्ये ३%"],
+        answer: null,
+        explanation: "The question is unclear; 'लेदो' (ledger?) and 'सर्काको सुगा' are garbled. No data supports these ratios. Data is insufficient.",
+        tips: "For garbled terms, select 'insufficient data' and move to clearer questions."
+      },
+      {
+        q: "सोही आर्थिक योगदान (??%) /??-??% / ??%) को दायित्वको मध्ये कुन हो?",
+        options: ["शिक्षा, स्वास्थ्य, समृद्धि", "बिकास, सुसासन, समृद्धि", "शान्ति, एकता, प्रगति", "संस्कृति, पर्यटन, अर्थ"],
+        answer: 1,
+        explanation: "Nepal’s development slogan is 'समृद्ध नेपाल, सुखी नेपाली,' aligning with 'बिकास, सुसासन, समृद्धि' (Development, Good Governance, Prosperity).",
+        tips: "Link 'समृद्धि' to Nepal’s national slogan. Eliminate unrelated triplets."
+      },
+      {
+        q: "अनुपन सर्बेक्षाले संकलन गरेको कागजमा गति राज्यमाको कतिले प्राकृतिक गैरको हो?",
+        options: ["१५% / २% / १%", "२०% / ५% / २%", "१०% / १% / ०.५%", "२५% / ३% / १%"],
+        answer: null,
+        explanation: "The question is unclear, likely a typo. No data supports ratios for natural resources. Data is insufficient.",
+        tips: "For unclear ratios, select 'insufficient data.' Focus on resource data if clarified."
+      },
+      {
+        q: "AI को पूर्ण रूप के हो?",
+        options: ["Artificial Intelligence", "Automated Intelligence", "Advanced Innovation", "Artificial Integration"],
+        answer: 0,
+        explanation: "AI stands for Artificial Intelligence, the correct full form.",
+        tips: "AI is always Artificial Intelligence. Eliminate variants like 'Automated.'"
+      },
+      {
+        q: "Riboflavin ले कुन Vitamin लाई जनाउँछ?",
+        options: ["Vitamin B1", "Vitamin B2", "Vitamin C", "Vitamin A"],
+        answer: 1,
+        explanation: "Riboflavin is the chemical name for Vitamin B2, essential for energy metabolism.",
+        tips: "Link Riboflavin to B2. Memorize B vitamins: B1 (Thiamine), B2 (Riboflavin)."
+      },
+      {
+        q: "नेपालको संविधानमा 'उपभोक्ताको हक' कुन धारामा लेखिएको छ?",
+        options: ["२५", "३३", "४०", "५०"],
+        answer: 1,
+        explanation: "Article 33 of Nepal’s 2015 Constitution ensures consumer rights under 'Right to Social Justice.'",
+        tips: "Memorize Article 33 for consumer rights. Check articles in the 30s for social rights."
+      },
+      {
+        q: "संयुक्त राष्ट्र वातावरण कार्यक्रम (United Nations Environment Programme) को मुख्यालय कहाँ राखिएको छ?",
+        options: ["न्युयोर्क, अमेरिका", "लन्डन, बेलायत", "न्योबी, केन्या", "जिनेभा, स्वीट्जरल्याण्ड"],
+        answer: 2,
+        explanation: "The UNEP headquarters is located in Nairobi, Kenya, since its establishment in 1972.",
+        tips: "UNEP = Nairobi, Kenya. Avoid common traps like NYC or Geneva."
+      },
+      {
+        q: "तलका मध्ये कुन क्षेत्रीय सहयोग संगठनमा नेपाल सदस्य छ?",
+        options: ["अफ्रिकी संघ", "ASEAN", "SAARC", "अरब लीग"],
+        answer: 2,
+        explanation: "Nepal is a founding member of SAARC (South Asian Association for Regional Cooperation), established in 1985.",
+        tips: "Nepal is in SAARC and BIMSTEC, not ASEAN or EU. Focus on South Asian groups."
+      },
+      {
+        q: "हाल नेपालले संचालन गरेको High Impact Community Development Project (HICDP) कुन देशको सहयोगमा संचालन भएको हो?",
+        options: ["रूस", "चीन", "जापान", "संयुक्त राजय अमेरिका"],
+        answer: 3,
+        explanation: "The HICDP is supported by USAID (United States Agency for International Development), focusing on community-driven development in Nepal.",
+        tips: "Link HICDP to USAID (USA). Check for US-funded projects in Nepal."
+      },
+      {
+        q: "प्रसिद्ध 'Dreams from My Father' कृतिका लेखक को हो?",
+        options: ["बराक ओबामा", "मार्टिन लुथर किंग", "महात्मा गान्धी", "नेल्सन मन्डेला"],
+        answer: 0,
+        explanation: "Barack Obama authored 'Dreams from My Father,' published in 1995, detailing his early life.",
+        tips: "Obama wrote 'Dreams.' Eliminate non-authors like Gandhi or Mandela."
+      },
+      {
+        q: "तलका मध्ये कुन देश BIMSTEC को सदस्य होइन?",
+        options: ["नेपाल", "भुटान", "माल्दिभ्स", "मंगोलिया"],
+        answer: 3,
+        explanation: "BIMSTEC includes Bangladesh, India, Myanmar, Sri Lanka, Thailand, Bhutan, and Nepal. Mongolia is not a member.",
+        tips: "Memorize BIMSTEC members (7 countries). Exclude landlocked non-regional nations like Mongolia."
+      },
+      {
+        q: "संयुक्त राष्ट्र सङ्घमा महासभाको प्रधानियको गणना कति मुक्का नागरिक निजामति हो?",
+        options: ["१ वर्ष", "२ वर्ष", "३ वर्ष", "४ वर्ष"],
+        answer: 0,
+        explanation: "The UN General Assembly presidency rotates annually, with no specific 'citizen civil' count. The term lasts one year.",
+        tips: "UN GA presidency is 1 year. Ignore vague terms like 'citizen' unless clarified."
+      },
+      {
+        q: "Anopheles नामक प्रजाति कुन जोनमा पाईन्छ?",
+        options: ["आर्कटिक जोन", "मरुभूमि जोन", "उष्ण जोन", "शीत जोन"],
+        answer: 2,
+        explanation: "Anopheles mosquitoes thrive in tropical (उष्ण) zones, where warm, humid conditions support malaria transmission.",
+        tips: "Anopheles = malaria = tropical. Eliminate cold zones like Arctic or Shite."
+      },
+      {
+        q: "नेपालको संवैधानिक अंशुलीको राज्यिय उल्लेख कति छ?",
+        options: ["१%", "२%", "५%", "१०%"],
+        answer: null,
+        explanation: "The term 'अंशुली' is unclear; possibly 'ancestry' or 'share.' No constitutional percentage is specified. Data is insufficient.",
+        tips: "For vague percentage questions, select 'insufficient data' unless context is clear."
+      },
+      {
+        q: "कपुरवटका अधिकारिकारको कुन हो?",
+        options: ["वातावरण संरक्षण", "जलवायु परिवर्तन", "वन संरक्षण", "मरुभूमि व्यवस्थापन"],
+        answer: null,
+        explanation: "The question is unclear; 'कपुरवट' is likely a typo. 'वातावरण कोभिज' (environment coverage?) is speculative. Data is insufficient.",
+        tips: "For typo-heavy questions, note 'insufficient data' and focus on environmental themes if clarified."
+      },
+      {
+        q: "नेपालको प्रथम पंचवर्षीय योजना को अवधि कति हो?",
+        options: ["हि.स. २०१३-२०१८", "हि.स. २०२०-२०२५", "हि.स. २०३०-२०३५", "हि.स. २०१०-२०१५"],
+        answer: 0,
+        explanation: "Nepal’s first Five-Year Plan ran from 1956 to 1961, equivalent to 2013-2018 BS (Bikram Sambat).",
+        tips: "Memorize first plan: 1956-1961 (2013-2018 BS). Check BS dates for Nepal plans."
+      },
+      {
+        q: "तलका मध्ये कुन जोन ठिक हो?",
+        options: ["काठमाडौँ - नेवार", "पोखरा - गुरुङ", "चायार - थार", "इलाम - लिम्बु"],
+        answer: 2,
+        explanation: "'चायार - थार' likely refers to the Tharu community in the Terai region, a plausible cultural zone pairing.",
+        tips: "Link Tharu to Terai. Check ethnic groups and their regions for accuracy."
+      },
+      {
+        q: "लोकेसनको कुन गतिविधि?",
+        options: ["नक्शा", "सुचना", "विश्लेषण", "अनुगमन"],
+        answer: 1,
+        explanation: "If 'लोकेसन' means location, 'सुचना' (information) fits as a primary activity, e.g., location data collection.",
+        tips: "Location questions often involve data or info. Eliminate unrelated terms like 'simulation.'"
+      },
+      {
+        q: "नेपालको निजामति सेवाको सान्नी प्रति दायरे कुन हो?",
+        options: ["निजामति ऐन", "प्रशासनिक नियम", "बजेट योजना", "कर्मचारी तालिम"],
+        answer: 0,
+        explanation: "The scope of Nepal’s civil service is governed by the Civil Service Act (निजामति ऐन), the primary legal framework.",
+        tips: "Civil service scope = Civil Service Act. Eliminate secondary options like training."
+      },
+      {
+        q: "Artificial Intelligence (AI) को पूर्ण रूप के हो?",
+        options: ["Artificial Intelligence", "Automated System", "Artificial Network", "Intelligent Design"],
+        answer: 0,
+        explanation: "AI stands for Artificial Intelligence, the correct full form.",
+        tips: "AI is straightforward: Artificial Intelligence. Avoid distractors like 'Automated System.'"
+      },
+      {
+        q: "BIMSTEC को मुख्य प्रति कुन देशमा रहेको छ?",
+        options: ["थाइल्याण्ड", "भारत", "बंगलादेश", "म्यानमार"],
+        answer: 2,
+        explanation: "The BIMSTEC Secretariat is located in Dhaka, Bangladesh, established in 2014.",
+        tips: "BIMSTEC HQ = Dhaka. Thailand is a member, not host."
+      },
+      {
+        q: "Genetic Engineering लाई अर्को कुन नामले चिनिन्छ?",
+        options: ["Bio-technology", "Gene editing", "Cell technology", "Protein synthesis"],
+        answer: 0,
+        explanation: "Genetic Engineering is a subset of biotechnology, the most common alternate name.",
+        tips: "Genetic Engineering = Biotechnology. Gene editing is a technique, not a synonym."
+      },
+      {
+        q: "वनजातारी Japanese Encephalitis को खोप कति महिनामा लगाईन्छ?",
+        options: ["४", "६", "९", "१२"],
+        answer: 3,
+        explanation: "In Nepal, the Japanese Encephalitis vaccine is typically administered at 9-12 months in endemic areas.",
+        tips: "JE vaccine: 9-12 months. Check vaccination schedules for Nepal."
+      },
+      {
+        q: "संयुक्त राष्ट्र सङ्घको वातावरण कति प्रति रहेको छ?",
+        options: ["१% प्रति वर्ष", "२% प्रति वर्ष", "३% प्रति वर्ष", "५% प्रति वर्ष"],
+        answer: 1,
+        explanation: "UNEP’s budget is ~2% of the UN’s total annual budget, though exact figures vary.",
+        tips: "UNEP budget ~2%. Look for small percentages in UN funding questions."
+      },
+      {
+        q: "नेपालले सुन्दर रसु सवयको ग्राम तिन साँचो रसु कुन हो?",
+        options: ["चीन", "भारत", "बंगलादेश", "श्रीलंका"],
+        answer: 1,
+        explanation: "Unclear question; likely refers to cultural ties. India is a neighbor with deep cultural exchanges, making it plausible.",
+        tips: "For cultural ties, prioritize India due to historical and cultural proximity."
+      },
+      {
+        q: "नेपालको प्रजातन्त्र योगदानको योगजालिको कुन हो?",
+        options: ["२०१३, २०४६, २०६३", "२०१५, २०४०, २०६०", "२०००, २०२०, २०४०", "१९५०, १९८०, २०००"],
+        answer: 0,
+        explanation: "Nepal’s democratic milestones include 2013 BS (1951), 2046 BS (1990), and 2063 BS (2007), marking key democratic transitions.",
+        tips: "Memorize key democratic years: 1951, 1990, 2006-2007 to BS: 2013, 2046, 2063."
+      },
+      {
+        q: "लादितको हिमाल कुन जंगलमा पर्छ?",
+        options: ["काठमाडौँ", "इलाम", "सोलुखुम्बु", "दोलखा"],
+        answer: 3,
+        explanation: "Likely a typo; 'लादित' may mean 'Lantang' or a Dolakha peak like Gaurishankar, located in Dolakha region.",
+        tips: "Dolakha hosts Himalayan peaks. Link to Everest region for accuracy."
+      },
+      {
+        q: "Riboflavin ले कुन Vitamin लाई जनाउँछ?",
+        options: ["Vitamin A", "Vitamin B2", "Vitamin D", "Vitamin E"],
+        answer: 1,
+        explanation: "Riboflavin is Vitamin B2, critical for energy production.",
+        tips: "Riboflavin = B2. Reconfirm other vitamins to avoid confusion."
+      },
+      {
+        q: "संयुक्त राष्ट्र सङ्घको वातावरण कायरेम (United Nations Environment Programme) को मुख्यालय कहाँ रहेको छ?",
+        options: ["टोकियो, जापान", "पेरिस, फ्रान्स", "न्योबी, केन्या", "मस्को, रूस"],
+        answer: 2,
+        explanation: "UNEP headquarters is in Nairobi, Kenya.",
+        tips: "UNEP = Nairobi. Avoid traps like Tokyo or Moscow."
+      },
+      {
+        q: "तलका मध्ये कुन क्षेत्रीय सहयोग संगठनमा नेपाल सदस्य छ?",
+        options: ["अफ्रिकी संघ", "ASEAN", "SAARC", "अरब लीग"],
+        answer: 2,
+        explanation: "Nepal is a SAARC member since 1985.",
+        tips: "SAARC includes Nepal. Eliminate non-South Asian groups like ASEAN."
+      },
+      {
+        q: "हाल नेपालले संचालन गरेको High Impact Community Development Project (HICDP) कुन देशको सहयोगमा संचालन भएको हो?",
+        options: ["जर्मनी", "बेलायत", "फ्रान्स", "संयुक्त राजय अमेरिका"],
+        answer: 3,
+        explanation: "HICDP is supported by USAID.",
+        tips: "HICDP = USAID (USA). Check for US aid programs."
+      },
+      {
+        q: "European Union (EU) को स्थापना कहिले भएको हो?",
+        options: ["१ जनवरी १९९३", "१ डिसेम्बर १९९५", "१ मार्च १९९०", "१ नोभेम्बर १९९८"],
+        answer: 0,
+        explanation: "The EU was established on January 1, 1993, via the Maastricht Treaty.",
+        tips: "EU = 1993. Memorize Maastricht Treaty date."
+      },
+      {
+        q: "नेपालको संविधान अनुसार तलका मध्ये कुन हो?",
+        options: ["संघीय शासन", "राजतन्त्र", "संसदीय प्रणाली", "एकात्मक शासन"],
+        answer: 2,
+        explanation: "Nepal’s 2015 Constitution establishes a parliamentary system.",
+        tips: "Nepal’s system is parliamentary. Eliminate monarchy or unitary options."
+      },
+      {
+        q: "दुवैत दही बनाउन कुन किटानुले सहयोग गर्छ?",
+        options: ["स्ट्रेप्टोकोकस", "ल्याक्टो ब्यासिलस", "एस्चेरिचिया", "साल्मोनेला"],
+        answer: 1,
+        explanation: "Lactobacillus bacteria ferment milk to produce yogurt.",
+        tips: "Yogurt = Lactobacillus. Eliminate harmful bacteria like Salmonella."
+      },
+      {
+        q: "UN Climate Change Conference (COP 30) कति वर्षको अन्तरालमा हुन्छ?",
+        options: ["२ वर्ष", "१ वर्ष", "३ वर्ष", "५ वर्ष"],
+        answer: 1,
+        explanation: "COP conferences occur annually to address climate change.",
+        tips: "COP = annual (1 year). Eliminate longer intervals."
+      },
+      {
+        q: "Genetic Engineering लाई अर्को कुन नामले चिनिन्छ?",
+        options: ["Bio-technology", "Gene therapy", "RNA editing", "Protein engineering"],
+        answer: 0,
+        explanation: "Genetic Engineering is synonymous with biotechnology.",
+        tips: "Biotechnology = Genetic Engineering. Gene therapy is a subset."
+      },
+      {
+        q: "वैज्ञानिक व्यवस्थापनको सिद्धान्त (Scientific Management Theory) का प्रणेता को हो?",
+        options: ["हेनरी फेयोल", "फ्रेडरिक हाजवर्ड", "मैक्स वेबर", "एल्टन मayo"],
+        answer: 1,
+        explanation: "Frederick Taylor developed Scientific Management Theory, focusing on efficiency.",
+        tips: "Taylor = Scientific Management. Fayol is administrative management."
+      },
+      {
+        q: "निम्न मध्ये जोडि चाँजो पाउनुहोस्।",
+        options: ["शाह राजा - पृथ्वी", "किराती राजा - यलम्बर", "मल्ल राजा - जयस्थिति", "राणा - जङ"],
+        answer: 1,
+        explanation: "Yalambar was a legendary Kirati king, correctly matched.",
+        tips: "Yalambar = Kirati. Check historical Nepali dynasties (Kirati, Malla, Shah)."
+      },
+      {
+        q: "उर्जानको Existence, Relatedness, Growth (ERG) सिद्धान्तको प्रणेता को हो?",
+        options: ["अब्राहम मास्लो", "क्लेटन एल्डरफर", "डगलस म्याकग्रेगर", "फ्रेडरिक हर्जबर्ग"],
+        answer: 1,
+        explanation: "Clayton Alderfer proposed the ERG theory, a simplified version of Maslow’s needs hierarchy.",
+        tips: "ERG = Alderfer. Maslow is related but not the answer."
+      },
+      {
+        q: "NASA का चिन्हित अनतरीक्ष यात्री Sunita Williams र Butch Wilmore अनतरीक्ष यात्रामा कहिले गए?",
+        options: ["४ जनवरी २०२४", "४ जुन २०२४", "१ अक्टोबर २०२४", "१ डिसेम्बर २०२४"],
+        answer: 1,
+        explanation: "Sunita Williams and Butch Wilmore launched on June 5, 2024, aboard Boeing’s Starliner, returning March 18, 2025.",
+        tips: "Memorize 2024 for Starliner mission. June is key."
+      },
+      {
+        q: "SAARC का प्राविधिक समितिहरू कति वटा छन्?",
+        options: ["४", "६", "७", "८"],
+        answer: 2,
+        explanation: "SAARC has 7 technical committees, covering areas like agriculture and health.",
+        tips: "SAARC committees = 7. Older sources may cite 6, but 7 is current."
+      },
+      {
+        q: "संयुक्त राष्ट्र सङ्घको प्रथम कायलय कहाँ रहेको छ?",
+        options: ["लन्डन, बेलायत", "न्युयोर्क, अमेरिका", "जिनेभा, स्वीट्जरल्याण्ड", "पेरिस, फ्रान्स"],
+        answer: 1,
+        explanation: "The UN headquarters is in New York, USA, established in 1945.",
+        tips: "UN HQ = New York. Avoid traps like Geneva (other UN offices)."
+      }
+    ];
+
+    let score = 0;
+    let userAnswers = Array(questions.length).fill(null);
+    let timerSeconds = 0;
+    let timerInterval;
+    let shuffledQuestions = [];
+    let currentPage = 0;
+    const questionsPerPage = 10;
+
+    const quizEl = document.getElementById("quiz");
+    const scoreEl = document.getElementById("score");
+    const resultsEl = document.getElementById("results");
+    const resultsBody = document.getElementById("results-body");
+    const progressEl = document.getElementById("progress");
+    const timerEl = document.getElementById("timer");
+    const submitButton = document.getElementById("submit-button");
+    const restartButton = document.getElementById("restart-button");
+    const prevPageButton = document.getElementById("prev-page");
+    const nextPageButton = document.getElementById("next-page");
+    const correctSound = document.getElementById("correct-sound");
+    const wrongSound = document.getElementById("wrong-sound");
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text || '';
+      return div.innerHTML;
+    }
+
+    function shuffleOptions(questions) {
+      return questions.map(q => {
+        if (q.answer === null) return q;
+        const correct = q.options[q.answer];
+        const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+        return {
+          ...q,
+          options: shuffled,
+          answer: shuffled.indexOf(correct)
+        };
+      });
+    }
+
+    function startTimer() {
+      const minutes = Math.floor(timerSeconds / 60);
+      const seconds = timerSeconds % 60;
+      timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const minutes = Math.floor(timerSeconds / 60);
+        const seconds = timerSeconds % 60;
+        timerEl.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
+
+    function updateProgress() {
+      const answered = userAnswers.filter(answer => answer !== null).length;
+      const percentage = (answered / questions.length) * 100;
+      progressEl.style.width = `${percentage}%`;
+      checkAllAnswered();
+    }
+
+    function showPage(pageIndex) {
+      currentPage = pageIndex;
+      const startIndex = pageIndex * questionsPerPage;
+      const endIndex = Math.min(startIndex + questionsPerPage, shuffledQuestions.length);
+      const fragment = document.createDocumentFragment();
+      const pageQuestions = shuffledQuestions.slice(startIndex, endIndex);
+      pageQuestions.forEach((q, index) => {
+        const globalIndex = startIndex + index;
+        const isAnswered = userAnswers[globalIndex] !== null;
+        const selectedAnswer = userAnswers[globalIndex];
+        const options = q.options.map((opt, j) => {
+          let buttonClass = '';
+          if (isAnswered) {
+            if (q.answer !== null && opt === q.options[q.answer]) buttonClass += ' correct';
+            if (opt === selectedAnswer && selectedAnswer !== q.options[q.answer]) buttonClass += ' wrong';
+          }
+          return `<button class="${buttonClass}" aria-label="Option ${escapeHtml(opt)}" ${isAnswered ? 'disabled' : ''}>${escapeHtml(opt)}</button>`;
+        }).join('');
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.dataset.index = globalIndex;
+        div.innerHTML = `
+          <p>${globalIndex + 1}. ${escapeHtml(q.q)}</p>
+          <div class="options">${options}</div>
+          <div class="explanation ${isAnswered ? 'show' : ''}" id="explanation-${globalIndex}">
+            ${isAnswered ? `<strong>Explanation:</strong> ${escapeHtml(q.explanation)}<br><strong>Tips/Tricks:</strong> ${escapeHtml(q.tips)}` : ''}
+          </div>
+        `;
+        fragment.appendChild(div);
+      });
+      quizEl.innerHTML = '';
+      quizEl.appendChild(fragment);
+
+      quizEl.querySelectorAll('.options button').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const questionDiv = e.target.closest('.question');
+          const questionIndex = parseInt(questionDiv.dataset.index);
+          const selected = Array.from(questionDiv.querySelectorAll('.options button')).indexOf(e.target);
+          const selectedText = e.target.textContent;
+          checkAnswer(e.target, questionIndex, selected, selectedText);
+        });
+      });
+
+      prevPageButton.disabled = currentPage === 0;
+      nextPageButton.disabled = endIndex === shuffledQuestions.length;
+      updateProgress();
+    }
+
+    function checkAnswer(button, questionIndex, selected, selectedText) {
+      if (userAnswers[questionIndex] !== null) return;
+      const q = shuffledQuestions[questionIndex];
+      const correct = q.answer;
+      const buttons = button.parentElement.querySelectorAll("button");
+      const explanationEl = document.getElementById(`explanation-${questionIndex}`);
+
+      buttons.forEach((btn, j) => {
+        btn.disabled = true;
+        if (correct !== null && j === correct) btn.classList.add("correct");
+        if (btn === button && (correct !== null && selected !== correct)) btn.classList.add("wrong");
+      });
+
+      userAnswers[questionIndex] = selectedText;
+      if (correct !== null && selected === correct) {
+        score++;
+        correctSound.play().catch(() => console.log("Correct sound playback failed"));
+      } else if (correct !== null) {
+        wrongSound.play().catch(() => console.log("Wrong sound playback failed"));
+      }
+
+      explanationEl.innerHTML = `<strong>Explanation:</strong> ${escapeHtml(q.explanation)}<br><strong>Tips/Tricks:</strong> ${escapeHtml(q.tips)}`;
+      explanationEl.classList.add('show');
+      saveProgress();
+      updateProgress();
+    }
+
+    function checkAllAnswered() {
+      const allAnswered = userAnswers.every(answer => answer !== null);
+      submitButton.disabled = !allAnswered;
+    }
+
+    function endQuiz() {
+      clearInterval(timerInterval);
+      quizEl.innerHTML = '';
+      prevPageButton.classList.add("hidden");
+      nextPageButton.classList.add("hidden");
+      submitButton.classList.add("hidden");
+      const validQuestions = questions.filter(q => q.answer !== null).length;
+      scoreEl.innerHTML = `Your score: ${score} / ${validQuestions} (${((score / validQuestions) * 100).toFixed(2)}%)`;
+      resultsEl.classList.remove("hidden");
+      restartButton.classList.remove("hidden");
+
+      resultsBody.innerHTML = shuffledQuestions.map((q, i) => {
+        const userAnswer = userAnswers[i] === null ? "Not attempted" : escapeHtml(userAnswers[i]);
+        const correctAnswer = q.answer !== null ? escapeHtml(q.options[q.answer]) : "No correct answer";
+        const status = q.answer === null ? "Not scored" :
+                      userAnswers[i] === q.options[q.answer] ? "Correct" :
+                      userAnswers[i] === null ? "Not attempted" : "Wrong";
+        return `
+          <tr>
+            <td>${i + 1}. ${escapeHtml(q.q)}</td>
+            <td>${userAnswer}</td>
+            <td>${correctAnswer}</td>
+            <td class="${status.toLowerCase().replace(' ', '-')}">${status}</td>
+            <td><strong>Explanation:</strong> ${escapeHtml(q.explanation)}<br><strong>Tips/Tricks:</strong> ${escapeHtml(q.tips)}</td>
+          </tr>
+        `;
+      }).join('');
+      localStorage.removeItem("generalKnowledgeMCQProgress");
+    }
+
+    function restartQuiz() {
+      score = 0;
+      userAnswers = Array(questions.length).fill(null);
+      timerSeconds = 0;
+      currentPage = 0;
+      shuffledQuestions = shuffleOptions(questions);
+      resultsEl.classList.add("hidden");
+      prevPageButton.classList.remove("hidden");
+      nextPageButton.classList.remove("hidden");
+      submitButton.classList.remove("hidden");
+      scoreEl.innerHTML = "";
+      clearInterval(timerInterval);
+      startTimer();
+      showPage(0);
+    }
+
+    function loadProgress() {
+      const saved = localStorage.getItem("generalKnowledgeMCQProgress");
+      if (saved) {
+        try {
+          const { score: savedScore, answers: savedAnswers, time: savedTime } = JSON.parse(saved);
+          score = savedScore || 0;
+          userAnswers = savedAnswers && savedAnswers.length === questions.length ? savedAnswers : Array(questions.length).fill(null);
+          timerSeconds = savedTime || 0;
+        } catch (e) {
+          console.error("Failed to load progress:", e);
+        }
+      }
+    }
+
+    function saveProgress() {
+      try {
+        localStorage.setItem("generalKnowledgeMCQProgress", JSON.stringify({
+          score,
+          answers: userAnswers,
+          time: timerSeconds
+        }));
+      } catch (e) {
+        console.error("Failed to save progress:", e);
+      }
+    }
+
+    // Initialize
+    try {
+      shuffledQuestions = shuffleOptions(questions);
+      loadProgress();
+      startTimer();
+      showPage(0);
+
+      // Event listeners
+      submitButton.addEventListener("click", endQuiz);
+      restartButton.addEventListener("click", restartQuiz);
+      prevPageButton.addEventListener("click", () => {
+        if (currentPage > 0) showPage(currentPage - 1);
+      });
+      nextPageButton.addEventListener("click", () => {
+        if ((currentPage + 1) * questionsPerPage < questions.length) showPage(currentPage + 1);
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !submitButton.disabled) {
+          submitButton.click();
+        } else if (e.key === 'ArrowLeft' && !prevPageButton.disabled) {
+          prevPageButton.click();
+        } else if (e.key === 'ArrowRight' && !nextPageButton.disabled) {
+          nextPageButton.click();
+        }
+      });
+    } catch (e) {
+      console.error("Initialization failed:", e);
+      quizEl.innerHTML = "<p>Error loading quiz. Please refresh the page.</p>";
+    }
+  </script>
+</body>
+</html>
